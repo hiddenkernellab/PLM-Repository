@@ -10,7 +10,7 @@
       "description": "RECOMENDADA · Daemon jailbreak-on-demand para herramientas compatibles.",
       "last_update": "2026-06-01",
       "version": "v1.2",
-      "category": "SYSTEM",
+      "category": "SISTEMA",
       "checksum": "13559b858fc33cc7fa3dc89e10dccf139070d99ee5d378dd75c969293700799e"
     },
     {
@@ -22,20 +22,20 @@
       "description": "RECOMENDADA · Servidor DNS ligero para PS5.",
       "last_update": "2026-08-04",
       "version": "0.4",
-      "category": "SYSTEM",
+      "category": "SISTEMA",
       "checksum": "dcb845f3570771275b22b37534bf924a7f8ae219fb91ef00c6bccab85d1c2420"
     },
     {
       "name": "Payload Manager",
-      "filename": "pldmgr_v0.5.1.elf",
-      "url": "https://github.com/itsPLK/ps5-payload-manager/releases/download/v0.5.1/pldmgr_v0.5.1.elf",
+      "filename": "pldmgr_v0.5.0.elf",
+      "url": "https://github.com/itsPLK/ps5-payload-manager/releases/download/v0.5.0/pldmgr_v0.5.0.elf",
       "source": "https://github.com/itsPLK/ps5-payload-manager/releases",
-      "source_direct": "https://github.com/itsPLK/ps5-payload-manager/releases/download/v0.5.1/pldmgr_v0.5.1.elf",
+      "source_direct": "https://github.com/itsPLK/ps5-payload-manager/releases/download/v0.5.0/pldmgr_v0.5.0.elf",
       "description": "RECOMENDADA · Gestor de payloads para PS5.",
-      "last_update": "2026-08-02",
-      "version": "v0.5.1",
-      "category": "SYSTEM",
-      "checksum": "05617c69ea145d1c11b8f7a6b7d3bd9e6df3831afd25d71a4ac85d63fb8e28aa"
+      "last_update": "2026-07-21",
+      "version": "v0.5.0",
+      "category": "SISTEMA",
+      "checksum": "1fe181908027fc625147ac888288ed1bee72a378b4751d36a8a8e0582d306169"
     },
     {
       "name": "WebKit Autoloader",
@@ -46,7 +46,7 @@
       "description": "RECOMENDADA · Instalador del cargador automático basado en WebKit.",
       "last_update": "2026-08-24",
       "version": "v0.4.0",
-      "category": "SYSTEM",
+      "category": "SISTEMA",
       "checksum": "179d5e52ec3e0f595900b40883c0e10cc1fba1efc275a547f47e828d45d05915"
     },
     {
@@ -106,7 +106,7 @@
       "description": "RECOMENDADA · Actualizador y gestor de APR Emu para títulos compatibles.",
       "last_update": "2026-08-29",
       "version": "v2.0.6",
-      "category": "GAMES",
+      "category": "JUEGOS",
       "checksum": "4f04464283a6a551883e40e36b59134ecad0e38ecbb7ea89cbec3f91a3bd9122"
     },
     {
@@ -118,11 +118,11 @@
       "description": "RECOMENDADA · Herramienta para comprimir y gestionar imágenes de juegos PS5.",
       "last_update": "2026-08-21",
       "version": "v1.0.4",
-      "category": "GAMES",
+      "category": "JUEGOS",
       "checksum": "e55e90aaade13b6e0d4316c1597ef90a21b67a06475c3e25de054224bc1e941b"
     },
     {
-      "name": "kstuff-lite",
+      "name": "kstuff lite",
       "filename": "kstuff.elf",
       "url": "https://github.com/EchoStretch/kstuff-lite/releases/download/v1.09/kstuff.elf",
       "source": "https://github.com/EchoStretch/kstuff-lite/releases",
@@ -130,11 +130,11 @@
       "description": "RECOMENDADA · Versión ligera de kstuff para PS5.",
       "last_update": "2026-07-04",
       "version": "v1.09",
-      "category": "GAMES",
+      "category": "JUEGOS",
       "checksum": "ec5212794dc6e44ee8e70fd0549abec6d3dac8c3e03ddbeafd9f869ffe97d4e8"
     },
     {
-      "name": "kstuff-lite (Beta)",
+      "name": "kstuff lite (Beta)",
       "filename": "kstuff_beta.elf",
       "url": "https://github.com/EchoStretch/kstuff-lite/releases/download/v1.10/kstuff.elf",
       "source": "https://github.com/EchoStretch/kstuff-lite/releases",
@@ -142,7 +142,7 @@
       "description": "BETA · Versión ligera de kstuff para PS5.",
       "last_update": "2026-08-12",
       "version": "v1.10",
-      "category": "GAMES",
+      "category": "JUEGOS",
       "checksum": "82cbb1e70f8a562317d6b65269cf6aa0d7d94e22df4f1ac89a260ca0ec261252"
     },
     {
@@ -154,7 +154,7 @@
       "description": "RECOMENDADA · Payload para volcar aplicaciones PS5.",
       "last_update": "2025-10-29",
       "version": "v1.0",
-      "category": "GAMES",
+      "category": "JUEGOS",
       "checksum": "dd6fdf433a95b258d85b453dba6a7950c1a53ce01f20586576a6188b9c04fa74"
     },
     {
@@ -166,7 +166,7 @@
       "description": "BETA · Payload para volcar aplicaciones PS5.",
       "last_update": "2026-07-28",
       "version": "v1.11",
-      "category": "GAMES",
+      "category": "JUEGOS",
       "checksum": "18483751ebaea6879b020a9dd87c0a4fb4f1bf09f3708d950362a483f78cc0d0"
     },
     {
@@ -178,7 +178,7 @@
       "description": "RECOMENDADA · Montaje automático de contenido compatible en PS5.",
       "last_update": "2026-06-28",
       "version": "1.6beta16",
-      "category": "GAMES",
+      "category": "JUEGOS",
       "checksum": "a35246fb3bb6042b25653b51cdcbc33254b40339342bf1d2dd0d2eceee2ca526"
     },
     {
@@ -190,7 +190,7 @@
       "description": "ALPHA / TEST / INESTABLE · Montaje automático de contenido compatible en PS5.",
       "last_update": "2026-09-04",
       "version": "1.7alpha13fix1",
-      "category": "GAMES",
+      "category": "JUEGOS",
       "checksum": "15af22e6cefefbcc9f16f137b5255b6b94d546788ba5f404dc9220da4759a6ff"
     },
     {
@@ -202,7 +202,7 @@
       "description": "RECOMENDADA · Overlay y monitorización de FPS para PS5.",
       "last_update": "2026-09-05",
       "version": "v1.1.0",
-      "category": "TOOLS",
+      "category": "UTILIDADES",
       "checksum": "4f544fa00f7a430e64c4c8d0ed42d0463d2370c81dabd9141599c27c4f3f99d6"
     },
     {
@@ -214,7 +214,7 @@
       "description": "RECOMENDADA · Colección de payloads ELF en una sola herramienta.",
       "last_update": "2026-07-03",
       "version": "v1.6.22",
-      "category": "TOOLS",
+      "category": "UTILIDADES",
       "checksum": "ee8f47e4d6a5fd85cef113341aa1eb74d68e373a58fcb1fb5a9274acd2b83bd2"
     },
     {
@@ -226,7 +226,7 @@
       "description": "RECOMENDADA · Servidor FTP para PS5.",
       "last_update": "2026-08-20",
       "version": "v0.21.1",
-      "category": "TOOLS",
+      "category": "UTILIDADES",
       "checksum": "7d4b31c83eae4e056580482a3a074e1db25922efc74ac1e439473b45d71a5938"
     },
     {
@@ -238,7 +238,7 @@
       "description": "RECOMENDADA · Gestor de partidas guardadas de PS5.",
       "last_update": "2026-08-22",
       "version": "v1.13",
-      "category": "TOOLS",
+      "category": "UTILIDADES",
       "checksum": "b6d366f4101fa2fcc14a353d083ef7e45e1cc86ef457bb20502bd8680dce4d73"
     },
     {
@@ -250,7 +250,7 @@
       "description": "BETA · Compatibilidad inalámbrica con DualShock 4 en PS5.",
       "last_update": "2026-08-08",
       "version": "v0.1.0-rc38",
-      "category": "TOOLS",
+      "category": "UTILIDADES",
       "checksum": "62d21fe837ee53dd4291e45d99259d4557def05e2d4196ab54e020ba28b5399e"
     },
     {
@@ -262,7 +262,7 @@
       "description": "BETA · Gestor web todo-en-uno para PS5.",
       "last_update": "2026-08-25",
       "version": "beta",
-      "category": "TOOLS",
+      "category": "UTILIDADES",
       "checksum": "6cde8d8e97478ff43f69d2c6b22ac6512311d83b1d9ceb09d56796b9200c1b3c"
     },
     {
@@ -274,7 +274,7 @@
       "description": "RECOMENDADA · Gestor de descargas y catálogos mediante interfaz web local.",
       "last_update": "2026-06-24",
       "version": "v1.7.0",
-      "category": "STORES",
+      "category": "TIENDAS",
       "checksum": "cb2a4b3c248323f2432ce118cb1bf4975146035239ce9b571a9bdb51b3fee226"
     },
     {
@@ -286,7 +286,7 @@
       "description": "RECOMENDADA · Biblioteca y utilidades Spectrum para PS5.",
       "last_update": "2026-09-04",
       "version": "1.4.4",
-      "category": "STORES",
+      "category": "TIENDAS",
       "checksum": "2005b5e169dc360c52b9033cc02bce4169a9d4a078627c543b9bbcf66607b9d5"
     }
   ]
