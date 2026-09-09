@@ -1,0 +1,50 @@
+[
+    {
+        "name": "Payload Manager",
+        "filename": "pldmgr_v0.5.1.elf",
+        "url": "https://github.com/itsPLK/ps5-payload-manager/releases/download/v0.5.1/pldmgr_v0.5.1.elf",
+        "source": "https://github.com/itsPLK/ps5-payload-manager/releases",
+        "source_direct": "https://github.com/itsPLK/ps5-payload-manager/releases/download/v0.5.1/pldmgr_v0.5.1.elf",
+        "description": "RECOMENDADA · Gestor de payloads para PS5.",
+        "last_update": "2026-08-02",
+        "version": "v0.5.1",
+        "category": "SYSTEM",
+        "checksum": "05617c69ea145d1c11b8f7a6b7d3bd9e6df3831afd25d71a4ac85d63fb8e28aa"
+    },
+    {
+        "name": "ShadowMountPlus",
+        "filename": "shadowmountplus.elf",
+        "url": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.6test15-fix2/shadowmountplus.elf",
+        "source": "https://github.com/drakmor/ShadowMountPlus/releases",
+        "source_direct": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.6test15-fix2/shadowmountplus.elf",
+        "description": "RECOMENDADA · Montaje automático de contenido compatible en PS5.",
+        "last_update": "2026-06-03",
+        "version": "1.6test15-fix2",
+        "category": "GAMES",
+        "checksum": "8ab32f4cede840a73515c05697fe81759bc98cf41fc22b43e09943262f447e99"
+    },
+    {
+        "name": "ShadowMountPlus (Beta)",
+        "filename": "shadowmountplus.elf",
+        "url": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.6beta16/shadowmountplus.elf",
+        "source": "https://github.com/drakmor/ShadowMountPlus/releases",
+        "source_direct": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.6beta16/shadowmountplus.elf",
+        "description": "BETA · Montaje automático de contenido compatible en PS5.",
+        "last_update": "2026-06-28",
+        "version": "1.6beta16",
+        "category": "GAMES",
+        "checksum": "a35246fb3bb6042b25653b51cdcbc33254b40339342bf1d2dd0d2eceee2ca526"
+    },
+    {
+        "name": "ShadowMountPlus (INESTABLE)",
+        "filename": "shadowmountplus.elf",
+        "url": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.7alpha8/shadowmountplus.elf",
+        "source": "https://github.com/drakmor/ShadowMountPlus/releases",
+        "source_direct": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.7alpha8/shadowmountplus.elf",
+        "description": "ALPHA / INESTABLE · Montaje automático de contenido compatible en PS5.",
+        "last_update": "2026-08-19",
+        "version": "1.7alpha8",
+        "category": "GAMES",
+        "checksum": "f15653fe90d81e5f82841ca693c0599d307c384d6454c1b0cc18190ae1ef4812"
+    }
+]
