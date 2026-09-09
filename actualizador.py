@@ -19,289 +19,211 @@ MIRROR_DIR = Path("payloads")
 
 APPS = [
 
-    # =========================================================
     # SYSTEM
-    # =========================================================
-
     {
         "name": "Payload Manager",
         "repo": "itsPLK/ps5-payload-manager",
-        "asset_contains": ["pldmgr"],
-        "asset_excludes": ["debug"],
-        "description": "Gestor web de payloads para PS5.",
-        "category": "SYSTEM"
+        "match": ["pldmgr"],
+        "exclude": ["debug"],
+        "description": "Gestor de payloads para PS5.",
+        "category": "SYSTEM",
     },
 
     {
         "name": "Lapy JB Daemon",
         "repo": "itsPLK/PS5-Lapy-JB-Daemon",
-        "asset_contains": ["lapy", "daemon"],
+        "match": ["lapy", "daemon"],
         "description": "Daemon jailbreak-on-demand para herramientas compatibles.",
-        "category": "SYSTEM"
+        "category": "SYSTEM",
     },
 
     {
         "name": "nanoDNS",
         "repo": "drakmor/nanoDNS",
-        "asset_contains": ["nanodns"],
+        "match": ["nanodns"],
         "description": "Servidor DNS ligero para PS5.",
-        "category": "SYSTEM"
+        "category": "SYSTEM",
     },
 
     {
         "name": "WebKit Autoloader",
         "repo": "itsPLK/ps5-webkit-autoloader",
-        "asset_contains": ["webkit-autoloader-installer"],
-        "asset_excludes": ["host"],
+        "match": ["webkit-autoloader-installer"],
+        "exclude": ["host"],
         "description": "Instalador del cargador automático basado en WebKit.",
-        "category": "SYSTEM"
+        "category": "SYSTEM",
     },
 
 
-    # =========================================================
     # HEN
-    # =========================================================
-
     {
         "name": "etaHEN",
         "repo": "etaHEN/etaHEN",
-        "asset_contains": ["etahen"],
+        "match": ["etahen"],
         "description": "AIO Homebrew Enabler para PS5.",
         "category": "HEN",
-
-        # La beta 2.6B se gestiona aparte.
-        "channels": ["stable"]
+        "channels": ["stable"],
     },
 
     {
         "name": "OnionHEN",
         "repo": "aydencharles/onionHEN",
-        "asset_contains": ["onionhen"],
-        "archive_contains": ["onionhen"],
+        "match": ["onionhen"],
+        "archive_match": ["onionhen"],
         "description": "HEN y Toolbox todo-en-uno para PS5.",
-        "category": "HEN"
+        "category": "HEN",
     },
 
     {
         "name": "PIZZA-HEN",
         "repo": "Michele-M-Media/PIZZA-HEN",
-        "asset_contains": ["pizza-hen"],
-        "archive_contains": ["pizza-hen"],
+        "match": ["pizza"],
+        "archive_match": ["pizza"],
         "description": "Entorno homebrew todo-en-uno para PS5.",
-        "category": "HEN"
+        "category": "HEN",
     },
 
 
-    # =========================================================
     # GAMES
-    # =========================================================
-
     {
         "name": "kstuff-lite",
         "repo": "EchoStretch/kstuff-lite",
-        "asset_contains": ["kstuff"],
-        "asset_excludes": ["debug"],
+        "match": ["kstuff"],
+        "exclude": ["debug"],
         "description": "Versión ligera de kstuff para PS5.",
-        "category": "GAMES"
+        "category": "GAMES",
     },
 
     {
         "name": "ShadowMountPlus",
         "repo": "drakmor/ShadowMountPlus",
-        "asset_contains": ["shadowmount"],
-        "archive_contains": ["shadowmount"],
+        "match": ["shadowmount"],
+        "archive_match": ["shadowmount"],
         "description": "Montaje automático de contenido compatible en PS5.",
-        "category": "GAMES"
+        "category": "GAMES",
+
+        # No mostramos la antigua 1.4 como recomendada.
+        # Se usa la última 1.6beta como recomendada hasta
+        # que exista una estable real más nueva.
+        "channels": ["stable", "alpha"],
+        "stable_fallback_regex": r"(?i)^1\.6beta",
     },
 
     {
         "name": "APR Emu Updater",
         "repo": "tsuramatsu1/apr-emu-updater",
-        "asset_contains": ["apr_emu_updater"],
-        "description": "Mantiene disponible APR Emu para los títulos compatibles.",
-        "category": "GAMES"
+        "match": ["apr_emu_updater"],
+        "description": "Mantiene disponible APR Emu para títulos compatibles.",
+        "category": "GAMES",
     },
 
     {
         "name": "Game Compressor",
         "repo": "juma-sayeh/PS5-Game-Compressor",
-        "asset_contains": ["game-compressor"],
+        "match": ["game-compressor"],
         "description": "Herramienta para comprimir juegos de PS5.",
-        "category": "GAMES"
+        "category": "GAMES",
     },
 
     {
         "name": "PS5 App Dumper",
         "repo": "EchoStretch/ps5-app-dumper",
-        "asset_contains": ["ps5-app-dumper"],
+        "match": ["ps5-app-dumper"],
+        "archive_match": ["ps5-app-dumper"],
         "description": "Payload para volcar aplicaciones PS5 a almacenamiento USB.",
-        "category": "GAMES"
+        "category": "GAMES",
     },
 
 
-    # =========================================================
     # TOOLS
-    # =========================================================
-
     {
         "name": "ELF Arsenal",
-
-        "api":
-            "https://git.etawen.dev/api/v1/repos/"
-            "soniciso/elf-arsenal/releases",
-
-        "source":
-            "https://git.etawen.dev/"
-            "soniciso/elf-arsenal/releases",
-
-        "asset_contains": ["elf-arsenal"],
-
-        "description":
-            "Colección de payloads ELF empaquetados "
-            "en una sola herramienta.",
-
-        "category": "TOOLS"
+        "api": "https://git.etawen.dev/api/v1/repos/soniciso/elf-arsenal/releases",
+        "source": "https://git.etawen.dev/soniciso/elf-arsenal/releases",
+        "match": ["elf-arsenal"],
+        "description": "Colección de payloads ELF empaquetados en una sola herramienta.",
+        "category": "TOOLS",
     },
 
     {
         "name": "FTP Server PS5",
         "repo": "ps5-payload-dev/ftpsrv",
-
-        "asset_contains": ["ftpsrv"],
-        "asset_prefer": ["ps5"],
-
-        "asset_excludes": [
-            "ps4",
-            "install"
-        ],
-
-        "description":
-            "Servidor FTP para PS5.",
-
-        "category": "TOOLS"
+        "match": ["ftpsrv"],
+        "prefer": ["ps5"],
+        "exclude": ["ps4", "install"],
+        "description": "Servidor FTP para PS5.",
+        "category": "TOOLS",
     },
 
     {
         "name": "Garlic Save Manager",
-
-        "api":
-            "https://git.etawen.dev/api/v1/repos/"
-            "earthonion/garlic-savemgr/releases",
-
-        "source":
-            "https://git.etawen.dev/"
-            "earthonion/garlic-savemgr/releases",
-
-        "asset_contains": ["garlic-savemgr"],
-        "asset_excludes": ["worker"],
-
-        "description":
-            "Gestor de partidas guardadas de PS5 "
-            "con interfaz web.",
-
-        "category": "TOOLS"
+        "api": "https://git.etawen.dev/api/v1/repos/earthonion/garlic-savemgr/releases",
+        "source": "https://git.etawen.dev/earthonion/garlic-savemgr/releases",
+        "match": ["garlic-savemgr"],
+        "exclude": ["worker"],
+        "description": "Gestor de partidas guardadas de PS5 con interfaz web.",
+        "category": "TOOLS",
     },
 
     {
         "name": "PoorDS4",
         "repo": "ItsBlurf/PoorDS4",
-
-        "asset_contains": ["poords4rc"],
-
-        "asset_excludes": [
-            "status",
-            "stop"
-        ],
-
-        "archive_contains": ["poords4"],
-
-        "description":
-            "Permite utilizar un DualShock 4 inalámbrico "
-            "en una PS5 con jailbreak.",
-
-        "category": "TOOLS"
+        "match": ["poords4rc"],
+        "exclude": ["status", "stop"],
+        "archive_match": ["poords4"],
+        "description": "Permite utilizar un DualShock 4 inalámbrico en PS5 con jailbreak.",
+        "category": "TOOLS",
     },
 
     {
         "name": "Prospero Manager",
         "repo": "notmaj0r/ProsperoMgr",
-
-        "asset_contains": ["prosperomgr"],
-        "archive_contains": ["prosperomgr"],
-
-        "description":
-            "Gestor web todo-en-uno para PS5.",
-
-        "category": "TOOLS"
+        "match": ["prospero"],
+        "archive_match": ["prospero"],
+        "description": "Gestor web todo-en-uno para PS5.",
+        "category": "TOOLS",
     },
 
     {
         "name": "Common FPS PS5",
         "repo": "porhe911/Common-FPS-for-PS5",
-
-        "asset_contains": ["common_fps_ps5"],
-        "asset_excludes": ["plugin"],
-        "archive_contains": ["common"],
-
-        "description":
-            "Overlay y monitorización de FPS para PS5.",
-
-        "category": "TOOLS"
+        "match": ["common_fps_ps5"],
+        "exclude": ["plugin"],
+        "archive_match": ["common"],
+        "description": "Overlay y monitorización de FPS para PS5.",
+        "category": "TOOLS",
     },
 
     {
         "name": "PS5Upload",
         "repo": "phantomptr/ps5upload",
-
-        "asset_contains": ["ps5upload"],
-        "asset_excludes": ["debug"],
-
-        "description":
-            "Servidor y herramienta de transferencia para PS5.",
-
-        "category": "TOOLS"
+        "match": ["ps5upload"],
+        "exclude": ["debug"],
+        "archive_match": ["ps5upload"],
+        "description": "Servidor y herramienta de transferencia para PS5.",
+        "category": "TOOLS",
     },
 
 
-    # =========================================================
     # STORES
-    # =========================================================
-
     {
         "name": "Pegasus DL",
         "repo": "pegasus-ps5/pegasus-dl",
-
-        "asset_contains": ["pegasus"],
-
-        "description":
-            "Gestor de descargas y catálogos "
-            "mediante interfaz web local.",
-
-        "category": "STORES"
+        "match": ["pegasus"],
+        "description": "Gestor de descargas y catálogos mediante interfaz web local.",
+        "category": "STORES",
     },
 
     {
         "name": "Spectrum Library",
         "repo": "Phoenixx1202/Spectrum-Library",
-
-        "asset_contains": ["spectrum"],
-        "archive_contains": ["spectrum"],
-
-        "description":
-            "Biblioteca y gestor de contenido Spectrum para PS5.",
-
-        "category": "STORES"
-    }
+        "match": ["spectrum"],
+        "archive_match": ["spectrum"],
+        "description": "Biblioteca y gestor de contenido Spectrum para PS5.",
+        "category": "STORES",
+    },
 ]
 
-
-# =============================================================
-# ENTRADAS ESPECIALES
-# =============================================================
-
-# etaHEN 2.6B no está publicado actualmente como una release
-# normal del repositorio oficial, por eso se mantiene como entrada
-# especial de Beta.
 
 FIXED_ENTRIES = [
 
@@ -309,8 +231,7 @@ FIXED_ENTRIES = [
         "name": "etaHEN",
         "channel": "beta",
 
-        "filename":
-            "etaHEN-2.6B.bin",
+        "filename": "etaHEN-2.6B.bin",
 
         "url":
             "https://raw.githubusercontent.com/"
@@ -327,23 +248,23 @@ FIXED_ENTRIES = [
             "AIO Homebrew Enabler para PS5. "
             "Build 2.6B de pruebas.",
 
-        "last_update":
-            "2026-05-25",
-
-        "version":
-            "2.6B",
-
-        "category":
-            "HEN"
+        "last_update": "2026-05-25",
+        "version": "2.6B",
+        "category": "HEN",
     }
 ]
 
 
-# =============================================================
-# API
-# =============================================================
+CATEGORY_ORDER = {
+    "SYSTEM": 0,
+    "HEN": 1,
+    "GAMES": 2,
+    "TOOLS": 3,
+    "STORES": 4,
+}
 
-def releases_api(app):
+
+def releases_url(app):
 
     if app.get("api"):
         return app["api"]
@@ -365,31 +286,24 @@ def source_url(app):
     )
 
 
-def open_url(
-    url,
-    timeout=60
-):
+def open_url(url, timeout=60):
 
     headers = {
-        "User-Agent":
-            USER_AGENT
+        "User-Agent": USER_AGENT
     }
 
     if "api.github.com" in url:
 
-        headers.update({
-            "Accept":
-                "application/vnd.github+json",
+        headers["Accept"] = (
+            "application/vnd.github+json"
+        )
 
-            "X-GitHub-Api-Version":
-                "2022-11-28"
-        })
+        headers["X-GitHub-Api-Version"] = (
+            "2022-11-28"
+        )
 
         if TOKEN:
-
-            headers[
-                "Authorization"
-            ] = (
+            headers["Authorization"] = (
                 f"Bearer {TOKEN}"
             )
 
@@ -416,7 +330,7 @@ def get_json(url):
         )
 
 
-def download_bytes(url):
+def download(url):
 
     with open_url(
         url,
@@ -425,10 +339,6 @@ def download_bytes(url):
 
         return response.read()
 
-
-# =============================================================
-# VERSIONES
-# =============================================================
 
 def release_time(release):
 
@@ -455,119 +365,116 @@ def release_time(release):
         return 0
 
 
-def classify_release(release):
+def release_text(release):
 
-    text = (
+    return (
         f'{release.get("tag_name", "")} '
         f'{release.get("name", "")}'
-    ).lower()
+    ).strip()
 
+
+def channel_of(release):
+
+    text = (
+        release_text(
+            release
+        ).lower()
+    )
 
     alpha_terms = (
-
         "alpha",
         "experimental",
         "nightly",
         "canary",
         "test",
-
         "-dev",
         "_dev",
-        " dev"
+        " dev",
     )
 
-
     beta_terms = (
-
         "beta",
         "preview",
         "release candidate",
-
         "-rc",
         "_rc",
-        " rc"
+        " rc",
     )
 
-
-    # ALPHA / TEST
     if any(
         term in text
         for term in alpha_terms
     ):
-
         return "alpha"
 
-
-    # BETA / RC
     if any(
         term in text
         for term in beta_terms
     ):
-
         return "beta"
 
-
-    # GitHub prerelease sin nombre especial
     if release.get(
         "prerelease",
         False
     ):
-
         return "beta"
-
 
     return "stable"
 
-
-# =============================================================
-# ARCHIVOS
-# =============================================================
 
 def valid_payload(
     filename,
     app
 ):
 
-    low = Path(
-        filename
-    ).name.lower()
-
+    low = (
+        Path(
+            filename
+        ).name.lower()
+    )
 
     if not (
         low.endswith(".elf")
         or low.endswith(".bin")
     ):
-
         return False
 
-
-    for required in app.get(
-        "asset_contains",
+    for term in app.get(
+        "match",
         []
     ):
 
         if (
-            required.lower()
+            term.lower()
             not in low
         ):
-
             return False
 
-
-    for excluded in app.get(
-        "asset_excludes",
+    for term in app.get(
+        "exclude",
         []
     ):
 
         if (
-            excluded.lower()
+            term.lower()
             in low
         ):
-
             return False
 
-
     return True
+
+
+def asset_url(asset):
+
+    return (
+        asset.get(
+            "browser_download_url"
+        )
+        or asset.get(
+            "download_url"
+        )
+        or ""
+    )
 
 
 def pick_direct(
@@ -594,29 +501,32 @@ def pick_direct(
         )
     ]
 
-
     if not items:
         return None
 
+    prefer = [
 
-    prefer = app.get(
-        "asset_prefer",
-        []
-    )
+        item.lower()
 
+        for item
+        in app.get(
+            "prefer",
+            []
+        )
+    ]
 
     items.sort(
 
         key=lambda asset: (
 
             -sum(
-                term.lower()
-                in asset.get(
+
+                item in asset.get(
                     "name",
                     ""
                 ).lower()
 
-                for term
+                for item
                 in prefer
             ),
 
@@ -633,7 +543,6 @@ def pick_direct(
             ).lower()
         )
     )
-
 
     return items[0]
 
@@ -661,23 +570,18 @@ def pick_zip(
         )
     ]
 
-
     if not items:
         return None
 
-
     terms = (
-
         app.get(
-            "archive_contains"
+            "archive_match"
         )
-
         or app.get(
-            "asset_contains",
+            "match",
             []
         )
     )
-
 
     preferred = [
 
@@ -699,12 +603,10 @@ def pick_zip(
         )
     ]
 
-
     items = (
         preferred
         or items
     )
-
 
     items.sort(
 
@@ -724,21 +626,19 @@ def pick_zip(
         )
     )
 
-
     return items[0]
 
 
-def extract_payload(
-    zip_data,
+def extract_from_zip(
+    data,
     app
 ):
 
     with zipfile.ZipFile(
         io.BytesIO(
-            zip_data
+            data
         )
     ) as archive:
-
 
         matches = [
 
@@ -759,10 +659,8 @@ def extract_payload(
             )
         ]
 
-
         if not matches:
             return None
-
 
         matches.sort(
 
@@ -780,14 +678,11 @@ def extract_payload(
             )
         )
 
-
         selected = (
             matches[0]
         )
 
-
         return (
-
             Path(
                 selected
             ).name,
@@ -798,26 +693,44 @@ def extract_payload(
         )
 
 
-def safe_name(text):
+def safe(text):
 
     return re.sub(
-
         r"[^A-Za-z0-9._-]+",
-
         "_",
-
         text
-
     ).strip("_")
 
 
-# =============================================================
-# OBTENER PAYLOAD
-# =============================================================
+def channel_filename(
+    filename,
+    channel
+):
+
+    if channel == "stable":
+        return filename
+
+    path = Path(
+        filename
+    )
+
+    if channel == "beta":
+        suffix = "_beta"
+
+    else:
+        suffix = "_unstable"
+
+    return (
+        f"{path.stem}"
+        f"{suffix}"
+        f"{path.suffix}"
+    )
+
 
 def get_payload(
     app,
-    release
+    release,
+    channel
 ):
 
     direct = pick_direct(
@@ -825,32 +738,26 @@ def get_payload(
         app
     )
 
-
-    # ---------------------------------------------------------
-    # ELF / BIN directo del desarrollador
-    # ---------------------------------------------------------
-
     if direct:
 
-        url = direct.get(
-            "browser_download_url",
-            ""
+        url = asset_url(
+            direct
         )
-
 
         if not url:
             return None
 
-
-        data = download_bytes(
+        data = download(
             url
         )
-
 
         return {
 
             "filename":
-                direct["name"],
+                channel_filename(
+                    direct["name"],
+                    channel
+                ),
 
             "url":
                 url,
@@ -864,98 +771,74 @@ def get_payload(
                 ).hexdigest()
         }
 
-
-    # ---------------------------------------------------------
-    # Si solo existe ZIP, extraemos el ELF
-    # ---------------------------------------------------------
-
     archive = pick_zip(
         release,
         app
     )
 
-
     if not archive:
         return None
 
-
-    archive_url = archive.get(
-        "browser_download_url",
-        ""
+    url = asset_url(
+        archive
     )
 
-
-    if not archive_url:
+    if not url:
         return None
 
-
-    zip_data = download_bytes(
-        archive_url
-    )
-
-
-    extracted = extract_payload(
-        zip_data,
+    extracted = extract_from_zip(
+        download(
+            url
+        ),
         app
     )
 
-
     if not extracted:
         return None
-
 
     filename, data = (
         extracted
     )
 
-
-    version = (
-
-        release.get(
-            "tag_name"
-        )
-
-        or release.get(
-            "name"
-        )
-
-        or "unknown"
+    filename = channel_filename(
+        filename,
+        channel
     )
 
+    version = (
+        release.get("tag_name")
+        or release.get("name")
+        or "unknown"
+    )
 
     destination = (
 
         MIRROR_DIR
 
-        / safe_name(
+        / safe(
             app["name"]
         )
 
-        / safe_name(
+        / safe(
             version
         )
 
         / filename
     )
 
-
     destination.parent.mkdir(
         parents=True,
         exist_ok=True
     )
 
-
     destination.write_bytes(
         data
     )
 
-
     public_url = (
-
         f"{PAGES_BASE}/"
         f"{destination.as_posix()}"
     )
-
 
     return {
 
@@ -975,11 +858,7 @@ def get_payload(
     }
 
 
-# =============================================================
-# NOMBRES Y DESCRIPCIONES
-# =============================================================
-
-def visible_name(
+def display_name(
     base,
     channel
 ):
@@ -987,20 +866,17 @@ def visible_name(
     if channel == "stable":
         return base
 
-
     if channel == "beta":
-
         return (
             f"{base} (Beta)"
         )
-
 
     return (
         f"{base} (INESTABLE)"
     )
 
 
-def visible_description(
+def display_description(
     base,
     channel
 ):
@@ -1008,16 +884,16 @@ def visible_description(
     if channel == "stable":
 
         return (
-            f"RECOMENDADA · {base}"
+            f"RECOMENDADA · "
+            f"{base}"
         )
-
 
     if channel == "beta":
 
         return (
-            f"BETA · {base}"
+            f"BETA · "
+            f"{base}"
         )
-
 
     return (
         f"ALPHA / TEST / INESTABLE · "
@@ -1025,9 +901,72 @@ def visible_description(
     )
 
 
-# =============================================================
-# CREAR ENTRADA JSON
-# =============================================================
+def candidate_releases(
+    releases,
+    app,
+    channel
+):
+
+    if channel != "stable":
+
+        return [
+
+            release
+
+            for release
+            in releases
+
+            if channel_of(
+                release
+            ) == channel
+        ]
+
+    candidates = [
+
+        release
+
+        for release
+        in releases
+
+        if channel_of(
+            release
+        ) == "stable"
+    ]
+
+    fallback = app.get(
+        "stable_fallback_regex"
+    )
+
+    if fallback:
+
+        regex = re.compile(
+            fallback
+        )
+
+        for release in releases:
+
+            if (
+                regex.search(
+                    release_text(
+                        release
+                    )
+                )
+
+                and release
+                not in candidates
+            ):
+
+                candidates.append(
+                    release
+                )
+
+    candidates.sort(
+        key=release_time,
+        reverse=True
+    )
+
+    return candidates
+
 
 def make_entry(
     app,
@@ -1037,23 +976,15 @@ def make_entry(
 ):
 
     raw_date = (
-
-        release.get(
-            "published_at"
-        )
-
-        or release.get(
-            "created_at"
-        )
-
+        release.get("published_at")
+        or release.get("created_at")
         or ""
     )
-
 
     return {
 
         "name":
-            visible_name(
+            display_name(
                 app["name"],
                 channel
             ),
@@ -1079,10 +1010,8 @@ def make_entry(
             ],
 
         "description":
-            visible_description(
-                app[
-                    "description"
-                ],
+            display_description(
+                app["description"],
                 channel
             ),
 
@@ -1098,11 +1027,9 @@ def make_entry(
                 release.get(
                     "tag_name"
                 )
-
                 or release.get(
                     "name"
                 )
-
                 or "unknown"
             ),
 
@@ -1118,18 +1045,13 @@ def make_entry(
     }
 
 
-# =============================================================
-# PROCESAR REPOSITORIO
-# =============================================================
-
 def process_app(app):
 
     releases = get_json(
-        releases_api(
+        releases_url(
             app
         )
     )
-
 
     if not isinstance(
         releases,
@@ -1139,7 +1061,6 @@ def process_app(app):
         releases = [
             releases
         ]
-
 
     releases = [
 
@@ -1154,6 +1075,80 @@ def process_app(app):
         )
     ]
 
-
     releases.sort(
+        key=release_time,
+        reverse=True
+    )
+
+    output = []
+
+    channels = app.get(
+        "channels",
+        [
+            "stable",
+            "beta",
+            "alpha"
+        ]
+    )
+
+    for channel in channels:
+
+        candidates = (
+            candidate_releases(
+                releases,
+                app,
+                channel
+            )
+        )
+
+        for release in candidates:
+
+            try:
+
+                payload = get_payload(
+                    app,
+                    release,
+                    channel
+                )
+
+            except Exception as error:
+
+                print(
+                    f'  Falló '
+                    f'{release.get("tag_name", "")}: '
+                    f'{error}'
+                )
+
+                continue
+
+            if payload:
+
+                output.append(
+
+                    make_entry(
+                        app,
+                        release,
+                        payload,
+                        channel
+                    )
+                )
+
+                break
+
+    return output
+
+
+def fixed_entry(item):
+
+    data = download(
+        item["url"]
+    )
+
+    channel = (
+        item["channel"]
+    )
+
+    return {
+
+        "name":
  
