@@ -20,7 +20,7 @@ APPS = [
          match=["pldmgr"], exclude=["debug"], category="SISTEMA",
          desc="Gestor de payloads para PS5."),
     dict(name="PLDMGR Install & Update", repo="hiddenkernellab/PLDMGR-install-update",
-         match=["pldmgr-install-update"], category="SISTEMA",
+         match=["hk-pldmgr-install-update"], category="SISTEMA",
          desc="Instala o actualiza Payload Manager y configura automáticamente el autoloader."),
     dict(name="Lapy JB Daemon", repo="itsPLK/PS5-Lapy-JB-Daemon",
          match=["lapy", "daemon"], category="SISTEMA",
