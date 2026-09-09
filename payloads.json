@@ -39,13 +39,13 @@
     },
     {
       "name": "PLDMGR Install & Update (Beta)",
-      "filename": "PLDMGR-Install-Update_beta.elf",
-      "url": "https://github.com/hiddenkernellab/PLDMGR-install-update/releases/download/v0.1.0-beta/PLDMGR-Install-Update.elf",
+      "filename": "HK-PLDMGR-Install-Update_beta.elf",
+      "url": "https://github.com/hiddenkernellab/PLDMGR-install-update/releases/download/v0.1.1-beta/HK-PLDMGR-Install-Update.elf",
       "source": "https://github.com/hiddenkernellab/PLDMGR-install-update/releases",
-      "source_direct": "https://github.com/hiddenkernellab/PLDMGR-install-update/releases/download/v0.1.0-beta/PLDMGR-Install-Update.elf",
+      "source_direct": "https://github.com/hiddenkernellab/PLDMGR-install-update/releases/download/v0.1.1-beta/HK-PLDMGR-Install-Update.elf",
       "description": "BETA · Instala o actualiza Payload Manager y configura automáticamente el autoloader.",
       "last_update": "2026-09-09",
-      "version": "v0.1.0-beta",
+      "version": "v0.1.1-beta",
       "category": "SISTEMA",
       "checksum": "6881b9df8ac9c295f06ae2e581d8b5cb444be81d0d1c47ca0a3d366d4c898671"
     },
@@ -268,14 +268,14 @@
     {
       "name": "Pegasus DL",
       "filename": "pegasus_dl.elf",
-      "url": "https://github.com/pegasus-ps5/pegasus-dl/releases/download/v1.7.0/pegasus_dl.elf",
+      "url": "https://github.com/pegasus-ps5/pegasus-dl/releases/download/v1.8.0/pegasus_dl.elf",
       "source": "https://github.com/pegasus-ps5/pegasus-dl/releases",
-      "source_direct": "https://github.com/pegasus-ps5/pegasus-dl/releases/download/v1.7.0/pegasus_dl.elf",
+      "source_direct": "https://github.com/pegasus-ps5/pegasus-dl/releases/download/v1.8.0/pegasus_dl.elf",
       "description": "ESTABLE · Gestor de descargas y catálogos mediante interfaz web local.",
-      "last_update": "2026-06-24",
-      "version": "v1.7.0",
+      "last_update": "2026-09-09",
+      "version": "v1.8.0",
       "category": "TIENDAS",
-      "checksum": "cb2a4b3c248323f2432ce118cb1bf4975146035239ce9b571a9bdb51b3fee226"
+      "checksum": "3665fa275a185e597ef364379a7f7ad5a9d58f30fda2af6bd04e43299ff2e669"
     },
     {
       "name": "Spectrum Library",
