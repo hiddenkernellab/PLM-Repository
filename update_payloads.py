@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
+
 import hashlib
 import json
 import os
 import re
 import sys
+
 from datetime import datetime
 from pathlib import Path
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
+
 
 ROOT = Path(__file__).resolve().parent
 SOURCES_FILE = ROOT / "sources.json"
@@ -16,7 +19,12 @@ OUTPUT_FILE = ROOT / "payloads.json"
 TOKEN = os.environ.get("GITHUB_TOKEN", "").strip()
 USER_AGENT = "HiddenKernel-PLM-Repository/1.0"
 
-CHANNEL_ORDER = ("stable", "beta", "alpha")
+CHANNEL_ORDER = (
+    "stable",
+    "beta",
+    "alpha",
+)
+
 CATEGORY_ORDER = {
     "SYSTEM": 0,
     "HEN": 1,
@@ -26,12 +34,17 @@ CATEGORY_ORDER = {
     "EXPERIMENTAL": 5,
 }
 
+
+# Releases consideradas Alpha / experimentales
 ALPHA_RE = re.compile(
-    r"(?i)(alpha|experimental|nightly|canary|(?:^|[\s._-])dev(?:$|[\s._-0-9]))"
+    r"(?i)(alpha|experimental|nightly|canary|(?:^|[\s._-])dev(?:$|[\s._0-9-]))"
 )
+
+# Releases consideradas Beta / RC / Preview
 BETA_RE = re.compile(
     r"(?i)(beta|release[\s._-]*candidate|\brc[\s._-]*\d*|preview)"
 )
+
 
 def github_json(url):
     headers = {
@@ -39,29 +52,182 @@ def github_json(url):
         "User-Agent": USER_AGENT,
         "X-GitHub-Api-Version": "2022-11-28",
     }
+
     if TOKEN:
         headers["Authorization"] = f"Bearer {TOKEN}"
 
-    req = Request(url, headers=headers)
-    with urlopen(req, timeout=30) as response:
+    request = Request(
+        url,
+        headers=headers,
+    )
+
+    with urlopen(
+        request,
+        timeout=30,
+    ) as response:
         return json.load(response)
 
-def release_channel(release):
-    text = f'{release.get("tag_name", "")} {release.get("name", "")}'.strip()
 
-    # Primero respetamos cómo la llama el propio desarrollador.
+def release_channel(release):
+    tag = release.get(
+        "tag_name",
+        "",
+    )
+
+    name = release.get(
+        "name",
+        "",
+    )
+
+    text = f"{tag} {name}".strip()
+
+    # Alpha tiene prioridad.
     if ALPHA_RE.search(text):
         return "alpha"
+
+    # Después Beta / RC.
     if BETA_RE.search(text):
         return "beta"
 
-    # Si GitHub la marca como prerelease pero no dice "alpha",
-    # la tratamos como beta para no hacerla pasar por estable.
-    if release.get("prerelease", False):
+    # Si GitHub la marca como prerelease
+    # pero el nombre no especifica Alpha,
+    # la consideramos Beta.
+    if release.get(
+        "prerelease",
+        False,
+    ):
         return "beta"
 
     return "stable"
 
+
+def published_timestamp(release):
+    value = (
+        release.get("published_at")
+        or release.get("created_at")
+        or ""
+    )
+
+    if not value:
+        return 0.0
+
+    try:
+        return datetime.fromisoformat(
+            value.replace(
+                "Z",
+                "+00:00",
+            )
+        ).timestamp()
+
+    except ValueError:
+        return 0.0
+
+
+def find_asset(
+    release,
+    pattern,
+):
+    regex = re.compile(pattern)
+
+    assets = [
+        asset
+        for asset in release.get(
+            "assets",
+            [],
+        )
+        if regex.search(
+            asset.get(
+                "name",
+                "",
+            )
+        )
+    ]
+
+    if not assets:
+        return None
+
+    # Priorizamos ELF y después
+    # el nombre más corto.
+    assets.sort(
+        key=lambda asset: (
+            0
+            if asset.get(
+                "name",
+                "",
+            ).lower().endswith(".elf")
+            else 1,
+            len(
+                asset.get(
+                    "name",
+                    "",
+                )
+            ),
+            asset.get(
+                "name",
+                "",
+            ).lower(),
+        )
+    )
+
+    return assets[0]
+
+
+def sha256_url(url):
+    request = Request(
+        url,
+        headers={
+            "User-Agent": USER_AGENT
+        },
+    )
+
+    digest = hashlib.sha256()
+
+    with urlopen(
+        request,
+        timeout=180,
+    ) as response:
+
+        while True:
+            chunk = response.read(
+                1024 * 1024
+            )
+
+            if not chunk:
+                break
+
+            digest.update(chunk)
+
+    return digest.hexdigest()
+
+
+def display_name(
+    base_name,
+    channel,
+):
+    if channel == "stable":
+        return base_name
+
+    if channel == "beta":
+        return (
+            f"{base_name} (Beta)"
+        )
+
+    return (
+        f"{base_name} "
+        f"(Alpha - INESTABLE)"
+    )
+
+
+def description_for(
+    source,
+    channel,
+):
+    base = source.get(
+        "description",
+        "",
+    ).strip()
+
+    if channel == "
 def published_timestamp(release):
     value = release.get("published_at") or release.get("created_at") or ""
     if not value:
