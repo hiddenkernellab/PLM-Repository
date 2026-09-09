@@ -1,0 +1,53 @@
+{
+  "name": "HiddenKernel Repository",
+  "payloads": [
+    {
+      "name": "Payload Manager",
+      "repo": "itsPLK/ps5-payload-manager",
+      "asset_regex": "(?i)^pldmgr.*\\.elf$",
+      "description": "Gestor web de payloads para PS5.",
+      "category": "SYSTEM",
+      "channels": [
+        "stable",
+        "beta",
+        "alpha"
+      ]
+    },
+    {
+      "name": "Lapy JB Daemon",
+      "repo": "itsPLK/PS5-Lapy-JB-Daemon",
+      "asset_regex": "(?i)^lapy_jb_daemon.*\\.elf$",
+      "description": "Daemon jailbreak-on-demand para herramientas compatibles.",
+      "category": "SYSTEM",
+      "channels": [
+        "stable",
+        "beta",
+        "alpha"
+      ]
+    },
+    {
+      "name": "nanoDNS",
+      "repo": "drakmor/nanoDNS",
+      "asset_regex": "(?i)^nanodns\\.elf$",
+      "description": "Proxy DNS local para PS4/PS5.",
+      "category": "SYSTEM",
+      "channels": [
+        "stable",
+        "beta",
+        "alpha"
+      ]
+    },
+    {
+      "name": "kstuff-lite",
+      "repo": "EchoStretch/kstuff-lite",
+      "asset_regex": "(?i)^kstuff\\.elf$",
+      "description": "kstuff-lite para compatibilidad y ejecución de juegos en PS5.",
+      "category": "GAMES",
+      "channels": [
+        "stable",
+        "beta",
+        "alpha"
+      ]
+    }
+  ]
+}
