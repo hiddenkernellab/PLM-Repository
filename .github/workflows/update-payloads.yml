@@ -1,0 +1,42 @@
+name: Actualizar HiddenKernel Repository
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    - cron: "17 */6 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Actualizar payloads.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python update_payloads.py
+
+      - name: Guardar cambios
+        run: |
+          git config user.name "hiddenkernel-bot"
+          git config user.email "actions@users.noreply.github.com"
+
+          git add payloads.json
+
+          if git diff --cached --quiet; then
+            echo "No hay cambios."
+          else
+            git commit -m "chore: actualizar payloads"
+            git push
+          fi
