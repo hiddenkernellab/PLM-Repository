@@ -22,7 +22,6 @@ APPS = [
                "configurar el autoload desde PS5, PC o un telefono.")),
     dict(name="kstuff-lite", repo="EchoStretch/kstuff-lite",
          match=["kstuff"], exclude=["debug"], category="ESENCIALES",
-         install_filename="kstuff-lite.elf",
          desc=("Kstuff ligero que aplica los parches necesarios para el entorno homebrew. "
                "Se usa habitualmente junto con ShadowMountPlus."),
          channels=["beta"]),
@@ -143,7 +142,7 @@ APPS = [
 FIXED = [
     dict(
         name="etaHEN",
-        filename="etaHEN.bin",
+        filename="etaHEN-2.6B.bin",
         url=("https://raw.githubusercontent.com/zecoxao/zecoxao.github.io/"
              "main/luasauce/payloads/etaHEN-2.6B.bin"),
         source=("https://github.com/zecoxao/zecoxao.github.io/blob/"
@@ -557,11 +556,65 @@ def extract_elf(data, app):
 def safe(s):
     return re.sub(r"[^A-Za-z0-9._-]+", "_", s).strip("_")
 
-def out_filename(filename, ch, app=None):
-    # No añadimos "_beta" ni "_unstable" al nombre del archivo.
-    # Payload Manager usa el filename como nombre visible en algunas vistas.
+def canonical_repo_filename(app, rel, original_filename):
+    """
+    PLDMGR v0.5.1 detects updates from the filename/base-name, not by comparing
+    semantic versions. Use the common versioned filenames used by the main
+    public PLDMGR repositories whenever possible to avoid false "Update" flags.
+    """
+    name = app.get("name", "")
+    raw = str(rel.get("tag_name") or rel.get("name") or "").strip()
+    if not raw:
+        return original_filename
+
+    # Common ecosystem naming (PLK mirror / Nexgen where they coincide).
+    patterns = {
+        "PS5 Payload Manager": ("pldmgr_", ".elf", False),
+        "kstuff-lite": ("kstuff-lite_", ".elf", False),
+        "ShadowMountPlus": ("ShadowMountPlus_", ".elf", False),
+        "nanoDNS": ("nanoDNS_", ".elf", True),
+        "etaHEN": ("etaHEN_", ".bin", True),
+        "PS5 WebKit Autoloader": ("WebKit-Autoloader-Installer_", ".elf", False),
+        "BFpilot": ("BFpilot_", ".elf", False),
+        "ftpsrv": ("ftpsrv_", ".elf", False),
+        "PS5 App Dumper": ("ps5-app-dumper_", ".elf", False),
+        "Lapy JB Daemon": ("Lapy-JB-Daemon_", ".elf", False),
+        "garlic-savemgr": ("garlic-savemgr_", ".elf", False),
+        "PS5 Game Compressor": ("PS5-Game-Compressor_", ".elf", False),
+        "APR Emu Updater": ("apr_emu_updater_", ".elf", False),
+        "PIZZA-HEN": ("PIZZA-HEN_", ".elf", False),
+        "OnionHEN": ("onionHEN_", ".elf", False),
+        "Pegasus DL": ("pegasus-dl_", ".elf", False),
+        "Spectrum Library": ("Spectrum-Library_", ".elf", False),
+        "PS5 Web File Manager": ("ps5-web-file-manager_", ".elf", False),
+        "ps5upload": ("ps5upload_", ".elf", False),
+        "np-fake-signin": ("np-fake-signin_", ".elf", False),
+        "Common FPS for PS5": ("Common_FPS_PS5_", ".elf", False),
+        "Ghostcontrol": ("Ghostcontrol-PS5-USB-Controller-Patcher_", ".elf", False),
+        "ELF Arsenal": ("ELF_Arsenal_", ".elf", False),
+    }
+
+    rule = patterns.get(name)
+    if not rule:
+        return original_filename
+
+    prefix, suffix, force_v = rule
+    ver = raw
+
+    # Some common repositories prefix these versioned filenames with v even
+    # when the upstream tag omits it (e.g. nanoDNS / etaHEN in Nexgen).
+    if force_v and not ver.lower().startswith("v"):
+        ver = "v" + ver
+
+    return f"{prefix}{ver}{suffix}"
+
+
+def out_filename(filename, ch, app=None, rel=None):
+    # No añadimos "_beta" ni "_unstable" por nuestra cuenta.
     if app and app.get("install_filename"):
         return app["install_filename"]
+    if app and rel:
+        return canonical_repo_filename(app, rel, filename)
     return filename
 
 def payload_for(app, rel, ch):
@@ -571,7 +624,7 @@ def payload_for(app, rel, ch):
         if not u:
             return None
         data = get_bytes(u)
-        return dict(filename=out_filename(a["name"], ch, app), url=u,
+        return dict(filename=out_filename(a["name"], ch, app, rel), url=u,
                     source_direct=u, checksum=hashlib.sha256(data).hexdigest(),
                     asset_updated_at=a.get("updated_at") or a.get("created_at") or "")
 
@@ -586,7 +639,7 @@ def payload_for(app, rel, ch):
         return None
 
     filename, data = got
-    filename = out_filename(filename, ch, app)
+    filename = out_filename(filename, ch, app, rel)
     ver = rel.get("tag_name") or rel.get("name") or "unknown"
     dest = MIRROR / safe(app["name"]) / safe(ver) / filename
     dest.parent.mkdir(parents=True, exist_ok=True)
@@ -601,13 +654,8 @@ def display_name(name, ch):
     return name
 
 def display_version(raw, ch):
-    # Conservamos la versión REAL del upstream. No añadimos por nuestra cuenta
-    # "beta", "estable" o "inestable". Si esas palabras forman parte del tag
-    # original (ej. 1.7alpha13fix1), se mantienen porque son parte de la versión.
-    v = str(raw or "unknown").strip()
-    if v.lower().startswith("v") and len(v) > 1 and v[1].isdigit():
-        v = v[1:]
-    return v
+    # Conservamos exactamente el tag/version publicado por el upstream.
+    return str(raw or "unknown").strip()
 
 def clean_md(text):
     s = str(text or "")
