@@ -15,7 +15,7 @@
     },
     {
       "name": "nanoDNS",
-      "filename": "nanoDNS_v0.4.elf",
+      "filename": "nanoDNS_0.4.elf",
       "url": "https://github.com/drakmor/nanoDNS/releases/download/0.4/nanodns.elf",
       "source": "https://github.com/drakmor/nanoDNS/releases",
       "source_direct": "https://github.com/drakmor/nanoDNS/releases/download/0.4/nanodns.elf",
@@ -51,10 +51,10 @@
     },
     {
       "name": "ShadowMountPlus",
-      "filename": "ShadowMountPlus_1.7alpha13fix1.elf",
-      "url": "https://hiddenkernellab.github.io/PLM-Repository/payloads/ShadowMountPlus/1.7alpha13fix1/ShadowMountPlus_1.7alpha13fix1.elf",
+      "filename": "shadowmountplus_v1.7alpha13fix1.elf",
+      "url": "https://hiddenkernellab.github.io/PLM-Repository/payloads/ShadowMountPlus/1.7alpha13fix1/shadowmountplus_v1.7alpha13fix1.elf",
       "source": "https://github.com/drakmor/ShadowMountPlus/releases",
-      "source_direct": "https://hiddenkernellab.github.io/PLM-Repository/payloads/ShadowMountPlus/1.7alpha13fix1/ShadowMountPlus_1.7alpha13fix1.elf",
+      "source_direct": "https://hiddenkernellab.github.io/PLM-Repository/payloads/ShadowMountPlus/1.7alpha13fix1/shadowmountplus_v1.7alpha13fix1.elf",
       "description": "Monta y registra juegos desde almacenamiento interno o externo. Se mantiene la rama 1.6beta16 y las 1.7 alpha por separado. ESTADO: EXPERIMENTAL.",
       "last_update": "2026-09-04",
       "version": "1.7alpha13fix1",
@@ -63,7 +63,7 @@
     },
     {
       "name": "etaHEN",
-      "filename": "etaHEN_v2.5B.bin",
+      "filename": "etaHEN_2.5B.bin",
       "url": "https://github.com/etaHEN/etaHEN/releases/download/2.5B/etaHEN-2.5B.bin",
       "source": "https://github.com/etaHEN/etaHEN/releases",
       "source_direct": "https://github.com/etaHEN/etaHEN/releases/download/2.5B/etaHEN-2.5B.bin",
@@ -147,7 +147,7 @@
     },
     {
       "name": "PS5 WebKit Autoloader",
-      "filename": "WebKit-Autoloader-Installer_v0.4.0.elf",
+      "filename": "webkit-autoloader-installer_v0.4.0.elf",
       "url": "https://github.com/itsPLK/ps5-webkit-autoloader/releases/download/v0.4.0/webkit-autoloader-installer_v0.4.0.elf",
       "source": "https://github.com/itsPLK/ps5-webkit-autoloader/releases",
       "source_direct": "https://github.com/itsPLK/ps5-webkit-autoloader/releases/download/v0.4.0/webkit-autoloader-installer_v0.4.0.elf",
@@ -291,7 +291,7 @@
     },
     {
       "name": "Spectrum Library",
-      "filename": "Spectrum-Library_1.4.4.elf",
+      "filename": "Spectrum-Library_v1.4.4.elf",
       "url": "https://github.com/Phoenixx1202/Spectrum-Library/releases/download/1.4.4/SpectrumLibrary_1.4.4.elf",
       "source": "https://github.com/Phoenixx1202/Spectrum-Library/releases",
       "source_direct": "https://github.com/Phoenixx1202/Spectrum-Library/releases/download/1.4.4/SpectrumLibrary_1.4.4.elf",
