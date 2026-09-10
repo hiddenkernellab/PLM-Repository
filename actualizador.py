@@ -29,7 +29,9 @@ APPS = [
          match=["shadowmount"], archive=["shadowmount"], category="ESENCIALES",
          desc=("Monta y registra juegos desde almacenamiento interno o externo. "
                "Se mantiene la rama 1.6beta16 y las 1.7 alpha por separado."),
-         stable_override=r"(?i)^1\.6beta16$", always_alpha=True),
+         stable_override=r"(?i)^1\.6beta16$",
+         exclude_versions=[r"(?i)^v?1\.4(?:\D|$)"],
+         always_alpha=True),
     dict(name="nanoDNS", repo="drakmor/nanoDNS",
          match=["nanodns"], category="ESENCIALES",
          desc=("DNS local para bloquear dominios de PSN y actualizaciones, con "
@@ -1073,6 +1075,18 @@ def process(app):
         key=rtime,
         reverse=True
     )
+
+    # Versiones vetadas expresamente por proyecto. Esto se aplica antes de
+    # clasificar canales, de modo que una release antigua no puede reaparecer
+    # como estable, beta, alpha ni como fallback por falta de asset.
+    excluded_version_patterns = [
+        re.compile(pattern) for pattern in app.get("exclude_versions", [])
+    ]
+    if excluded_version_patterns:
+        rels = [
+            r for r in rels
+            if not any(rx.search(rtext(r)) for rx in excluded_version_patterns)
+        ]
 
     wanted_channels = app.get("channels", ("stable", "beta", "alpha"))
 
