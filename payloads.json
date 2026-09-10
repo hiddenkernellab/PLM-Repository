@@ -207,15 +207,15 @@
     },
     {
       "name": "ps5upload",
-      "filename": "ps5upload_v5.17.7.elf",
-      "url": "https://github.com/phantomptr/ps5upload/releases/download/v5.17.7/ps5upload-5.17.7.elf",
+      "filename": "ps5upload_v5.17.8.elf",
+      "url": "https://github.com/phantomptr/ps5upload/releases/download/v5.17.8/ps5upload-5.17.8.elf",
       "source": "https://github.com/phantomptr/ps5upload/releases",
-      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v5.17.7/ps5upload-5.17.7.elf",
+      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v5.17.8/ps5upload-5.17.8.elf",
       "description": "Transfiere archivos entre PS5 y PC/Android con control de integridad y soporte para reanudar envios. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 1.00-12.70; probado en hardware en 5.10, 9.60 y 12.20.",
-      "last_update": "2026-09-08",
-      "version": "v5.17.7",
+      "last_update": "2026-09-10",
+      "version": "v5.17.8",
       "category": "ARCHIVOS / PC",
-      "checksum": "0fe96f274a9720aba66de8d6ea385f792cbca42e6cff7549685d34c9263c9b5d"
+      "checksum": "89298249535d3f7c9be489ff2f7d8757093b6f4029dd7eb28caf85028f572e85"
     },
     {
       "name": "APR Emu Updater",
