@@ -3,7 +3,7 @@
   "payloads": [
     {
       "name": "kstuff-lite",
-      "filename": "kstuff_beta.elf",
+      "filename": "kstuff-lite.elf",
       "url": "https://github.com/EchoStretch/kstuff-lite/releases/download/v1.10/kstuff.elf",
       "source": "https://github.com/EchoStretch/kstuff-lite/releases",
       "source_direct": "https://github.com/EchoStretch/kstuff-lite/releases/download/v1.10/kstuff.elf",
@@ -51,10 +51,10 @@
     },
     {
       "name": "ShadowMountPlus",
-      "filename": "shadowmountplus_unstable.elf",
-      "url": "https://hiddenkernellab.github.io/PLM-Repository/payloads/ShadowMountPlus/1.7alpha13fix1/shadowmountplus_unstable.elf",
+      "filename": "shadowmountplus.elf",
+      "url": "https://hiddenkernellab.github.io/PLM-Repository/payloads/ShadowMountPlus/1.7alpha13fix1/shadowmountplus.elf",
       "source": "https://github.com/drakmor/ShadowMountPlus/releases",
-      "source_direct": "https://hiddenkernellab.github.io/PLM-Repository/payloads/ShadowMountPlus/1.7alpha13fix1/shadowmountplus_unstable.elf",
+      "source_direct": "https://hiddenkernellab.github.io/PLM-Repository/payloads/ShadowMountPlus/1.7alpha13fix1/shadowmountplus.elf",
       "description": "Monta y registra juegos desde almacenamiento interno o externo. Se mantiene la rama 1.6beta16 y las 1.7 alpha por separado. ESTADO: EXPERIMENTAL.",
       "last_update": "2026-09-04",
       "version": "1.7alpha13fix1",
@@ -75,7 +75,7 @@
     },
     {
       "name": "etaHEN",
-      "filename": "etaHEN-2.6B_beta.bin",
+      "filename": "etaHEN.bin",
       "url": "https://raw.githubusercontent.com/zecoxao/zecoxao.github.io/main/luasauce/payloads/etaHEN-2.6B.bin",
       "source": "https://github.com/zecoxao/zecoxao.github.io/blob/main/luasauce/payloads/etaHEN-2.6B.bin",
       "source_direct": "https://raw.githubusercontent.com/zecoxao/zecoxao.github.io/main/luasauce/payloads/etaHEN-2.6B.bin",
@@ -123,7 +123,7 @@
     },
     {
       "name": "PLDMGR Install & Update",
-      "filename": "HK-PLDMGR-Install-Update_beta.elf",
+      "filename": "HK-PLDMGR-Install-Update.elf",
       "url": "https://github.com/hiddenkernellab/PLDMGR-install-update/releases/download/v0.1.1-beta/HK-PLDMGR-Install-Update.elf",
       "source": "https://github.com/hiddenkernellab/PLDMGR-install-update/releases",
       "source_direct": "https://github.com/hiddenkernellab/PLDMGR-install-update/releases/download/v0.1.1-beta/HK-PLDMGR-Install-Update.elf",
@@ -267,15 +267,15 @@
     },
     {
       "name": "np-fake-signin",
-      "filename": "np-fake-signin-ps4.elf",
-      "url": "https://github.com/earthonion/np-fake-signin/releases/download/1.1/np-fake-signin-ps4.elf",
+      "filename": "np-fake-signin.elf",
+      "url": "https://github.com/earthonion/np-fake-signin/releases/download/1.1/np-fake-signin-ps5.elf",
       "source": "https://github.com/earthonion/np-fake-signin/releases",
-      "source_direct": "https://github.com/earthonion/np-fake-signin/releases/download/1.1/np-fake-signin-ps4.elf",
+      "source_direct": "https://github.com/earthonion/np-fake-signin/releases/download/1.1/np-fake-signin-ps5.elf",
       "description": "Simula el acceso a PSN para el usuario activo. Requiere una cuenta activada offline y reiniciar al terminar. ESTADO: ESTABILIDAD NO DOCUMENTADA.",
       "last_update": "2026-02-02",
       "version": "1.1",
       "category": "UTILIDADES",
-      "checksum": "78f25ae8cc7aa29b7ed9e2e3433a38bfaab57e1f1079b055988d4e71c2d7a7c9"
+      "checksum": "6a38ee251b2252ae6752bf23f4f22d970d449731cfe69c1f513f18670efd5314"
     },
     {
       "name": "Pegasus DL",
