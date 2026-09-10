@@ -38,12 +38,10 @@ APPS = [
     # HEN / AIO
     dict(name="OnionHEN", repo="aydencharles/onionHEN",
          match=["onionhen"], archive=["onionhen"], category="HEN / AIO",
-         desc=("HEN AIO con Toolbox, trucos, superposiciones y servicios. "
-               "Soporte declarado: FW 4.03-12.70.")),
+         desc=("HEN AIO con Toolbox, trucos, superposiciones y servicios integrados.")),
     dict(name="etaHEN", repo="etaHEN/etaHEN",
          match=["etahen"], category="HEN / AIO",
-         desc=("etaHEN 2.5B oficial. HEN AIO con Toolbox, plugins, trucos y servicios. "
-               "Soporte de esta rama: hasta FW 10.01.")),
+         desc=("HEN AIO con Toolbox, complementos, trucos y servicios integrados.")),
     dict(name="PIZZA-HEN", repo="Michele-M-Media/PIZZA-HEN",
          match=["pizza"], archive=["pizza"], category="HEN / AIO",
          desc=("HEN AIO con KStuff, ShadowMount, Toolbox, FTP, ps5debug-NG "
@@ -51,25 +49,24 @@ APPS = [
 
     # GESTIÓN
     dict(name="PLDMGR Install & Update", repo="hiddenkernellab/PLDMGR-install-update",
-         match=["hk-pldmgr-install-update"], category="GESTIÓN",
+         match=["hk-pldmgr-install-update"], category="SISTEMA",
          desc=("Instala, repara y actualiza PS5 Payload Manager y recrea "
                "automáticamente su configuración de autoload.")),
     dict(name="PS5 WebKit Autoloader", repo="itsPLK/ps5-webkit-autoloader",
-         match=["webkit-autoloader-installer"], exclude=["host"], category="GESTIÓN",
-         desc=("Autoloader WebKit para automatizar exploit y payloads. "
-               "FW 1.00-5.50 & 7.00-12.70.")),
+         match=["webkit-autoloader-installer"], exclude=["host"], category="SISTEMA",
+         desc=("Autoloader WebKit para automatizar el exploit y la carga de payloads.")),
     dict(name="Prospero Manager",
          catalog_url=("https://nexgen999.github.io/PS5-Super-PLDMGR-Auto-Updater/"
                       "json/ps5_hen_loader.json"),
          catalog_names=["ProsperoMgr", "Prospero Manager"],
          source="https://github.com/notmaj0r/ProsperoMgr",
-         category="GESTIÓN",
+         category="SISTEMA",
          desc=("Gestor AIO web de archivos, payloads, PKG, partidas guardadas, "
                "procesos, autoload y monitorización.")),
     dict(name="ELF Arsenal",
          api="https://git.etawen.dev/api/v1/repos/soniciso/elf-arsenal/releases",
          source="https://git.etawen.dev/soniciso/elf-arsenal/releases",
-         match=["elf-arsenal"], category="GESTIÓN",
+         match=["elf-arsenal"], category="SISTEMA",
          desc=("AIO clásico con numerosas herramientas y payloads integrados. "
                "Proyecto discontinuado; se conserva por compatibilidad y utilidad.")),
 
@@ -88,8 +85,7 @@ APPS = [
          desc=("Servidor FTP ligero para acceder y transferir archivos desde PC o móvil.")),
     dict(name="ps5upload", repo="phantomptr/ps5upload",
          match=["ps5upload"], category="ARCHIVOS / PC",
-         desc=("Transferencia rápida y verificada desde PC/Android, con reanudación "
-               "y funciones adicionales según firmware y parches activos.")),
+         desc=("Transferencia rápida y verificada entre PS5 y PC/Android, con reanudación y gestión de archivos.")),
 
     # JUEGOS / COMPATIBILIDAD
     dict(name="PS5 Game Compressor", repo="juma-sayeh/PS5-Game-Compressor",
@@ -107,8 +103,7 @@ APPS = [
     # UTILIDADES
     dict(name="Lapy JB Daemon", repo="ArkSama/PS5-Lapy-JB-Daemon",
          match=["lapy", "daemon"], category="UTILIDADES",
-         desc=("Jailbreak bajo demanda para aplicaciones compatibles con la API de etaHEN. "
-               "Requiere kstuff. FW documentados: 3.00-12.00.")),
+         desc=("Jailbreak bajo demanda para aplicaciones compatibles con la API de etaHEN. Requiere kstuff.")),
     dict(name="garlic-savemgr",
          api="https://git.etawen.dev/api/v1/repos/earthonion/garlic-savemgr/releases",
          source="https://git.etawen.dev/earthonion/garlic-savemgr/releases",
@@ -128,7 +123,7 @@ APPS = [
     # MANDOS
     dict(name="Ghostcontrol", repo="StonedModder/Ghostcontrol-PS5-USB-Controller-Patcher",
          match=["ghost-control-ps5"], category="MANDOS",
-         desc=("Permite usar varios mandos USB de terceros mediante un DualSense virtual.")),
+         desc=("Permite utilizar varios mandos USB de terceros mediante un DualSense virtual.")),
 
     # DESCARGAS
     dict(name="Pegasus DL", repo="pegasus-ps5/pegasus-dl",
@@ -153,14 +148,12 @@ FIXED = [
         date="2026-08-18",
         channel="beta",
         category="HEN / AIO",
-        status=("BUILD DE PRUEBAS — soporte ampliado hasta FW 12.70; "
-                "esta build caduca el 1 de octubre de 2026"),
-        desc=("Versión de pruebas para firmwares posteriores a 10.01. "
-              "Incluye Toolbox, plugins, trucos y servicios de etaHEN.")
+        status=("BUILD DE PRUEBAS; esta build caduca el 1 de octubre de 2026"),
+        desc=("Build de pruebas de etaHEN con Toolbox, plugins, trucos y servicios integrados.")
     ),
 ]
 
-CAT_ORDER = {"ESENCIALES": 0, "HEN / AIO": 1, "GESTIÓN": 2, "ARCHIVOS / PC": 3, "JUEGOS / COMPATIBILIDAD": 4, "UTILIDADES": 5, "MANDOS": 6, "DESCARGAS": 7}
+CAT_ORDER = {"ESENCIALES": 0, "HEN / AIO": 1, "SISTEMA": 2, "ARCHIVOS / PC": 3, "JUEGOS / COMPATIBILIDAD": 4, "UTILIDADES": 5, "MANDOS": 6, "DESCARGAS": 7}
 
 # Capa de curación basada en documentación/release notes del desarrollador y
 # feedback público concreto. Las reglas son VERSION-ESPECÍFICAS: cuando cambia
@@ -169,11 +162,11 @@ CAT_ORDER = {"ESENCIALES": 0, "HEN / AIO": 1, "GESTIÓN": 2, "ARCHIVOS / PC": 3,
 CURATED_STATUS = {
     "Prospero Manager": [
         (r".*", "BETA ACTIVA / SUCESOR ACTUAL",
-         "Prospero Manager apareció a finales de agosto como sucesor funcional de ELF Arsenal. Integra gestión de archivos, payloads, PKG, saves y autoload; sigue siendo una beta joven y conviene mantener backups."),
+         "Prospero Manager apareció a finales de agosto como sucesor funcional de ELF Arsenal. Integra gestión de archivos, payloads, PKG, saves y autoload; sigue siendo una beta joven y conviene mantener copias de seguridad."),
     ],
     "ELF Arsenal": [
         (r"\b1\.6\.22\b", "LEGACY / PRECAUCIÓN",
-         "ELF Arsenal está discontinuado. Sigue siendo útil para setups existentes, pero hubo reportes recientes de kernel panics y problemas graves de datos/configuración; para instalaciones nuevas es preferible usar herramientas modulares o Prospero Manager."),
+         "ELF Arsenal está discontinuado. Sigue siendo útil para configuracións existentes, pero hubo reportes recientes de kernel panic y problemas graves de datos/configuración; para instalaciones nuevas es preferible usar herramientas modulares o Prospero Manager."),
     ],
     "PS5 Web File Manager": [
         (r"\b1\.7\b", "ACTIVO / RECIENTE",
@@ -181,11 +174,11 @@ CURATED_STATUS = {
     ],
     "APR Emu Updater": [
         (r"\b2\.0\.6\b", "ACTIVO / RECOMENDADO CON APR EMU",
-         "Release 2.0.6 del 29 de agosto corrige detección de ShadowMountPlus y notificaciones; la 2.0.5 corrigió pérdida de registros y fallos del override tras reposo."),
+         "La versión 2.0.6 del 29 de agosto corrige detección de ShadowMountPlus y notificaciones; la 2.0.5 corrigió pérdida de registros y fallos del override tras reposo."),
     ],
     "PS5 App Dumper": [
         (r"\b1\.11\b", "BETA OFICIAL",
-         "Release oficial 1.11 Beta; corrige archivos PlayGo ausentes y amplía soporte declarado hasta FW 13.60."),
+         "Versión oficial 1.11 Beta; corrige archivos PlayGo ausentes y amplía soporte declarado hasta FW 13.60."),
     ],
     "Lapy JB Daemon": [
         (r"\b1\.2\b", "ÚTIL EN STACK MODULAR",
@@ -193,15 +186,15 @@ CURATED_STATUS = {
     ],
     "BFpilot": [
         (r"\b0\.4\.4\b", "VALIDADO EN HARDWARE",
-         "La release 0.4.4 pasó la suite 44/44 y pruebas de reinyección, instalación PKG, archivos comprimidos y transferencias en PS5 FW 11.60."),
+         "La versión 0.4.4 pasó la suite 44/44 y pruebas de reinyección, instalación PKG, archivos comprimidos y transferencias en PS5 FW 11.60."),
     ],
     "PS5 File Explorer": [
         (r"0\.2\.1", "BUILD CORE RECOMENDADA",
-         "El desarrollador recomienda file-explorer-core.elf como primera opción para máxima compatibilidad; la build completa añade el launcher y más dependencias."),
+         "El desarrollador recomienda file-explorer-core.elf como primera opción para máxima compatibilidad; la versión completa añade el launcher y más dependencias."),
     ],
     "ChronicLoader": [
         (r"\b0\.1\b", "RELEASE INICIAL / PRECAUCIÓN",
-         "Primera release pública. El payload gestiona backups, hashes y autoload; el propio autor advierte específicamente que su HTML generador de configuración estaba apenas probado."),
+         "Primera versión pública. El payload gestiona copias de seguridad, hashes y autoload; el propio autor advierte específicamente que su HTML generador de configuración estaba apenas probado."),
     ],
     "VoidShell": [
         (r"\b1\.1", "RELEASE OFICIAL",
@@ -213,23 +206,23 @@ CURATED_STATUS = {
     ],
     "Ghostcontrol": [
         (r"\b1\.0\.5\b", "VALIDACIÓN PARCIAL EN HARDWARE",
-         "La release 1.0.5 amplía soporte y el proyecto mantiene una matriz de mandos con estados Working/Untested; la compatibilidad depende del modelo y modo USB."),
+         "La versión 1.0.5 amplía soporte y el proyecto mantiene una matriz de mandos con estados Working/Untested; la compatibilidad depende del modelo y modo USB."),
     ],
     "ps5debug-NG": [
         (r"\b1\.3\.0\b", "VALIDACIÓN PARCIAL EN HARDWARE",
-         "La release 1.3.0 se publica como hardware-verified, pero sus propias notas aclaran que algunas familias de firmware compatibles aún no estaban completamente probadas en hardware."),
+         "La versión 1.3.0 se publica como hardware-verified, pero sus propias notas aclaran que algunas familias de firmware compatibles aún no estaban completamente probadas en hardware."),
     ],
     "ps5upload": [
         (r"\b5\.17\.", "VALIDACIÓN PARCIAL EN HARDWARE",
-         "El desarrollador documenta pruebas de hardware en FW 5.10 y 9.60. El payload cubre más firmwares, pero la instalación PKG tiene limitaciones conocidas en algunos FW 11.60+ y depende de kstuff/fpkg-enable."),
+         "El desarrollador documenta pruebas de hardware en FW 5.10 y 9.60. El payload cubre más versiones de firmware, pero la instalación PKG tiene limitaciones conocidas en algunos FW 11.60+ y depende de kstuff/fpkg-enable."),
     ],
     "bdj_unpatch": [
         (r"\b2\.0\b", "USO ESPECÍFICO / PRECAUCIÓN",
-         "Está pensado para habilitar el flujo BD-JB5 en firmwares altos sobre una consola ya jailbreakeada. Modifica bdjstack.jar, crea backup y una reinstalación de firmware elimina el parche."),
+         "Está pensado para habilitar el flujo BD-JB5 en versiones de firmware altos sobre una consola ya jailbreakeada. Modifica bdjstack.jar, crea backup y una reinstalación de firmware elimina el parche."),
     ],
     "ps5-payload-websrv": [
         (r"\b0\.33\b", "RELEASE OFICIAL",
-         "Release oficial del servidor web. Su función es servir navegación/launch remoto; la estabilidad de homebrew lanzado también depende del payload previo y del estado de la consola."),
+         "Versión oficial del servidor web. Su función es servir navegación/launch remoto; la estabilidad de homebrew lanzado también depende del payload previo y del estado de la consola."),
     ],
     "PLDMGR Install & Update": [
         (r"0\.1\.", "EN PRUEBAS",
@@ -237,15 +230,15 @@ CURATED_STATUS = {
     ],
     "PS5 WebKit Autoloader": [
         (r"\b0\.4\.0\b", "PRECAUCIÓN",
-         "Release oficial actual, pero hay reportes públicos de kernel panic/apagados en algunos firmwares 12.x; varios usuarios indican mejor comportamiento al volver a 0.3.1."),
+         "Versión oficial actual, pero hay reportes públicos de kernel panic/apagados en algunos versiones de firmware 12.x; varios usuarios indican mejor comportamiento al volver a 0.3.1."),
     ],
     "etaHEN": [
         (r"\b2\.5B\b", "RELEASE OFICIAL",
-         "Versión oficial para FW hasta 10.01. Para firmwares posteriores se usa la rama 2.6B de pruebas."),
+         "Versión oficial para FW hasta 10.01. Para versiones de firmware posteriores se usa la rama 2.6B de pruebas."),
     ],
     "OnionHEN": [
         (r"\b0\.0\.12\b", "RELEASE OFICIAL",
-         "Release oficial con soporte declarado para FW 4.03-12.70; no hay una advertencia general de inestabilidad en sus notas actuales."),
+         "Versión oficial con soporte declarado para FW 4.03-12.70; no hay una advertencia general de inestabilidad en sus notas actuales."),
     ],
     "PIZZA-HEN": [
         (r"\b2\.00\b", "VALIDACIÓN ESTÁTICA / EXPERIMENTAL",
@@ -279,7 +272,7 @@ CURATED_STATUS = {
     ],
     "PS5 App Dumper": [
         (r"\b1\.11\b", "EN PRUEBAS",
-         "La release oficial se denomina 'PS5 App Dumper 1.11 Beta'; corrige archivos PlayGo ausentes y amplía soporte hasta FW 13.60."),
+         "La versión oficial se denomina 'PS5 App Dumper 1.11 Beta'; corrige archivos PlayGo ausentes y amplía soporte hasta FW 13.60."),
     ],
     "np-fake-signin": [
         (r"\b0\.[12]_?beta\b", "EXPERIMENTAL / PRECAUCIÓN",
@@ -291,11 +284,11 @@ CURATED_STATUS = {
     ],
     "Common FPS for PS5": [
         (r"\b1\.1\.0\b", "VALIDADO EN HARDWARE",
-         "El proyecto documenta pruebas repetidas en PS5 FW 9.60, contador visible en dos juegos y reinicios normales; no debe extrapolarse esa validación a todos los firmwares."),
+         "El proyecto documenta pruebas repetidas en PS5 FW 9.60, contador visible en dos juegos y reinicios normales; no debe extrapolarse esa validación a todos los versiones de firmware."),
     ],
     "Pegasus DL": [
         (r"\b1\.8\.0\b", "RELEASE OFICIAL",
-         "Release oficial actual con handoff nativo de enlaces .pkg; no hay una advertencia general de inestabilidad en las notas de esta versión."),
+         "Versión oficial actual con handoff nativo de enlaces .pkg; no hay una advertencia general de inestabilidad en las notas de esta versión."),
     ],
     "Spectrum Library": [
         (r"\b1\.4\.4\b", "MEJORA DE ESTABILIDAD",
@@ -304,7 +297,7 @@ CURATED_STATUS = {
 }
 
 RISK_TERMS = (
-    "kernel panic", "kernel panics", "crash", "crashes", "crashing",
+    "kernel panic", "kernel panic", "crash", "crashes", "crashing",
     "freeze", "freezes", "freezing", "shutdown", "shut down",
     "unexpectedly shuts", "unexpected shutdown", "black screen",
     "hang", "hangs", "hanging", "panic", "reboot loop"
@@ -312,13 +305,72 @@ RISK_TERMS = (
 
 MAX_DESCRIPTION = 560
 
+# Compatibilidad solo cuando está confirmada por el desarrollador, release notes
+# o pruebas de hardware documentadas. Las reglas son específicas de versión.
+COMPATIBILITY_RULES = {
+    "kstuff-lite": [
+        (r"\b1\.10\b", "FW 3.00-12.70"),
+        (r"\b1\.0[5-9]\b", "FW 3.00-12.70"),
+    ],
+    "OnionHEN": [
+        (r"\b0\.0\.1[0-2]\b", "FW 4.03-12.70"),
+        (r"\b0\.0\.9\b", "FW 4.03-12.70"),
+    ],
+    "etaHEN": [
+        (r"\b2\.5B\b", "hasta FW 10.01"),
+    ],
+    "PS5 WebKit Autoloader": [
+        (r".*", "FW 1.00-5.50 y 7.00-12.70"),
+    ],
+    "Lapy JB Daemon": [
+        (r"\b1\.2\b", "FW 3.00-12.00"),
+    ],
+    "PS5 App Dumper": [
+        (r"\b1\.11\b", "hasta FW 13.60"),
+    ],
+    "PIZZA-HEN": [
+        (r"\b1\.0\b", "DPIv2 confirmado en hardware: FW 12.20-12.70"),
+    ],
+    "BFpilot": [
+        (r"\b0\.4\.4\b", "probado en hardware: FW 11.60"),
+    ],
+    "ps5upload": [
+        (r".*", "FW 1.00-12.70; probado en hardware en 5.10, 9.60 y 12.20"),
+    ],
+}
+
+def compatibility_for(app, rel):
+    text = rtext(rel)
+    for pattern, value in COMPATIBILITY_RULES.get(app["name"], []):
+        if re.search(pattern, text, flags=re.I):
+            return value
+
+    # Detección automática conservadora desde las notas oficiales.
+    body = clean_md(rel.get("body") or "")
+    patterns = [
+        r"supported firmware[: ]+([0-9.]+\s*[–-]\s*[0-9.]+)",
+        r"supports firmware[: ]+([0-9.]+\s*[–-]\s*[0-9.]+)",
+        r"firmware[: ]+([0-9.]+\s*[–-]\s*[0-9.]+)",
+        r"firmware\s+([0-9.]+)\s+(?:through|to)\s+([0-9.]+)",
+    ]
+
+    for rx in patterns:
+        m = re.search(rx, body, flags=re.I)
+        if not m:
+            continue
+        if len(m.groups()) == 1:
+            return f"FW {m.group(1).replace('–', '-')}"
+        return f"FW {m.group(1)}-{m.group(2)}"
+
+    return ""
+
 # Recomendaciones de comunidad revisadas manualmente.
 # Caducan solas para no presentar como "actual" información vieja de redes/foros.
 CURRENT_RECOMMENDATIONS = {
     "PS5 Payload Manager": {
         "until": "2026-10-25",
         "label": "RECOMENDADO ACTUAL",
-        "note": "Se repite como centro de gestión en setups recientes y el propio proyecto recomienda usarlo con un autoloader."
+        "note": "Se repite como centro de gestión en configuracións recientes y el propio proyecto recomienda usarlo con un autoloader."
     },
     "kstuff-lite": {
         "until": "2026-10-25",
@@ -348,7 +400,7 @@ CURRENT_RECOMMENDATIONS = {
     "BFpilot": {
         "until": "2026-10-25",
         "label": "RECOMENDADO PARA ARCHIVOS",
-        "note": "Aparece en setups recientes como opción rápida y práctica para mover/gestionar archivos y PKG."
+        "note": "Aparece en configuracións recientes como opción rápida y práctica para mover/gestionar archivos y PKG."
     },
     "PS5 Web File Manager": {
         "until": "2026-10-25",
@@ -368,7 +420,7 @@ CURRENT_RECOMMENDATIONS = {
     "PS5 Game Compressor": {
         "until": "2026-10-25",
         "label": "RECOMENDADO ACTUAL",
-        "note": "Muy citado en setups recientes como herramienta práctica para imágenes y juegos usados con ShadowMountPlus."
+        "note": "Muy citado en configuracións recientes como herramienta práctica para imágenes y juegos usados con ShadowMountPlus."
     },
     "APR Emu Updater": {
         "until": "2026-10-25",
@@ -669,7 +721,7 @@ def auto_status(app, rel, ch):
     ):
         return (
             "ESTABLE SEGÚN DESARROLLADOR",
-            "El upstream identifica explícitamente esta versión como estable; esto no implica compatibilidad universal con todos los firmwares/configuraciones."
+            "El upstream identifica explícitamente esta versión como estable; esto no implica compatibilidad universal con todos los versiones de firmware/configuraciones."
         )
 
     if (
@@ -774,6 +826,45 @@ def github_issue_signal(app, rel):
         "precaución, no una prueba automática de que el fallo afecte a todos."
     )
 
+def short_status_note(note, limit=145):
+    s = clean_md(note)
+    if not s:
+        return ""
+    # Una sola frase, para que la ficha no se convierta en un párrafo enorme.
+    first = re.split(r"(?<=[.!?])\s+", s, maxsplit=1)[0].strip()
+    if len(first) > limit:
+        first = first[:limit - 1].rstrip(" ,;:.") + "…"
+    return first
+
+def display_status(label, note):
+    # Normalizamos etiquetas que describen canal/actividad pero no estabilidad.
+    mapping = {
+        "RELEASE OFICIAL": "ESTABILIDAD NO DOCUMENTADA",
+        "RELEASE OFICIAL ACTUAL": "ESTABILIDAD NO DOCUMENTADA",
+        "ACTIVO / RECIENTE": "ESTABILIDAD NO DOCUMENTADA",
+        "ACTIVO / RECOMENDADO CON APR EMU": "ESTABILIDAD NO DOCUMENTADA",
+        "ÚTIL EN STACK MODULAR": "ESTABILIDAD NO DOCUMENTADA",
+        "NUEVO AIO A SEGUIR": "EN PRUEBAS",
+        "BETA ACTIVA / SUCESOR ACTUAL": "EN PRUEBAS",
+        "BETA OFICIAL": "EN PRUEBAS",
+    }
+    clean_label = mapping.get(label, label)
+
+    # Solo añadimos explicación cuando realmente aporta una advertencia.
+    important = (
+        "PRECAUCIÓN" in clean_label
+        or "EXPERIMENTAL" in clean_label
+        or "EN PRUEBAS" in clean_label
+        or "LEGACY" in clean_label
+    )
+
+    if important:
+        n = short_status_note(note)
+        if n:
+            return f"{clean_label} — {n}"
+
+    return clean_label
+
 def build_description(app, rel, ch):
     curated = curated_status(app, rel)
     if curated:
@@ -781,25 +872,27 @@ def build_description(app, rel, ch):
     else:
         label, status_note = auto_status(app, rel, ch)
 
-    parts = [
-        f"ESTADO: {label} — {status_note}",
+    lines = [
+        app["desc"].strip(),
+        "",
+        f"ESTADO: {display_status(label, status_note)}",
     ]
 
-    rec = current_recommendation(app["name"])
-    if rec:
-        parts.append(rec)
+    compat = compatibility_for(app, rel)
+    if compat:
+        lines.append(f"COMPATIBILIDAD: {compat}")
 
-    parts.append(app["desc"].strip())
-
-    changes = release_summary(rel)
-    if changes:
-        parts.append(f"NOTAS DE ESTA RELEASE: {changes}")
-
+    # Señal automática, pero resumida para no ensuciar la ficha.
     issue_note = github_issue_signal(app, rel)
     if issue_note:
-        parts.append(issue_note)
+        m = re.search(r"ALERTA GITHUB:\s*(\d+)\s+issue", issue_note, flags=re.I)
+        if m:
+            lines.append(
+                f"AVISO: {m.group(1)} incidencia(s) abierta(s) reciente(s) "
+                "mencionan cierres, bloqueos, KP o apagados."
+            )
 
-    desc = " ".join(x for x in parts if x).strip()
+    desc = "\n".join(lines).strip()
     if len(desc) > MAX_DESCRIPTION:
         desc = desc[:MAX_DESCRIPTION - 1].rstrip(" ;,.") + "…"
     return desc
@@ -1035,8 +1128,11 @@ def fixed_entry(x):
         "url": x["url"],
         "source": x["source"],
         "source_direct": x["url"],
-        "description": (f'ESTADO: {x.get("status", "ESTABILIDAD NO DOCUMENTADA")}. '
-                        f'{x["desc"]}'),
+        "description": (
+            f'{x["desc"]}\n\n'
+            f'ESTADO: EN PRUEBAS\n'
+            f'COMPATIBILIDAD: hasta FW 12.70'
+        ),
         "last_update": x["date"],
         "version": display_version(x["version"], ch),
         "category": x["category"],
@@ -1053,8 +1149,8 @@ def sort_key(x):
     )
 
 def main():
-    print("=== HiddenKernel Store · Curated Force Refresh ===")
-    print("Actualizaciones forzadas + descripciones revisadas + etaHEN 2.5B/2.6B.")
+    print("=== HiddenKernel Store · Actualización automática ===")
+    print("Actualizaciones forzadas + fichas breves + estado y compatibilidad verificada.")
     payloads = []
     for app in APPS:
         print(f'Procesando {app["name"]}...')
