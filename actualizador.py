@@ -30,7 +30,7 @@ APPS = [
          match=["shadowmount"], archive=["shadowmount"], category="ESENCIALES",
          desc=("Monta y registra juegos desde almacenamiento interno o externo. "
                "Se mantiene la rama 1.6beta16 y las 1.7 alpha por separado."),
-         stable_override=r"(?i)^1\.6beta", always_alpha=True),
+         stable_override=r"(?i)^1\.6beta16$", always_alpha=True),
     dict(name="nanoDNS", repo="drakmor/nanoDNS",
          match=["nanodns"], category="ESENCIALES",
          desc=("DNS local para bloquear dominios de PSN y actualizaciones, con "
@@ -875,13 +875,28 @@ def build_description(app, rel, ch):
     return " ".join(parts)
 
 def candidates(rels, app, ch, latest_stable=None):
-    if ch == "stable" and app.get("stable_override"):
+    override_ids = set()
+
+    if app.get("stable_override"):
         rx = re.compile(app["stable_override"])
         forced = [r for r in rels if rx.search(rtext(r))]
-        if forced:
+        override_ids = {
+            r.get("id") for r in forced
+            if r.get("id") is not None
+        }
+
+        if ch == "stable" and forced:
             return sorted(forced, key=rtime, reverse=True)
 
     xs = [r for r in rels if channel(r) == ch]
+
+    # Si una beta/alpha se ha promovido manualmente como rama estable/conservadora
+    # mediante stable_override, no puede volver a aparecer en su canal original.
+    if ch != "stable" and override_ids:
+        xs = [
+            r for r in xs
+            if r.get("id") not in override_ids
+        ]
 
     # Para proyectos GitHub normales, la release estable que GitHub marca como
     # "latest" tiene prioridad absoluta. Después dejamos las anteriores como
@@ -1039,6 +1054,8 @@ def process(app):
             latest_stable = None
 
     selected = {}
+    selected_release_ids = set()
+    selected_release_keys = set()
 
     for ch in wanted_channels:
         for rel in candidates(
@@ -1047,6 +1064,18 @@ def process(app):
             ch,
             latest_stable=latest_stable
         ):
+            rel_id = rel.get("id")
+            rel_key = (
+                str(rel.get("tag_name") or ""),
+                str(rel.get("name") or ""),
+                str(rel.get("published_at") or rel.get("created_at") or "")
+            )
+
+            if (
+                (rel_id is not None and rel_id in selected_release_ids)
+                or rel_key in selected_release_keys
+            ):
+                continue
             try:
                 # payload_for vuelve a descargar SIEMPRE el asset y recalcula
                 # SHA-256, incluso aunque versión/URL coincidan con la pasada.
@@ -1057,6 +1086,11 @@ def process(app):
 
             if p:
                 selected[ch] = (rel, p)
+
+                if rel_id is not None:
+                    selected_release_ids.add(rel_id)
+                selected_release_keys.add(rel_key)
+
                 print(
                     f'  Seleccionado {ch}: '
                     f'{rtext(rel)} -> {p["filename"]}'
@@ -1135,6 +1169,29 @@ def sanitize_payload(entry):
             entry[key] = sanitize_visible(entry[key])
     return entry
 
+def dedupe_payloads(payloads):
+    result = []
+    seen = set()
+
+    for item in payloads:
+        key = (
+            str(item.get("name", "")).strip().lower(),
+            str(item.get("version", "")).strip().lower(),
+            str(item.get("checksum", "")).strip().lower(),
+        )
+
+        if key in seen:
+            print(
+                f'Duplicado eliminado: '
+                f'{item.get("name")} {item.get("version")}'
+            )
+            continue
+
+        seen.add(key)
+        result.append(item)
+
+    return result
+
 def sort_key(x):
     # Orden profesional: categoría, nombre y versión. No inferimos calidad
     # a partir de palabras como beta/alpha para ordenar.
@@ -1167,6 +1224,7 @@ def main():
             print(f'  ERROR fijo {x["name"]}: {e}')
 
     payloads = [sanitize_payload(x) for x in payloads]
+    payloads = dedupe_payloads(payloads)
     payloads.sort(key=sort_key)
 
     for x in payloads:
