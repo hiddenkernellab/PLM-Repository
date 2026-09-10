@@ -558,58 +558,151 @@ def extract_elf(data, app):
 def safe(s):
     return re.sub(r"[^A-Za-z0-9._-]+", "_", s).strip("_")
 
+def _ensure_v(ver):
+    ver = str(ver or "").strip()
+    if ver and not ver.lower().startswith("v"):
+        return "v" + ver
+    return ver
+
+
+def _strip_v(ver):
+    ver = str(ver or "").strip()
+    return re.sub(r"^[vV](?=\d)", "", ver)
+
+
 def canonical_repo_filename(app, rel, original_filename):
     """
-    PLDMGR v0.5.1 detects updates from the filename/base-name, not by comparing
-    semantic versions. Use the common versioned filenames used by the main
-    public PLDMGR repositories whenever possible to avoid false "Update" flags.
+    Nombre con el que PLDMGR guarda el payload.
+
+    Política HiddenKernel:
+      1) Si el payload existe en el mirror oficial de itsPLK, imitamos EXACTAMENTE
+         su convención de filename. Es la mejor referencia para convivir con la
+         fuente predeterminada de Payload Manager.
+      2) Si no está en el mirror oficial, usamos la convención ya extendida en
+         repositorios PLDMGR (principalmente Nexgen) cuando la conocemos.
+      3) Si no existe una convención conocida, conservamos el nombre del asset
+         upstream sin inventar uno nuevo.
+
+    IMPORTANTE: el campo version NO se fabrica aquí; display_version conserva el
+    tag publicado por el desarrollador. De ese modo filename y version siguen dos
+    responsabilidades distintas y se reducen falsos avisos de actualización.
     """
     name = app.get("name", "")
     raw = str(rel.get("tag_name") or rel.get("name") or "").strip()
     if not raw:
         return original_filename
 
-    # Common ecosystem naming (PLK mirror / Nexgen where they coincide).
-    patterns = {
-        "PS5 Payload Manager": ("pldmgr_", ".elf", False),
-        "kstuff-lite": ("kstuff-lite_", ".elf", False),
-        "ShadowMountPlus": ("ShadowMountPlus_", ".elf", False),
-        "nanoDNS": ("nanoDNS_", ".elf", True),
-        "etaHEN": ("etaHEN_", ".bin", True),
-        "PS5 WebKit Autoloader": ("WebKit-Autoloader-Installer_", ".elf", False),
-        "BFpilot": ("BFpilot_", ".elf", False),
-        "ftpsrv": ("ftpsrv_", ".elf", False),
-        "PS5 App Dumper": ("ps5-app-dumper_", ".elf", False),
-        "Lapy JB Daemon": ("Lapy-JB-Daemon_", ".elf", False),
-        "garlic-savemgr": ("garlic-savemgr_", ".elf", False),
-        "PS5 Game Compressor": ("PS5-Game-Compressor_", ".elf", False),
-        "APR Emu Updater": ("apr_emu_updater_", ".elf", False),
-        "PIZZA-HEN": ("PIZZA-HEN_", ".elf", False),
-        "OnionHEN": ("onionHEN_", ".elf", False),
-        "Pegasus DL": ("pegasus-dl_", ".elf", False),
-        "Spectrum Library": ("Spectrum-Library_", ".elf", False),
-        "PS5 Web File Manager": ("ps5-web-file-manager_", ".elf", False),
-        "ps5upload": ("ps5upload_", ".elf", False),
-        "np-fake-signin": ("np-fake-signin_", ".elf", False),
-        "Common FPS for PS5": ("Common_FPS_PS5_", ".elf", False),
-        "Ghostcontrol": ("Ghostcontrol-PS5-USB-Controller-Patcher_", ".elf", False),
-        "ELF Arsenal": ("ELF_Arsenal_", ".elf", False),
-    }
+    # Convenciones del mirror oficial de itsPLK / ecosistema PLDMGR.
+    if name == "PS5 Payload Manager":
+        return f"pldmgr_{_ensure_v(raw)}.elf"
+    if name == "kstuff-lite":
+        return f"kstuff-lite_{_ensure_v(raw)}.elf"
+    if name == "nanoDNS":
+        # itsPLK mirror: nanoDNS_0.4.elf (sin v y respetando mayúsculas).
+        return f"nanoDNS_{_strip_v(raw)}.elf"
+    if name == "etaHEN":
+        # itsPLK mirror: etaHEN_2.5B.bin.
+        return f"etaHEN_{_strip_v(raw)}.bin"
+    if name == "PS5 WebKit Autoloader":
+        # Upstream, itsPLK mirror y Nexgen coinciden en esta convención.
+        return f"webkit-autoloader-installer_{_ensure_v(raw)}.elf"
+    if name == "ftpsrv":
+        return f"ftpsrv_{_ensure_v(raw)}.elf"
+    if name == "PS5 App Dumper":
+        return f"ps5-app-dumper_{_ensure_v(raw)}.elf"
+    if name == "garlic-savemgr":
+        return f"garlic-savemgr_{_ensure_v(raw)}.elf"
+    if name == "PS5 Web File Manager":
+        return f"ps5-web-file-manager_{_ensure_v(raw)}.elf"
+    if name == "ps5upload":
+        return f"ps5upload_{_ensure_v(raw)}.elf"
 
-    rule = patterns.get(name)
+    if name == "ShadowMountPlus":
+        v = _strip_v(raw)
+        # Para la rama conservadora usamos EXACTAMENTE el nombre del mirror
+        # oficial de itsPLK. Para 1.7, que el mirror oficial aún no publica,
+        # seguimos la convención de Nexgen para evitar otra carpeta paralela.
+        if v.lower().startswith("1.6beta16"):
+            return f"ShadowMountPlus_{v}.elf"
+        return f"shadowmountplus_{_ensure_v(v)}.elf"
+
+    # Convenciones ampliamente usadas en repositorios PLDMGR cuando el mirror
+    # oficial no ofrece todavía ese payload.
+    known = {
+        "BFpilot": ("BFpilot_", ".elf", True),
+        "Lapy JB Daemon": ("Lapy-JB-Daemon_", ".elf", True),
+        "PS5 Game Compressor": ("PS5-Game-Compressor_", ".elf", True),
+        "APR Emu Updater": ("apr_emu_updater_", ".elf", True),
+        "PIZZA-HEN": ("PIZZA-HEN_", ".elf", True),
+        "OnionHEN": ("onionHEN_", ".elf", True),
+        "Pegasus DL": ("pegasus-dl_", ".elf", True),
+        "Spectrum Library": ("Spectrum-Library_", ".elf", True),
+        "np-fake-signin": ("np-fake-signin_", ".elf", True),
+        "Common FPS for PS5": ("Common_FPS_PS5_", ".elf", True),
+        "Ghostcontrol": ("Ghostcontrol-PS5-USB-Controller-Patcher_", ".elf", True),
+        "ELF Arsenal": ("ELF_Arsenal_", ".elf", True),
+    }
+    rule = known.get(name)
     if not rule:
         return original_filename
 
     prefix, suffix, force_v = rule
-    ver = raw
-
-    # Some common repositories prefix these versioned filenames with v even
-    # when the upstream tag omits it (e.g. nanoDNS / etaHEN in Nexgen).
-    if force_v and not ver.lower().startswith("v"):
-        ver = "v" + ver
-
+    ver = _ensure_v(raw) if force_v else raw
     return f"{prefix}{ver}{suffix}"
 
+
+def expected_storage_root(item):
+    """Raíz esperada según la convención elegida para el ecosistema PLDMGR."""
+    name = str(item.get("name") or "")
+    version = _strip_v(str(item.get("version") or ""))
+
+    if name == "ShadowMountPlus":
+        return "ShadowMountPlus" if version.lower().startswith("1.6beta16") else "shadowmountplus"
+
+    return {
+        "nanoDNS": "nanoDNS",
+        "OnionHEN": "onionHEN",
+        "PS5 WebKit Autoloader": "webkit-autoloader-installer",
+        "PS5 Payload Manager": "pldmgr",
+        "kstuff-lite": "kstuff-lite",
+        "etaHEN": "etaHEN",
+        "ftpsrv": "ftpsrv",
+        "PS5 App Dumper": "ps5-app-dumper",
+        "garlic-savemgr": "garlic-savemgr",
+        "PS5 Web File Manager": "ps5-web-file-manager",
+        "ps5upload": "ps5upload",
+        "Pegasus DL": "pegasus-dl",
+        "Spectrum Library": "Spectrum-Library",
+    }.get(name)
+
+
+def _pldmgr_storage_root(filename):
+    """Replica la regla de PLDMGR v0.5.1 para obtener la carpeta del payload."""
+    clean = str(filename or "")
+    clean = re.sub(r"\.(?:elf|bin)$", "", clean, flags=re.I)
+    m = re.search(r"[_-]v", clean)
+    if m:
+        clean = clean[:m.start()]
+    else:
+        m = re.search(r"[_-](?=\d)", clean)
+        if m:
+            clean = clean[:m.start()]
+    clean = re.sub(r"(?:-ps5|_ps5|-ps4|_ps4)$", "", clean)
+    return clean
+
+
+def validate_canonical_storage_roots(payloads):
+    """Impide que una edición futura vuelva a crear carpetas paralelas."""
+    for item in payloads:
+        expected = expected_storage_root(item)
+        if not expected:
+            continue
+        got = _pldmgr_storage_root(item.get("filename"))
+        if got != expected:
+            raise RuntimeError(
+                f'Raíz PLDMGR no compatible para {item.get("name")}: '
+                f'{got!r} (esperada {expected!r})'
+            )
 
 def out_filename(filename, ch, app=None, rel=None):
     # No añadimos "_beta" ni "_unstable" por nuestra cuenta.
@@ -1314,7 +1407,7 @@ def sort_key(x):
     )
 
 def main():
-    print("=== HiddenKernel Store · Curated Force Refresh ===")
+    print("=== HiddenKernel Store · Curated Ecosystem-Compatible ===")
     print("Actualizaciones forzadas + fichas breves + estado y compatibilidad verificada.")
     payloads = []
     for app in APPS:
@@ -1338,6 +1431,7 @@ def main():
     payloads = [sanitize_payload(x) for x in payloads]
     payloads = dedupe_payloads(payloads)
     validate_no_visible_duplicates(payloads)
+    validate_canonical_storage_roots(payloads)
     payloads.sort(key=sort_key)
 
     for x in payloads:
