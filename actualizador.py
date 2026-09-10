@@ -15,171 +15,150 @@ PAGES = "https://hiddenkernellab.github.io/PLM-Repository"
 MIRROR = Path("payloads")
 
 APPS = [
-    # ==========================================================
     # ESENCIALES
-    # Lo mínimo que aparece de forma consistente en setups actuales.
-    # ==========================================================
     dict(name="PS5 Payload Manager", repo="itsPLK/ps5-payload-manager",
          match=["pldmgr"], exclude=["debug"], category="ESENCIALES",
-         desc=("Dashboard web para instalar, organizar, lanzar y actualizar payloads "
-               "ELF/BIN y gestionar el autoload desde PS5, móvil o PC.")),
+         desc=("Gestor web para instalar, ordenar, ejecutar y actualizar payloads, "
+               "además de configurar el autoload desde PS5, móvil o PC.")),
     dict(name="kstuff-lite", repo="EchoStretch/kstuff-lite",
          match=["kstuff"], exclude=["debug"], category="ESENCIALES",
-         desc=("Versión ligera de kstuff. Aplica los parches necesarios para el entorno "
-               "homebrew y es la pareja habitual de ShadowMountPlus en configuraciones "
-               "modulares actuales."),
+         desc=("Versión ligera de kstuff para aplicar los parches necesarios del "
+               "entorno homebrew. Muy usado junto con ShadowMountPlus."),
          channels=["beta"]),
     dict(name="ShadowMountPlus", repo="drakmor/ShadowMountPlus",
          match=["shadowmount"], archive=["shadowmount"], category="ESENCIALES",
-         desc=("Auto-mounter en segundo plano para detectar, montar y registrar juegos "
-               "desde almacenamiento interno o externo. HiddenKernel mantiene la "
-               "1.6beta16 como rama conservadora y muestra las 1.7 alpha aparte."),
+         desc=("Monta y registra juegos desde almacenamiento interno o externo. "
+               "Se mantiene la rama 1.6beta16 y las 1.7 alpha por separado."),
          stable_override=r"(?i)^1\.6beta", always_alpha=True),
     dict(name="nanoDNS", repo="drakmor/nanoDNS",
          match=["nanodns"], category="ESENCIALES",
-         desc=("Proxy DNS local para PS4/PS5. Permite bloquear dominios de PSN y "
-               "actualizaciones desde la propia consola y aplicar redirecciones locales.")),
+         desc=("DNS local para bloquear dominios de PSN y actualizaciones, con "
+               "redirecciones configurables desde la propia consola.")),
 
-    # ==========================================================
     # HEN / AIO
-    # Alternativas: no hace falta cargar todas.
-    # ==========================================================
     dict(name="OnionHEN", repo="aydencharles/onionHEN",
          match=["onionhen"], archive=["onionhen"], category="HEN / AIO",
-         desc=("Homebrew Enabler y Toolbox AIO con cheats, overlays, gestión de payloads, "
-               "fan control y servicios. Soporte declarado por el desarrollador: "
-               "FW 4.03-12.70.")),
+         desc=("HEN AIO con Toolbox, trucos, superposiciones y servicios. "
+               "Soporte declarado: FW 4.03-12.70.")),
     dict(name="etaHEN", repo="etaHEN/etaHEN",
          match=["etahen"], category="HEN / AIO",
-         desc=("Homebrew Enabler AIO con Toolbox, cheats, plugins y servicios integrados. "
-               "Sigue siendo una referencia, aunque el stack modular actual puede "
-               "sustituir varias de sus funciones.")),
+         desc=("etaHEN 2.5B oficial. HEN AIO con Toolbox, plugins, trucos y servicios. "
+               "Soporte de esta rama: hasta FW 10.01.")),
     dict(name="PIZZA-HEN", repo="Michele-M-Media/PIZZA-HEN",
          match=["pizza"], archive=["pizza"], category="HEN / AIO",
-         desc=("Entorno AIO activo con KStuff/ShadowMount, Toolbox, FTP, ps5debug-NG, "
-               "CheatRunner e instalación de PKG. Algunas funciones se mantienen "
-               "explícitamente experimentales.")),
+         desc=("HEN AIO con KStuff, ShadowMount, Toolbox, FTP, ps5debug-NG "
+               "e instalación de PKG. Algunas funciones son experimentales.")),
 
-    # ==========================================================
     # GESTIÓN
-    # Dashboards, autoloaders y AIO de administración.
-    # ==========================================================
     dict(name="PLDMGR Install & Update", repo="hiddenkernellab/PLDMGR-install-update",
          match=["hk-pldmgr-install-update"], category="GESTIÓN",
-         desc=("Herramienta HiddenKernel que comprueba la última release oficial de "
-               "PS5 Payload Manager, crea /data/ps5_autoloader si falta, instala o "
-               "repara pldmgr.elf y recrea autoload.txt.")),
+         desc=("Instala, repara y actualiza PS5 Payload Manager y recrea "
+               "automáticamente su configuración de autoload.")),
     dict(name="PS5 WebKit Autoloader", repo="itsPLK/ps5-webkit-autoloader",
          match=["webkit-autoloader-installer"], exclude=["host"], category="GESTIÓN",
-         desc=("Autoloader WebKit offline para automatizar exploit y payloads. "
-               "FW 1.00-5.50 & 7.00-12.70. La estabilidad varía según firmware.")),
+         desc=("Autoloader WebKit para automatizar exploit y payloads. "
+               "FW 1.00-5.50 & 7.00-12.70.")),
     dict(name="Prospero Manager",
          catalog_url=("https://nexgen999.github.io/PS5-Super-PLDMGR-Auto-Updater/"
                       "json/ps5_hen_loader.json"),
          catalog_names=["ProsperoMgr", "Prospero Manager"],
          source="https://github.com/notmaj0r/ProsperoMgr",
          category="GESTIÓN",
-         desc=("AIO web de nueva generación: archivos y ZIP, payloads, repositorios, "
-               "PKG local/URL, saves, procesos, autoload, temperaturas y perfil. "
-               "Actualmente se usa como sucesor funcional de ELF Arsenal.")),
+         desc=("Gestor AIO web de archivos, payloads, PKG, partidas guardadas, "
+               "procesos, autoload y monitorización.")),
     dict(name="ELF Arsenal",
          api="https://git.etawen.dev/api/v1/repos/soniciso/elf-arsenal/releases",
          source="https://git.etawen.dev/soniciso/elf-arsenal/releases",
          match=["elf-arsenal"], category="GESTIÓN",
-         desc=("AIO clásico que integra múltiples payloads y herramientas en una sola "
-               "interfaz. Se conserva por utilidad y compatibilidad con setups existentes, "
-               "pero el proyecto está discontinuado y no es la opción preferente actual.")),
+         desc=("AIO clásico con numerosas herramientas y payloads integrados. "
+               "Proyecto discontinuado; se conserva por compatibilidad y utilidad.")),
 
-    # ==========================================================
     # ARCHIVOS / PC
-    # Opciones distintas: AIO, file manager ligero, FTP y PC/Android.
-    # ==========================================================
     dict(name="BFpilot", repo="ItsBlurf/BFpilot",
          match=["bfpilot"], exclude=["alpha", "installer", "lite"], category="ARCHIVOS / PC",
-         desc=("Explorador web AIO para PS5. Gestión de archivos, extracción ZIP/RAR/7z, "
-               "instalación local de PKG y acceso desde navegador.")),
+         desc=("Explorador web AIO con gestión de archivos, ZIP/RAR/7z e "
+               "instalación local de PKG.")),
     dict(name="PS5 Web File Manager", repo="owendswang/ps5-web-file-manager",
          match=["web-file-mgr"], category="ARCHIVOS / PC",
-         desc=("Explorador web ligero y muy activo para gestionar archivos desde la LAN. "
-               "Las versiones recientes incluyen instalación de PKG y acceso directo "
-               "desde la fila Media.")),
+         desc=("Explorador web ligero para gestionar archivos desde la red local, "
+               "con soporte reciente para instalación de PKG.")),
     dict(name="ftpsrv", repo="ps5-payload-dev/ftpsrv",
          match=["ftpsrv"], prefer=["ps5"], exclude=["ps4", "install"],
          category="ARCHIVOS / PC",
-         desc=("Servidor FTP ligero para PS5. La opción simple cuando solo necesitas "
-               "acceso remoto al sistema de archivos.")),
+         desc=("Servidor FTP ligero para acceder y transferir archivos desde PC o móvil.")),
     dict(name="ps5upload", repo="phantomptr/ps5upload",
          match=["ps5upload"], category="ARCHIVOS / PC",
-         desc=("Enlace con PC/Android para transferencias rápidas y verificadas, "
-               "reanudación, archivos, montaje e instalación de PKG según firmware "
-               "y parches disponibles.")),
+         desc=("Transferencia rápida y verificada desde PC/Android, con reanudación "
+               "y funciones adicionales según firmware y parches activos.")),
 
-    # ==========================================================
     # JUEGOS / COMPATIBILIDAD
-    # Herramientas directamente útiles para dumps/montajes.
-    # ==========================================================
     dict(name="PS5 Game Compressor", repo="juma-sayeh/PS5-Game-Compressor",
          match=["game-compressor"], category="JUEGOS / COMPATIBILIDAD",
-         desc=("Comprime, descomprime, valida, repara y mueve juegos utilizados con "
-               "ShadowMountPlus; también integra flujos APR-EMU.")),
+         desc=("Comprime, descomprime, valida y repara juegos usados con "
+               "ShadowMountPlus, además de flujos APR Emu.")),
     dict(name="APR Emu Updater", repo="tsuramatsu1/apr-emu-updater",
          match=["apr_emu_updater"], category="JUEGOS / COMPATIBILIDAD",
-         desc=("Gestiona el override de APR Emu por juego para ShadowMountPlus y otros "
-               "flujos compatibles. Debe mantenerse cargado mientras se usa el override.")),
+         desc=("Gestiona APR Emu por juego y su integración con ShadowMountPlus.")),
     dict(name="PS5 App Dumper", repo="EchoStretch/ps5-app-dumper",
          match=["app", "dumper"], archive=["dumper"], category="JUEGOS / COMPATIBILIDAD",
-         desc=("Payload para volcar aplicaciones/juegos PS5 y preparar archivos para "
-               "copias de seguridad, análisis y flujos de compatibilidad.")),
+         desc=("Vuelca aplicaciones y juegos PS5 para copias de seguridad y "
+               "flujos de compatibilidad.")),
 
-    # ==========================================================
     # UTILIDADES
-    # Funciones claras y no cubiertas totalmente por los esenciales.
-    # ==========================================================
     dict(name="Lapy JB Daemon", repo="ArkSama/PS5-Lapy-JB-Daemon",
          match=["lapy", "daemon"], category="UTILIDADES",
-         desc=("Daemon jailbreak-on-demand para PS5-Xplorer y apps que esperan la API "
-               "de etaHEN. Permite usarlas sin cargar etaHEN completo; requiere kstuff.")),
+         desc=("Jailbreak bajo demanda para aplicaciones compatibles con la API de etaHEN. "
+               "Requiere kstuff. FW documentados: 3.00-12.00.")),
     dict(name="garlic-savemgr",
          api="https://git.etawen.dev/api/v1/repos/earthonion/garlic-savemgr/releases",
          source="https://git.etawen.dev/earthonion/garlic-savemgr/releases",
          match=["garlic-savemgr"], exclude=["worker"], category="UTILIDADES",
-         desc=("Gestor de partidas guardadas con interfaz web: backup, importación, "
-               "descifrado/cifrado y resignado de saves según la versión.")),
+         desc=("Gestor de partidas guardadas con copia, importación, descifrado, "
+               "cifrado y refirmado.")),
     dict(name="np-fake-signin", repo="earthonion/np-fake-signin",
          match=["np", "fake", "signin"], archive=["np-fake-signin"], category="UTILIDADES",
-         desc=("Simula el estado de inicio de sesión PSN para el usuario activo. "
-               "Requiere cuenta activada offline y reinicio después de usarlo.")),
+         desc=("Simula el inicio de sesión PSN para el usuario activo. "
+               "Requiere una cuenta activada offline y reinicio.")),
     dict(name="Common FPS for PS5", repo="porhe911/Common-FPS-for-PS5",
          match=["common", "fps"], exclude=["plugin"], archive=["common"],
          category="UTILIDADES",
-         desc=("Overlay universal de FPS en tiempo real para juegos PS4/PS5 en PS5. "
-               "Disponible como ELF independiente y como plugin para etaHEN.")),
+         desc=("Muestra los FPS en tiempo real en juegos PS4/PS5. "
+               "Disponible como ELF y como plugin para etaHEN.")),
 
-    # ==========================================================
     # MANDOS
-    # Una única herramienta general para no inflar la tienda.
-    # ==========================================================
     dict(name="Ghostcontrol", repo="StonedModder/Ghostcontrol-PS5-USB-Controller-Patcher",
          match=["ghost-control-ps5"], category="MANDOS",
-         desc=("Patcher para usar mandos USB de terceros mediante un DualSense virtual. "
-               "Incluye matriz de compatibilidad para DS4, HORIPAD, 8BitDo, Xbox y otros.")),
+         desc=("Permite usar varios mandos USB de terceros mediante un DualSense virtual.")),
 
-    # ==========================================================
     # DESCARGAS
-    # Dos proyectos activos y con enfoques distintos.
-    # ==========================================================
     dict(name="Pegasus DL", repo="pegasus-ps5/pegasus-dl",
          match=["pegasus"], category="DESCARGAS",
-         desc=("Gestor de descargas con interfaz web. Desde 1.8.0 puede entregar "
-               "enlaces .pkg al descargador nativo de PS5 tras confirmación del usuario "
-               "y admite flujos con Real-Debrid/TorBox.")),
+         desc=("Gestor de descargas web. Desde 1.8.0 puede enviar enlaces .pkg "
+               "al descargador nativo de PS5.")),
     dict(name="Spectrum Library", repo="Phoenixx1202/Spectrum-Library",
          match=["spectrum"], archive=["spectrum"], category="DESCARGAS",
-         desc=("Biblioteca/gestor de descargas con interfaz visual, categorías, "
-               "carátulas, cola y selección de destinos.")),
+         desc=("Biblioteca y gestor de descargas con carátulas, categorías, cola "
+               "y selección de destino.")),
 ]
 
-FIXED = []
+FIXED = [
+    dict(
+        name="etaHEN 2.6B",
+        filename="etaHEN-2.6B.bin",
+        url=("https://raw.githubusercontent.com/zecoxao/zecoxao.github.io/"
+             "main/luasauce/payloads/etaHEN-2.6B.bin"),
+        source=("https://github.com/zecoxao/zecoxao.github.io/blob/"
+                "main/luasauce/payloads/etaHEN-2.6B.bin"),
+        version="2.6B",
+        date="2026-08-18",
+        channel="beta",
+        category="HEN / AIO",
+        status=("BUILD DE PRUEBAS — soporte ampliado hasta FW 12.70; "
+                "esta build caduca el 1 de octubre de 2026"),
+        desc=("Versión de pruebas para firmwares posteriores a 10.01. "
+              "Incluye Toolbox, plugins, trucos y servicios de etaHEN.")
+    ),
+]
 
 CAT_ORDER = {"ESENCIALES": 0, "HEN / AIO": 1, "GESTIÓN": 2, "ARCHIVOS / PC": 3, "JUEGOS / COMPATIBILIDAD": 4, "UTILIDADES": 5, "MANDOS": 6, "DESCARGAS": 7}
 
@@ -262,7 +241,7 @@ CURATED_STATUS = {
     ],
     "etaHEN": [
         (r"\b2\.5B\b", "RELEASE OFICIAL",
-         "Última release publicada en el repositorio oficial de etaHEN; no se etiqueta como estable absoluto porque integra componentes y funciones con distinto grado de madurez."),
+         "Versión oficial para FW hasta 10.01. Para firmwares posteriores se usa la rama 2.6B de pruebas."),
     ],
     "OnionHEN": [
         (r"\b0\.0\.12\b", "RELEASE OFICIAL",
@@ -331,7 +310,7 @@ RISK_TERMS = (
     "hang", "hangs", "hanging", "panic", "reboot loop"
 )
 
-MAX_DESCRIPTION = 900
+MAX_DESCRIPTION = 560
 
 # Recomendaciones de comunidad revisadas manualmente.
 # Caducan solas para no presentar como "actual" información vieja de redes/foros.
@@ -582,7 +561,7 @@ def clean_md(text):
     s = re.sub(r"\s+", " ", s).strip()
     return s
 
-def release_summary(rel, limit=300):
+def release_summary(rel, limit=180):
     """Extrae cambios relevantes de las notas oficiales sin inventar nada."""
     body = str(rel.get("body") or "")
     if not body.strip():
@@ -612,7 +591,7 @@ def release_summary(rel, limit=300):
             line = clean_md(line)
             if 8 <= len(line) <= 220:
                 picked.append(line)
-        if len(picked) >= 3:
+        if len(picked) >= 2:
             break
 
     if not picked:
@@ -1074,8 +1053,8 @@ def sort_key(x):
     )
 
 def main():
-    print("=== HiddenKernel Store · Curated Force Refresh v12 ===")
-    print("25 herramientas útiles + updates forzados + notas upstream + recomendaciones recientes con caducidad.")
+    print("=== HiddenKernel Store · Curated Force Refresh ===")
+    print("Actualizaciones forzadas + descripciones revisadas + etaHEN 2.5B/2.6B.")
     payloads = []
     for app in APPS:
         print(f'Procesando {app["name"]}...')
