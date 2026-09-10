@@ -39,18 +39,6 @@
     },
     {
       "name": "ShadowMountPlus",
-      "filename": "ShadowMountPlus_1.4-exfat.elf",
-      "url": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.4-exfat/shadowmount.elf",
-      "source": "https://github.com/drakmor/ShadowMountPlus/releases",
-      "source_direct": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.4-exfat/shadowmount.elf",
-      "description": "Monta y registra juegos desde almacenamiento interno o externo. Se mantiene la rama 1.6beta16 y las 1.7 alpha por separado. ESTADO: ESTABILIDAD NO DOCUMENTADA.",
-      "last_update": "2026-02-13",
-      "version": "1.4-exfat",
-      "category": "ESENCIALES",
-      "checksum": "acb63474af5f2ed2e9255c76bb4dd2b874c0aec987b0025fa21adcaf0389ec50"
-    },
-    {
-      "name": "ShadowMountPlus",
       "filename": "ShadowMountPlus_1.6beta16.elf",
       "url": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.6beta16/shadowmountplus.elf",
       "source": "https://github.com/drakmor/ShadowMountPlus/releases",
