@@ -22,6 +22,7 @@ APPS = [
                "configurar el autoload desde PS5, PC o un telefono.")),
     dict(name="kstuff-lite", repo="EchoStretch/kstuff-lite",
          match=["kstuff"], exclude=["debug"], category="ESENCIALES",
+         install_filename="kstuff-lite.elf",
          desc=("Kstuff ligero que aplica los parches necesarios para el entorno homebrew. "
                "Se usa habitualmente junto con ShadowMountPlus."),
          channels=["beta"]),
@@ -50,6 +51,7 @@ APPS = [
     # GESTIÓN
     dict(name="PLDMGR Install & Update", repo="hiddenkernellab/PLDMGR-install-update",
          match=["hk-pldmgr-install-update"], category="SISTEMA",
+         install_filename="HK-PLDMGR-Install-Update.elf",
          desc=("Instala, repara y actualiza PS5 Payload Manager y vuelve a crear "
                "su archivo de autoload.")),
     dict(name="PS5 WebKit Autoloader", repo="itsPLK/ps5-webkit-autoloader",
@@ -111,7 +113,9 @@ APPS = [
          desc=("Gestor de saves para copiar, importar, descifrar, cifrar "
                "y volver a firmar partidas.")),
     dict(name="np-fake-signin", repo="earthonion/np-fake-signin",
-         match=["np", "fake", "signin"], archive=["np-fake-signin"], category="UTILIDADES",
+         match=["np", "fake", "signin"], prefer=["ps5"], exclude=["ps4"],
+         archive=["np-fake-signin"], category="UTILIDADES",
+         install_filename="np-fake-signin.elf",
          desc=("Simula el acceso a PSN para el usuario activo. "
                "Requiere una cuenta activada offline y reiniciar al terminar.")),
     dict(name="Common FPS for PS5", repo="porhe911/Common-FPS-for-PS5",
@@ -139,7 +143,7 @@ APPS = [
 FIXED = [
     dict(
         name="etaHEN",
-        filename="etaHEN-2.6B.bin",
+        filename="etaHEN.bin",
         url=("https://raw.githubusercontent.com/zecoxao/zecoxao.github.io/"
              "main/luasauce/payloads/etaHEN-2.6B.bin"),
         source=("https://github.com/zecoxao/zecoxao.github.io/blob/"
@@ -553,11 +557,12 @@ def extract_elf(data, app):
 def safe(s):
     return re.sub(r"[^A-Za-z0-9._-]+", "_", s).strip("_")
 
-def out_filename(filename, ch):
-    if ch == "stable":
-        return filename
-    p = Path(filename)
-    return f"{p.stem}_{'beta' if ch == 'beta' else 'unstable'}{p.suffix}"
+def out_filename(filename, ch, app=None):
+    # No añadimos "_beta" ni "_unstable" al nombre del archivo.
+    # Payload Manager usa el filename como nombre visible en algunas vistas.
+    if app and app.get("install_filename"):
+        return app["install_filename"]
+    return filename
 
 def payload_for(app, rel, ch):
     a = direct_asset(rel, app)
@@ -566,7 +571,7 @@ def payload_for(app, rel, ch):
         if not u:
             return None
         data = get_bytes(u)
-        return dict(filename=out_filename(a["name"], ch), url=u,
+        return dict(filename=out_filename(a["name"], ch, app), url=u,
                     source_direct=u, checksum=hashlib.sha256(data).hexdigest(),
                     asset_updated_at=a.get("updated_at") or a.get("created_at") or "")
 
@@ -581,7 +586,7 @@ def payload_for(app, rel, ch):
         return None
 
     filename, data = got
-    filename = out_filename(filename, ch)
+    filename = out_filename(filename, ch, app)
     ver = rel.get("tag_name") or rel.get("name") or "unknown"
     dest = MIRROR / safe(app["name"]) / safe(ver) / filename
     dest.parent.mkdir(parents=True, exist_ok=True)
@@ -979,7 +984,7 @@ def process_catalog(app):
     ch = channel(pseudo)
 
     return [{
-        "name": app["name"],
+        "name": hit.get("name") or app["name"],
         "filename": filename,
         "url": url,
         "source": app.get("source") or hit.get("source") or app["catalog_url"],
@@ -1096,7 +1101,7 @@ def fixed_entry(x):
     ch = x["channel"]
     return {
         "name": display_name(x["name"], ch),
-        "filename": out_filename(x["filename"], ch),
+        "filename": x["filename"],
         "url": x["url"],
         "source": x["source"],
         "source_direct": x["url"],
@@ -1110,6 +1115,25 @@ def fixed_entry(x):
         "category": x["category"],
         "checksum": hashlib.sha256(data).hexdigest(),
     }
+
+def sanitize_visible(value):
+    if not isinstance(value, str):
+        return value
+
+    s = value
+    s = s.replace("\\r\\n", " ")
+    s = s.replace("\\n", " ")
+    s = s.replace("\\r", " ")
+    s = s.replace("\r", " ")
+    s = s.replace("\n", " ")
+    s = re.sub(r"\\s+", " ", s).strip()
+    return s
+
+def sanitize_payload(entry):
+    for key in ("name", "filename", "description", "version", "category"):
+        if key in entry:
+            entry[key] = sanitize_visible(entry[key])
+    return entry
 
 def sort_key(x):
     # Orden profesional: categoría, nombre y versión. No inferimos calidad
@@ -1142,7 +1166,14 @@ def main():
         except Exception as e:
             print(f'  ERROR fijo {x["name"]}: {e}')
 
+    payloads = [sanitize_payload(x) for x in payloads]
     payloads.sort(key=sort_key)
+
+    for x in payloads:
+        desc = x.get("description", "")
+        if "\n" in desc or "\r" in desc:
+            raise RuntimeError(f'Descripcion con salto de linea: {x.get("name")}')
+
     with open("payloads.json", "w", encoding="utf-8") as f:
         json.dump({"name": "HiddenKernel Store", "payloads": payloads},
                   f, ensure_ascii=False, indent=2)
