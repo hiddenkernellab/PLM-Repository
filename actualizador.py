@@ -1104,6 +1104,9 @@ def process(app):
     selected = {}
     selected_release_ids = set()
     selected_release_keys = set()
+    # Defensa adicional: una misma versión visible no puede ocupar dos canales
+    # aunque GitHub haya recreado la release y cambien id/fecha/metadatos.
+    selected_versions = set()
 
     for ch in wanted_channels:
         for rel in candidates(
@@ -1118,10 +1121,18 @@ def process(app):
                 str(rel.get("name") or ""),
                 str(rel.get("published_at") or rel.get("created_at") or "")
             )
+            raw_version = str(
+                rel.get("tag_name") or rel.get("name") or "unknown"
+            ).strip().lower()
+            # Solo para comparar identidad; la versión que se muestra se conserva
+            # exactamente como la publica el upstream.
+            version_key = re.sub(r"\s+", "", raw_version)
+            version_key = re.sub(r"^v(?=\d)", "", version_key)
 
             if (
                 (rel_id is not None and rel_id in selected_release_ids)
                 or rel_key in selected_release_keys
+                or version_key in selected_versions
             ):
                 continue
             try:
@@ -1138,6 +1149,7 @@ def process(app):
                 if rel_id is not None:
                     selected_release_ids.add(rel_id)
                 selected_release_keys.add(rel_key)
+                selected_versions.add(version_key)
 
                 print(
                     f'  Seleccionado {ch}: '
@@ -1217,21 +1229,43 @@ def sanitize_payload(entry):
             entry[key] = sanitize_visible(entry[key])
     return entry
 
+def _visible_identity(item):
+    """Identidad que ve PLDMGR: nombre + versión, no el hash del binario."""
+    name = re.sub(
+        r"\s+", " ", str(item.get("name", "")).strip().lower()
+    )
+    version = re.sub(
+        r"\s+", "", str(item.get("version", "")).strip().lower()
+    )
+    version = re.sub(r"^v(?=\d)", "", version)
+
+    # Si por algún fallo no hay versión útil, no colapsamos payloads distintos
+    # solo porque compartan nombre.
+    if not version or version == "unknown":
+        return (
+            name,
+            version,
+            str(item.get("filename", "")).strip().lower(),
+            str(item.get("checksum", "")).strip().lower(),
+        )
+
+    return (name, version)
+
 def dedupe_payloads(payloads):
     result = []
     seen = set()
 
     for item in payloads:
-        key = (
-            str(item.get("name", "")).strip().lower(),
-            str(item.get("version", "")).strip().lower(),
-            str(item.get("checksum", "")).strip().lower(),
-        )
+        # IMPORTANTE: el checksum NO forma parte de la identidad visible.
+        # Si el autor recompila/reemplaza el asset de una release, el hash puede
+        # cambiar sin que cambie la versión. PLDMGR no debe mostrar dos copias.
+        key = _visible_identity(item)
 
         if key in seen:
             print(
-                f'Duplicado eliminado: '
-                f'{item.get("name")} {item.get("version")}'
+                f'Duplicado visible eliminado: '
+                f'{item.get("name")} {item.get("version")} '
+                f'({item.get("filename")})'
             )
             continue
 
@@ -1239,6 +1273,22 @@ def dedupe_payloads(payloads):
         result.append(item)
 
     return result
+
+def validate_no_visible_duplicates(payloads):
+    """Falla la generación si vuelve a colarse nombre+versión duplicado."""
+    seen = {}
+    for item in payloads:
+        key = _visible_identity(item)
+        if len(key) != 2:
+            continue
+        if key in seen:
+            prev = seen[key]
+            raise RuntimeError(
+                "Duplicado visible tras deduplicar: "
+                f'{item.get("name")} {item.get("version")} | '
+                f'{prev.get("filename")} / {item.get("filename")}'
+            )
+        seen[key] = item
 
 def sort_key(x):
     # Orden profesional: categoría, nombre y versión. No inferimos calidad
@@ -1273,6 +1323,7 @@ def main():
 
     payloads = [sanitize_payload(x) for x in payloads]
     payloads = dedupe_payloads(payloads)
+    validate_no_visible_duplicates(payloads)
     payloads.sort(key=sort_key)
 
     for x in payloads:
