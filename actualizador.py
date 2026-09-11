@@ -136,7 +136,7 @@ APPS = [
                "Disponible como ELF y como plugin para etaHEN.")),
 
     # MANDOS
-    dict(name="Ghostcontrol",
+    dict(name="Ghostcontrol", optional=True,
          catalog_url=("https://nexgen999.github.io/PS5-Super-PLDMGR-Auto-Updater/"
                       "json/ps5_hen_loader.json"),
          catalog_names=["Ghostcontrol", "Ghostcontrol-PS5-USB-Controller-Patcher"],
@@ -194,7 +194,7 @@ FIXED = [
     dict(
         name="kstuff-lite FPKG",
         filename="kstuff-lite_v1.12-fpkg-test3.elf",
-        local_path="payloads/fpkg-tests/kstuff-lite-1.12-fpkg-test3.elf",
+        local_path="payloads/fpkg-tests/kstuff.elf",
         expected_checksum="5183b3d4506002ca722a0dd2d09515bcd7cfe4710be5d4fb9c00b58134d8f223",
         required=True,
         source="Discord de Drakmor (fpkg-test-reports-only)",
@@ -210,7 +210,7 @@ FIXED = [
     dict(
         name="ShadowMountPlus FPKG",
         filename="shadowmountplus_v1.7alpha13fix1-11-g2424c9.elf",
-        local_path="payloads/fpkg-tests/shadowmountplus-1.7alpha13fix1-11-g2424c9.elf",
+        local_path="payloads/fpkg-tests/shadowmountplus.elf",
         expected_checksum="4780da117d7bc72c9e4f4485afd65806998feac2c39faba4116ae284ce601837",
         required=True,
         source="Discord de Drakmor (fpkg-test-reports-only)",
@@ -1414,8 +1414,11 @@ def main():
                 )
             else:
                 msg = f'{app["name"]}: {e}'
-                fatal_errors.append(msg)
-                print(f"  ERROR SIN FALLBACK: {msg}")
+                if app.get("optional"):
+                    print(f"  AVISO OPCIONAL: {msg}. Se omite temporalmente.")
+                else:
+                    fatal_errors.append(msg)
+                    print(f"  ERROR SIN FALLBACK: {msg}")
 
     for x in FIXED:
         try:
