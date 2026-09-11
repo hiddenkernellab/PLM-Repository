@@ -159,9 +159,54 @@ FIXED = [
         status=("BUILD DE PRUEBAS; esta build caduca el 1 de octubre de 2026"),
         desc=("Build de pruebas de etaHEN con Toolbox, plugins, trucos y servicios integrados.")
     ),
+    # Builds de prueba FPKG compartidas por Drakmor en su Discord.
+    # Se espejan localmente para no depender de enlaces temporales de Discord.
+    dict(
+        name="kstuff-lite FPKG",
+        filename="kstuff-lite_v1.12-fpkg-test3.elf",
+        local_path="payloads/fpkg-tests/kstuff-lite-1.12-fpkg-test3.elf",
+        source="Discord de Drakmor (fpkg-test-reports-only)",
+        version="1.12-fpkg-test3",
+        date="2026-09-11",
+        channel="alpha",
+        category="PRUEBAS FPKG",
+        status="PRUEBA FPKG",
+        compatibility="FW compatibles hasta 11.40",
+        desc=("Build experimental de kstuff-lite preparada para las pruebas de FPKG nativos. "
+              "No sustituye a la version recomendada de ESENCIALES salvo que se quiera probar FPKG.")
+    ),
+    dict(
+        name="ShadowMountPlus FPKG",
+        filename="shadowmountplus_v1.7alpha13fix1-11-g2424c9.elf",
+        local_path="payloads/fpkg-tests/shadowmountplus-1.7alpha13fix1-11-g2424c9.elf",
+        source="Discord de Drakmor (fpkg-test-reports-only)",
+        version="1.7alpha13fix1-11-g2424c9",
+        date="2026-09-11",
+        channel="alpha",
+        category="PRUEBAS FPKG",
+        status="PRUEBA FPKG",
+        compatibility="FW compatibles hasta 11.40",
+        desc=("Build experimental de ShadowMountPlus usada en las pruebas de FPKG nativos. "
+              "Mantener separada de la rama recomendada de ESENCIALES.")
+    ),
+    dict(
+        name="A53 PPR Install Fast",
+        filename="a53_ppr_install_fast.elf",
+        local_path="payloads/fpkg-tests/a53_ppr_install_fast.elf",
+        source="Discord de Drakmor (fpkg-test-reports-only)",
+        version="TEST",
+        date="2026-09-11",
+        channel="alpha",
+        category="PRUEBAS FPKG",
+        status="PRUEBA FPKG / A53",
+        compatibility="perfiles incluidos hasta FW 11.40",
+        desc=("Payload que instala en memoria el parche PPR del A53 para el flujo FPKG. "
+              "La build fast activa por defecto el transporte rapido, persistente, batch y mixed-I/O; "
+              "permite restaurar el estado original mediante la accion de desinstalacion.")
+    ),
 ]
 
-CAT_ORDER = {"ESENCIALES": 0, "HEN / AIO": 1, "SISTEMA": 2, "ARCHIVOS / PC": 3, "JUEGOS / COMPATIBILIDAD": 4, "UTILIDADES": 5, "MANDOS": 6, "DESCARGAS": 7, "ALTERNATIVOS": 8}
+CAT_ORDER = {"ESENCIALES": 0, "HEN / AIO": 1, "SISTEMA": 2, "ARCHIVOS / PC": 3, "JUEGOS / COMPATIBILIDAD": 4, "UTILIDADES": 5, "MANDOS": 6, "DESCARGAS": 7, "PRUEBAS FPKG": 8, "ALTERNATIVOS": 9}
 
 # Capa de curación basada en documentación/release notes del desarrollador y
 # feedback público concreto. Las reglas son VERSION-ESPECÍFICAS: cuando cambia
@@ -1309,18 +1354,30 @@ def process(app):
     return output
 
 def fixed_entry(x):
-    data = get_bytes(x["url"])
     ch = x["channel"]
+    local_path = x.get("local_path")
+    if local_path:
+        path = Path(local_path)
+        if not path.is_file():
+            raise FileNotFoundError(f"Falta payload local: {path}")
+        data = path.read_bytes()
+        url = f"{PAGES}/{path.as_posix()}"
+    else:
+        url = x["url"]
+        data = get_bytes(url)
+
+    status = x.get("status", "EN PRUEBAS")
+    compatibility = x.get("compatibility", "hasta FW 12.70")
     return {
         "name": display_name(x["name"], ch),
         "filename": x["filename"],
-        "url": x["url"],
+        "url": url,
         "source": x["source"],
-        "source_direct": x["url"],
+        "source_direct": url,
         "description": (
             f'{x["desc"].strip().rstrip(".")}. '
-            f'ESTADO: EN PRUEBAS. '
-            f'COMPATIBILIDAD: hasta FW 12.70.'
+            f'ESTADO: {status}. '
+            f'COMPATIBILIDAD: {compatibility}.'
         ),
         "last_update": x["date"],
         "version": display_version(x["version"], ch),
