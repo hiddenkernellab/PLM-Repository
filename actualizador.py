@@ -16,10 +16,6 @@ MIRROR = Path("payloads")
 
 APPS = [
     # ESENCIALES
-    dict(name="PS5 Payload Manager", repo="itsPLK/ps5-payload-manager",
-         match=["pldmgr"], exclude=["debug"], category="ESENCIALES",
-         desc=("Gestor web para instalar, ordenar, ejecutar y actualizar payloads y "
-               "configurar el autoload desde PS5, PC o un telefono.")),
     dict(name="kstuff-lite", repo="EchoStretch/kstuff-lite",
          match=["kstuff"], exclude=["debug"], category="ESENCIALES",
          desc=("Kstuff ligero que aplica los parches necesarios para el entorno homebrew. "
@@ -31,9 +27,11 @@ APPS = [
                "Se mantiene la rama 1.6beta16 y las 1.7 alpha por separado."),
          stable_override=r"(?i)^1\.6beta16$",
          exclude_versions=[r"(?i)^v?1\.4(?:\D|$)"],
+         alternate_channels=["alpha"],
          always_alpha=True),
     dict(name="nanoDNS", repo="drakmor/nanoDNS",
          match=["nanodns"], category="ESENCIALES",
+         alternate_channels=["beta", "alpha"],
          desc=("DNS local para bloquear dominios de PSN y actualizaciones, con "
                "redirecciones configurables desde la propia consola.")),
 
@@ -49,9 +47,10 @@ APPS = [
          desc=("HEN AIO con KStuff, ShadowMount, Toolbox, FTP, ps5debug-NG "
                "e instalador de PKG. Algunas funciones son experimentales.")),
 
-    # GESTIÓN
+    # SISTEMA / GESTIÓN
     dict(name="PLDMGR Install & Update", repo="hiddenkernellab/PLDMGR-install-update",
-         match=["hk-pldmgr-install-update"], category="SISTEMA",
+         match=["hk-pldmgr-install-update"], category="ESENCIALES",
+         alternate_channels=["beta", "alpha"],
          install_filename="HK-PLDMGR-Install-Update.elf",
          desc=("Instala, repara y actualiza PS5 Payload Manager y vuelve a crear "
                "su archivo de autoload.")),
@@ -129,6 +128,10 @@ APPS = [
     dict(name="Ghostcontrol", repo="StonedModder/Ghostcontrol-PS5-USB-Controller-Patcher",
          match=["ghost-control-ps5"], category="MANDOS",
          desc=("Permite usar varios mandos USB de terceros mediante un DualSense virtual.")),
+    dict(name="PoorDS4", repo="ItsBlurf/PoorDS4",
+         match=["poords4rc"], exclude=["status", "stop"], category="MANDOS",
+         desc=("Permite usar un DualShock 4 inalambrico en juegos nativos de PS5. "
+               "Proyecto experimental; la compatibilidad depende del firmware y del juego.")),
 
     # DESCARGAS
     dict(name="Pegasus DL", repo="pegasus-ps5/pegasus-dl",
@@ -152,19 +155,23 @@ FIXED = [
         version="2.6B",
         date="2026-08-18",
         channel="beta",
-        category="HEN / AIO",
+        category="ALTERNATIVOS",
         status=("BUILD DE PRUEBAS; esta build caduca el 1 de octubre de 2026"),
         desc=("Build de pruebas de etaHEN con Toolbox, plugins, trucos y servicios integrados.")
     ),
 ]
 
-CAT_ORDER = {"ESENCIALES": 0, "HEN / AIO": 1, "SISTEMA": 2, "ARCHIVOS / PC": 3, "JUEGOS / COMPATIBILIDAD": 4, "UTILIDADES": 5, "MANDOS": 6, "DESCARGAS": 7}
+CAT_ORDER = {"ESENCIALES": 0, "HEN / AIO": 1, "SISTEMA": 2, "ARCHIVOS / PC": 3, "JUEGOS / COMPATIBILIDAD": 4, "UTILIDADES": 5, "MANDOS": 6, "DESCARGAS": 7, "ALTERNATIVOS": 8}
 
 # Capa de curación basada en documentación/release notes del desarrollador y
 # feedback público concreto. Las reglas son VERSION-ESPECÍFICAS: cuando cambia
 # la versión dejan de aplicarse y entra la valoración automática de la nueva
 # release, evitando arrastrar una reputación antigua a un binario nuevo.
 CURATED_STATUS = {
+    "PoorDS4": [
+        (r".*", "EXPERIMENTAL",
+         "El desarrollador lo define como homebrew experimental; la compatibilidad se valida por firmware y juego, y los firmwares no probados pueden fallar de forma segura o provocar cierres."),
+    ],
     "ProsperoMgr": [
         (r".*", "BETA ACTIVA / SUCESOR ACTUAL",
          "Prospero Manager apareció a finales de agosto como sucesor funcional de ELF Arsenal. Integra gestión de archivos, payloads, PKG, saves y autoload; sigue siendo una beta joven y conviene mantener backups."),
@@ -593,8 +600,6 @@ def canonical_repo_filename(app, rel, original_filename):
         return original_filename
 
     # Convenciones del mirror oficial de itsPLK / ecosistema PLDMGR.
-    if name == "PS5 Payload Manager":
-        return f"pldmgr_{_ensure_v(raw)}.elf"
     if name == "kstuff-lite":
         return f"kstuff-lite_{_ensure_v(raw)}.elf"
     if name == "nanoDNS":
@@ -663,7 +668,6 @@ def expected_storage_root(item):
         "nanoDNS": "nanoDNS",
         "OnionHEN": "onionHEN",
         "PS5 WebKit Autoloader": "webkit-autoloader-installer",
-        "PS5 Payload Manager": "pldmgr",
         "kstuff-lite": "kstuff-lite",
         "etaHEN": "etaHEN",
         "ftpsrv": "ftpsrv",
@@ -1057,6 +1061,13 @@ def candidates(rels, app, ch, latest_stable=None):
 
     return xs
 
+def output_category(app, ch):
+    """Mantiene la versión principal en su categoría y manda ramas extra a ALTERNATIVOS."""
+    if ch in app.get("alternate_channels", []):
+        return "ALTERNATIVOS"
+    return app["category"]
+
+
 def make_entry(app, rel, p, ch):
     release_raw = rel.get("published_at") or rel.get("created_at") or ""
     asset_raw = p.get("asset_updated_at") or ""
@@ -1075,7 +1086,7 @@ def make_entry(app, rel, p, ch):
         "description": build_description(app, rel, ch),
         "last_update": raw[:10] if raw else "",
         "version": display_version(rel.get("tag_name") or rel.get("name") or "unknown", ch),
-        "category": app["category"],
+        "category": output_category(app, ch),
         "checksum": p["checksum"],
     }
 
@@ -1150,7 +1161,7 @@ def process_catalog(app):
         "description": build_description(app, pseudo, ch),
         "last_update": str(hit.get("last_update") or "")[:10],
         "version": display_version(version, ch),
-        "category": app["category"],
+        "category": output_category(app, ch),
         "checksum": hashlib.sha256(data).hexdigest(),
     }]
 
