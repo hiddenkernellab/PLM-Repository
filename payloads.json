@@ -183,15 +183,15 @@
     },
     {
       "name": "ps5upload",
-      "filename": "ps5upload_v5.17.10.elf",
-      "url": "https://github.com/phantomptr/ps5upload/releases/download/v5.17.10/ps5upload-5.17.10.elf",
+      "filename": "ps5upload_v5.18.0.elf",
+      "url": "https://github.com/phantomptr/ps5upload/releases/download/v5.18.0/ps5upload-5.18.0.elf",
       "source": "https://github.com/phantomptr/ps5upload/releases",
-      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v5.17.10/ps5upload-5.17.10.elf",
+      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v5.18.0/ps5upload-5.18.0.elf",
       "description": "Transfiere archivos entre PS5 y PC/Android con control de integridad y soporte para reanudar envios. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 1.00-12.70; probado en hardware en 5.10, 9.60 y 12.20.",
       "last_update": "2026-09-11",
-      "version": "v5.17.10",
+      "version": "v5.18.0",
       "category": "ARCHIVOS / PC",
-      "checksum": "4039b181fb44d68f05f9d8d8e62062eef39202a2c2b8f3a75cfc3c78dae39a03"
+      "checksum": "07bb18ce1c6eacfc8da796394c23cc535850129d1ad0eff0c60dfb5dc7b93f0a"
     },
     {
       "name": "singleDPI",
@@ -315,15 +315,15 @@
     },
     {
       "name": "Spectrum Library",
-      "filename": "Spectrum-Library_v1.4.4.elf",
-      "url": "https://github.com/Phoenixx1202/Spectrum-Library/releases/download/1.4.4/SpectrumLibrary_1.4.4.elf",
+      "filename": "Spectrum-Library_v1.4.5.elf",
+      "url": "https://github.com/Phoenixx1202/Spectrum-Library/releases/download/1.4.5/SpectrumLibrary_1.4.5.elf",
       "source": "https://github.com/Phoenixx1202/Spectrum-Library/releases",
-      "source_direct": "https://github.com/Phoenixx1202/Spectrum-Library/releases/download/1.4.4/SpectrumLibrary_1.4.4.elf",
-      "description": "Biblioteca y gestor de descargas con portadas, grupos, cola y selector de destino. ESTADO: FIABILIDAD MEJORADA.",
-      "last_update": "2026-09-04",
-      "version": "1.4.4",
+      "source_direct": "https://github.com/Phoenixx1202/Spectrum-Library/releases/download/1.4.5/SpectrumLibrary_1.4.5.elf",
+      "description": "Biblioteca y gestor de descargas con portadas, grupos, cola y selector de destino. ESTADO: ESTABILIDAD NO DOCUMENTADA.",
+      "last_update": "2026-09-11",
+      "version": "1.4.5",
       "category": "DESCARGAS",
-      "checksum": "2005b5e169dc360c52b9033cc02bce4169a9d4a078627c543b9bbcf66607b9d5"
+      "checksum": "cd93973a89263fad0b13b39d77d7fbb401c7c7c641bc036965876c810ebf534e"
     },
     {
       "name": "A53 PPR Install Fast",
