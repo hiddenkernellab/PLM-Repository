@@ -1,0 +1,20 @@
+{
+  "name": "HiddenKernel Homebrew integrity manifest",
+  "policy": "Solo homebrew/utilidades legales. No juegos comerciales, DLC ni updates comerciales.",
+  "packages": [
+    {
+      "titleId": "RMTC00001",
+      "version": "2.00",
+      "sha256": "27059e236ac8e87110f2316870512669e67ab6e8d6b6ac8926673f368dda2b81",
+      "url": "https://github.com/cy33hc/ps5-ezremote-client/releases/download/2.11/Ps5_ezRemote_Client_2.00.pkg",
+      "bundleVersion": "2.11",
+      "provenance": "PKG oficial de la release de ps5-ezremote-client."
+    },
+    {
+      "titleId": "LAPY20011",
+      "version": "1.05",
+      "sha256": "ea13710e6ffaf290f11bdafa890f76e530e3015cdac6d2cf4a14085c824e6039",
+      "url": "https://github.com/nexgen999/Evox_PS5PKG_Private/releases/download/v1.0/PS5PKG_PS5-Xplorer_v1.05.pkg"
+    }
+  ]
+}
