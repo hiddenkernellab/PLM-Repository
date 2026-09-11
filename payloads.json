@@ -271,7 +271,7 @@
       "url": "https://raw.githubusercontent.com/zecoxao/zecoxao.github.io/main/luasauce/payloads/etaHEN-2.6B.bin",
       "source": "https://github.com/zecoxao/zecoxao.github.io/blob/main/luasauce/payloads/etaHEN-2.6B.bin",
       "source_direct": "https://raw.githubusercontent.com/zecoxao/zecoxao.github.io/main/luasauce/payloads/etaHEN-2.6B.bin",
-      "description": "Build de pruebas de etaHEN con Toolbox, plugins, trucos y servicios integrados. ESTADO: EN PRUEBAS. COMPATIBILIDAD: hasta FW 12.70.",
+      "description": "Build de pruebas de etaHEN con Toolbox, plugins, trucos y servicios integrados. ESTADO: BUILD DE PRUEBAS; esta build caduca el 1 de octubre de 2026. COMPATIBILIDAD: hasta FW 12.70.",
       "last_update": "2026-08-18",
       "version": "2.6B",
       "category": "ALTERNATIVOS",
