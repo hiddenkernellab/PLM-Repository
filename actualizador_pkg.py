@@ -1,24 +1,43 @@
 #!/usr/bin/env python3
-"""Genera un catalogo separado de homebrew PKG para Pegasus DL.
+"""Genera el catalogo HiddenKernel Homebrew para Pegasus DL.
 
 Politica HiddenKernel:
-- solo homebrew/utilidades redistribuibles o enlaces oficiales/publicos;
+- solo homebrew/utilidades y enlaces publicos verificables;
 - nada de juegos comerciales, DLC o updates comerciales;
 - el catalogo Pegasus se mantiene separado de payloads.json;
-- los hashes/procedencia se guardan en un manifest aparte para auditoria.
+- hashes y procedencia se guardan en un manifest aparte;
+- mirrors externos se validan contra el SHA-256 publicado por GitHub;
+- si una fuente falla temporalmente, se conserva la ultima entrada valida.
 """
 
 import hashlib
 import json
 import os
 import re
+import urllib.parse
 import urllib.request
 from pathlib import Path
 
-UA = "HiddenKernel-PKG-Catalog/1.1"
+UA = "HiddenKernel-PKG-Catalog/1.2"
 TOKEN = os.getenv("GITHUB_TOKEN", "")
 OUT = Path("pegasus-homebrew.json")
 MANIFEST = Path("pegasus-homebrew-manifest.json")
+NEXGEN_INDEX = (
+    "https://raw.githubusercontent.com/nexgen999/"
+    "PS5-Super-PLDMGR-Auto-Updater/main/PKGjson/pkg.json"
+)
+NEXGEN_MIRROR_REPO = "nexgen999/Evox_PS5PKG_Private"
+NEXGEN_ALLOWED_PREFIX = (
+    "https://github.com/nexgen999/Evox_PS5PKG_Private/releases/download/"
+)
+LAPY_POSTER = "https://pkg-zone.com/storage/users/Lapy/avatar.jpg"
+ITEMZFLOW_POSTER = (
+    "https://raw.githubusercontent.com/LightningMods/Itemzflow/"
+    "9126e4788eb8a9d9657b8096ec7e25eb3bc9ab8d/"
+    "App-Media-Assets/sce_sys/icon0.png"
+)
+
+_nexgen_cache = None
 
 
 def _headers(accept_json=False):
@@ -68,7 +87,14 @@ def valid_sha(value):
     return bool(re.fullmatch(r"[0-9a-fA-F]{64}", str(value or "")))
 
 
-def package(title_id, title, version, description, source, url, size=None):
+def normalize_version(value):
+    s = str(value or "").strip()
+    s = re.sub(r"^[vV]", "", s)
+    s = s.rstrip(". ")
+    return s or "unknown"
+
+
+def package(title_id, title, version, description, source, url, size=None, poster_url=None):
     item = {
         "titleId": title_id,
         "title": title,
@@ -77,6 +103,8 @@ def package(title_id, title, version, description, source, url, size=None):
         "downloadSource": source,
         "downloadLinks": [{"name": "Descarga", "url": url}],
     }
+    if poster_url:
+        item["posterUrl"] = poster_url
     if size:
         item["sizeBytes"] = int(size)
     return item
@@ -108,35 +136,119 @@ def load_previous_manifest():
         return {}
 
 
-def build_ps5_xplorer():
-    # PKG-Zone identifica el homebrew como LAPY20011 / v1.05. El mirror de
-    # Nexgen aloja el mismo PKG y GitHub publica su SHA-256 en la metadata.
-    pinned_sha = "ea13710e6ffaf290f11bdafa890f76e530e3015cdac6d2cf4a14085c824e6039"
-    rel = github_release("nexgen999/Evox_PS5PKG_Private", "v1.0")
-    a = find_asset(rel, lambda n: n == "PS5PKG_PS5-Xplorer_v1.05.pkg")
-    digest = sha_from_asset(a)
-    if digest and digest != pinned_sha:
+def nexgen_index():
+    global _nexgen_cache
+    if _nexgen_cache is None:
+        _nexgen_cache = request_json(NEXGEN_INDEX)
+    return _nexgen_cache
+
+
+def find_nexgen_entry(*names):
+    wanted = {n.casefold() for n in names}
+    obj = nexgen_index()
+    packages = obj.get("packages", obj) if isinstance(obj, dict) else obj
+    if not isinstance(packages, list):
+        raise RuntimeError("Formato inesperado del indice PKG de Nexgen")
+    for item in packages:
+        if not isinstance(item, dict):
+            continue
+        fields = {
+            str(item.get("name") or "").casefold(),
+            str(item.get("title") or "").casefold(),
+        }
+        if fields & wanted:
+            return item
+    raise RuntimeError(f"No se encontro {names[0]} en el indice PKG de Nexgen")
+
+
+def verified_nexgen_asset(entry, previous_manifest, title_id):
+    url = str(entry.get("url") or entry.get("download") or entry.get("download_url") or "")
+    if not url.startswith(NEXGEN_ALLOWED_PREFIX):
+        raise RuntimeError("URL del mirror fuera del repositorio permitido")
+
+    tail = url[len(NEXGEN_ALLOWED_PREFIX):]
+    if "/" not in tail:
+        raise RuntimeError("URL de release del mirror no reconocida")
+    tag, encoded_name = tail.split("/", 1)
+    asset_name = urllib.parse.unquote(encoded_name)
+    rel = github_release(NEXGEN_MIRROR_REPO, tag)
+    asset = find_asset(rel, lambda n: n == asset_name)
+    if asset.get("browser_download_url") != url:
+        raise RuntimeError("La URL del indice no coincide con el asset de GitHub")
+
+    digest = sha_from_asset(asset)
+    if not digest:
+        digest = hashlib.sha256(request_bytes(url)).hexdigest()
+
+    version = normalize_version(entry.get("version"))
+    prev = previous_manifest.get(title_id, {})
+    if (prev.get("version") == version and valid_sha(prev.get("sha256"))
+            and prev.get("sha256", "").lower() != digest.lower()):
         raise RuntimeError(
-            "PS5-Xplorer: cambio de hash inesperado; se requiere revision manual"
+            f"{title_id}: mismo numero de version pero cambio el SHA-256; revision manual"
         )
-    url = a["browser_download_url"]
+    return version, url, int(asset.get("size") or 0), digest
+
+
+def build_nexgen_pkg(previous_manifest, *, title_id, names, title, description, source, poster):
+    entry = find_nexgen_entry(*names)
+    version, url, size, digest = verified_nexgen_asset(entry, previous_manifest, title_id)
     return (
-        package(
-            "LAPY20011",
-            "PS5-Xplorer",
-            "1.05",
-            "Explorador de archivos para PS5 de Lapy. Puede usarse con kstuff + Lapy JB Daemon sin cargar etaHEN completo.",
-            "https://pkg-zone.com/details/LAPY20011",
-            url,
-            a.get("size"),
-        ),
+        package(title_id, title, version, description, source, url, size, poster),
         {
-            "titleId": "LAPY20011",
-            "version": "1.05",
+            "titleId": title_id,
+            "version": version,
             "url": url,
-            "sha256": pinned_sha,
-            "provenance": "PKG de PS5-Xplorer 1.05; mirror publico verificado por SHA-256.",
+            "sha256": digest,
+            "sizeBytes": size,
+            "posterUrl": poster,
+            "provenance": "PKG publico espejado por Nexgen y verificado contra el SHA-256 del asset de GitHub.",
         },
+    )
+
+
+def build_ps5_xplorer(previous_manifest):
+    return build_nexgen_pkg(
+        previous_manifest,
+        title_id="LAPY20011",
+        names=("PS5-Xplorer",),
+        title="PS5-Xplorer",
+        description=(
+            "Explorador de archivos para PS5 de Lapy. Puede usarse con kstuff + "
+            "Lapy JB Daemon sin cargar etaHEN completo."
+        ),
+        source="https://pkg-zone.com/details/LAPY20011",
+        poster=LAPY_POSTER,
+    )
+
+
+def build_avatar_changer(previous_manifest):
+    return build_nexgen_pkg(
+        previous_manifest,
+        title_id="LAPY20016",
+        names=("Avatar-Changer", "Avatar Changer", "Avatar Changer PS5"),
+        title="Avatar Changer PS5",
+        description=(
+            "Utilidad de Lapy para cambiar el avatar del perfil desde la consola. "
+            "Trabaja con avatares preparados para la aplicacion y requiere un entorno jailbreak compatible."
+        ),
+        source="https://pkg-zone.com/details/LAPY20016",
+        poster=LAPY_POSTER,
+    )
+
+
+def build_itemzflow(previous_manifest):
+    return build_nexgen_pkg(
+        previous_manifest,
+        title_id="ITEM00001",
+        names=("Itemzflow_Game_Manager", "Itemzflow Game Manager", "Itemzflow"),
+        title="Itemzflow Game Manager",
+        description=(
+            "Gestor de biblioteca para PS5 orientado a homebrew y copias autorizadas. "
+            "Permite gestionar titulos, montajes y metadatos desde una interfaz nativa."
+        ),
+        source="https://pkg-zone.com/details/ITEM00001",
+        poster=ITEMZFLOW_POSTER,
     )
 
 
@@ -147,6 +259,7 @@ def build_websrv_launcher(previous_manifest):
         "https://raw.githubusercontent.com/ps5-payload-dev/websrv/"
         f"{tag}/homebrew/IV9999-FAKE00000_00-HOMEBREWLOADER01.pkg"
     )
+    poster = f"https://raw.githubusercontent.com/ps5-payload-dev/websrv/{tag}/icon0.png"
 
     prev = previous_manifest.get("FAKE00000", {})
     if prev.get("version") == tag and prev.get("url") == url and valid_sha(prev.get("sha256")):
@@ -166,6 +279,7 @@ def build_websrv_launcher(previous_manifest):
             "https://github.com/ps5-payload-dev/websrv",
             url,
             size,
+            poster,
         ),
         {
             "titleId": "FAKE00000",
@@ -173,6 +287,7 @@ def build_websrv_launcher(previous_manifest):
             "url": url,
             "sha256": digest,
             "sizeBytes": size,
+            "posterUrl": poster,
             "provenance": "PKG oficial incluido en ps5-payload-websrv.",
         },
     )
@@ -188,6 +303,10 @@ def build_ezremote():
     m = re.search(r"_([0-9]+(?:\.[0-9]+)+)\.pkg$", a["name"], flags=re.I)
     pkg_version = m.group(1) if m else rel["tag_name"]
     bundle_version = rel["tag_name"]
+    poster = (
+        "https://raw.githubusercontent.com/cy33hc/ps5-ezremote-client/"
+        f"{bundle_version}/data/sce_sys/icon0.png"
+    )
 
     return (
         package(
@@ -198,6 +317,7 @@ def build_ezremote():
             "https://github.com/cy33hc/ps5-ezremote-client",
             a["browser_download_url"],
             a.get("size"),
+            poster,
         ),
         {
             "titleId": "RMTC00001",
@@ -206,6 +326,7 @@ def build_ezremote():
             "url": a["browser_download_url"],
             "sha256": digest,
             "sizeBytes": a.get("size"),
+            "posterUrl": poster,
             "provenance": "PKG oficial de la release de ps5-ezremote-client.",
         },
     )
@@ -227,6 +348,9 @@ def validate(packages, manifest):
             url = str(link.get("url") or "")
             if not url.startswith("https://"):
                 raise RuntimeError(f"Solo HTTPS en el catalogo: {url}")
+        poster = str(p.get("posterUrl") or "")
+        if poster and not poster.startswith("https://"):
+            raise RuntimeError(f"posterUrl no HTTPS: {poster}")
 
     by_id = {m.get("titleId"): m for m in manifest}
     for tid in seen:
@@ -242,9 +366,11 @@ def main():
     manifest = []
 
     builders = [
-        ("LAPY20011", lambda: build_ps5_xplorer()),
-        ("FAKE00000", lambda: build_websrv_launcher(previous_manifest)),
+        ("LAPY20016", lambda: build_avatar_changer(previous_manifest)),
         ("RMTC00001", lambda: build_ezremote()),
+        ("FAKE00000", lambda: build_websrv_launcher(previous_manifest)),
+        ("ITEM00001", lambda: build_itemzflow(previous_manifest)),
+        ("LAPY20011", lambda: build_ps5_xplorer(previous_manifest)),
     ]
 
     for title_id, builder in builders:

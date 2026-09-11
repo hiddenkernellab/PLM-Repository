@@ -8,14 +8,35 @@
       "url": "https://raw.githubusercontent.com/ps5-payload-dev/websrv/v0.34/homebrew/IV9999-FAKE00000_00-HOMEBREWLOADER01.pkg",
       "sha256": "c737b79be8c47b89b2e4e38ca404cdad6d30c0ff659aaf25c7e9ea1368341434",
       "sizeBytes": 18168015,
+      "posterUrl": "https://raw.githubusercontent.com/ps5-payload-dev/websrv/v0.34/icon0.png",
       "provenance": "PKG oficial incluido en ps5-payload-websrv."
+    },
+    {
+      "titleId": "ITEM00001",
+      "version": "1.14",
+      "url": "https://github.com/nexgen999/Evox_PS5PKG_Private/releases/download/v1.0/PS5PKG_Itemzflow_Game_Manager_v1.14.pkg",
+      "sha256": "73cbbe1045c5d58dc9e25df306c96d60ab69e9eb91a43344c1df300d85f36462",
+      "sizeBytes": 62849024,
+      "posterUrl": "https://raw.githubusercontent.com/LightningMods/Itemzflow/9126e4788eb8a9d9657b8096ec7e25eb3bc9ab8d/App-Media-Assets/sce_sys/icon0.png",
+      "provenance": "PKG publico espejado por Nexgen y verificado contra el SHA-256 del asset de GitHub."
     },
     {
       "titleId": "LAPY20011",
       "version": "1.05",
       "url": "https://github.com/nexgen999/Evox_PS5PKG_Private/releases/download/v1.0/PS5PKG_PS5-Xplorer_v1.05.pkg",
       "sha256": "ea13710e6ffaf290f11bdafa890f76e530e3015cdac6d2cf4a14085c824e6039",
-      "provenance": "PKG de PS5-Xplorer 1.05; mirror publico verificado por SHA-256."
+      "sizeBytes": 81264640,
+      "posterUrl": "https://pkg-zone.com/storage/users/Lapy/avatar.jpg",
+      "provenance": "PKG publico espejado por Nexgen y verificado contra el SHA-256 del asset de GitHub."
+    },
+    {
+      "titleId": "LAPY20016",
+      "version": "1.00",
+      "url": "https://github.com/nexgen999/Evox_PS5PKG_Private/releases/download/v1.0/PS5PKG_Avatar-Changer_v1.00.pkg",
+      "sha256": "32515b8253a027bbe65b95f574fb1484020bb0d65d6d0f6e418cb73ab739f2b3",
+      "sizeBytes": 64552960,
+      "posterUrl": "https://pkg-zone.com/storage/users/Lapy/avatar.jpg",
+      "provenance": "PKG publico espejado por Nexgen y verificado contra el SHA-256 del asset de GitHub."
     },
     {
       "titleId": "RMTC00001",
@@ -24,6 +45,7 @@
       "url": "https://github.com/cy33hc/ps5-ezremote-client/releases/download/2.11/Ps5_ezRemote_Client_2.00.pkg",
       "sha256": "27059e236ac8e87110f2316870512669e67ab6e8d6b6ac8926673f368dda2b81",
       "sizeBytes": 10106672,
+      "posterUrl": "https://raw.githubusercontent.com/cy33hc/ps5-ezremote-client/2.11/data/sce_sys/icon0.png",
       "provenance": "PKG oficial de la release de ps5-ezremote-client."
     }
   ]

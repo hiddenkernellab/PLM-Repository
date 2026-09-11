@@ -2,6 +2,21 @@
   "name": "HiddenKernel Homebrew",
   "packages": [
     {
+      "titleId": "LAPY20016",
+      "title": "Avatar Changer PS5",
+      "version": "1.00",
+      "description": "Utilidad de Lapy para cambiar el avatar del perfil desde la consola. Trabaja con avatares preparados para la aplicacion y requiere un entorno jailbreak compatible.",
+      "downloadSource": "https://pkg-zone.com/details/LAPY20016",
+      "downloadLinks": [
+        {
+          "name": "Descarga",
+          "url": "https://github.com/nexgen999/Evox_PS5PKG_Private/releases/download/v1.0/PS5PKG_Avatar-Changer_v1.00.pkg"
+        }
+      ],
+      "posterUrl": "https://pkg-zone.com/storage/users/Lapy/avatar.jpg",
+      "sizeBytes": 64552960
+    },
+    {
       "titleId": "RMTC00001",
       "title": "ezRemote Client (launcher)",
       "version": "2.00",
@@ -13,6 +28,7 @@
           "url": "https://github.com/cy33hc/ps5-ezremote-client/releases/download/2.11/Ps5_ezRemote_Client_2.00.pkg"
         }
       ],
+      "posterUrl": "https://raw.githubusercontent.com/cy33hc/ps5-ezremote-client/2.11/data/sce_sys/icon0.png",
       "sizeBytes": 10106672
     },
     {
@@ -27,7 +43,23 @@
           "url": "https://raw.githubusercontent.com/ps5-payload-dev/websrv/v0.34/homebrew/IV9999-FAKE00000_00-HOMEBREWLOADER01.pkg"
         }
       ],
+      "posterUrl": "https://raw.githubusercontent.com/ps5-payload-dev/websrv/v0.34/icon0.png",
       "sizeBytes": 18168015
+    },
+    {
+      "titleId": "ITEM00001",
+      "title": "Itemzflow Game Manager",
+      "version": "1.14",
+      "description": "Gestor de biblioteca para PS5 orientado a homebrew y copias autorizadas. Permite gestionar titulos, montajes y metadatos desde una interfaz nativa.",
+      "downloadSource": "https://pkg-zone.com/details/ITEM00001",
+      "downloadLinks": [
+        {
+          "name": "Descarga",
+          "url": "https://github.com/nexgen999/Evox_PS5PKG_Private/releases/download/v1.0/PS5PKG_Itemzflow_Game_Manager_v1.14.pkg"
+        }
+      ],
+      "posterUrl": "https://raw.githubusercontent.com/LightningMods/Itemzflow/9126e4788eb8a9d9657b8096ec7e25eb3bc9ab8d/App-Media-Assets/sce_sys/icon0.png",
+      "sizeBytes": 62849024
     },
     {
       "titleId": "LAPY20011",
@@ -41,6 +73,7 @@
           "url": "https://github.com/nexgen999/Evox_PS5PKG_Private/releases/download/v1.0/PS5PKG_PS5-Xplorer_v1.05.pkg"
         }
       ],
+      "posterUrl": "https://pkg-zone.com/storage/users/Lapy/avatar.jpg",
       "sizeBytes": 81264640
     }
   ]
