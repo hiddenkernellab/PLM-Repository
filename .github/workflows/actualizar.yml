@@ -10,12 +10,17 @@ on:
   schedule:
     - cron: "0 */3 * * *"
 
+concurrency:
+  group: hiddenkernel-store-update
+  cancel-in-progress: false
+
 permissions:
   contents: write
 
 jobs:
   actualizar:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     steps:
       - name: Descargar repositorio
@@ -26,10 +31,12 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Ejecutar actualizador
+      - name: Actualizar catalogos
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python actualizador.py
+        run: |
+          python actualizador.py
+          python actualizador_pkg.py
 
       - name: Guardar cambios
         run: |
@@ -41,6 +48,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No hay cambios."
           else
-            git commit -m "Actualizar payloads"
+            git commit -m "Actualizar catalogos"
             git push
           fi
