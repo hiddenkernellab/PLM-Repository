@@ -30,7 +30,8 @@ NEXGEN_MIRROR_REPO = "nexgen999/Evox_PS5PKG_Private"
 NEXGEN_ALLOWED_PREFIX = (
     "https://github.com/nexgen999/Evox_PS5PKG_Private/releases/download/"
 )
-LAPY_POSTER = "https://pkg-zone.com/storage/users/Lapy/avatar.jpg"
+AVATAR_POSTER = "https://pbs.twimg.com/media/Gl2XTLuXIAADCEL.jpg"
+XPLORER_POSTER = "https://ig.2468c.com/2024/06/08/a06a1c240d8f4.jpg"
 ITEMZFLOW_POSTER = (
     "https://raw.githubusercontent.com/LightningMods/Itemzflow/"
     "9126e4788eb8a9d9657b8096ec7e25eb3bc9ab8d/"
@@ -218,7 +219,7 @@ def build_ps5_xplorer(previous_manifest):
             "Lapy JB Daemon sin cargar etaHEN completo."
         ),
         source="https://pkg-zone.com/details/LAPY20011",
-        poster=LAPY_POSTER,
+        poster=XPLORER_POSTER,
     )
 
 
@@ -233,7 +234,7 @@ def build_avatar_changer(previous_manifest):
             "Trabaja con avatares preparados para la aplicacion y requiere un entorno jailbreak compatible."
         ),
         source="https://pkg-zone.com/details/LAPY20016",
-        poster=LAPY_POSTER,
+        poster=AVATAR_POSTER,
     )
 
 
