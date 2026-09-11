@@ -26,6 +26,18 @@
       "checksum": "dcb845f3570771275b22b37534bf924a7f8ae219fb91ef00c6bccab85d1c2420"
     },
     {
+      "name": "PLDMGR Install & Update",
+      "filename": "HK-PLDMGR-Install-Update.elf",
+      "url": "https://github.com/hiddenkernellab/PLDMGR-install-update/releases/download/v0.1.1-beta/HK-PLDMGR-Install-Update.elf",
+      "source": "https://github.com/hiddenkernellab/PLDMGR-install-update/releases",
+      "source_direct": "https://github.com/hiddenkernellab/PLDMGR-install-update/releases/download/v0.1.1-beta/HK-PLDMGR-Install-Update.elf",
+      "description": "Instala, repara y actualiza PS5 Payload Manager y vuelve a crear su archivo de autoload. ESTADO: EN PRUEBAS.",
+      "last_update": "2026-09-09",
+      "version": "v0.1.1-beta",
+      "category": "ESENCIALES",
+      "checksum": "6881b9df8ac9c295f06ae2e581d8b5cb444be81d0d1c47ca0a3d366d4c898671"
+    },
+    {
       "name": "ShadowMountPlus",
       "filename": "ShadowMountPlus_1.6beta16.elf",
       "url": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.6beta16/shadowmountplus.elf",
@@ -110,6 +122,18 @@
       "checksum": "179d5e52ec3e0f595900b40883c0e10cc1fba1efc275a547f47e828d45d05915"
     },
     {
+      "name": "ps5-payload-websrv",
+      "filename": "websrv-ps5.elf",
+      "url": "https://github.com/ps5-payload-dev/websrv/releases/download/v0.34/websrv-ps5.elf",
+      "source": "https://github.com/ps5-payload-dev/websrv/releases",
+      "source_direct": "https://github.com/ps5-payload-dev/websrv/releases/download/v0.34/websrv-ps5.elf",
+      "description": "Servidor web y lanzador de homebrew. Detecta aplicaciones en /data/homebrew, /mnt/usb*/homebrew y /mnt/ext*/homebrew y permite lanzarlas desde PS5, PC o telefono. ESTADO: ESTABILIDAD NO DOCUMENTADA.",
+      "last_update": "2026-08-02",
+      "version": "v0.34",
+      "category": "SISTEMA",
+      "checksum": "54730c867c6e1148536fdcb370e63a7762d989ea87b62488ad4caff64d43f263"
+    },
+    {
       "name": "BFpilot",
       "filename": "BFpilot_v0.4.4.elf",
       "url": "https://github.com/ItsBlurf/BFpilot/releases/download/v0.4.4/bfpilot.elf",
@@ -134,6 +158,18 @@
       "checksum": "7d4b31c83eae4e056580482a3a074e1db25922efc74ac1e439473b45d71a5938"
     },
     {
+      "name": "PS5 File Explorer",
+      "filename": "file-explorer-core.elf",
+      "url": "https://github.com/juma-sayeh/PS5-File-Explorer/releases/download/file-explorer-v0.2.1/file-explorer-core.elf",
+      "source": "https://github.com/juma-sayeh/PS5-File-Explorer/releases",
+      "source_direct": "https://github.com/juma-sayeh/PS5-File-Explorer/releases/download/file-explorer-v0.2.1/file-explorer-core.elf",
+      "description": "Explorador web para copiar, mover, subir y extraer ZIP/RAR en la PS5. Se usa la build Core recomendada por el autor para maxima compatibilidad. ESTADO: ESTABILIDAD NO DOCUMENTADA.",
+      "last_update": "2026-06-19",
+      "version": "file-explorer-v0.2.1",
+      "category": "ARCHIVOS / PC",
+      "checksum": "6d4b905b42727dddeaedddb2a657ed0d4e7110ddd068a6daab0aafb2ba32604b"
+    },
+    {
       "name": "PS5 Web File Manager",
       "filename": "ps5-web-file-manager_v1.8.elf",
       "url": "https://github.com/owendswang/ps5-web-file-manager/releases/download/v1.8/web-file-mgr-v1.8.elf",
@@ -156,6 +192,18 @@
       "version": "v5.17.10",
       "category": "ARCHIVOS / PC",
       "checksum": "4039b181fb44d68f05f9d8d8e62062eef39202a2c2b8f3a75cfc3c78dae39a03"
+    },
+    {
+      "name": "singleDPI",
+      "filename": "singleDPI.elf",
+      "url": "https://github.com/MaxMilu/ps5-direct-package-installer/releases/download/0.1.0/singleDPI.elf",
+      "source": "https://github.com/MaxMilu/ps5-direct-package-installer/releases",
+      "source_direct": "https://github.com/MaxMilu/ps5-direct-package-installer/releases/download/0.1.0/singleDPI.elf",
+      "description": "Direct Package Installer independiente de etaHEN. Requiere kstuff compatible; acepta instalaciones remotas por DPI v1 y por el endpoint HTTP DPI v2 experimental. ESTADO: EXPERIMENTAL. COMPATIBILIDAD: probado por el autor en FW 5.50; otros FW requieren validacion.",
+      "last_update": "2026-06-21",
+      "version": "0.1.0",
+      "category": "PKG / INSTALACION",
+      "checksum": "38b96a3c3bfd8f2094d7e69ad2776621184b718f24744c29cbedb2640aae11b2"
     },
     {
       "name": "APR Emu Updater",
@@ -218,6 +266,18 @@
       "checksum": "b6d366f4101fa2fcc14a353d083ef7e45e1cc86ef457bb20502bd8680dce4d73"
     },
     {
+      "name": "Lapy JB Daemon",
+      "filename": "lapy_jb_daemon.elf",
+      "url": "https://raw.githubusercontent.com/ArkSama/PS5-Lapy-JB-Daemon/main/lapy_jb_daemon.elf",
+      "source": "https://github.com/ArkSama/PS5-Lapy-JB-Daemon",
+      "source_direct": "https://raw.githubusercontent.com/ArkSama/PS5-Lapy-JB-Daemon/main/lapy_jb_daemon.elf",
+      "description": "Daemon jailbreak-on-demand para aplicaciones que esperan la API de etaHEN. No requiere etaHEN, pero sí kstuff activo. ESTADO: RELEASE OFICIAL / STACK MODULAR. COMPATIBILIDAD: FW 3.00-12.00.",
+      "last_update": "2026-05-07",
+      "version": "1.2",
+      "category": "UTILIDADES",
+      "checksum": "e8230ac4597b8f0388e75d7515ad1a2e251c4589cc3b8d56a483ffae73627eed"
+    },
+    {
       "name": "np-fake-signin",
       "filename": "np-fake-signin.elf",
       "url": "https://github.com/earthonion/np-fake-signin/releases/download/1.1/np-fake-signin-ps5.elf",
@@ -266,6 +326,42 @@
       "checksum": "2005b5e169dc360c52b9033cc02bce4169a9d4a078627c543b9bbcf66607b9d5"
     },
     {
+      "name": "A53 PPR Install Fast",
+      "filename": "a53_ppr_install_fast.elf",
+      "url": "https://hiddenkernellab.github.io/PLM-Repository/payloads/fpkg-tests/a53_ppr_install_fast.elf",
+      "source": "Discord de Drakmor (fpkg-test-reports-only)",
+      "source_direct": "https://hiddenkernellab.github.io/PLM-Repository/payloads/fpkg-tests/a53_ppr_install_fast.elf",
+      "description": "Payload que instala en memoria el parche PPR del A53 para el flujo FPKG. La build fast activa por defecto el transporte rapido, persistente, batch y mixed-I/O; permite restaurar el estado original mediante la accion de desinstalacion. ESTADO: PRUEBA FPKG / A53. COMPATIBILIDAD: perfiles incluidos hasta FW 11.40.",
+      "last_update": "2026-09-11",
+      "version": "TEST-493edba4",
+      "category": "PRUEBAS FPKG",
+      "checksum": "493edba41218af73da68ea54d68e4b8e7b0e728edfdeea9fe397cc5c3edec8ce"
+    },
+    {
+      "name": "kstuff-lite FPKG",
+      "filename": "kstuff-lite_v1.12-fpkg-test3.elf",
+      "url": "https://hiddenkernellab.github.io/PLM-Repository/payloads/fpkg-tests/kstuff.elf",
+      "source": "Discord de Drakmor (fpkg-test-reports-only)",
+      "source_direct": "https://hiddenkernellab.github.io/PLM-Repository/payloads/fpkg-tests/kstuff.elf",
+      "description": "Build experimental de kstuff-lite preparada para las pruebas de FPKG nativos. No sustituye a la version recomendada de ESENCIALES salvo que se quiera probar FPKG. ESTADO: PRUEBA FPKG. COMPATIBILIDAD: FW compatibles hasta 11.40.",
+      "last_update": "2026-09-11",
+      "version": "1.12-fpkg-test3",
+      "category": "PRUEBAS FPKG",
+      "checksum": "5183b3d4506002ca722a0dd2d09515bcd7cfe4710be5d4fb9c00b58134d8f223"
+    },
+    {
+      "name": "ShadowMountPlus FPKG",
+      "filename": "shadowmountplus_v1.7alpha13fix1-11-g2424c9.elf",
+      "url": "https://hiddenkernellab.github.io/PLM-Repository/payloads/fpkg-tests/shadowmountplus.elf",
+      "source": "Discord de Drakmor (fpkg-test-reports-only)",
+      "source_direct": "https://hiddenkernellab.github.io/PLM-Repository/payloads/fpkg-tests/shadowmountplus.elf",
+      "description": "Build experimental de ShadowMountPlus usada en las pruebas de FPKG nativos. Mantener separada de la rama recomendada de ESENCIALES. ESTADO: PRUEBA FPKG. COMPATIBILIDAD: FW compatibles hasta 11.40.",
+      "last_update": "2026-09-11",
+      "version": "1.7alpha13fix1-11-g2424c9",
+      "category": "PRUEBAS FPKG",
+      "checksum": "4780da117d7bc72c9e4f4485afd65806998feac2c39faba4116ae284ce601837"
+    },
+    {
       "name": "etaHEN",
       "filename": "etaHEN-2.6B.bin",
       "url": "https://raw.githubusercontent.com/zecoxao/zecoxao.github.io/main/luasauce/payloads/etaHEN-2.6B.bin",
@@ -276,18 +372,6 @@
       "version": "2.6B",
       "category": "ALTERNATIVOS",
       "checksum": "512c74a9d6f56bb5a4ab871a0306a8cbefb8b3d5454ba8f1d833b020b245a126"
-    },
-    {
-      "name": "PLDMGR Install & Update",
-      "filename": "HK-PLDMGR-Install-Update.elf",
-      "url": "https://github.com/hiddenkernellab/PLDMGR-install-update/releases/download/v0.1.1-beta/HK-PLDMGR-Install-Update.elf",
-      "source": "https://github.com/hiddenkernellab/PLDMGR-install-update/releases",
-      "source_direct": "https://github.com/hiddenkernellab/PLDMGR-install-update/releases/download/v0.1.1-beta/HK-PLDMGR-Install-Update.elf",
-      "description": "Instala, repara y actualiza PS5 Payload Manager y vuelve a crear su archivo de autoload. ESTADO: EN PRUEBAS.",
-      "last_update": "2026-09-09",
-      "version": "v0.1.1-beta",
-      "category": "ALTERNATIVOS",
-      "checksum": "6881b9df8ac9c295f06ae2e581d8b5cb444be81d0d1c47ca0a3d366d4c898671"
     },
     {
       "name": "ShadowMountPlus",

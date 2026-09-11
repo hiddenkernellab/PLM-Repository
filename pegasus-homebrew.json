@@ -9,7 +9,7 @@
       "downloadSource": "https://github.com/cy33hc/ps5-ezremote-client",
       "downloadLinks": [
         {
-          "name": "Oficial / verificado",
+          "name": "Descarga",
           "url": "https://github.com/cy33hc/ps5-ezremote-client/releases/download/2.11/Ps5_ezRemote_Client_2.00.pkg"
         }
       ],
@@ -19,24 +19,25 @@
       "titleId": "FAKE00000",
       "title": "Homebrew Launcher (websrv)",
       "version": "v0.34",
-      "description": "Acceso directo al launcher de ps5-payload-websrv. Requiere websrv activo y las apps en /data/homebrew o almacenamiento externo compatible.",
+      "description": "Acceso directo oficial al Homebrew Launcher. Requiere websrv activo; websrv busca aplicaciones en /data/homebrew y tambien en almacenamiento USB/extendido.",
       "downloadSource": "https://github.com/ps5-payload-dev/websrv",
       "downloadLinks": [
         {
-          "name": "Oficial / verificado",
+          "name": "Descarga",
           "url": "https://raw.githubusercontent.com/ps5-payload-dev/websrv/v0.34/homebrew/IV9999-FAKE00000_00-HOMEBREWLOADER01.pkg"
         }
-      ]
+      ],
+      "sizeBytes": 18168015
     },
     {
       "titleId": "LAPY20011",
       "title": "PS5-Xplorer",
       "version": "1.05",
-      "description": "Explorador de archivos para PS5 de Lapy. En un stack modular puede usarse con kstuff + Lapy JB Daemon, sin cargar etaHEN completo.",
+      "description": "Explorador de archivos para PS5 de Lapy. Puede usarse con kstuff + Lapy JB Daemon sin cargar etaHEN completo.",
       "downloadSource": "https://pkg-zone.com/details/LAPY20011",
       "downloadLinks": [
         {
-          "name": "Mirror verificado",
+          "name": "Descarga",
           "url": "https://github.com/nexgen999/Evox_PS5PKG_Private/releases/download/v1.0/PS5PKG_PS5-Xplorer_v1.05.pkg"
         }
       ],

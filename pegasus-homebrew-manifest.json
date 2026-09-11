@@ -3,18 +3,28 @@
   "policy": "Solo homebrew/utilidades legales. No juegos comerciales, DLC ni updates comerciales.",
   "packages": [
     {
-      "titleId": "RMTC00001",
-      "version": "2.00",
-      "sha256": "27059e236ac8e87110f2316870512669e67ab6e8d6b6ac8926673f368dda2b81",
-      "url": "https://github.com/cy33hc/ps5-ezremote-client/releases/download/2.11/Ps5_ezRemote_Client_2.00.pkg",
-      "bundleVersion": "2.11",
-      "provenance": "PKG oficial de la release de ps5-ezremote-client."
+      "titleId": "FAKE00000",
+      "version": "v0.34",
+      "url": "https://raw.githubusercontent.com/ps5-payload-dev/websrv/v0.34/homebrew/IV9999-FAKE00000_00-HOMEBREWLOADER01.pkg",
+      "sha256": "c737b79be8c47b89b2e4e38ca404cdad6d30c0ff659aaf25c7e9ea1368341434",
+      "sizeBytes": 18168015,
+      "provenance": "PKG oficial incluido en ps5-payload-websrv."
     },
     {
       "titleId": "LAPY20011",
       "version": "1.05",
+      "url": "https://github.com/nexgen999/Evox_PS5PKG_Private/releases/download/v1.0/PS5PKG_PS5-Xplorer_v1.05.pkg",
       "sha256": "ea13710e6ffaf290f11bdafa890f76e530e3015cdac6d2cf4a14085c824e6039",
-      "url": "https://github.com/nexgen999/Evox_PS5PKG_Private/releases/download/v1.0/PS5PKG_PS5-Xplorer_v1.05.pkg"
+      "provenance": "PKG de PS5-Xplorer 1.05; mirror publico verificado por SHA-256."
+    },
+    {
+      "titleId": "RMTC00001",
+      "version": "2.00",
+      "bundleVersion": "2.11",
+      "url": "https://github.com/cy33hc/ps5-ezremote-client/releases/download/2.11/Ps5_ezRemote_Client_2.00.pkg",
+      "sha256": "27059e236ac8e87110f2316870512669e67ab6e8d6b6ac8926673f368dda2b81",
+      "sizeBytes": 10106672,
+      "provenance": "PKG oficial de la release de ps5-ezremote-client."
     }
   ]
 }
