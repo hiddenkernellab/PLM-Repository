@@ -26,18 +26,6 @@
       "checksum": "dcb845f3570771275b22b37534bf924a7f8ae219fb91ef00c6bccab85d1c2420"
     },
     {
-      "name": "PS5 Payload Manager",
-      "filename": "pldmgr_v0.5.1.elf",
-      "url": "https://github.com/itsPLK/ps5-payload-manager/releases/download/v0.5.1/pldmgr_v0.5.1.elf",
-      "source": "https://github.com/itsPLK/ps5-payload-manager/releases",
-      "source_direct": "https://github.com/itsPLK/ps5-payload-manager/releases/download/v0.5.1/pldmgr_v0.5.1.elf",
-      "description": "Gestor web para instalar, ordenar, ejecutar y actualizar payloads y configurar el autoload desde PS5, PC o un telefono. ESTADO: ESTABILIDAD NO DOCUMENTADA.",
-      "last_update": "2026-08-02",
-      "version": "v0.5.1",
-      "category": "ESENCIALES",
-      "checksum": "05617c69ea145d1c11b8f7a6b7d3bd9e6df3831afd25d71a4ac85d63fb8e28aa"
-    },
-    {
       "name": "ShadowMountPlus",
       "filename": "ShadowMountPlus_1.6beta16.elf",
       "url": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.6beta16/shadowmountplus.elf",
@@ -50,18 +38,6 @@
       "checksum": "a35246fb3bb6042b25653b51cdcbc33254b40339342bf1d2dd0d2eceee2ca526"
     },
     {
-      "name": "ShadowMountPlus",
-      "filename": "shadowmountplus_v1.7alpha13fix1.elf",
-      "url": "https://hiddenkernellab.github.io/PLM-Repository/payloads/ShadowMountPlus/1.7alpha13fix1/shadowmountplus_v1.7alpha13fix1.elf",
-      "source": "https://github.com/drakmor/ShadowMountPlus/releases",
-      "source_direct": "https://hiddenkernellab.github.io/PLM-Repository/payloads/ShadowMountPlus/1.7alpha13fix1/shadowmountplus_v1.7alpha13fix1.elf",
-      "description": "Monta y registra juegos desde almacenamiento interno o externo. Se mantiene la rama 1.6beta16 y las 1.7 alpha por separado. ESTADO: EXPERIMENTAL.",
-      "last_update": "2026-09-04",
-      "version": "1.7alpha13fix1",
-      "category": "ESENCIALES",
-      "checksum": "15af22e6cefefbcc9f16f137b5255b6b94d546788ba5f404dc9220da4759a6ff"
-    },
-    {
       "name": "etaHEN",
       "filename": "etaHEN_2.5B.bin",
       "url": "https://github.com/etaHEN/etaHEN/releases/download/2.5B/etaHEN-2.5B.bin",
@@ -72,18 +48,6 @@
       "version": "2.5B",
       "category": "HEN / AIO",
       "checksum": "4845cac45095361b8983b14d6690622183b0dcfbf6d7fda16e161aa91ff0531e"
-    },
-    {
-      "name": "etaHEN",
-      "filename": "etaHEN-2.6B.bin",
-      "url": "https://raw.githubusercontent.com/zecoxao/zecoxao.github.io/main/luasauce/payloads/etaHEN-2.6B.bin",
-      "source": "https://github.com/zecoxao/zecoxao.github.io/blob/main/luasauce/payloads/etaHEN-2.6B.bin",
-      "source_direct": "https://raw.githubusercontent.com/zecoxao/zecoxao.github.io/main/luasauce/payloads/etaHEN-2.6B.bin",
-      "description": "Build de pruebas de etaHEN con Toolbox, plugins, trucos y servicios integrados. ESTADO: EN PRUEBAS. COMPATIBILIDAD: hasta FW 12.70.",
-      "last_update": "2026-08-18",
-      "version": "2.6B",
-      "category": "HEN / AIO",
-      "checksum": "512c74a9d6f56bb5a4ab871a0306a8cbefb8b3d5454ba8f1d833b020b245a126"
     },
     {
       "name": "OnionHEN",
@@ -120,18 +84,6 @@
       "version": "v1.6.22",
       "category": "SISTEMA",
       "checksum": "ee8f47e4d6a5fd85cef113341aa1eb74d68e373a58fcb1fb5a9274acd2b83bd2"
-    },
-    {
-      "name": "PLDMGR Install & Update",
-      "filename": "HK-PLDMGR-Install-Update.elf",
-      "url": "https://github.com/hiddenkernellab/PLDMGR-install-update/releases/download/v0.1.1-beta/HK-PLDMGR-Install-Update.elf",
-      "source": "https://github.com/hiddenkernellab/PLDMGR-install-update/releases",
-      "source_direct": "https://github.com/hiddenkernellab/PLDMGR-install-update/releases/download/v0.1.1-beta/HK-PLDMGR-Install-Update.elf",
-      "description": "Instala, repara y actualiza PS5 Payload Manager y vuelve a crear su archivo de autoload. ESTADO: EN PRUEBAS.",
-      "last_update": "2026-09-09",
-      "version": "v0.1.1-beta",
-      "category": "SISTEMA",
-      "checksum": "6881b9df8ac9c295f06ae2e581d8b5cb444be81d0d1c47ca0a3d366d4c898671"
     },
     {
       "name": "ProsperoMgr",
@@ -195,15 +147,15 @@
     },
     {
       "name": "ps5upload",
-      "filename": "ps5upload_v5.17.8.elf",
-      "url": "https://github.com/phantomptr/ps5upload/releases/download/v5.17.8/ps5upload-5.17.8.elf",
+      "filename": "ps5upload_v5.17.10.elf",
+      "url": "https://github.com/phantomptr/ps5upload/releases/download/v5.17.10/ps5upload-5.17.10.elf",
       "source": "https://github.com/phantomptr/ps5upload/releases",
-      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v5.17.8/ps5upload-5.17.8.elf",
+      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v5.17.10/ps5upload-5.17.10.elf",
       "description": "Transfiere archivos entre PS5 y PC/Android con control de integridad y soporte para reanudar envios. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 1.00-12.70; probado en hardware en 5.10, 9.60 y 12.20.",
-      "last_update": "2026-09-10",
-      "version": "v5.17.8",
+      "last_update": "2026-09-11",
+      "version": "v5.17.10",
       "category": "ARCHIVOS / PC",
-      "checksum": "89298249535d3f7c9be489ff2f7d8757093b6f4029dd7eb28caf85028f572e85"
+      "checksum": "4039b181fb44d68f05f9d8d8e62062eef39202a2c2b8f3a75cfc3c78dae39a03"
     },
     {
       "name": "APR Emu Updater",
@@ -278,6 +230,18 @@
       "checksum": "6a38ee251b2252ae6752bf23f4f22d970d449731cfe69c1f513f18670efd5314"
     },
     {
+      "name": "PoorDS4",
+      "filename": "PoorDS4rc38.elf",
+      "url": "https://github.com/ItsBlurf/PoorDS4/releases/download/v0.1.0-rc38/PoorDS4rc38.elf",
+      "source": "https://github.com/ItsBlurf/PoorDS4/releases",
+      "source_direct": "https://github.com/ItsBlurf/PoorDS4/releases/download/v0.1.0-rc38/PoorDS4rc38.elf",
+      "description": "Permite usar un DualShock 4 inalambrico en juegos nativos de PS5. Proyecto experimental; la compatibilidad depende del firmware y del juego. ESTADO: PRUEBAS EN HARDWARE.",
+      "last_update": "2026-08-08",
+      "version": "v0.1.0-rc38",
+      "category": "MANDOS",
+      "checksum": "62d21fe837ee53dd4291e45d99259d4557def05e2d4196ab54e020ba28b5399e"
+    },
+    {
       "name": "Pegasus DL",
       "filename": "pegasus-dl_v1.8.0.elf",
       "url": "https://github.com/pegasus-ps5/pegasus-dl/releases/download/v1.8.0/pegasus_dl.elf",
@@ -300,6 +264,42 @@
       "version": "1.4.4",
       "category": "DESCARGAS",
       "checksum": "2005b5e169dc360c52b9033cc02bce4169a9d4a078627c543b9bbcf66607b9d5"
+    },
+    {
+      "name": "etaHEN",
+      "filename": "etaHEN-2.6B.bin",
+      "url": "https://raw.githubusercontent.com/zecoxao/zecoxao.github.io/main/luasauce/payloads/etaHEN-2.6B.bin",
+      "source": "https://github.com/zecoxao/zecoxao.github.io/blob/main/luasauce/payloads/etaHEN-2.6B.bin",
+      "source_direct": "https://raw.githubusercontent.com/zecoxao/zecoxao.github.io/main/luasauce/payloads/etaHEN-2.6B.bin",
+      "description": "Build de pruebas de etaHEN con Toolbox, plugins, trucos y servicios integrados. ESTADO: EN PRUEBAS. COMPATIBILIDAD: hasta FW 12.70.",
+      "last_update": "2026-08-18",
+      "version": "2.6B",
+      "category": "ALTERNATIVOS",
+      "checksum": "512c74a9d6f56bb5a4ab871a0306a8cbefb8b3d5454ba8f1d833b020b245a126"
+    },
+    {
+      "name": "PLDMGR Install & Update",
+      "filename": "HK-PLDMGR-Install-Update.elf",
+      "url": "https://github.com/hiddenkernellab/PLDMGR-install-update/releases/download/v0.1.1-beta/HK-PLDMGR-Install-Update.elf",
+      "source": "https://github.com/hiddenkernellab/PLDMGR-install-update/releases",
+      "source_direct": "https://github.com/hiddenkernellab/PLDMGR-install-update/releases/download/v0.1.1-beta/HK-PLDMGR-Install-Update.elf",
+      "description": "Instala, repara y actualiza PS5 Payload Manager y vuelve a crear su archivo de autoload. ESTADO: EN PRUEBAS.",
+      "last_update": "2026-09-09",
+      "version": "v0.1.1-beta",
+      "category": "ALTERNATIVOS",
+      "checksum": "6881b9df8ac9c295f06ae2e581d8b5cb444be81d0d1c47ca0a3d366d4c898671"
+    },
+    {
+      "name": "ShadowMountPlus",
+      "filename": "shadowmountplus_v1.7alpha13fix1.elf",
+      "url": "https://hiddenkernellab.github.io/PLM-Repository/payloads/ShadowMountPlus/1.7alpha13fix1/shadowmountplus_v1.7alpha13fix1.elf",
+      "source": "https://github.com/drakmor/ShadowMountPlus/releases",
+      "source_direct": "https://hiddenkernellab.github.io/PLM-Repository/payloads/ShadowMountPlus/1.7alpha13fix1/shadowmountplus_v1.7alpha13fix1.elf",
+      "description": "Monta y registra juegos desde almacenamiento interno o externo. Se mantiene la rama 1.6beta16 y las 1.7 alpha por separado. ESTADO: EXPERIMENTAL.",
+      "last_update": "2026-09-04",
+      "version": "1.7alpha13fix1",
+      "category": "ALTERNATIVOS",
+      "checksum": "15af22e6cefefbcc9f16f137b5255b6b94d546788ba5f404dc9220da4759a6ff"
     }
   ]
 }
