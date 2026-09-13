@@ -16,9 +16,11 @@ import os
 import re
 import urllib.parse
 import urllib.request
+from html import unescape
+from html.parser import HTMLParser
 from pathlib import Path
 
-UA = "HiddenKernel-PKG-Catalog/1.2"
+UA = "HiddenKernel-PKG-Catalog/1.3"
 TOKEN = os.getenv("GITHUB_TOKEN", "")
 OUT = Path("pegasus-homebrew.json")
 MANIFEST = Path("pegasus-homebrew-manifest.json")
@@ -37,6 +39,24 @@ ITEMZFLOW_POSTER = (
     "9126e4788eb8a9d9657b8096ec7e25eb3bc9ab8d/"
     "App-Media-Assets/sce_sys/icon0.png"
 )
+
+PAGES = "https://hiddenkernellab.github.io/PLM-Repository"
+PKGZONE_BASE = "https://pkg-zone.com"
+PKGZONE_COVER_DIR = Path("pkgzone-covers")
+PKGZONE_MAX_PAGES = 20
+PKGZONE_AUTO_SOURCE_TYPE = "pkg-zone-auto"
+
+# Importación automática conservadora:
+# se admiten utilidades, emuladores y homebrew. No se autoimportan Media,
+# Retail PKG, DLC, Update ni Game genérico, porque esas categorías pueden
+# contener binarios comerciales o contenido cuya redistribución no esté clara.
+PKGZONE_ALLOWED_CATEGORIES = {
+    "utility",
+    "emulator",
+    "homebrew",
+    "hb game",
+    "homebrew game",
+}
 
 _nexgen_cache = None
 
@@ -60,6 +80,281 @@ def request_bytes(url):
     req = urllib.request.Request(url, headers=_headers(False))
     with urllib.request.urlopen(req, timeout=180) as r:
         return r.read()
+
+
+def request_text(url):
+    data = request_bytes(url)
+    return data.decode("utf-8", errors="replace")
+
+
+def _clean_html(fragment):
+    s = re.sub(r"<[^>]+>", " ", str(fragment or ""), flags=re.S)
+    s = unescape(s)
+    s = re.sub(r"\s+", " ", s).strip()
+    return s
+
+
+class _TextCollector(HTMLParser):
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.items = []
+
+    def handle_data(self, data):
+        value = re.sub(r"\s+", " ", data or "").strip()
+        if value:
+            self.items.append(value)
+
+
+def _next_text_value(items, label):
+    wanted = str(label).strip().casefold()
+    for i, value in enumerate(items):
+        if str(value).strip().casefold() == wanted:
+            for candidate in items[i + 1:]:
+                candidate = str(candidate).strip()
+                if candidate:
+                    return candidate
+    return ""
+
+
+def parse_pkgzone_cards(page_html):
+    """Extrae las tarjetas que PKG-Zone marca explícitamente como PS5."""
+    blocks = re.findall(
+        r'<article\b[^>]*class=["\'][^"\']*\bpkg\b[^"\']*["\'][^>]*>(.*?)</article>',
+        page_html,
+        flags=re.I | re.S,
+    )
+    cards = []
+
+    for block in blocks:
+        plain = _clean_html(block)
+        if "supports ps5" not in plain.casefold():
+            continue
+
+        m_id = re.search(r'/details/([^"\'/?#<>\s]+)', block, flags=re.I)
+        if not m_id:
+            continue
+        title_id = urllib.parse.unquote(m_id.group(1)).strip()
+        if not re.fullmatch(r"[A-Za-z0-9._-]{4,40}", title_id):
+            continue
+
+        m_title = re.search(
+            r'class=["\'][^"\']*\btitle\b[^"\']*\bfont-bold\b[^"\']*["\'][^>]*>(.*?)</div>',
+            block,
+            flags=re.I | re.S,
+        )
+        title = _clean_html(m_title.group(1)) if m_title else title_id
+
+        m_version = re.search(
+            r'class=["\'][^"\']*\bnumber\b[^"\']*["\'][^>]*>(.*?)</div>',
+            block,
+            flags=re.I | re.S,
+        )
+        version_text = _clean_html(m_version.group(1)) if m_version else ""
+        version = re.split(r"\|\s*Supports\s+PS5", version_text, flags=re.I)[0].strip()
+        version = normalize_version(version)
+
+        m_author = re.search(
+            r'class=["\'][^"\']*dark:text-gray-300[^"\']*["\'][^>]*>(.*?)</div>',
+            block,
+            flags=re.I | re.S,
+        )
+        author = _clean_html(m_author.group(1)) if m_author else ""
+        if author in {"-//-", "--"}:
+            author = ""
+
+        cards.append({
+            "titleId": title_id,
+            "title": title,
+            "version": version,
+            "author": author,
+        })
+
+    return cards
+
+
+def discover_pkgzone_ps5():
+    """Recorre las páginas filtradas para PS5 y devuelve cada Title ID una vez."""
+    found = {}
+    for page in range(1, PKGZONE_MAX_PAGES + 1):
+        query = urllib.parse.urlencode({"console": "ps5", "page": page})
+        url = f"{PKGZONE_BASE}/?{query}"
+        html = request_text(url)
+        cards = parse_pkgzone_cards(html)
+
+        if not cards:
+            break
+
+        added = 0
+        for card in cards:
+            tid = card["titleId"]
+            if tid not in found:
+                found[tid] = card
+                added += 1
+
+        # Si una página repite exactamente las tarjetas anteriores, hemos
+        # alcanzado el final aunque el sitio siga devolviendo HTML válido.
+        if added == 0:
+            break
+
+    if not found:
+        raise RuntimeError("PKG-Zone no devolvió ninguna tarjeta PS5")
+    return list(found.values())
+
+
+def pkgzone_detail_metadata(title_id):
+    url = f"{PKGZONE_BASE}/details/{urllib.parse.quote(title_id, safe='')}"
+    html = request_text(url)
+    parser = _TextCollector()
+    parser.feed(html)
+    items = parser.items
+
+    category = _next_text_value(items, "Category")
+    author = _next_text_value(items, "Author")
+    updated = _next_text_value(items, "Updated")
+
+    # En algunas fichas Author puede estar vacío y la siguiente etiqueta es User.
+    if author.casefold() in {"user", "image", "show apps from user share"}:
+        author = ""
+
+    return {
+        "detailsUrl": url,
+        "category": category.strip(),
+        "author": author.strip(),
+        "updated": updated.strip(),
+    }
+
+
+def pkgzone_category_allowed(category):
+    value = re.sub(r"\s+", " ", str(category or "")).strip().casefold()
+    if value in PKGZONE_ALLOWED_CATEGORIES:
+        return True
+    return "homebrew" in value or value.startswith("hb ")
+
+
+def mirror_pkgzone_cover(title_id, previous_poster=""):
+    PKGZONE_COVER_DIR.mkdir(parents=True, exist_ok=True)
+    source = f"{PKGZONE_BASE}/images/{urllib.parse.quote(title_id, safe='')}/cover.png"
+    dest = PKGZONE_COVER_DIR / f"{title_id}.png"
+
+    try:
+        data = request_bytes(source)
+        # PKG-Zone publica cover.png. Evitamos commitear una página HTML de error.
+        if not data.startswith(b"\x89PNG\r\n\x1a\n"):
+            raise RuntimeError("la portada no es PNG")
+        if not dest.exists() or dest.read_bytes() != data:
+            dest.write_bytes(data)
+        return f"{PAGES}/{dest.as_posix()}"
+    except Exception as exc:
+        if previous_poster:
+            print(f"  AVISO portada {title_id}: {exc}. Se conserva la anterior.")
+            return previous_poster
+        print(f"  AVISO portada {title_id}: {exc}. Se usa la portada directa.")
+        return source
+
+
+def previous_pkgzone_auto(previous_catalog, previous_manifest, reserved_ids):
+    packages = []
+    manifest = []
+    for title_id, meta in previous_manifest.items():
+        if title_id in reserved_ids:
+            continue
+        if meta.get("sourceType") != PKGZONE_AUTO_SOURCE_TYPE:
+            continue
+        pkg = previous_catalog.get(title_id)
+        if pkg:
+            packages.append(pkg)
+            manifest.append(meta)
+    return packages, manifest
+
+
+def build_pkgzone_auto(previous_catalog, previous_manifest, reserved_ids):
+    packages = []
+    manifest = []
+
+    for card in discover_pkgzone_ps5():
+        title_id = card["titleId"]
+        if title_id in reserved_ids:
+            continue
+
+        old_pkg = previous_catalog.get(title_id, {})
+        old_meta = previous_manifest.get(title_id, {})
+
+        try:
+            detail = pkgzone_detail_metadata(title_id)
+        except Exception as exc:
+            if old_pkg and old_meta.get("sourceType") == PKGZONE_AUTO_SOURCE_TYPE:
+                packages.append(old_pkg)
+                manifest.append(old_meta)
+                print(f"AVISO PKG-Zone {title_id}: {exc}. Se conserva la entrada anterior.")
+                continue
+            print(f"AVISO PKG-Zone {title_id}: no se pudo leer la ficha ({exc}); se omite.")
+            continue
+
+        category = detail.get("category", "")
+        if not pkgzone_category_allowed(category):
+            print(f"OMITIDO PKG-Zone {title_id}: categoría {category or 'desconocida'}")
+            continue
+
+        title = card.get("title") or title_id
+        version = normalize_version(card.get("version"))
+        author = detail.get("author") or card.get("author") or ""
+        download_url = f"{PKGZONE_BASE}/download/ps5/{urllib.parse.quote(title_id, safe='')}/latest"
+        source = detail["detailsUrl"]
+        poster = mirror_pkgzone_cover(title_id, str(old_pkg.get("posterUrl") or ""))
+
+        author_text = f" de {author}" if author else ""
+        description = (
+            f"{title}{author_text}. Entrada PS5 detectada automáticamente en PKG-Zone. "
+            f"Categoría: {category}. Fuente externa; HiddenKernel enlaza el PKG original y no lo redistribuye."
+        )
+
+        pkg = package(
+            title_id,
+            title,
+            version,
+            description,
+            source,
+            download_url,
+            None,
+            poster,
+        )
+
+        meta = {
+            "titleId": title_id,
+            "version": version,
+            "url": download_url,
+            "posterUrl": poster,
+            "category": category,
+            "author": author,
+            "updated": detail.get("updated", ""),
+            "sourceType": PKGZONE_AUTO_SOURCE_TYPE,
+            "verification": "PKG-Zone HTTPS source; no SHA-256 local",
+            "provenance": (
+                "Detectado automáticamente en el catálogo PS5 de PKG-Zone y "
+                "filtrado a categorías homebrew/utilidad permitidas."
+            ),
+        }
+        packages.append(pkg)
+        manifest.append(meta)
+        print(f"OK PKG-Zone {title}: {version} [{category}]")
+
+    return packages, manifest
+
+
+def cleanup_pkgzone_covers(packages):
+    if not PKGZONE_COVER_DIR.exists():
+        return
+
+    prefix = f"{PAGES}/{PKGZONE_COVER_DIR.as_posix()}/"
+    keep = set()
+    for pkg in packages:
+        poster = str(pkg.get("posterUrl") or "")
+        if poster.startswith(prefix):
+            keep.add(PKGZONE_COVER_DIR / poster[len(prefix):])
+
+    for path in PKGZONE_COVER_DIR.glob("*"):
+        if path.is_file() and path not in keep:
+            path.unlink()
 
 
 def github_latest(repo):
@@ -356,7 +651,17 @@ def validate(packages, manifest):
     by_id = {m.get("titleId"): m for m in manifest}
     for tid in seen:
         m = by_id.get(tid)
-        if not m or not valid_sha(m.get("sha256")):
+        if not m:
+            raise RuntimeError(f"Manifest ausente: {tid}")
+
+        if m.get("sourceType") == PKGZONE_AUTO_SOURCE_TYPE:
+            url = str(m.get("url") or "")
+            expected = f"{PKGZONE_BASE}/download/ps5/{tid}/"
+            if not url.startswith(expected):
+                raise RuntimeError(f"URL PKG-Zone inesperada para {tid}: {url}")
+            continue
+
+        if not valid_sha(m.get("sha256")):
             raise RuntimeError(f"Manifest sin SHA-256 valido: {tid}")
 
 
@@ -392,7 +697,29 @@ def main():
                     f"{title_id}: {exc}; no hay una entrada anterior valida"
                 ) from exc
 
+    reserved_ids = {title_id for title_id, _ in builders}
+    try:
+        auto_packages, auto_manifest = build_pkgzone_auto(
+            previous_catalog, previous_manifest, reserved_ids
+        )
+        packages.extend(auto_packages)
+        manifest.extend(auto_manifest)
+    except Exception as exc:
+        old_packages, old_manifest = previous_pkgzone_auto(
+            previous_catalog, previous_manifest, reserved_ids
+        )
+        if old_packages:
+            packages.extend(old_packages)
+            manifest.extend(old_manifest)
+            print(
+                f"AVISO PKG-Zone: {exc}. Se conservan "
+                f"{len(old_packages)} entradas automáticas anteriores."
+            )
+        else:
+            print(f"AVISO PKG-Zone: {exc}. No hay entradas automáticas previas.")
+
     validate(packages, manifest)
+    cleanup_pkgzone_covers(packages)
     packages.sort(key=lambda p: p["title"].casefold())
     manifest.sort(key=lambda p: p["titleId"].casefold())
 
@@ -404,7 +731,9 @@ def main():
     MANIFEST.write_text(
         json.dumps({
             "name": "HiddenKernel Homebrew integrity manifest",
-            "policy": "Solo homebrew/utilidades legales. No juegos comerciales, DLC ni updates comerciales.",
+            "policy": ("Solo homebrew/utilidades legales. Importación automática de PKG-Zone "
+                       "limitada a Utility/Emulator/Homebrew; no juegos comerciales, DLC, "
+                       "updates, Retail PKG ni Media comercial."),
             "packages": manifest,
         }, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
