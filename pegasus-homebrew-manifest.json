@@ -1,6 +1,6 @@
 {
   "name": "HiddenKernel Homebrew integrity manifest",
-  "policy": "Solo homebrew/utilidades legales. No juegos comerciales, DLC ni updates comerciales.",
+  "policy": "Solo homebrew/utilidades legales. Importación automática de PKG-Zone limitada a Utility/Emulator/Homebrew; no juegos comerciales, DLC, updates, Retail PKG ni Media comercial.",
   "packages": [
     {
       "titleId": "FAKE00000",
@@ -30,6 +30,18 @@
       "provenance": "PKG publico espejado por Nexgen y verificado contra el SHA-256 del asset de GitHub."
     },
     {
+      "titleId": "LAPY20012",
+      "version": "1.00",
+      "url": "https://pkg-zone.com/download/ps5/LAPY20012/latest",
+      "posterUrl": "https://hiddenkernellab.github.io/PLM-Repository/pkgzone-covers/LAPY20012.png",
+      "category": "Utility",
+      "author": "Lapy",
+      "updated": "2025-01-07 15:52",
+      "sourceType": "pkg-zone-auto",
+      "verification": "PKG-Zone HTTPS source; no SHA-256 local",
+      "provenance": "Detectado automáticamente en el catálogo PS5 de PKG-Zone y filtrado a categorías homebrew/utilidad permitidas."
+    },
+    {
       "titleId": "LAPY20016",
       "version": "1.00",
       "url": "https://github.com/nexgen999/Evox_PS5PKG_Private/releases/download/v1.0/PS5PKG_Avatar-Changer_v1.00.pkg",
@@ -37,6 +49,18 @@
       "sizeBytes": 64552960,
       "posterUrl": "https://pbs.twimg.com/media/Gl2XTLuXIAADCEL.jpg",
       "provenance": "PKG publico espejado por Nexgen y verificado contra el SHA-256 del asset de GitHub."
+    },
+    {
+      "titleId": "PKGI13337",
+      "version": "1.10.0",
+      "url": "https://pkg-zone.com/download/ps5/PKGI13337/latest",
+      "posterUrl": "https://hiddenkernellab.github.io/PLM-Repository/pkgzone-covers/PKGI13337.png",
+      "category": "Utility",
+      "author": "ItsJokerZz, Bucanero",
+      "updated": "2026-01-28 02:15",
+      "sourceType": "pkg-zone-auto",
+      "verification": "PKG-Zone HTTPS source; no SHA-256 local",
+      "provenance": "Detectado automáticamente en el catálogo PS5 de PKG-Zone y filtrado a categorías homebrew/utilidad permitidas."
     },
     {
       "titleId": "RMTC00001",

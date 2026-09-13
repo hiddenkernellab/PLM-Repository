@@ -32,6 +32,20 @@
       "sizeBytes": 10106672
     },
     {
+      "titleId": "PKGI13337",
+      "title": "FPKGi",
+      "version": "1.10.0",
+      "description": "FPKGi de ItsJokerZz, Bucanero. Entrada PS5 detectada automáticamente en PKG-Zone. Categoría: Utility. Fuente externa; HiddenKernel enlaza el PKG original y no lo redistribuye.",
+      "downloadSource": "https://pkg-zone.com/details/PKGI13337",
+      "downloadLinks": [
+        {
+          "name": "Descarga",
+          "url": "https://pkg-zone.com/download/ps5/PKGI13337/latest"
+        }
+      ],
+      "posterUrl": "https://hiddenkernellab.github.io/PLM-Repository/pkgzone-covers/PKGI13337.png"
+    },
+    {
       "titleId": "FAKE00000",
       "title": "Homebrew Launcher (websrv)",
       "version": "v0.34",
@@ -60,6 +74,20 @@
       ],
       "posterUrl": "https://raw.githubusercontent.com/LightningMods/Itemzflow/9126e4788eb8a9d9657b8096ec7e25eb3bc9ab8d/App-Media-Assets/sce_sys/icon0.png",
       "sizeBytes": 62849024
+    },
+    {
+      "titleId": "LAPY20012",
+      "title": "PS5 Temperature",
+      "version": "1.00",
+      "description": "PS5 Temperature de Lapy. Entrada PS5 detectada automáticamente en PKG-Zone. Categoría: Utility. Fuente externa; HiddenKernel enlaza el PKG original y no lo redistribuye.",
+      "downloadSource": "https://pkg-zone.com/details/LAPY20012",
+      "downloadLinks": [
+        {
+          "name": "Descarga",
+          "url": "https://pkg-zone.com/download/ps5/LAPY20012/latest"
+        }
+      ],
+      "posterUrl": "https://hiddenkernellab.github.io/PLM-Repository/pkgzone-covers/LAPY20012.png"
     },
     {
       "titleId": "LAPY20011",
