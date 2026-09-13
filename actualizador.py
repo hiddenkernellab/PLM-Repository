@@ -193,13 +193,13 @@ FIXED = [
     # Se espejan localmente para no depender de enlaces temporales de Discord.
     dict(
         name="kstuff-lite FPKG",
-        filename="kstuff-lite_v1.12-fpkg-test3.elf",
+        filename="kstuff-lite_v1.12-fpkg-test5.elf",
         local_path="payloads/fpkg-tests/kstuff.elf",
-        expected_checksum="5183b3d4506002ca722a0dd2d09515bcd7cfe4710be5d4fb9c00b58134d8f223",
+        expected_checksum="97a80ed7ca9c5c62ada5a6a2dd7d032f1e89e6626d6da0b927518e11a3187b43",
         required=True,
         source="Discord de Drakmor (fpkg-test-reports-only)",
-        version="1.12-fpkg-test3",
-        date="2026-09-11",
+        version="1.12-fpkg-test5",
+        date="2026-09-13",
         channel="alpha",
         category="PRUEBAS FPKG",
         status="PRUEBA FPKG",
