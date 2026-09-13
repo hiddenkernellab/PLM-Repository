@@ -187,7 +187,7 @@
       "url": "https://github.com/phantomptr/ps5upload/releases/download/v5.23.0/ps5upload-5.23.0.elf",
       "source": "https://github.com/phantomptr/ps5upload/releases",
       "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v5.23.0/ps5upload-5.23.0.elf",
-      "description": "Transfiere archivos entre PS5 y PC/Android con control de integridad y soporte para reanudar envios. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 1.00-12.70; probado en hardware en 5.10, 9.60 y 12.20.",
+      "description": "Transfiere archivos entre PS5 y PC/Android con control de integridad y soporte para reanudar envios. ESTADO: EN PRUEBAS. COMPATIBILIDAD: FW 1.00-12.70; probado en hardware en 5.10, 9.60 y 12.20.",
       "last_update": "2026-09-12",
       "version": "v5.23.0",
       "category": "ARCHIVOS / PC",
@@ -372,6 +372,18 @@
       "version": "2.6B",
       "category": "ALTERNATIVOS",
       "checksum": "512c74a9d6f56bb5a4ab871a0306a8cbefb8b3d5454ba8f1d833b020b245a126"
+    },
+    {
+      "name": "kstuff-lite Drakmor",
+      "filename": "kstuff.elf",
+      "url": "https://github.com/drakmor/kstuff-lite/releases/download/1.2-dr-test2/kstuff.elf",
+      "source": "https://github.com/drakmor/kstuff-lite/releases",
+      "source_direct": "https://github.com/drakmor/kstuff-lite/releases/download/1.2-dr-test2/kstuff.elf",
+      "description": "Rama alternativa de kstuff-lite mantenida por Drakmor, con sus optimizaciones y builds de prueba. Se mantiene separada de la rama principal de EchoStretch en ESENCIALES. ESTADO: EXPERIMENTAL.",
+      "last_update": "2026-06-11",
+      "version": "1.2-dr-test2",
+      "category": "ALTERNATIVOS",
+      "checksum": "2b699d411079a21dba7c39a02993fc0fb21e52f434103e884a0c892fafe56b75"
     },
     {
       "name": "ShadowMountPlus",
