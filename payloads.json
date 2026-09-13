@@ -183,15 +183,15 @@
     },
     {
       "name": "ps5upload",
-      "filename": "ps5upload_v5.23.0.elf",
-      "url": "https://github.com/phantomptr/ps5upload/releases/download/v5.23.0/ps5upload-5.23.0.elf",
+      "filename": "ps5upload_v5.24.0.elf",
+      "url": "https://github.com/phantomptr/ps5upload/releases/download/v5.24.0/ps5upload-5.24.0.elf",
       "source": "https://github.com/phantomptr/ps5upload/releases",
-      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v5.23.0/ps5upload-5.23.0.elf",
-      "description": "Transfiere archivos entre PS5 y PC/Android con control de integridad y soporte para reanudar envios. ESTADO: EN PRUEBAS. COMPATIBILIDAD: FW 1.00-12.70; probado en hardware en 5.10, 9.60 y 12.20.",
-      "last_update": "2026-09-12",
-      "version": "v5.23.0",
+      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v5.24.0/ps5upload-5.24.0.elf",
+      "description": "Transfiere archivos entre PS5 y PC/Android con control de integridad y soporte para reanudar envios. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 1.00-12.70; probado en hardware en 5.10, 9.60 y 12.20.",
+      "last_update": "2026-09-13",
+      "version": "v5.24.0",
       "category": "ARCHIVOS / PC",
-      "checksum": "b03480fb09493b9c09cc65c360e2b3d064ced827c9561e2865e7bcd0367367e6"
+      "checksum": "8a794fce74545f9bcfecc664c59e24447e84a3c2730b7b936c87df97752fe462"
     },
     {
       "name": "singleDPI",

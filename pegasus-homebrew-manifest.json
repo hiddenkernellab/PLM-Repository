@@ -33,13 +33,15 @@
       "titleId": "LAPY20012",
       "version": "1.00",
       "url": "https://pkg-zone.com/download/ps5/LAPY20012/latest",
-      "posterUrl": "https://hiddenkernellab.github.io/PLM-Repository/pkgzone-covers/LAPY20012.png",
+      "posterUrl": "https://pkg-zone.com/images/LAPY20012/cover.png",
+      "imageSource": "https://pkg-zone.com/images/LAPY20012/cover.png",
+      "imagePolicy": "Referencia externa. HiddenKernel no descarga, almacena ni redistribuye esta imagen.",
       "category": "Utility",
       "author": "Lapy",
       "updated": "2025-01-07 15:52",
       "sourceType": "pkg-zone-auto",
       "verification": "PKG-Zone HTTPS source; no SHA-256 local",
-      "provenance": "Detectado automáticamente en el catálogo PS5 de PKG-Zone y filtrado a categorías homebrew/utilidad permitidas."
+      "provenance": "Detectado automáticamente en el catálogo PS5 de PKG-Zone y filtrado a categorías homebrew/utilidad permitidas. El PKG y su portada permanecen alojados por la fuente externa."
     },
     {
       "titleId": "LAPY20016",
@@ -54,13 +56,15 @@
       "titleId": "PKGI13337",
       "version": "1.10.0",
       "url": "https://pkg-zone.com/download/ps5/PKGI13337/latest",
-      "posterUrl": "https://hiddenkernellab.github.io/PLM-Repository/pkgzone-covers/PKGI13337.png",
+      "posterUrl": "https://pkg-zone.com/images/PKGI13337/cover.png",
+      "imageSource": "https://pkg-zone.com/images/PKGI13337/cover.png",
+      "imagePolicy": "Referencia externa. HiddenKernel no descarga, almacena ni redistribuye esta imagen.",
       "category": "Utility",
       "author": "ItsJokerZz, Bucanero",
       "updated": "2026-01-28 02:15",
       "sourceType": "pkg-zone-auto",
       "verification": "PKG-Zone HTTPS source; no SHA-256 local",
-      "provenance": "Detectado automáticamente en el catálogo PS5 de PKG-Zone y filtrado a categorías homebrew/utilidad permitidas."
+      "provenance": "Detectado automáticamente en el catálogo PS5 de PKG-Zone y filtrado a categorías homebrew/utilidad permitidas. El PKG y su portada permanecen alojados por la fuente externa."
     },
     {
       "titleId": "RMTC00001",
