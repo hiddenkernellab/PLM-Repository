@@ -30,6 +30,14 @@ APPS = [
          exclude_versions=[r"(?i)^v?1\.4(?:\D|$)"],
          alternate_channels=["alpha"],
          always_alpha=True),
+    # ALTERNATIVOS
+    dict(name="kstuff-lite Drakmor", repo="drakmor/kstuff-lite",
+         match=["kstuff"], exclude=["debug"], category="ALTERNATIVOS",
+         desc=("Rama alternativa de kstuff-lite mantenida por Drakmor, con sus "
+               "optimizaciones y builds de prueba. Se mantiene separada de la "
+               "rama principal de EchoStretch en ESENCIALES."),
+         channels=["stable", "beta", "alpha"],
+         single_latest=True),
     dict(name="nanoDNS", repo="drakmor/nanoDNS",
          match=["nanodns"], category="ESENCIALES",
          alternate_channels=["beta", "alpha"],
