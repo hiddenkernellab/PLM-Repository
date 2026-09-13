@@ -7,6 +7,7 @@ Politica HiddenKernel:
 - el catalogo Pegasus se mantiene separado de payloads.json;
 - hashes y procedencia se guardan en un manifest aparte;
 - mirrors externos se validan contra el SHA-256 publicado por GitHub;
+- las portadas externas se referencian por URL y no se copian al repositorio;
 - si una fuente falla temporalmente, se conserva la ultima entrada valida.
 """
 
@@ -20,7 +21,7 @@ from html import unescape
 from html.parser import HTMLParser
 from pathlib import Path
 
-UA = "HiddenKernel-PKG-Catalog/1.3"
+UA = "HiddenKernel-PKG-Catalog/1.4"
 TOKEN = os.getenv("GITHUB_TOKEN", "")
 OUT = Path("pegasus-homebrew.json")
 MANIFEST = Path("pegasus-homebrew-manifest.json")
@@ -40,9 +41,7 @@ ITEMZFLOW_POSTER = (
     "App-Media-Assets/sce_sys/icon0.png"
 )
 
-PAGES = "https://hiddenkernellab.github.io/PLM-Repository"
 PKGZONE_BASE = "https://pkg-zone.com"
-PKGZONE_COVER_DIR = Path("pkgzone-covers")
 PKGZONE_MAX_PAGES = 20
 PKGZONE_AUTO_SOURCE_TYPE = "pkg-zone-auto"
 
@@ -231,25 +230,12 @@ def pkgzone_category_allowed(category):
     return "homebrew" in value or value.startswith("hb ")
 
 
-def mirror_pkgzone_cover(title_id, previous_poster=""):
-    PKGZONE_COVER_DIR.mkdir(parents=True, exist_ok=True)
-    source = f"{PKGZONE_BASE}/images/{urllib.parse.quote(title_id, safe='')}/cover.png"
-    dest = PKGZONE_COVER_DIR / f"{title_id}.png"
-
-    try:
-        data = request_bytes(source)
-        # PKG-Zone publica cover.png. Evitamos commitear una página HTML de error.
-        if not data.startswith(b"\x89PNG\r\n\x1a\n"):
-            raise RuntimeError("la portada no es PNG")
-        if not dest.exists() or dest.read_bytes() != data:
-            dest.write_bytes(data)
-        return f"{PAGES}/{dest.as_posix()}"
-    except Exception as exc:
-        if previous_poster:
-            print(f"  AVISO portada {title_id}: {exc}. Se conserva la anterior.")
-            return previous_poster
-        print(f"  AVISO portada {title_id}: {exc}. Se usa la portada directa.")
-        return source
+def pkgzone_cover_url(title_id):
+    """
+    Referencia la portada directamente desde PKG-Zone.
+    HiddenKernel NO descarga, copia ni vuelve a publicar esta imagen.
+    """
+    return f"{PKGZONE_BASE}/images/{urllib.parse.quote(title_id, safe='')}/cover.png"
 
 
 def previous_pkgzone_auto(previous_catalog, previous_manifest, reserved_ids):
@@ -300,12 +286,13 @@ def build_pkgzone_auto(previous_catalog, previous_manifest, reserved_ids):
         author = detail.get("author") or card.get("author") or ""
         download_url = f"{PKGZONE_BASE}/download/ps5/{urllib.parse.quote(title_id, safe='')}/latest"
         source = detail["detailsUrl"]
-        poster = mirror_pkgzone_cover(title_id, str(old_pkg.get("posterUrl") or ""))
+        poster = pkgzone_cover_url(title_id)
 
         author_text = f" de {author}" if author else ""
         description = (
             f"{title}{author_text}. Entrada PS5 detectada automáticamente en PKG-Zone. "
-            f"Categoría: {category}. Fuente externa; HiddenKernel enlaza el PKG original y no lo redistribuye."
+            f"Categoría: {category}. Fuente externa; HiddenKernel enlaza el PKG original "
+            f"y no lo redistribuye ni está afiliado con su desarrollador."
         )
 
         pkg = package(
@@ -324,6 +311,10 @@ def build_pkgzone_auto(previous_catalog, previous_manifest, reserved_ids):
             "version": version,
             "url": download_url,
             "posterUrl": poster,
+            "imageSource": poster,
+            "imagePolicy": (
+                "Referencia externa. HiddenKernel no descarga, almacena ni redistribuye esta imagen."
+            ),
             "category": category,
             "author": author,
             "updated": detail.get("updated", ""),
@@ -331,7 +322,8 @@ def build_pkgzone_auto(previous_catalog, previous_manifest, reserved_ids):
             "verification": "PKG-Zone HTTPS source; no SHA-256 local",
             "provenance": (
                 "Detectado automáticamente en el catálogo PS5 de PKG-Zone y "
-                "filtrado a categorías homebrew/utilidad permitidas."
+                "filtrado a categorías homebrew/utilidad permitidas. "
+                "El PKG y su portada permanecen alojados por la fuente externa."
             ),
         }
         packages.append(pkg)
@@ -339,22 +331,6 @@ def build_pkgzone_auto(previous_catalog, previous_manifest, reserved_ids):
         print(f"OK PKG-Zone {title}: {version} [{category}]")
 
     return packages, manifest
-
-
-def cleanup_pkgzone_covers(packages):
-    if not PKGZONE_COVER_DIR.exists():
-        return
-
-    prefix = f"{PAGES}/{PKGZONE_COVER_DIR.as_posix()}/"
-    keep = set()
-    for pkg in packages:
-        poster = str(pkg.get("posterUrl") or "")
-        if poster.startswith(prefix):
-            keep.add(PKGZONE_COVER_DIR / poster[len(prefix):])
-
-    for path in PKGZONE_COVER_DIR.glob("*"):
-        if path.is_file() and path not in keep:
-            path.unlink()
 
 
 def github_latest(repo):
@@ -659,7 +635,15 @@ def validate(packages, manifest):
             expected = f"{PKGZONE_BASE}/download/ps5/{tid}/"
             if not url.startswith(expected):
                 raise RuntimeError(f"URL PKG-Zone inesperada para {tid}: {url}")
+
+            poster = str(m.get("posterUrl") or "")
+            expected_poster = f"{PKGZONE_BASE}/images/{tid}/"
+            if poster and not poster.startswith(expected_poster):
+                raise RuntimeError(
+                    f"Portada automática no externa para {tid}: {poster}"
+                )
             continue
+
 
         if not valid_sha(m.get("sha256")):
             raise RuntimeError(f"Manifest sin SHA-256 valido: {tid}")
@@ -719,7 +703,6 @@ def main():
             print(f"AVISO PKG-Zone: {exc}. No hay entradas automáticas previas.")
 
     validate(packages, manifest)
-    cleanup_pkgzone_covers(packages)
     packages.sort(key=lambda p: p["title"].casefold())
     manifest.sort(key=lambda p: p["titleId"].casefold())
 
