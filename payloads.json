@@ -332,34 +332,34 @@
       "source": "Discord de Drakmor (fpkg-test-reports-only)",
       "source_direct": "https://hiddenkernellab.github.io/PLM-Repository/payloads/fpkg-tests/a53_ppr_install_fast.elf",
       "description": "Payload que instala en memoria el parche PPR del A53 para el flujo FPKG. La build fast activa por defecto el transporte rapido, persistente, batch y mixed-I/O; permite restaurar el estado original mediante la accion de desinstalacion. ESTADO: PRUEBA FPKG / A53. COMPATIBILIDAD: perfiles incluidos hasta FW 11.40.",
-      "last_update": "2026-09-11",
-      "version": "TEST-493edba4",
+      "last_update": "2026-09-15",
+      "version": "15.09-bf641bf7",
       "category": "PRUEBAS FPKG",
-      "checksum": "493edba41218af73da68ea54d68e4b8e7b0e728edfdeea9fe397cc5c3edec8ce"
+      "checksum": "bf641bf7b3502ceeb1853d36c6aaad7ef501a0d1af931fc3f013eebe08908ebc"
     },
     {
       "name": "kstuff-lite FPKG",
-      "filename": "kstuff-lite_v1.12-fpkg-test5.elf",
+      "filename": "kstuff-lite_v1.12-fpkg-dr-test8.elf",
       "url": "https://hiddenkernellab.github.io/PLM-Repository/payloads/fpkg-tests/kstuff.elf",
       "source": "Discord de Drakmor (fpkg-test-reports-only)",
       "source_direct": "https://hiddenkernellab.github.io/PLM-Repository/payloads/fpkg-tests/kstuff.elf",
       "description": "Build experimental de kstuff-lite preparada para las pruebas de FPKG nativos. No sustituye a la version recomendada de ESENCIALES salvo que se quiera probar FPKG. ESTADO: PRUEBA FPKG. COMPATIBILIDAD: FW compatibles hasta 11.40.",
-      "last_update": "2026-09-13",
-      "version": "1.12-fpkg-test5",
+      "last_update": "2026-09-15",
+      "version": "1.12-fpkg-dr-test8",
       "category": "PRUEBAS FPKG",
-      "checksum": "97a80ed7ca9c5c62ada5a6a2dd7d032f1e89e6626d6da0b927518e11a3187b43"
+      "checksum": "fafee1a13933e4a783e3438d7b3d10478e8dfd6f29e6e432a7a2a711650d81a4"
     },
     {
       "name": "ShadowMountPlus FPKG",
-      "filename": "shadowmountplus_v1.7alpha13fix1-11-g2424c9.elf",
+      "filename": "shadowmountplus_v1.7alpha13fix1-13-g072c17.elf",
       "url": "https://hiddenkernellab.github.io/PLM-Repository/payloads/fpkg-tests/shadowmountplus.elf",
       "source": "Discord de Drakmor (fpkg-test-reports-only)",
       "source_direct": "https://hiddenkernellab.github.io/PLM-Repository/payloads/fpkg-tests/shadowmountplus.elf",
       "description": "Build experimental de ShadowMountPlus usada en las pruebas de FPKG nativos. Mantener separada de la rama recomendada de ESENCIALES. ESTADO: PRUEBA FPKG. COMPATIBILIDAD: FW compatibles hasta 11.40.",
-      "last_update": "2026-09-11",
-      "version": "1.7alpha13fix1-11-g2424c9",
+      "last_update": "2026-09-15",
+      "version": "1.7alpha13fix1-13-g072c17",
       "category": "PRUEBAS FPKG",
-      "checksum": "4780da117d7bc72c9e4f4485afd65806998feac2c39faba4116ae284ce601837"
+      "checksum": "03688cd6c361b22c07aa8c72314dcb3573b7e83b104634a9e99697de784eb760"
     },
     {
       "name": "etaHEN",
