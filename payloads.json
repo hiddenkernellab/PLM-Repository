@@ -183,15 +183,15 @@
     },
     {
       "name": "ps5upload",
-      "filename": "ps5upload_v5.27.1.elf",
-      "url": "https://github.com/phantomptr/ps5upload/releases/download/v5.27.1/ps5upload-5.27.1.elf",
+      "filename": "ps5upload_v5.28.0.elf",
+      "url": "https://github.com/phantomptr/ps5upload/releases/download/v5.28.0/ps5upload-5.28.0.elf",
       "source": "https://github.com/phantomptr/ps5upload/releases",
-      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v5.27.1/ps5upload-5.27.1.elf",
+      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v5.28.0/ps5upload-5.28.0.elf",
       "description": "Transfiere archivos entre PS5 y PC/Android con control de integridad y soporte para reanudar envios. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 1.00-12.70; probado en hardware en 5.10, 9.60 y 12.20.",
       "last_update": "2026-09-15",
-      "version": "v5.27.1",
+      "version": "v5.28.0",
       "category": "ARCHIVOS / PC",
-      "checksum": "89df1d295a906d170e3a63764ac09841b3f0885ce56595a6ade775395fe2e146"
+      "checksum": "e5937396055234122e21fa39ebc88287a8de916dbf541d5739b376e74ff882a3"
     },
     {
       "name": "singleDPI",
