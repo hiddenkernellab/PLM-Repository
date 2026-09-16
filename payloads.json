@@ -171,15 +171,15 @@
     },
     {
       "name": "PS5 Web File Manager",
-      "filename": "ps5-web-file-manager_v1.8.elf",
-      "url": "https://github.com/owendswang/ps5-web-file-manager/releases/download/v1.8/web-file-mgr-v1.8.elf",
+      "filename": "ps5-web-file-manager_v1.9.elf",
+      "url": "https://github.com/owendswang/ps5-web-file-manager/releases/download/v1.9/web-file-mgr-v1.9.elf",
       "source": "https://github.com/owendswang/ps5-web-file-manager/releases",
-      "source_direct": "https://github.com/owendswang/ps5-web-file-manager/releases/download/v1.8/web-file-mgr-v1.8.elf",
+      "source_direct": "https://github.com/owendswang/ps5-web-file-manager/releases/download/v1.9/web-file-mgr-v1.9.elf",
       "description": "Explorador web ligero para mover archivos desde la red local e instalar PKG. ESTADO: ESTABILIDAD NO DOCUMENTADA.",
-      "last_update": "2026-09-08",
-      "version": "v1.8",
+      "last_update": "2026-09-16",
+      "version": "v1.9",
       "category": "ARCHIVOS / PC",
-      "checksum": "c1a688354f00d7b41ec172f930649732b2bc0c77db3d061c533ae4e7252a8a51"
+      "checksum": "711cb076e887fcd55d973ade8b84bb6c22720be295bfde18e32761f6e0479a3e"
     },
     {
       "name": "ps5upload",

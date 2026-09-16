@@ -5,7 +5,7 @@
       "titleId": "LAPY20016",
       "title": "Avatar Changer PS5",
       "version": "1.00",
-      "description": "Utilidad de Lapy para cambiar el avatar del perfil desde la consola. Trabaja con avatares preparados para la aplicacion y requiere un entorno jailbreak compatible.",
+      "description": "Utilidad de Lapy para cambiar el avatar del perfil desde la consola. Trabaja con avatares preparados para la aplicación y requiere un entorno jailbreak compatible.",
       "downloadSource": "https://pkg-zone.com/details/LAPY20016",
       "downloadLinks": [
         {
@@ -49,7 +49,7 @@
       "titleId": "FAKE00000",
       "title": "Homebrew Launcher (websrv)",
       "version": "v0.34",
-      "description": "Acceso directo oficial al Homebrew Launcher. Requiere websrv activo; websrv busca aplicaciones en /data/homebrew y tambien en almacenamiento USB/extendido.",
+      "description": "Acceso directo oficial al Homebrew Launcher. Requiere websrv activo; websrv busca aplicaciones en /data/homebrew y también en almacenamiento USB/extendido.",
       "downloadSource": "https://github.com/ps5-payload-dev/websrv",
       "downloadLinks": [
         {
@@ -64,7 +64,7 @@
       "titleId": "ITEM00001",
       "title": "Itemzflow Game Manager",
       "version": "1.14",
-      "description": "Gestor de biblioteca para PS5 orientado a homebrew y copias autorizadas. Permite gestionar titulos, montajes y metadatos desde una interfaz nativa.",
+      "description": "Gestor de biblioteca para PS5 orientado a homebrew y copias autorizadas. Permite gestionar títulos, montajes y metadatos desde una interfaz nativa.",
       "downloadSource": "https://pkg-zone.com/details/ITEM00001",
       "downloadLinks": [
         {
