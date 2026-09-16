@@ -1,14 +1,19 @@
 #!/usr/bin/env python3
-"""Genera el catalogo HiddenKernel Homebrew para Pegasus DL.
+"""Genera el catálogo HiddenKernel Homebrew para Pegasus DL.
 
-Politica HiddenKernel:
-- solo homebrew/utilidades y enlaces publicos verificables;
+Política HiddenKernel:
+- solo homebrew/utilidades y enlaces públicos verificables;
 - nada de juegos comerciales, DLC o updates comerciales;
-- el catalogo Pegasus se mantiene separado de payloads.json;
+- el catálogo Pegasus se mantiene separado de payloads.json;
 - hashes y procedencia se guardan en un manifest aparte;
 - mirrors externos se validan contra el SHA-256 publicado por GitHub;
 - las portadas externas se referencian por URL y no se copian al repositorio;
-- si una fuente falla temporalmente, se conserva la ultima entrada valida.
+- si una fuente falla temporalmente, se conserva la última entrada válida.
+
+Cambio 2026-09-16:
+- las portadas ya no usan hosts sueltos/Twitter para PS5-Xplorer o Avatar Changer;
+- prioridad de portada: icono oficial explícito -> PKG-Zone -> override estable;
+- se valida que la URL de portada responda como imagen antes de publicarla.
 """
 
 import hashlib
@@ -21,10 +26,11 @@ from html import unescape
 from html.parser import HTMLParser
 from pathlib import Path
 
-UA = "HiddenKernel-PKG-Catalog/1.4"
+UA = "HiddenKernel-PKG-Catalog/1.5"
 TOKEN = os.getenv("GITHUB_TOKEN", "")
 OUT = Path("pegasus-homebrew.json")
 MANIFEST = Path("pegasus-homebrew-manifest.json")
+
 NEXGEN_INDEX = (
     "https://raw.githubusercontent.com/nexgen999/"
     "PS5-Super-PLDMGR-Auto-Updater/main/PKGjson/pkg.json"
@@ -33,22 +39,23 @@ NEXGEN_MIRROR_REPO = "nexgen999/Evox_PS5PKG_Private"
 NEXGEN_ALLOWED_PREFIX = (
     "https://github.com/nexgen999/Evox_PS5PKG_Private/releases/download/"
 )
-AVATAR_POSTER = "https://pbs.twimg.com/media/Gl2XTLuXIAADCEL.jpg"
-XPLORER_POSTER = "https://ig.2468c.com/2024/06/08/a06a1c240d8f4.jpg"
-ITEMZFLOW_POSTER = (
-    "https://raw.githubusercontent.com/LightningMods/Itemzflow/"
-    "9126e4788eb8a9d9657b8096ec7e25eb3bc9ab8d/"
-    "App-Media-Assets/sce_sys/icon0.png"
-)
 
 PKGZONE_BASE = "https://pkg-zone.com"
 PKGZONE_MAX_PAGES = 20
 PKGZONE_AUTO_SOURCE_TYPE = "pkg-zone-auto"
 
-# Importación automática conservadora:
-# se admiten utilidades, emuladores y homebrew. No se autoimportan Media,
-# Retail PKG, DLC, Update ni Game genérico, porque esas categorías pueden
-# contener binarios comerciales o contenido cuya redistribución no esté clara.
+# Fallbacks estables por Title ID. Para Lapy usamos su ficha PS5 de PKG-Zone,
+# que identifica la aplicación por Title ID y evita imágenes ajenas.
+POSTER_OVERRIDES = {
+    "LAPY20011": f"{PKGZONE_BASE}/images/LAPY20011/cover.png",
+    "LAPY20016": f"{PKGZONE_BASE}/images/LAPY20016/cover.png",
+    "ITEM00001": (
+        "https://raw.githubusercontent.com/LightningMods/Itemzflow/"
+        "9126e4788eb8a9d9657b8096ec7e25eb3bc9ab8d/"
+        "App-Media-Assets/sce_sys/icon0.png"
+    ),
+}
+
 PKGZONE_ALLOWED_CATEGORIES = {
     "utility",
     "emulator",
@@ -82,15 +89,59 @@ def request_bytes(url):
 
 
 def request_text(url):
-    data = request_bytes(url)
-    return data.decode("utf-8", errors="replace")
+    return request_bytes(url).decode("utf-8", errors="replace")
+
+
+def is_valid_image_url(url):
+    """Comprueba HTTPS + respuesta de tipo image/* sin descargar la imagen completa."""
+    if not str(url or "").startswith("https://"):
+        return False
+    try:
+        req = urllib.request.Request(
+            url,
+            headers={**_headers(False), "Range": "bytes=0-1023"},
+        )
+        with urllib.request.urlopen(req, timeout=20) as r:
+            ctype = (r.headers.get("Content-Type") or "").lower()
+            return ctype.startswith("image/")
+    except Exception:
+        return False
+
+
+def pkgzone_cover_url(title_id):
+    return f"{PKGZONE_BASE}/images/{urllib.parse.quote(title_id, safe='')}/cover.png"
+
+
+def resolve_poster(title_id, *official_candidates):
+    """Prioridad: oficial explícita -> PKG-Zone -> override estable.
+
+    Si la comprobación temporal de red falla para todas, conserva el override
+    conocido para evitar que un corte puntual borre la portada del catálogo.
+    """
+    candidates = []
+    for url in official_candidates:
+        if url:
+            candidates.append(url)
+
+    pz = pkgzone_cover_url(title_id)
+    if pz not in candidates:
+        candidates.append(pz)
+
+    override = POSTER_OVERRIDES.get(title_id)
+    if override and override not in candidates:
+        candidates.append(override)
+
+    for url in candidates:
+        if is_valid_image_url(url):
+            return url
+
+    return override or (candidates[0] if candidates else None)
 
 
 def _clean_html(fragment):
     s = re.sub(r"<[^>]+>", " ", str(fragment or ""), flags=re.S)
     s = unescape(s)
-    s = re.sub(r"\s+", " ", s).strip()
-    return s
+    return re.sub(r"\s+", " ", s).strip()
 
 
 class _TextCollector(HTMLParser):
@@ -116,7 +167,6 @@ def _next_text_value(items, label):
 
 
 def parse_pkgzone_cards(page_html):
-    """Extrae las tarjetas que PKG-Zone marca explícitamente como PS5."""
     blocks = re.findall(
         r'<article\b[^>]*class=["\'][^"\']*\bpkg\b[^"\']*["\'][^>]*>(.*?)</article>',
         page_html,
@@ -150,7 +200,6 @@ def parse_pkgzone_cards(page_html):
         )
         version_text = _clean_html(m_version.group(1)) if m_version else ""
         version = re.split(r"\|\s*Supports\s+PS5", version_text, flags=re.I)[0].strip()
-        version = normalize_version(version)
 
         m_author = re.search(
             r'class=["\'][^"\']*dark:text-gray-300[^"\']*["\'][^>]*>(.*?)</div>',
@@ -164,7 +213,7 @@ def parse_pkgzone_cards(page_html):
         cards.append({
             "titleId": title_id,
             "title": title,
-            "version": version,
+            "version": normalize_version(version),
             "author": author,
         })
 
@@ -172,14 +221,11 @@ def parse_pkgzone_cards(page_html):
 
 
 def discover_pkgzone_ps5():
-    """Recorre las páginas filtradas para PS5 y devuelve cada Title ID una vez."""
     found = {}
     for page in range(1, PKGZONE_MAX_PAGES + 1):
         query = urllib.parse.urlencode({"console": "ps5", "page": page})
-        url = f"{PKGZONE_BASE}/?{query}"
-        html = request_text(url)
+        html = request_text(f"{PKGZONE_BASE}/?{query}")
         cards = parse_pkgzone_cards(html)
-
         if not cards:
             break
 
@@ -189,9 +235,6 @@ def discover_pkgzone_ps5():
             if tid not in found:
                 found[tid] = card
                 added += 1
-
-        # Si una página repite exactamente las tarjetas anteriores, hemos
-        # alcanzado el final aunque el sitio siga devolviendo HTML válido.
         if added == 0:
             break
 
@@ -210,8 +253,6 @@ def pkgzone_detail_metadata(title_id):
     category = _next_text_value(items, "Category")
     author = _next_text_value(items, "Author")
     updated = _next_text_value(items, "Updated")
-
-    # En algunas fichas Author puede estar vacío y la siguiente etiqueta es User.
     if author.casefold() in {"user", "image", "show apps from user share"}:
         author = ""
 
@@ -230,109 +271,6 @@ def pkgzone_category_allowed(category):
     return "homebrew" in value or value.startswith("hb ")
 
 
-def pkgzone_cover_url(title_id):
-    """
-    Referencia la portada directamente desde PKG-Zone.
-    HiddenKernel NO descarga, copia ni vuelve a publicar esta imagen.
-    """
-    return f"{PKGZONE_BASE}/images/{urllib.parse.quote(title_id, safe='')}/cover.png"
-
-
-def previous_pkgzone_auto(previous_catalog, previous_manifest, reserved_ids):
-    packages = []
-    manifest = []
-    for title_id, meta in previous_manifest.items():
-        if title_id in reserved_ids:
-            continue
-        if meta.get("sourceType") != PKGZONE_AUTO_SOURCE_TYPE:
-            continue
-        pkg = previous_catalog.get(title_id)
-        if pkg:
-            packages.append(pkg)
-            manifest.append(meta)
-    return packages, manifest
-
-
-def build_pkgzone_auto(previous_catalog, previous_manifest, reserved_ids):
-    packages = []
-    manifest = []
-
-    for card in discover_pkgzone_ps5():
-        title_id = card["titleId"]
-        if title_id in reserved_ids:
-            continue
-
-        old_pkg = previous_catalog.get(title_id, {})
-        old_meta = previous_manifest.get(title_id, {})
-
-        try:
-            detail = pkgzone_detail_metadata(title_id)
-        except Exception as exc:
-            if old_pkg and old_meta.get("sourceType") == PKGZONE_AUTO_SOURCE_TYPE:
-                packages.append(old_pkg)
-                manifest.append(old_meta)
-                print(f"AVISO PKG-Zone {title_id}: {exc}. Se conserva la entrada anterior.")
-                continue
-            print(f"AVISO PKG-Zone {title_id}: no se pudo leer la ficha ({exc}); se omite.")
-            continue
-
-        category = detail.get("category", "")
-        if not pkgzone_category_allowed(category):
-            print(f"OMITIDO PKG-Zone {title_id}: categoría {category or 'desconocida'}")
-            continue
-
-        title = card.get("title") or title_id
-        version = normalize_version(card.get("version"))
-        author = detail.get("author") or card.get("author") or ""
-        download_url = f"{PKGZONE_BASE}/download/ps5/{urllib.parse.quote(title_id, safe='')}/latest"
-        source = detail["detailsUrl"]
-        poster = pkgzone_cover_url(title_id)
-
-        author_text = f" de {author}" if author else ""
-        description = (
-            f"{title}{author_text}. Entrada PS5 detectada automáticamente en PKG-Zone. "
-            f"Categoría: {category}. Fuente externa; HiddenKernel enlaza el PKG original "
-            f"y no lo redistribuye ni está afiliado con su desarrollador."
-        )
-
-        pkg = package(
-            title_id,
-            title,
-            version,
-            description,
-            source,
-            download_url,
-            None,
-            poster,
-        )
-
-        meta = {
-            "titleId": title_id,
-            "version": version,
-            "url": download_url,
-            "posterUrl": poster,
-            "imageSource": poster,
-            "imagePolicy": (
-                "Referencia externa. HiddenKernel no descarga, almacena ni redistribuye esta imagen."
-            ),
-            "category": category,
-            "author": author,
-            "updated": detail.get("updated", ""),
-            "sourceType": PKGZONE_AUTO_SOURCE_TYPE,
-            "verification": "PKG-Zone HTTPS source; no SHA-256 local",
-            "provenance": (
-                "Detectado automáticamente en el catálogo PS5 de PKG-Zone y "
-                "filtrado a categorías homebrew/utilidad permitidas. "
-                "El PKG y su portada permanecen alojados por la fuente externa."
-            ),
-        }
-        packages.append(pkg)
-        manifest.append(meta)
-        print(f"OK PKG-Zone {title}: {version} [{category}]")
-
-    return packages, manifest
-
-
 def github_latest(repo):
     return request_json(f"https://api.github.com/repos/{repo}/releases/latest")
 
@@ -342,10 +280,10 @@ def github_release(repo, tag):
 
 
 def find_asset(release, predicate):
-    for a in release.get("assets", []):
-        if predicate(str(a.get("name", ""))):
-            return a
-    raise RuntimeError("No se encontro el asset esperado")
+    for asset in release.get("assets", []):
+        if predicate(str(asset.get("name", ""))):
+            return asset
+    raise RuntimeError("No se encontró el asset esperado")
 
 
 def sha_from_asset(asset):
@@ -420,7 +358,8 @@ def find_nexgen_entry(*names):
     obj = nexgen_index()
     packages = obj.get("packages", obj) if isinstance(obj, dict) else obj
     if not isinstance(packages, list):
-        raise RuntimeError("Formato inesperado del indice PKG de Nexgen")
+        raise RuntimeError("Formato inesperado del índice PKG de Nexgen")
+
     for item in packages:
         if not isinstance(item, dict):
             continue
@@ -430,7 +369,7 @@ def find_nexgen_entry(*names):
         }
         if fields & wanted:
             return item
-    raise RuntimeError(f"No se encontro {names[0]} en el indice PKG de Nexgen")
+    raise RuntimeError(f"No se encontró {names[0]} en el índice PKG de Nexgen")
 
 
 def verified_nexgen_asset(entry, previous_manifest, title_id):
@@ -443,10 +382,11 @@ def verified_nexgen_asset(entry, previous_manifest, title_id):
         raise RuntimeError("URL de release del mirror no reconocida")
     tag, encoded_name = tail.split("/", 1)
     asset_name = urllib.parse.unquote(encoded_name)
+
     rel = github_release(NEXGEN_MIRROR_REPO, tag)
     asset = find_asset(rel, lambda n: n == asset_name)
     if asset.get("browser_download_url") != url:
-        raise RuntimeError("La URL del indice no coincide con el asset de GitHub")
+        raise RuntimeError("La URL del índice no coincide con el asset de GitHub")
 
     digest = sha_from_asset(asset)
     if not digest:
@@ -454,17 +394,28 @@ def verified_nexgen_asset(entry, previous_manifest, title_id):
 
     version = normalize_version(entry.get("version"))
     prev = previous_manifest.get(title_id, {})
-    if (prev.get("version") == version and valid_sha(prev.get("sha256"))
-            and prev.get("sha256", "").lower() != digest.lower()):
+    if (
+        prev.get("version") == version
+        and valid_sha(prev.get("sha256"))
+        and prev.get("sha256", "").lower() != digest.lower()
+    ):
         raise RuntimeError(
-            f"{title_id}: mismo numero de version pero cambio el SHA-256; revision manual"
+            f"{title_id}: mismo número de versión pero cambió el SHA-256; revisión manual"
         )
+
     return version, url, int(asset.get("size") or 0), digest
 
 
-def build_nexgen_pkg(previous_manifest, *, title_id, names, title, description, source, poster):
+def build_nexgen_pkg(
+    previous_manifest, *, title_id, names, title, description, source,
+    official_posters=()
+):
     entry = find_nexgen_entry(*names)
-    version, url, size, digest = verified_nexgen_asset(entry, previous_manifest, title_id)
+    version, url, size, digest = verified_nexgen_asset(
+        entry, previous_manifest, title_id
+    )
+    poster = resolve_poster(title_id, *official_posters)
+
     return (
         package(title_id, title, version, description, source, url, size, poster),
         {
@@ -474,7 +425,14 @@ def build_nexgen_pkg(previous_manifest, *, title_id, names, title, description, 
             "sha256": digest,
             "sizeBytes": size,
             "posterUrl": poster,
-            "provenance": "PKG publico espejado por Nexgen y verificado contra el SHA-256 del asset de GitHub.",
+            "imageSource": poster,
+            "imagePolicy": (
+                "Referencia externa validada. HiddenKernel no almacena ni redistribuye la imagen."
+            ),
+            "provenance": (
+                "PKG público espejado por Nexgen y verificado contra el SHA-256 "
+                "del asset de GitHub."
+            ),
         },
     )
 
@@ -490,7 +448,6 @@ def build_ps5_xplorer(previous_manifest):
             "Lapy JB Daemon sin cargar etaHEN completo."
         ),
         source="https://pkg-zone.com/details/LAPY20011",
-        poster=XPLORER_POSTER,
     )
 
 
@@ -502,14 +459,14 @@ def build_avatar_changer(previous_manifest):
         title="Avatar Changer PS5",
         description=(
             "Utilidad de Lapy para cambiar el avatar del perfil desde la consola. "
-            "Trabaja con avatares preparados para la aplicacion y requiere un entorno jailbreak compatible."
+            "Trabaja con avatares preparados para la aplicación y requiere un entorno jailbreak compatible."
         ),
         source="https://pkg-zone.com/details/LAPY20016",
-        poster=AVATAR_POSTER,
     )
 
 
 def build_itemzflow(previous_manifest):
+    official = POSTER_OVERRIDES["ITEM00001"]
     return build_nexgen_pkg(
         previous_manifest,
         title_id="ITEM00001",
@@ -517,10 +474,10 @@ def build_itemzflow(previous_manifest):
         title="Itemzflow Game Manager",
         description=(
             "Gestor de biblioteca para PS5 orientado a homebrew y copias autorizadas. "
-            "Permite gestionar titulos, montajes y metadatos desde una interfaz nativa."
+            "Permite gestionar títulos, montajes y metadatos desde una interfaz nativa."
         ),
         source="https://pkg-zone.com/details/ITEM00001",
-        poster=ITEMZFLOW_POSTER,
+        official_posters=(official,),
     )
 
 
@@ -531,7 +488,10 @@ def build_websrv_launcher(previous_manifest):
         "https://raw.githubusercontent.com/ps5-payload-dev/websrv/"
         f"{tag}/homebrew/IV9999-FAKE00000_00-HOMEBREWLOADER01.pkg"
     )
-    poster = f"https://raw.githubusercontent.com/ps5-payload-dev/websrv/{tag}/icon0.png"
+    official_poster = (
+        f"https://raw.githubusercontent.com/ps5-payload-dev/websrv/{tag}/icon0.png"
+    )
+    poster = resolve_poster("FAKE00000", official_poster)
 
     prev = previous_manifest.get("FAKE00000", {})
     if prev.get("version") == tag and prev.get("url") == url and valid_sha(prev.get("sha256")):
@@ -547,7 +507,10 @@ def build_websrv_launcher(previous_manifest):
             "FAKE00000",
             "Homebrew Launcher (websrv)",
             tag,
-            "Acceso directo oficial al Homebrew Launcher. Requiere websrv activo; websrv busca aplicaciones en /data/homebrew y tambien en almacenamiento USB/extendido.",
+            (
+                "Acceso directo oficial al Homebrew Launcher. Requiere websrv activo; "
+                "websrv busca aplicaciones en /data/homebrew y también en almacenamiento USB/extendido."
+            ),
             "https://github.com/ps5-payload-dev/websrv",
             url,
             size,
@@ -560,6 +523,7 @@ def build_websrv_launcher(previous_manifest):
             "sha256": digest,
             "sizeBytes": size,
             "posterUrl": poster,
+            "imageSource": poster,
             "provenance": "PKG oficial incluido en ps5-payload-websrv.",
         },
     )
@@ -567,41 +531,138 @@ def build_websrv_launcher(previous_manifest):
 
 def build_ezremote():
     rel = github_latest("cy33hc/ps5-ezremote-client")
-    a = find_asset(rel, lambda n: n.lower().endswith(".pkg"))
-    digest = sha_from_asset(a)
+    asset = find_asset(rel, lambda n: n.lower().endswith(".pkg"))
+    digest = sha_from_asset(asset)
     if not digest:
-        digest = hashlib.sha256(request_bytes(a["browser_download_url"])).hexdigest()
+        digest = hashlib.sha256(request_bytes(asset["browser_download_url"])).hexdigest()
 
-    m = re.search(r"_([0-9]+(?:\.[0-9]+)+)\.pkg$", a["name"], flags=re.I)
+    m = re.search(r"_([0-9]+(?:\.[0-9]+)+)\.pkg$", asset["name"], flags=re.I)
     pkg_version = m.group(1) if m else rel["tag_name"]
     bundle_version = rel["tag_name"]
-    poster = (
+    official_poster = (
         "https://raw.githubusercontent.com/cy33hc/ps5-ezremote-client/"
         f"{bundle_version}/data/sce_sys/icon0.png"
     )
+    poster = resolve_poster("RMTC00001", official_poster)
 
     return (
         package(
             "RMTC00001",
             "ezRemote Client (launcher)",
             pkg_version,
-            f"Acceso directo de ezRemote Client. La release actual del bundle es {bundle_version}; para funcionar hay que extraer ezremote-client.zip en /data/homebrew y cargar websrv.",
+            (
+                f"Acceso directo de ezRemote Client. La release actual del bundle es "
+                f"{bundle_version}; para funcionar hay que extraer ezremote-client.zip "
+                "en /data/homebrew y cargar websrv."
+            ),
             "https://github.com/cy33hc/ps5-ezremote-client",
-            a["browser_download_url"],
-            a.get("size"),
+            asset["browser_download_url"],
+            asset.get("size"),
             poster,
         ),
         {
             "titleId": "RMTC00001",
             "version": pkg_version,
             "bundleVersion": bundle_version,
-            "url": a["browser_download_url"],
+            "url": asset["browser_download_url"],
             "sha256": digest,
-            "sizeBytes": a.get("size"),
+            "sizeBytes": asset.get("size"),
             "posterUrl": poster,
+            "imageSource": poster,
             "provenance": "PKG oficial de la release de ps5-ezremote-client.",
         },
     )
+
+
+def previous_pkgzone_auto(previous_catalog, previous_manifest, reserved_ids):
+    packages = []
+    manifest = []
+    for title_id, meta in previous_manifest.items():
+        if title_id in reserved_ids:
+            continue
+        if meta.get("sourceType") != PKGZONE_AUTO_SOURCE_TYPE:
+            continue
+        pkg = previous_catalog.get(title_id)
+        if pkg:
+            packages.append(pkg)
+            manifest.append(meta)
+    return packages, manifest
+
+
+def build_pkgzone_auto(previous_catalog, previous_manifest, reserved_ids):
+    packages = []
+    manifest = []
+
+    for card in discover_pkgzone_ps5():
+        title_id = card["titleId"]
+        if title_id in reserved_ids:
+            continue
+
+        old_pkg = previous_catalog.get(title_id, {})
+        old_meta = previous_manifest.get(title_id, {})
+
+        try:
+            detail = pkgzone_detail_metadata(title_id)
+        except Exception as exc:
+            if old_pkg and old_meta.get("sourceType") == PKGZONE_AUTO_SOURCE_TYPE:
+                packages.append(old_pkg)
+                manifest.append(old_meta)
+                print(f"AVISO PKG-Zone {title_id}: {exc}. Se conserva la entrada anterior.")
+                continue
+            print(f"AVISO PKG-Zone {title_id}: no se pudo leer la ficha ({exc}); se omite.")
+            continue
+
+        category = detail.get("category", "")
+        if not pkgzone_category_allowed(category):
+            print(f"OMITIDO PKG-Zone {title_id}: categoría {category or 'desconocida'}")
+            continue
+
+        title = card.get("title") or title_id
+        version = normalize_version(card.get("version"))
+        author = detail.get("author") or card.get("author") or ""
+        download_url = (
+            f"{PKGZONE_BASE}/download/ps5/"
+            f"{urllib.parse.quote(title_id, safe='')}/latest"
+        )
+        source = detail["detailsUrl"]
+        poster = resolve_poster(title_id)
+
+        author_text = f" de {author}" if author else ""
+        description = (
+            f"{title}{author_text}. Entrada PS5 detectada automáticamente en PKG-Zone. "
+            f"Categoría: {category}. Fuente externa; HiddenKernel enlaza el PKG original "
+            "y no lo redistribuye ni está afiliado con su desarrollador."
+        )
+
+        packages.append(
+            package(
+                title_id, title, version, description, source,
+                download_url, None, poster
+            )
+        )
+        manifest.append({
+            "titleId": title_id,
+            "version": version,
+            "url": download_url,
+            "posterUrl": poster,
+            "imageSource": poster,
+            "imagePolicy": (
+                "Referencia externa validada. HiddenKernel no descarga, almacena ni redistribuye esta imagen."
+            ),
+            "category": category,
+            "author": author,
+            "updated": detail.get("updated", ""),
+            "sourceType": PKGZONE_AUTO_SOURCE_TYPE,
+            "verification": "PKG-Zone HTTPS source; no SHA-256 local",
+            "provenance": (
+                "Detectado automáticamente en el catálogo PS5 de PKG-Zone y "
+                "filtrado a categorías homebrew/utilidad permitidas. "
+                "El PKG y su portada permanecen alojados por la fuente externa."
+            ),
+        })
+        print(f"OK PKG-Zone {title}: {version} [{category}]")
+
+    return packages, manifest
 
 
 def validate(packages, manifest):
@@ -609,49 +670,46 @@ def validate(packages, manifest):
     for p in packages:
         tid = str(p.get("titleId") or "").strip()
         if not tid or tid in seen:
-            raise RuntimeError(f"titleId invalido/duplicado: {tid!r}")
+            raise RuntimeError(f"titleId inválido/duplicado: {tid!r}")
         seen.add(tid)
+
         if not str(p.get("title") or "").strip():
-            raise RuntimeError(f"Titulo vacio: {tid}")
+            raise RuntimeError(f"Título vacío: {tid}")
+
         links = p.get("downloadLinks") or []
         if not links:
             raise RuntimeError(f"Sin enlace: {p.get('title')}")
+
         for link in links:
             url = str(link.get("url") or "")
             if not url.startswith("https://"):
-                raise RuntimeError(f"Solo HTTPS en el catalogo: {url}")
+                raise RuntimeError(f"Solo HTTPS en el catálogo: {url}")
+
         poster = str(p.get("posterUrl") or "")
         if poster and not poster.startswith("https://"):
             raise RuntimeError(f"posterUrl no HTTPS: {poster}")
 
     by_id = {m.get("titleId"): m for m in manifest}
     for tid in seen:
-        m = by_id.get(tid)
-        if not m:
+        meta = by_id.get(tid)
+        if not meta:
             raise RuntimeError(f"Manifest ausente: {tid}")
 
-        if m.get("sourceType") == PKGZONE_AUTO_SOURCE_TYPE:
-            url = str(m.get("url") or "")
+        if meta.get("sourceType") == PKGZONE_AUTO_SOURCE_TYPE:
+            url = str(meta.get("url") or "")
             expected = f"{PKGZONE_BASE}/download/ps5/{tid}/"
             if not url.startswith(expected):
                 raise RuntimeError(f"URL PKG-Zone inesperada para {tid}: {url}")
-
-            poster = str(m.get("posterUrl") or "")
-            expected_poster = f"{PKGZONE_BASE}/images/{tid}/"
-            if poster and not poster.startswith(expected_poster):
-                raise RuntimeError(
-                    f"Portada automática no externa para {tid}: {poster}"
-                )
             continue
 
-
-        if not valid_sha(m.get("sha256")):
-            raise RuntimeError(f"Manifest sin SHA-256 valido: {tid}")
+        if not valid_sha(meta.get("sha256")):
+            raise RuntimeError(f"Manifest sin SHA-256 válido: {tid}")
 
 
 def main():
     previous_catalog = load_previous_catalog()
     previous_manifest = load_previous_manifest()
+
     packages = []
     manifest = []
 
@@ -673,15 +731,25 @@ def main():
             old_pkg = previous_catalog.get(title_id)
             old_meta = previous_manifest.get(title_id)
             if old_pkg and old_meta and valid_sha(old_meta.get("sha256")):
+                # Si el único problema fue red/portada, corrige de todos modos los
+                # dos overrides conocidos para no volver a publicar el host antiguo.
+                if title_id in POSTER_OVERRIDES:
+                    poster = POSTER_OVERRIDES[title_id]
+                    old_pkg = dict(old_pkg)
+                    old_meta = dict(old_meta)
+                    old_pkg["posterUrl"] = poster
+                    old_meta["posterUrl"] = poster
+                    old_meta["imageSource"] = poster
                 packages.append(old_pkg)
                 manifest.append(old_meta)
                 print(f"AVISO PKG {title_id}: {exc}. Se conserva la entrada anterior.")
             else:
                 raise RuntimeError(
-                    f"{title_id}: {exc}; no hay una entrada anterior valida"
+                    f"{title_id}: {exc}; no hay una entrada anterior válida"
                 ) from exc
 
     reserved_ids = {title_id for title_id, _ in builders}
+
     try:
         auto_packages, auto_manifest = build_pkgzone_auto(
             previous_catalog, previous_manifest, reserved_ids
@@ -707,20 +775,31 @@ def main():
     manifest.sort(key=lambda p: p["titleId"].casefold())
 
     OUT.write_text(
-        json.dumps({"name": "HiddenKernel Homebrew", "packages": packages},
-                   ensure_ascii=False, indent=2) + "\n",
+        json.dumps(
+            {"name": "HiddenKernel Homebrew", "packages": packages},
+            ensure_ascii=False,
+            indent=2,
+        ) + "\n",
         encoding="utf-8",
     )
+
     MANIFEST.write_text(
-        json.dumps({
-            "name": "HiddenKernel Homebrew integrity manifest",
-            "policy": ("Solo homebrew/utilidades legales. Importación automática de PKG-Zone "
-                       "limitada a Utility/Emulator/Homebrew; no juegos comerciales, DLC, "
-                       "updates, Retail PKG ni Media comercial."),
-            "packages": manifest,
-        }, ensure_ascii=False, indent=2) + "\n",
+        json.dumps(
+            {
+                "name": "HiddenKernel Homebrew integrity manifest",
+                "policy": (
+                    "Solo homebrew/utilidades legales. Importación automática de PKG-Zone "
+                    "limitada a Utility/Emulator/Homebrew; no juegos comerciales, DLC, "
+                    "updates, Retail PKG ni Media comercial."
+                ),
+                "packages": manifest,
+            },
+            ensure_ascii=False,
+            indent=2,
+        ) + "\n",
         encoding="utf-8",
     )
+
     print(f"Generado {OUT} con {len(packages)} paquetes.")
 
 

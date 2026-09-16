@@ -1,0 +1,11 @@
+HiddenKernel - corrección automática de portadas (2026-09-16)
+
+Cambios:
+- PS5-Xplorer (LAPY20011): elimina la imagen de ig.2468c.com y usa la portada asociada al Title ID en PKG-Zone.
+- Avatar Changer PS5 (LAPY20016): elimina la imagen de pbs.twimg.com y usa la portada asociada al Title ID en PKG-Zone.
+- actualizador_pkg.py pasa a resolver portadas con prioridad:
+  1. icono oficial explícito del proyecto;
+  2. portada PKG-Zone del Title ID;
+  3. override estable.
+- Se valida que la URL de portada responda como image/*.
+- Si hay un fallo temporal de red, se conserva el override conocido para Xplorer/Avatar y no se vuelve al host antiguo.
