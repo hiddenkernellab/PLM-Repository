@@ -255,15 +255,15 @@
     },
     {
       "name": "garlic-savemgr",
-      "filename": "garlic-savemgr_v1.13.elf",
-      "url": "https://git.etawen.dev/earthonion/garlic-savemgr/releases/download/v1.13/garlic-savemgr.elf",
+      "filename": "garlic-savemgr_v1.13.1.elf",
+      "url": "https://git.etawen.dev/earthonion/garlic-savemgr/releases/download/v1.13.1/garlic-savemgr.elf",
       "source": "https://git.etawen.dev/earthonion/garlic-savemgr/releases",
-      "source_direct": "https://git.etawen.dev/earthonion/garlic-savemgr/releases/download/v1.13/garlic-savemgr.elf",
+      "source_direct": "https://git.etawen.dev/earthonion/garlic-savemgr/releases/download/v1.13.1/garlic-savemgr.elf",
       "description": "Gestor de saves para copiar, importar, descifrar, cifrar y volver a firmar partidas. ESTADO: ESTABILIDAD NO DOCUMENTADA.",
-      "last_update": "2026-08-22",
-      "version": "v1.13",
+      "last_update": "2026-09-19",
+      "version": "v1.13.1",
       "category": "UTILIDADES",
-      "checksum": "b6d366f4101fa2fcc14a353d083ef7e45e1cc86ef457bb20502bd8680dce4d73"
+      "checksum": "b0fc2fcdda977d2a1207d77148746859b7ea7f3cfcad02828a7a9b49651807f5"
     },
     {
       "name": "Lapy JB Daemon",
