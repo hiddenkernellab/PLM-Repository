@@ -6,6 +6,11 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "actualizador.py"
+      - "actualizador_pkg.py"
+      - "payloads/fpkg-tests/**"
+      - ".github/workflows/actualizar.yml"
 
   schedule:
     - cron: "17 */3 * * *"
@@ -20,14 +25,17 @@ permissions:
 jobs:
   actualizar:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
 
     steps:
       - name: Descargar repositorio
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          fetch-depth: 0
 
       - name: Preparar Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 
@@ -35,10 +43,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          python -m py_compile actualizador.py actualizador_pkg.py
           python actualizador.py
           python actualizador_pkg.py
 
       - name: Guardar cambios
+        shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -47,7 +57,15 @@ jobs:
 
           if git diff --cached --quiet; then
             echo "No hay cambios."
-          else
-            git commit -m "Actualizar catalogos"
-            git push
+            exit 0
           fi
+
+          git commit -m "Actualizar HiddenKernel: catalogo, FPKG y workflow"
+
+          git fetch origin main
+          if [ "$(git rev-parse origin/main)" != "$(git rev-parse HEAD^)" ]; then
+            echo "main cambió durante la ejecución; reintentando sobre el último main..."
+            git rebase origin/main
+          fi
+
+          git push origin HEAD:main
