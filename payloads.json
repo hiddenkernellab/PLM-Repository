@@ -3,15 +3,15 @@
   "payloads": [
     {
       "name": "kstuff-lite",
-      "filename": "kstuff-lite_v1.10.elf",
-      "url": "https://github.com/EchoStretch/kstuff-lite/releases/download/v1.10/kstuff.elf",
+      "filename": "kstuff-lite_v1.11.elf",
+      "url": "https://github.com/EchoStretch/kstuff-lite/releases/download/v1.11/kstuff.elf",
       "source": "https://github.com/EchoStretch/kstuff-lite/releases",
-      "source_direct": "https://github.com/EchoStretch/kstuff-lite/releases/download/v1.10/kstuff.elf",
-      "description": "Kstuff ligero que aplica los parches necesarios para el entorno homebrew. Se usa habitualmente junto con ShadowMountPlus. ESTADO: EN PRUEBAS. COMPATIBILIDAD: FW 3.00-12.70.",
-      "last_update": "2026-08-25",
-      "version": "v1.10",
+      "source_direct": "https://github.com/EchoStretch/kstuff-lite/releases/download/v1.11/kstuff.elf",
+      "description": "Kstuff ligero que aplica los parches necesarios para el entorno homebrew. Se usa habitualmente junto con ShadowMountPlus. ESTADO: EN PRUEBAS. COMPATIBILIDAD: FW 1.00-13.60.",
+      "last_update": "2026-09-23",
+      "version": "v1.11",
       "category": "ESENCIALES",
-      "checksum": "82cbb1e70f8a562317d6b65269cf6aa0d7d94e22df4f1ac89a260ca0ec261252"
+      "checksum": "ab9a6cb4d3b1daf139d4d646e402b1cf569071acd64599c936d7a3a6164dc779"
     },
     {
       "name": "nanoDNS",
@@ -20,10 +20,10 @@
       "source": "https://github.com/drakmor/nanoDNS/releases",
       "source_direct": "https://github.com/drakmor/nanoDNS/releases/download/0.4/nanodns.elf",
       "description": "DNS local para bloquear dominios de PSN y actualizaciones, con redirecciones configurables desde la propia consola. ESTADO: ESTABILIDAD NO DOCUMENTADA.",
-      "last_update": "2026-08-04",
+      "last_update": "2026-09-20",
       "version": "0.4",
       "category": "ESENCIALES",
-      "checksum": "dcb845f3570771275b22b37534bf924a7f8ae219fb91ef00c6bccab85d1c2420"
+      "checksum": "fcfb7d47c3b295560ea1603dc015f7c4950353ef0faca16428bd425680ef1fc5"
     },
     {
       "name": "PLDMGR Install & Update",
@@ -39,15 +39,15 @@
     },
     {
       "name": "ShadowMountPlus",
-      "filename": "ShadowMountPlus_1.6beta16.elf",
-      "url": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.6beta16/shadowmountplus.elf",
+      "filename": "shadowmountplus_v1.7beta2.elf",
+      "url": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.7beta2/shadowmountplus.elf",
       "source": "https://github.com/drakmor/ShadowMountPlus/releases",
-      "source_direct": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.6beta16/shadowmountplus.elf",
-      "description": "Monta y registra juegos desde almacenamiento interno o externo. Se mantiene la rama 1.6beta16 y las 1.7 alpha por separado. ESTADO: PROBADA.",
-      "last_update": "2026-06-28",
-      "version": "1.6beta16",
+      "source_direct": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.7beta2/shadowmountplus.elf",
+      "description": "Monta y registra juegos desde almacenamiento interno o externo. Se mantiene la rama 1.6beta16 y las 1.7 alpha por separado. ESTADO: EN PRUEBAS.",
+      "last_update": "2026-09-21",
+      "version": "1.7beta2",
       "category": "ESENCIALES",
-      "checksum": "a35246fb3bb6042b25653b51cdcbc33254b40339342bf1d2dd0d2eceee2ca526"
+      "checksum": "3f716a7b2220c7e87e87452ae05cad689ef842d3beb4cdad6c526cb6dfc2b6b5"
     },
     {
       "name": "etaHEN",
@@ -87,15 +87,15 @@
     },
     {
       "name": "ELF Arsenal",
-      "filename": "ELF_Arsenal_v1.6.22.elf",
-      "url": "https://git.etawen.dev/soniciso/elf-arsenal/releases/download/v1.6.22/elf-arsenal.elf",
+      "filename": "ELF_Arsenal_v1.6.23.elf",
+      "url": "https://git.etawen.dev/soniciso/elf-arsenal/releases/download/v1.6.23/elf-arsenal.elf",
       "source": "https://git.etawen.dev/soniciso/elf-arsenal/releases",
-      "source_direct": "https://git.etawen.dev/soniciso/elf-arsenal/releases/download/v1.6.22/elf-arsenal.elf",
+      "source_direct": "https://git.etawen.dev/soniciso/elf-arsenal/releases/download/v1.6.23/elf-arsenal.elf",
       "description": "AIO con muchas herramientas y payloads integrados. Proyecto discontinuado; se conserva por su utilidad en sistemas ya configurados. ESTADO: ESTABILIDAD NO DOCUMENTADA.",
-      "last_update": "2026-07-04",
-      "version": "v1.6.22",
+      "last_update": "2026-09-23",
+      "version": "v1.6.23",
       "category": "SISTEMA",
-      "checksum": "ee8f47e4d6a5fd85cef113341aa1eb74d68e373a58fcb1fb5a9274acd2b83bd2"
+      "checksum": "20cdb0979ce627aff8e684a4506e18390a72492d5e3aa15ecef0bfe1bca08bb5"
     },
     {
       "name": "ProsperoMgr",
@@ -183,15 +183,27 @@
     },
     {
       "name": "ps5upload",
-      "filename": "ps5upload_v5.30.0.elf",
-      "url": "https://github.com/phantomptr/ps5upload/releases/download/v5.30.0/ps5upload-5.30.0.elf",
+      "filename": "ps5upload_v5.33.2.elf",
+      "url": "https://github.com/phantomptr/ps5upload/releases/download/v5.33.2/ps5upload-5.33.2.elf",
       "source": "https://github.com/phantomptr/ps5upload/releases",
-      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v5.30.0/ps5upload-5.30.0.elf",
+      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v5.33.2/ps5upload-5.33.2.elf",
       "description": "Transfiere archivos entre PS5 y PC/Android con control de integridad y soporte para reanudar envios. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 1.00-12.70; probado en hardware en 5.10, 9.60 y 12.20.",
-      "last_update": "2026-09-18",
-      "version": "v5.30.0",
+      "last_update": "2026-09-23",
+      "version": "v5.33.2",
       "category": "ARCHIVOS / PC",
-      "checksum": "5d459934a2e8dac8e1a21104db8c1632809d2f45bb2f9a5a0395317d44de32c8"
+      "checksum": "808b7acc5173bf8cfda02281b1ab3bf706dc7977f77c8cd64e1cf733d5aa9831"
+    },
+    {
+      "name": "ps5upload",
+      "filename": "ps5upload_v5.33.3.elf",
+      "url": "https://github.com/phantomptr/ps5upload/releases/download/v5.33.3/ps5upload-5.33.3.elf",
+      "source": "https://github.com/phantomptr/ps5upload/releases",
+      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v5.33.3/ps5upload-5.33.3.elf",
+      "description": "Transfiere archivos entre PS5 y PC/Android con control de integridad y soporte para reanudar envios. ESTADO: EN PRUEBAS. COMPATIBILIDAD: FW 1.00-12.70; probado en hardware en 5.10, 9.60 y 12.20.",
+      "last_update": "2026-09-23",
+      "version": "v5.33.3",
+      "category": "ARCHIVOS / PC",
+      "checksum": "7710a3ea6c6ac37bab2ab18c4d6e185ae9fe1b06ddcc6e05e2d23da35fea9063"
     },
     {
       "name": "singleDPI",
@@ -315,15 +327,15 @@
     },
     {
       "name": "Spectrum Library",
-      "filename": "Spectrum-Library_v1.4.5.elf",
-      "url": "https://github.com/Phoenixx1202/Spectrum-Library/releases/download/1.4.5/SpectrumLibrary_1.4.5.elf",
+      "filename": "Spectrum-Library_v1.4.6.elf",
+      "url": "https://github.com/Phoenixx1202/Spectrum-Library/releases/download/1.4.6/SpectrumLibrary_1.4.6.elf",
       "source": "https://github.com/Phoenixx1202/Spectrum-Library/releases",
-      "source_direct": "https://github.com/Phoenixx1202/Spectrum-Library/releases/download/1.4.5/SpectrumLibrary_1.4.5.elf",
+      "source_direct": "https://github.com/Phoenixx1202/Spectrum-Library/releases/download/1.4.6/SpectrumLibrary_1.4.6.elf",
       "description": "Biblioteca y gestor de descargas con portadas, grupos, cola y selector de destino. ESTADO: ESTABILIDAD NO DOCUMENTADA.",
-      "last_update": "2026-09-11",
-      "version": "1.4.5",
+      "last_update": "2026-09-19",
+      "version": "1.4.6",
       "category": "DESCARGAS",
-      "checksum": "cd93973a89263fad0b13b39d77d7fbb401c7c7c641bc036965876c810ebf534e"
+      "checksum": "73dd3f3938867ac970207ae8e4093e2d0c5b005bcad1ff9ff2aeb5d34294a161"
     },
     {
       "name": "A53 PPR Install Fast",
