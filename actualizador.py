@@ -7,18 +7,18 @@ BASE_URL = (
     "f12cc2780a3440771933c495aa95849823ecd95a/actualizador.py"
 )
 
-REPLACEMENTS = {
-    "https://nexgen999.github.io/PS5-Super-PLDMGR-Auto-Updater/json/PS5_Beta.json":
-        "https://raw.githubusercontent.com/nexgen999/PS5-Super-PLDMGR-Auto-Updater/main/json/PS5_Beta.json",
-    "https://nexgen999.github.io/PS5-Super-PLDMGR-Auto-Updater/json/ps5_hen_loader.json":
-        "https://raw.githubusercontent.com/nexgen999/PS5-Super-PLDMGR-Auto-Updater/main/json/ps5_hen_loader.json",
-}
+OLD_PREFIX = "https://nexgen999.github.io/PS5-Super-PLDMGR-Auto-Updater/"
+NEW_PREFIX = (
+    "https://raw.githubusercontent.com/"
+    "nexgen999/PS5-Super-PLDMGR-Auto-Updater/main/"
+)
+MARKER = "# HK-HOTFIX-NEXGEN-RAW-2026-09-25-V2"
 
 def download_base():
     req = urllib.request.Request(
         BASE_URL,
         headers={
-            "User-Agent": "HiddenKernel-Hotfix/1.0",
+            "User-Agent": "HiddenKernel-Hotfix/2.0",
             "Cache-Control": "no-cache",
         },
     )
@@ -28,23 +28,24 @@ def download_base():
 def main():
     source = download_base()
 
-    for old, new in REPLACEMENTS.items():
-        count = source.count(old)
-        if count < 1:
-            raise RuntimeError(f"No se encontró URL a corregir: {old}")
-        source = source.replace(old, new)
+    count = source.count(OLD_PREFIX)
+    if count < 1:
+        raise RuntimeError(
+            f"No se encontró el prefijo Nexgen a corregir: {OLD_PREFIX}"
+        )
 
-    marker = "# HK-HOTFIX-NEXGEN-RAW-2026-09-25"
-    if marker not in source:
-        source = marker + "\n" + source
+    source = source.replace(OLD_PREFIX, NEW_PREFIX)
+
+    if MARKER not in source:
+        source = MARKER + "\n" + source
 
     target = Path(__file__)
 
-    # Validar sintaxis antes de sustituir el archivo.
+    # Validar el actualizador completo antes de reemplazar el hotfix.
     compile(source, str(target), "exec")
     target.write_text(source, encoding="utf-8", newline="\n")
 
-    print("Hotfix aplicado: catálogos Nexgen pasan a raw.githubusercontent.com.")
+    print(f"Hotfix V2 aplicado: {count} URL(s) Nexgen corregidas.")
     print("Ejecutando actualizador completo corregido...")
 
     ns = {
