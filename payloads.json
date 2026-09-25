@@ -194,16 +194,16 @@
       "checksum": "808b7acc5173bf8cfda02281b1ab3bf706dc7977f77c8cd64e1cf733d5aa9831"
     },
     {
-      "name": "ps5upload",
-      "filename": "ps5upload_v5.33.3.elf",
-      "url": "https://github.com/phantomptr/ps5upload/releases/download/v5.33.3/ps5upload-5.33.3.elf",
-      "source": "https://github.com/phantomptr/ps5upload/releases",
-      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v5.33.3/ps5upload-5.33.3.elf",
-      "description": "Transfiere archivos entre PS5 y PC/Android con control de integridad y soporte para reanudar envios. ESTADO: EN PRUEBAS. COMPATIBILIDAD: FW 1.00-12.70; probado en hardware en 5.10, 9.60 y 12.20.",
-      "last_update": "2026-09-23",
-      "version": "v5.33.3",
-      "category": "ARCHIVOS / PC",
-      "checksum": "7710a3ea6c6ac37bab2ab18c4d6e185ae9fe1b06ddcc6e05e2d23da35fea9063"
+      "name": "PKG Manager",
+      "filename": "pkg-manager_v1.3.0.elf",
+      "url": "https://github.com/itsPLK/ps5-pkg-manager/releases/download/v1.3.0/pkg-manager_v1.3.0.elf",
+      "source": "https://github.com/itsPLK/ps5-pkg-manager/releases",
+      "source_direct": "https://github.com/itsPLK/ps5-pkg-manager/releases/download/v1.3.0/pkg-manager_v1.3.0.elf",
+      "description": "Gestor de PKG con instalacion local, Direct Install y recursos SMB. La rama 1.3 corrige la instalacion consecutiva en FW 9.60+ y mejora bibliotecas grandes. ESTADO: ESTABILIDAD NO DOCUMENTADA.",
+      "last_update": "2026-09-25",
+      "version": "v1.3.0",
+      "category": "PKG / INSTALACION",
+      "checksum": "3566678158f73f1ebdf80a7cccec263a554c6fbad1563a0054c5e8fcc0f4eb47"
     },
     {
       "name": "singleDPI",
@@ -302,6 +302,18 @@
       "checksum": "6a38ee251b2252ae6752bf23f4f22d970d449731cfe69c1f513f18670efd5314"
     },
     {
+      "name": "ps5debug-NG",
+      "filename": "ps5debug-NG_v1.3.2.elf",
+      "url": "https://github.com/Pharaoh2k/ps5debug-NG/releases/download/1.3.2/ps5debug-NG_v1.3.2.elf",
+      "source": "https://github.com/Pharaoh2k/ps5debug-NG/releases",
+      "source_direct": "https://github.com/Pharaoh2k/ps5debug-NG/releases/download/1.3.2/ps5debug-NG_v1.3.2.elf",
+      "description": "Servidor de depuracion, memoria y herramientas para PS5. La rama 1.3.2 prioriza correcciones de escritura, sesiones y escaneo. ESTADO: FIABILIDAD MEJORADA. COMPATIBILIDAD: hasta FW 13.60.",
+      "last_update": "2026-09-23",
+      "version": "1.3.2",
+      "category": "UTILIDADES",
+      "checksum": "949b0e6e0fe3f24f4a820319fd76d9ccb92f9770cbb1a64b09a8eca5c1fc9ff3"
+    },
+    {
       "name": "PoorDS4",
       "filename": "PoorDS4rc44.elf",
       "url": "https://github.com/ItsBlurf/PoorDS4/releases/download/v0.1.0-rc44/PoorDS4rc44.elf",
@@ -338,6 +350,42 @@
       "checksum": "73dd3f3938867ac970207ae8e4093e2d0c5b005bcad1ff9ff2aeb5d34294a161"
     },
     {
+      "name": "FPKG Integrado - ShadowMountPlus",
+      "filename": "fpkg-integrado-shadowmountplus.elf",
+      "url": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.7beta2/shadowmountplus.elf",
+      "source": "https://github.com/drakmor/ShadowMountPlus/releases",
+      "source_direct": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.7beta2/shadowmountplus.elf",
+      "description": "ShadowMountPlus 1.7 para acompañar la rama Kstuff/PPR integrada. Se mantiene como entrada separada para poder actualizarlo o aislar fallos. ESTADO: EN PRUEBAS.",
+      "last_update": "2026-09-21",
+      "version": "1.7beta2",
+      "category": "FPKG INTEGRADO",
+      "checksum": "3f716a7b2220c7e87e87452ae05cad689ef842d3beb4cdad6c526cb6dfc2b6b5"
+    },
+    {
+      "name": "FPKG Modular - Kstuff Lite",
+      "filename": "fpkg-modular-kstuff-lite.elf",
+      "url": "https://github.com/EchoStretch/kstuff-lite/releases/download/v1.11/kstuff.elf",
+      "source": "https://github.com/EchoStretch/kstuff-lite/releases",
+      "source_direct": "https://github.com/EchoStretch/kstuff-lite/releases/download/v1.11/kstuff.elf",
+      "description": "Kstuff Lite oficial para el stack FPKG modular. En 1.11 incorpora soporte FPKG y soporte de firmware ampliado. ESTADO: EN PRUEBAS. COMPATIBILIDAD: FW 1.00-13.60.",
+      "last_update": "2026-09-23",
+      "version": "v1.11",
+      "category": "FPKG MODULAR",
+      "checksum": "ab9a6cb4d3b1daf139d4d646e402b1cf569071acd64599c936d7a3a6164dc779"
+    },
+    {
+      "name": "FPKG Modular - ShadowMountPlus",
+      "filename": "fpkg-modular-shadowmountplus.elf",
+      "url": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.7beta2/shadowmountplus.elf",
+      "source": "https://github.com/drakmor/ShadowMountPlus/releases",
+      "source_direct": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.7beta2/shadowmountplus.elf",
+      "description": "ShadowMountPlus 1.7 para el stack FPKG modular. Se carga separado del A53 para poder diagnosticar cada pieza. ESTADO: EN PRUEBAS.",
+      "last_update": "2026-09-21",
+      "version": "1.7beta2",
+      "category": "FPKG MODULAR",
+      "checksum": "3f716a7b2220c7e87e87452ae05cad689ef842d3beb4cdad6c526cb6dfc2b6b5"
+    },
+    {
       "name": "A53 PPR Install Fast",
       "filename": "a53_ppr_install_fast.elf",
       "url": "https://hiddenkernellab.github.io/PLM-Repository/payloads/fpkg-tests/a53_ppr_install_fast.elf",
@@ -346,7 +394,7 @@
       "description": "Payload que instala en memoria el parche PPR del A53 para el flujo FPKG. La build fast activa por defecto el transporte rapido, persistente, batch y mixed-I/O; permite restaurar el estado original mediante la accion de desinstalacion. ESTADO: PRUEBA FPKG / A53. COMPATIBILIDAD: perfiles incluidos hasta FW 11.40.",
       "last_update": "2026-09-15",
       "version": "15.09-bf641bf7",
-      "category": "PRUEBAS FPKG",
+      "category": "FPKG LEGACY",
       "checksum": "bf641bf7b3502ceeb1853d36c6aaad7ef501a0d1af931fc3f013eebe08908ebc"
     },
     {
@@ -358,7 +406,7 @@
       "description": "Build experimental de kstuff-lite preparada para las pruebas de FPKG nativos. No sustituye a la version recomendada de ESENCIALES salvo que se quiera probar FPKG. ESTADO: PRUEBA FPKG. COMPATIBILIDAD: FW compatibles hasta 11.40.",
       "last_update": "2026-09-15",
       "version": "1.12-fpkg-dr-test8",
-      "category": "PRUEBAS FPKG",
+      "category": "FPKG LEGACY",
       "checksum": "fafee1a13933e4a783e3438d7b3d10478e8dfd6f29e6e432a7a2a711650d81a4"
     },
     {
@@ -370,7 +418,7 @@
       "description": "Build experimental de ShadowMountPlus usada en las pruebas de FPKG nativos. Mantener separada de la rama recomendada de ESENCIALES. ESTADO: PRUEBA FPKG. COMPATIBILIDAD: FW compatibles hasta 11.40.",
       "last_update": "2026-09-15",
       "version": "1.7alpha13fix1-13-g072c17",
-      "category": "PRUEBAS FPKG",
+      "category": "FPKG LEGACY",
       "checksum": "03688cd6c361b22c07aa8c72314dcb3573b7e83b104634a9e99697de784eb760"
     },
     {
@@ -386,6 +434,18 @@
       "checksum": "512c74a9d6f56bb5a4ab871a0306a8cbefb8b3d5454ba8f1d833b020b245a126"
     },
     {
+      "name": "ftpsrv Drakmor",
+      "filename": "ftpsrv-ps5.elf",
+      "url": "https://github.com/drakmor/ftpsrv/releases/download/1.16-ng-stable/ftpsrv-ps5.elf",
+      "source": "https://github.com/drakmor/ftpsrv/releases",
+      "source_direct": "https://github.com/drakmor/ftpsrv/releases/download/1.16-ng-stable/ftpsrv-ps5.elf",
+      "description": "Fork de ftpsrv orientado a PS5 con /proc, utilidades LOWER/UPPER y soporte reciente de descifrado SELF en firmwares altos. ESTADO: ESTABLE. COMPATIBILIDAD: hasta FW 13.60.",
+      "last_update": "2026-09-20",
+      "version": "1.16-ng-stable",
+      "category": "ALTERNATIVOS",
+      "checksum": "f19ae469b25453a7a4af4529527521d31f143100f18a2c6839666e7121c8bd32"
+    },
+    {
       "name": "kstuff-lite Drakmor",
       "filename": "kstuff.elf",
       "url": "https://github.com/drakmor/kstuff-lite/releases/download/1.2-dr-test2/kstuff.elf",
@@ -396,6 +456,18 @@
       "version": "1.2-dr-test2",
       "category": "ALTERNATIVOS",
       "checksum": "2b699d411079a21dba7c39a02993fc0fb21e52f434103e884a0c892fafe56b75"
+    },
+    {
+      "name": "PS5 BackPork",
+      "filename": "ps5-backpork.elf",
+      "url": "https://github.com/BestPig/BackPork/releases/download/0.1/ps5-backpork.elf",
+      "source": "https://github.com/BestPig/BackPork/releases",
+      "source_direct": "https://github.com/BestPig/BackPork/releases/download/0.1/ps5-backpork.elf",
+      "description": "Sideload de librerias de sistema para compatibilidad/backports. No debe ejecutarse junto con los backports PKG de ShadowMountPlus 1.7. ESTADO: REVISAR. COMPATIBILIDAD: hasta FW 12.00.",
+      "last_update": "2026-04-30",
+      "version": "0.1",
+      "category": "ALTERNATIVOS",
+      "checksum": "d74e4cd119b2bb1fd423f2f5b1c9a7f096b3e588c753af1ab48b983d56216a52"
     },
     {
       "name": "ShadowMountPlus",
