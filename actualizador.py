@@ -1,1009 +1,246 @@
 #!/usr/bin/env python3
-import hashlib
-import io
-import json
-import os
 import re
 import urllib.request
-import zipfile
-from datetime import datetime
 from pathlib import Path
 
-UA = "HiddenKernel-Store/1.0"
-TOKEN = os.getenv("GITHUB_TOKEN", "")
-PAGES = "https://hiddenkernellab.github.io/PLM-Repository"
-MIRROR = Path("payloads")
+BASE_URL = (
+    "https://raw.githubusercontent.com/hiddenkernellab/PLM-Repository/"
+    "1a632c6f7572bcab8e5092e0d8e4cfbc62e25805/actualizador.py"
+)
+MARKER = "# HK-CATALOG-2026-09-25"
 
-APPS = [
-    # ESENCIALES
-    dict(name="kstuff-lite", repo="EchoStretch/kstuff-lite",
-         match=["kstuff"], exclude=["debug"], category="ESENCIALES",
-         desc=("Kstuff ligero que aplica los parches necesarios para el entorno homebrew. "
-               "Se usa habitualmente junto con ShadowMountPlus."),
-         channels=["stable", "beta"],
-         single_latest=True),
-    dict(name="ShadowMountPlus", repo="drakmor/ShadowMountPlus",
-         match=["shadowmount"], archive=["shadowmount"], category="ESENCIALES",
-         desc=("Monta y registra juegos desde almacenamiento interno o externo. "
-               "Se mantiene la rama 1.6beta16 y las 1.7 alpha por separado."),
-         stable_override=r"(?i)^1\.6beta16$",
-         exclude_versions=[r"(?i)^v?1\.4(?:\D|$)"],
-         alternate_channels=["alpha"],
-         always_alpha=True),
-    # ALTERNATIVOS
-    dict(name="kstuff-lite Drakmor", repo="drakmor/kstuff-lite",
-         match=["kstuff"], exclude=["debug"], category="ALTERNATIVOS",
-         desc=("Rama alternativa de kstuff-lite mantenida por Drakmor, con sus "
-               "optimizaciones y builds de prueba. Se mantiene separada de la "
-               "rama principal de EchoStretch en ESENCIALES."),
-         channels=["stable", "beta", "alpha"],
-         single_latest=True),
-    dict(name="nanoDNS", repo="drakmor/nanoDNS",
-         match=["nanodns"], category="ESENCIALES",
-         alternate_channels=["beta", "alpha"],
-         desc=("DNS local para bloquear dominios de PSN y actualizaciones, con "
-               "redirecciones configurables desde la propia consola.")),
+def download_base():
+    req = urllib.request.Request(
+        BASE_URL,
+        headers={
+            "User-Agent": "HiddenKernel-Updater-Bootstrap/1.0",
+            "Cache-Control": "no-cache",
+        },
+    )
+    with urllib.request.urlopen(req, timeout=60) as r:
+        return r.read().decode("utf-8")
 
-    # HEN / AIO
-    dict(name="OnionHEN", repo="aydencharles/onionHEN",
-         match=["onionhen"], archive=["onionhen"], category="HEN / AIO",
-         desc=("HEN AIO con Toolbox, trucos, overlays y servicios integrados.")),
-    dict(name="etaHEN", repo="etaHEN/etaHEN",
-         match=["etahen"], category="HEN / AIO",
-         desc=("HEN AIO con Toolbox, plugins, trucos y servicios integrados.")),
-    dict(name="PIZZA-HEN", repo="Michele-M-Media/PIZZA-HEN",
-         match=["pizza"], archive=["pizza"], category="HEN / AIO",
-         desc=("HEN AIO con KStuff, ShadowMount, Toolbox, FTP, ps5debug-NG "
-               "e instalador de PKG. Algunas funciones son experimentales.")),
+def replace_once(s, old, new, label):
+    count = s.count(old)
+    if count != 1:
+        raise RuntimeError(
+            f"{label}: se esperaba exactamente 1 coincidencia y hay {count}"
+        )
+    return s.replace(old, new, 1)
 
-    # SISTEMA / GESTIÓN
-    dict(name="PLDMGR Install & Update", repo="hiddenkernellab/PLDMGR-install-update",
-         match=["hk-pldmgr-install-update"], category="ESENCIALES",
-         install_filename="HK-PLDMGR-Install-Update.elf",
-         desc=("Instala, repara y actualiza PS5 Payload Manager y vuelve a crear "
-               "su archivo de autoload.")),
-    dict(name="PS5 WebKit Autoloader", repo="itsPLK/ps5-webkit-autoloader",
-         match=["webkit-autoloader-installer"], exclude=["host"], category="SISTEMA",
-         desc=("Autoloader WebKit para lanzar de forma automatica el exploit y los payloads.")),
-    dict(name="ps5-payload-websrv", repo="ps5-payload-dev/websrv",
-         match=["websrv-ps5"], category="SISTEMA",
-         desc=("Servidor web y lanzador de homebrew. Detecta aplicaciones en /data/homebrew, "
-               "/mnt/usb*/homebrew y /mnt/ext*/homebrew y permite lanzarlas desde PS5, PC o telefono.")),
-    dict(name="ProsperoMgr",
-         catalog_url=("https://nexgen999.github.io/PS5-Super-PLDMGR-Auto-Updater/"
-                      "json/ps5_hen_loader.json"),
-         catalog_names=["ProsperoMgr", "Prospero Manager"],
-         source="https://github.com/notmaj0r/ProsperoMgr",
-         category="SISTEMA",
-         desc=("Gestor web AIO para archivos, payloads, PKG, saves, procesos, "
-               "autoload y datos del sistema.")),
-    dict(name="ELF Arsenal",
-         api="https://git.etawen.dev/api/v1/repos/soniciso/elf-arsenal/releases",
-         source="https://git.etawen.dev/soniciso/elf-arsenal/releases",
-         match=["elf-arsenal"], category="SISTEMA",
-         desc=("AIO con muchas herramientas y payloads integrados. Proyecto discontinuado; "
-               "se conserva por su utilidad en sistemas ya configurados.")),
+def build_updated_source():
+    s = download_base()
 
-    # ARCHIVOS / PC
-    dict(name="BFpilot", repo="ItsBlurf/BFpilot",
-         match=["bfpilot"], exclude=["alpha", "installer", "lite"], category="ARCHIVOS / PC",
-         desc=("Explorador web AIO para mover archivos, extraer ZIP/RAR/7z "
-               "e instalar PKG locales.")),
-    dict(name="PS5 File Explorer", repo="juma-sayeh/PS5-File-Explorer",
-         match=["file-explorer-core"], category="ARCHIVOS / PC",
-         desc=("Explorador web para copiar, mover, subir y extraer ZIP/RAR en la PS5. "
-               "Se usa la build Core recomendada por el autor para maxima compatibilidad.")),
-    dict(name="PS5 Web File Manager", repo="owendswang/ps5-web-file-manager",
-         match=["web-file-mgr"], category="ARCHIVOS / PC",
-         desc=("Explorador web ligero para mover archivos desde la red local "
-               "e instalar PKG.")),
-    dict(name="ftpsrv", repo="ps5-payload-dev/ftpsrv",
-         match=["ftpsrv"], prefer=["ps5"], exclude=["ps4", "install"],
-         category="ARCHIVOS / PC",
-         desc=("Servidor FTP ligero para acceder a los archivos de la PS5 desde PC o telefono.")),
-    dict(name="ps5upload", repo="phantomptr/ps5upload",
+    s = replace_once(
+        s,
+r'''    dict(name="ps5upload", repo="phantomptr/ps5upload",
          match=["ps5upload"], category="ARCHIVOS / PC",
          desc=("Transfiere archivos entre PS5 y PC/Android con control de integridad y soporte para reanudar envios.")),
+''',
+r'''    dict(name="ps5upload", repo="phantomptr/ps5upload",
+         match=["ps5upload"], category="ARCHIVOS / PC",
+         channels=["stable"], single_latest=True,
+         desc=("Transfiere archivos entre PS5 y PC/Android con control de integridad y soporte para reanudar envios.")),
+    dict(name="ftpsrv Drakmor", repo="drakmor/ftpsrv",
+         match=["ftpsrv"], prefer=["ps5"], exclude=["ps4", "autopause"],
+         category="ALTERNATIVOS", channels=["stable"], single_latest=True,
+         desc=("Fork de ftpsrv orientado a PS5 con /proc, utilidades LOWER/UPPER y "
+               "soporte reciente de descifrado SELF en firmwares altos.")),
+''',
+        "ps5upload / ftpsrv Drakmor",
+    )
 
-    # PKG / INSTALACION
+    s = replace_once(
+        s,
+r'''    # PKG / INSTALACION
     dict(name="singleDPI", repo="MaxMilu/ps5-direct-package-installer",
-         match=["singledpi"], category="PKG / INSTALACION",
-         desc=("Direct Package Installer independiente de etaHEN. Requiere kstuff compatible; "
-               "acepta instalaciones remotas por DPI v1 y por el endpoint HTTP DPI v2 experimental.")),
+''',
+r'''    # PKG / INSTALACION
+    dict(name="PKG Manager", repo="itsPLK/ps5-pkg-manager",
+         match=["pkg-manager"], category="PKG / INSTALACION",
+         channels=["stable"], single_latest=True,
+         desc=("Gestor de PKG con instalacion local, Direct Install y recursos SMB. "
+               "La rama 1.3 corrige la instalacion consecutiva en FW 9.60+ y mejora bibliotecas grandes.")),
+    dict(name="singleDPI", repo="MaxMilu/ps5-direct-package-installer",
+''',
+        "PKG Manager",
+    )
 
-    # JUEGOS / COMPATIBILIDAD
-    dict(name="PS5 Game Compressor", repo="juma-sayeh/PS5-Game-Compressor",
-         match=["game-compressor"], category="JUEGOS / COMPATIBILIDAD",
-         desc=("Comprime, descomprime, valida y repara juegos usados con "
-               "ShadowMountPlus y ofrece funciones para APR Emu.")),
-    dict(name="APR Emu Updater", repo="tsuramatsu1/apr-emu-updater",
-         match=["apr_emu_updater"], category="JUEGOS / COMPATIBILIDAD",
-         desc=("Gestiona APR Emu por juego y su uso junto con ShadowMountPlus.")),
-    dict(name="PS5 App Dumper", repo="EchoStretch/ps5-app-dumper",
-         match=["app", "dumper"], archive=["dumper"], category="JUEGOS / COMPATIBILIDAD",
-         desc=("Vuelca aplicaciones y juegos PS5 para copias de seguridad y "
-               "flujos de compatibilidad.")),
-
-    # UTILIDADES
+    s = replace_once(
+        s,
+r'''    # UTILIDADES
     dict(name="garlic-savemgr",
-         api="https://git.etawen.dev/api/v1/repos/earthonion/garlic-savemgr/releases",
-         source="https://git.etawen.dev/earthonion/garlic-savemgr/releases",
-         match=["garlic-savemgr"], exclude=["worker"], category="UTILIDADES",
-         desc=("Gestor de saves para copiar, importar, descifrar, cifrar "
-               "y volver a firmar partidas.")),
-    dict(name="np-fake-signin", repo="earthonion/np-fake-signin",
-         match=["np", "fake", "signin"], prefer=["ps5"], exclude=["ps4"],
-         archive=["np-fake-signin"], category="UTILIDADES",
-         install_filename="np-fake-signin.elf",
-         desc=("Simula el acceso a PSN para el usuario activo. "
-               "Requiere una cuenta activada offline y reiniciar al terminar.")),
-    dict(name="Common FPS for PS5", repo="porhe911/Common-FPS-for-PS5",
-         match=["common", "fps"], exclude=["plugin"], archive=["common"],
-         category="UTILIDADES",
-         desc=("Muestra los FPS en tiempo real en juegos PS4/PS5. "
-               "Disponible como ELF y como plugin para etaHEN.")),
+''',
+r'''    # UTILIDADES
+    dict(name="ps5debug-NG", repo="Pharaoh2k/ps5debug-NG",
+         match=["ps5debug-ng"], category="UTILIDADES",
+         channels=["stable"], single_latest=True,
+         desc=("Servidor de depuracion, memoria y herramientas para PS5. "
+               "La rama 1.3.2 prioriza correcciones de escritura, sesiones y escaneo.")),
+    dict(name="garlic-savemgr",
+''',
+        "ps5debug-NG",
+    )
+
+    s = replace_once(
+        s,
+r'''    # MANDOS
+    dict(name="Ghostcontrol", optional=True,
+''',
+r'''    # ALTERNATIVOS / USO AVANZADO
+    dict(name="PS5 BackPork", repo="BestPig/BackPork",
+         match=["backpork"], category="ALTERNATIVOS",
+         channels=["stable"], single_latest=True,
+         desc=("Sideload de librerias de sistema para compatibilidad/backports. "
+               "No debe ejecutarse junto con los backports PKG de ShadowMountPlus 1.7.")),
 
     # MANDOS
     dict(name="Ghostcontrol", optional=True,
-         catalog_url=("https://nexgen999.github.io/PS5-Super-PLDMGR-Auto-Updater/"
-                      "json/ps5_hen_loader.json"),
-         catalog_names=["Ghostcontrol", "Ghostcontrol-PS5-USB-Controller-Patcher"],
-         source="https://github.com/StonedModder/Ghostcontrol-PS5-USB-Controller-Patcher/releases",
-         category="MANDOS",
-         desc=("Permite usar varios mandos USB de terceros mediante un DualSense virtual.")),
-    dict(name="PoorDS4", repo="ItsBlurf/PoorDS4",
-         match=["poords4rc"], exclude=["status", "stop"], category="MANDOS",
-         desc=("Permite usar un DualShock 4 inalambrico en juegos nativos de PS5. "
-               "Proyecto experimental; la compatibilidad depende del firmware y del juego.")),
+''',
+        "PS5 BackPork",
+    )
 
-    # DESCARGAS
-    dict(name="Pegasus DL", repo="pegasus-ps5/pegasus-dl",
-         match=["pegasus"], category="DESCARGAS",
-         desc=("Gestor de descargas web. Desde 1.8.0 puede enviar enlaces .pkg "
-               "al descargador nativo de PS5.")),
-    dict(name="Spectrum Library", repo="Phoenixx1202/Spectrum-Library",
+    s = replace_once(
+        s,
+r'''    dict(name="Spectrum Library", repo="Phoenixx1202/Spectrum-Library",
          match=["spectrum"], archive=["spectrum"], category="DESCARGAS",
          desc=("Biblioteca y gestor de descargas con portadas, grupos, cola "
                "y selector de destino.")),
 ]
+''',
+r'''    dict(name="Spectrum Library", repo="Phoenixx1202/Spectrum-Library",
+         match=["spectrum"], archive=["spectrum"], category="DESCARGAS",
+         desc=("Biblioteca y gestor de descargas con portadas, grupos, cola "
+               "y selector de destino.")),
 
-FIXED = [
-    dict(
-        name="etaHEN",
-        filename="etaHEN-2.6B.bin",
-        url=("https://raw.githubusercontent.com/zecoxao/zecoxao.github.io/"
-             "main/luasauce/payloads/etaHEN-2.6B.bin"),
-        source=("https://github.com/zecoxao/zecoxao.github.io/blob/"
-                "main/luasauce/payloads/etaHEN-2.6B.bin"),
-        version="2.6B",
-        date="2026-08-18",
-        channel="beta",
-        category="ALTERNATIVOS",
-        status=("BUILD DE PRUEBAS; esta build caduca el 1 de octubre de 2026"),
-        desc=("Build de pruebas de etaHEN con Toolbox, plugins, trucos y servicios integrados.")
-    ),
-    dict(
-        name="Lapy JB Daemon",
-        filename="lapy_jb_daemon.elf",
-        url=("https://raw.githubusercontent.com/ArkSama/PS5-Lapy-JB-Daemon/"
-             "main/lapy_jb_daemon.elf"),
-        source="https://github.com/ArkSama/PS5-Lapy-JB-Daemon",
-        version="1.2",
-        date="2026-05-07",
-        channel="stable",
-        category="UTILIDADES",
-        status="RELEASE OFICIAL / STACK MODULAR",
-        compatibility="FW 3.00-12.00",
-        desc=("Daemon jailbreak-on-demand para aplicaciones que esperan la API de etaHEN. "
-              "No requiere etaHEN, pero sí kstuff activo.")
-    ),
-    # Builds de prueba FPKG compartidas por Drakmor en su Discord.
-    # Se espejan localmente para no depender de enlaces temporales de Discord.
-    dict(
-        name="kstuff-lite FPKG",
-        filename="kstuff-lite_v1.12-fpkg-dr-test8.elf",
-        local_path="payloads/fpkg-tests/kstuff.elf",
-        expected_checksum="fafee1a13933e4a783e3438d7b3d10478e8dfd6f29e6e432a7a2a711650d81a4",
-        required=True,
-        source="Discord de Drakmor (fpkg-test-reports-only)",
-        version="1.12-fpkg-dr-test8",
-        date="2026-09-15",
-        channel="alpha",
-        category="PRUEBAS FPKG",
-        status="PRUEBA FPKG",
-        compatibility="FW compatibles hasta 11.40",
-        desc=("Build experimental de kstuff-lite preparada para las pruebas de FPKG nativos. "
-              "No sustituye a la version recomendada de ESENCIALES salvo que se quiera probar FPKG.")
-    ),
-    dict(
-        name="ShadowMountPlus FPKG",
-        filename="shadowmountplus_v1.7alpha13fix1-13-g072c17.elf",
-        local_path="payloads/fpkg-tests/shadowmountplus.elf",
-        expected_checksum="03688cd6c361b22c07aa8c72314dcb3573b7e83b104634a9e99697de784eb760",
-        required=True,
-        source="Discord de Drakmor (fpkg-test-reports-only)",
-        version="1.7alpha13fix1-13-g072c17",
-        date="2026-09-15",
-        channel="alpha",
-        category="PRUEBAS FPKG",
-        status="PRUEBA FPKG",
-        compatibility="FW compatibles hasta 11.40",
-        desc=("Build experimental de ShadowMountPlus usada en las pruebas de FPKG nativos. "
-              "Mantener separada de la rama recomendada de ESENCIALES.")
-    ),
-    dict(
-        name="A53 PPR Install Fast",
-        filename="a53_ppr_install_fast.elf",
-        local_path="payloads/fpkg-tests/a53_ppr_install_fast.elf",
-        expected_checksum="bf641bf7b3502ceeb1853d36c6aaad7ef501a0d1af931fc3f013eebe08908ebc",
-        required=True,
-        source="Discord de Drakmor (fpkg-test-reports-only)",
-        version="15.09-bf641bf7",
-        date="2026-09-15",
-        channel="alpha",
-        category="PRUEBAS FPKG",
-        status="PRUEBA FPKG / A53",
-        compatibility="perfiles incluidos hasta FW 11.40",
-        desc=("Payload que instala en memoria el parche PPR del A53 para el flujo FPKG. "
-              "La build fast activa por defecto el transporte rapido, persistente, batch y mixed-I/O; "
-              "permite restaurar el estado original mediante la accion de desinstalacion.")
-    ),
+    # FPKG INTEGRADO
+    dict(name="FPKG Integrado - Kstuff Drakmor", optional=True,
+         catalog_url=("https://nexgen999.github.io/PS5-Super-PLDMGR-Auto-Updater/"
+                      "json/PS5_Beta.json"),
+         catalog_name_regex=[r"^Kstuff .* Fpkg Dr Test\d+$"],
+         source="https://github.com/nexgen999/PS5-Super-PLDMGR-Auto-Updater",
+         category="FPKG INTEGRADO",
+         status="EXPERIMENTAL / FPKG",
+         compatibility="segun build; validar firmware antes de usar",
+         desc=("Rama Kstuff de pruebas FPKG de Drakmor con el flujo PPR/A53 integrado. "
+               "Se mantiene separada de kstuff-lite oficial.")),
+    dict(name="FPKG Integrado - ShadowMountPlus", repo="drakmor/ShadowMountPlus",
+         match=["shadowmount"], archive=["shadowmount"],
+         channels=["beta"], single_latest=True,
+         category="FPKG INTEGRADO",
+         install_filename="fpkg-integrado-shadowmountplus.elf",
+         desc=("ShadowMountPlus 1.7 para acompañar la rama Kstuff/PPR integrada. "
+               "Se mantiene como entrada separada para poder actualizarlo o aislar fallos.")),
+    dict(name="FPKG AIO - A53+Kstuff+SMP 3in1", optional=True,
+         catalog_url=("https://nexgen999.github.io/PS5-Super-PLDMGR-Auto-Updater/"
+                      "json/PS5_Beta.json"),
+         catalog_name_regex=[r"^A53 Kstuff Shadowmountplus 3In1$"],
+         source="https://github.com/nexgen999/PS5-Super-PLDMGR-Auto-Updater",
+         category="FPKG INTEGRADO",
+         status="EXPERIMENTAL / AIO",
+         compatibility="experimental; usar solo para pruebas",
+         desc=("AIO experimental que agrupa A53, Kstuff y ShadowMountPlus. "
+               "No sustituye al stack por piezas cuando se busca aislar fallos.")),
+
+    # FPKG MODULAR
+    dict(name="FPKG Modular - Kstuff Lite", repo="EchoStretch/kstuff-lite",
+         match=["kstuff"], exclude=["debug"],
+         channels=["stable"], single_latest=True,
+         category="FPKG MODULAR",
+         install_filename="fpkg-modular-kstuff-lite.elf",
+         desc=("Kstuff Lite oficial para el stack FPKG modular. "
+               "En 1.11 incorpora soporte FPKG y soporte de firmware ampliado.")),
+    dict(name="FPKG Modular - ShadowMountPlus", repo="drakmor/ShadowMountPlus",
+         match=["shadowmount"], archive=["shadowmount"],
+         channels=["beta"], single_latest=True,
+         category="FPKG MODULAR",
+         install_filename="fpkg-modular-shadowmountplus.elf",
+         desc=("ShadowMountPlus 1.7 para el stack FPKG modular. "
+               "Se carga separado del A53 para poder diagnosticar cada pieza.")),
+    dict(name="A53 PPR Modular 1.00-11.40", optional=True,
+         catalog_url=("https://nexgen999.github.io/PS5-Super-PLDMGR-Auto-Updater/"
+                      "json/PS5_Beta.json"),
+         catalog_name_regex=[r"^A53 Ppr Install 1140 .*"],
+         source="https://github.com/nexgen999/PS5-Super-PLDMGR-Auto-Updater",
+         category="FPKG MODULAR",
+         status="EXPERIMENTAL / A53",
+         compatibility="FW 1.00-11.40",
+         desc=("A53/PPR separado para el stack modular FPKG. "
+               "Usar junto con Kstuff Lite y ShadowMountPlus compatibles.")),
+    dict(name="A53 PPR Modular 11.60", optional=True,
+         catalog_url=("https://nexgen999.github.io/PS5-Super-PLDMGR-Auto-Updater/"
+                      "json/PS5_Beta.json"),
+         catalog_name_regex=[r"^A53 Ppr Install 1160 .*"],
+         source="https://github.com/nexgen999/PS5-Super-PLDMGR-Auto-Updater",
+         category="FPKG MODULAR",
+         status="EXPERIMENTAL / A53",
+         compatibility="FW 11.60",
+         desc=("A53/PPR separado especifico para 11.60 dentro del stack modular FPKG. "
+               "No usar la variante 11.40 en una 11.60.")),
 ]
+''',
+        "ramas FPKG",
+    )
 
-CAT_ORDER = {"ESENCIALES": 0, "HEN / AIO": 1, "SISTEMA": 2, "ARCHIVOS / PC": 3, "PKG / INSTALACION": 4, "JUEGOS / COMPATIBILIDAD": 5, "UTILIDADES": 6, "MANDOS": 7, "DESCARGAS": 8, "PRUEBAS FPKG": 9, "ALTERNATIVOS": 10}
+    s = s.replace('category="PRUEBAS FPKG",', 'category="FPKG LEGACY",')
 
-# Capa de curación basada en documentación/release notes del desarrollador y
-# feedback público concreto. Las reglas son VERSION-ESPECÍFICAS: cuando cambia
-# la versión dejan de aplicarse y entra la valoración automática de la nueva
-# release, evitando arrastrar una reputación antigua a un binario nuevo.
-CURATED_STATUS = {
-    "PoorDS4": [
-        (r".*", "EXPERIMENTAL",
-         "El desarrollador lo define como homebrew experimental; la compatibilidad se valida por firmware y juego, y los firmwares no probados pueden fallar de forma segura o provocar cierres."),
-    ],
-    "ProsperoMgr": [
-        (r".*", "BETA ACTIVA / SUCESOR ACTUAL",
-         "Prospero Manager apareció a finales de agosto como sucesor funcional de ELF Arsenal. Integra gestión de archivos, payloads, PKG, saves y autoload; sigue siendo una beta joven y conviene mantener backups."),
-    ],
-    "ELF Arsenal": [
-        (r"\b1\.6\.22\b", "LEGACY / PRECAUCIÓN",
-         "ELF Arsenal está discontinuado. Sigue siendo útil para setups existentes, pero hubo reportes recientes de kernel panics y problemas graves de datos/configuración; para instalaciones nuevas es preferible usar herramientas modulares o Prospero Manager."),
-    ],
-    "PS5 Web File Manager": [
-        (r"\b1\.7\b", "ACTIVO / RECIENTE",
-         "Proyecto activo con release 1.7 a finales de agosto. Las versiones recientes añadieron y corrigieron instalación de PKG desde almacenamiento interno."),
-    ],
-    "APR Emu Updater": [
-        (r"\b2\.0\.6\b", "ACTIVO / RECOMENDADO CON APR EMU",
-         "Release 2.0.6 del 29 de agosto corrige detección de ShadowMountPlus y notificaciones; la 2.0.5 corrigió pérdida de registros y fallos del override tras reposo."),
-    ],
-    "PS5 App Dumper": [
-        (r"\b1\.11\b", "BETA OFICIAL",
-         "Release oficial 1.11 Beta; corrige archivos PlayGo ausentes y amplía soporte declarado hasta FW 13.60."),
-    ],
-    "Lapy JB Daemon": [
-        (r"\b1\.2\b", "ÚTIL EN STACK MODULAR",
-         "Se usa para dar jailbreak-on-demand a apps que esperan la API de etaHEN sin cargar etaHEN completo. El desarrollador documenta FW 3.00-12.00 con kstuff."),
-    ],
-    "BFpilot": [
-        (r"\b0\.4\.4\b", "VALIDADO EN HARDWARE",
-         "La release 0.4.4 pasó la suite 44/44 y pruebas de reinyección, instalación PKG, archivos comprimidos y transferencias en PS5 FW 11.60."),
-    ],
-    "PS5 File Explorer": [
-        (r"0\.2\.1", "BUILD CORE RECOMENDADA",
-         "El desarrollador recomienda file-explorer-core.elf como primera opción para máxima compatibilidad; la build completa añade el launcher y más dependencias."),
-    ],
-    "ChronicLoader": [
-        (r"\b0\.1\b", "RELEASE INICIAL / PRECAUCIÓN",
-         "Primera release pública. El payload gestiona backups, hashes y autoload; el propio autor advierte específicamente que su HTML generador de configuración estaba apenas probado."),
-    ],
-    "VoidShell": [
-        (r"\b1\.1", "RELEASE OFICIAL",
-         "Release pública del dashboard/daemon. La API de gestión está pensada para la LAN; conviene no exponer una PS5 modificada a redes no confiables."),
-    ],
-    "PS5 BackPork": [
-        (r"\b0\.1\b", "USO AVANZADO / PRECAUCIÓN",
-         "El desarrollador recomienda sideload de las mínimas librerías posibles y advierte que no puede garantizar ausencia de efectos secundarios."),
-    ],
-    "Ghostcontrol": [
-        (r"\b1\.0\.5\b", "PRECAUCIÓN / VALIDACIÓN PARCIAL",
-         "La release 1.0.5 amplía soporte y mantiene una matriz de mandos Working/Untested; existen reportes abiertos de regresiones, por lo que conviene validar el modelo concreto."),
-    ],
-    "ps5debug-NG": [
+    s = replace_once(
+        s,
+r'''CAT_ORDER = {"ESENCIALES": 0, "HEN / AIO": 1, "SISTEMA": 2, "ARCHIVOS / PC": 3, "PKG / INSTALACION": 4, "JUEGOS / COMPATIBILIDAD": 5, "UTILIDADES": 6, "MANDOS": 7, "DESCARGAS": 8, "PRUEBAS FPKG": 9, "ALTERNATIVOS": 10}''',
+r'''CAT_ORDER = {"ESENCIALES": 0, "HEN / AIO": 1, "SISTEMA": 2, "ARCHIVOS / PC": 3, "PKG / INSTALACION": 4, "JUEGOS / COMPATIBILIDAD": 5, "UTILIDADES": 6, "MANDOS": 7, "DESCARGAS": 8, "FPKG INTEGRADO": 9, "FPKG MODULAR": 10, "FPKG LEGACY": 11, "ALTERNATIVOS": 12}''',
+        "orden de categorias",
+    )
+
+    s = replace_once(
+        s,
+r'''    "ps5debug-NG": [
         (r"\b1\.3\.0\b", "VALIDACIÓN PARCIAL EN HARDWARE",
          "La release 1.3.0 se publica como hardware-verified, pero sus propias notas aclaran que algunas familias de firmware compatibles aún no estaban completamente probadas en hardware."),
     ],
-    "ps5upload": [
-        (r"\b5\.17\.", "VALIDACIÓN PARCIAL EN HARDWARE",
-         "El desarrollador documenta pruebas de hardware en FW 5.10 y 9.60. El payload cubre más firmwares, pero la instalación PKG tiene limitaciones conocidas en algunos FW 11.60+ y depende de kstuff/fpkg-enable."),
+''',
+r'''    "ps5debug-NG": [
+        (r"\b1\.3\.2\b", "MEJORA DE ESTABILIDAD",
+         "La release 1.3.2 corrige errores de escritura, tres fallos que terminaban sesiones, un comparador de escaneo y amplía soporte declarado hasta FW 13.60."),
+        (r"\b1\.3\.0\b", "VALIDACIÓN PARCIAL EN HARDWARE",
+         "La release 1.3.0 se publica como hardware-verified, pero sus propias notas aclaran que algunas familias de firmware compatibles aún no estaban completamente probadas en hardware."),
     ],
-    "bdj_unpatch": [
-        (r"\b2\.0\b", "USO ESPECÍFICO / PRECAUCIÓN",
-         "Está pensado para habilitar el flujo BD-JB5 en firmwares altos sobre una consola ya jailbreakeada. Modifica bdjstack.jar, crea backup y una reinstalación de firmware elimina el parche."),
+    "PKG Manager": [
+        (r"\b1\.3\.0\b", "MEJORA DE ESTABILIDAD",
+         "La release 1.3.0 corrige instalaciones consecutivas en FW 9.60+ y mejora navegacion/paginacion de recursos SMB grandes."),
     ],
-    "ps5-payload-websrv": [
-        (r"\b0\.34\b", "RELEASE OFICIAL",
-         "Release oficial actual del servidor web y launcher de homebrew para /data/homebrew, USB y almacenamiento extendido."),
+    "ftpsrv Drakmor": [
+        (r"1\.16-ng-stable", "ESTABLE SEGÚN DESARROLLADOR",
+         "La release 1.16-ng-stable añade /proc, LOWER/UPPER y soporte PS5 declarado hasta FW 13.60."),
     ],
-    "singleDPI": [
-        (r"\b0\.1\.0\b", "EXPERIMENTAL / VALIDADO EN 5.50",
-         "El autor solo ha validado la release publicada en hardware FW 5.50. Requiere kstuff compatible; no debe asumirse compatibilidad completa en 11.40 sin probar AppInst/PlayGo."),
-    ],
-    "PLDMGR Install & Update": [
-        (r"0\.1\.", "EN PRUEBAS",
-         "Primera serie de pruebas de HiddenKernel; validar en consola antes de considerarla madura."),
-    ],
-    "PS5 WebKit Autoloader": [
-        (r"\b0\.4\.0\b", "PRECAUCIÓN",
-         "Release oficial actual, pero hay reportes públicos de kernel panic/apagados en algunos firmwares 12.x; varios usuarios indican mejor comportamiento al volver a 0.3.1."),
-    ],
-    "etaHEN": [
-        (r"\b2\.5B\b", "RELEASE OFICIAL",
-         "Versión oficial para FW hasta 10.01. Para firmwares posteriores se usa la rama 2.6B de pruebas."),
-    ],
-    "OnionHEN": [
-        (r"\b0\.0\.12\b", "RELEASE OFICIAL",
-         "Release oficial con soporte declarado para FW 4.03-12.70; no hay una advertencia general de inestabilidad en sus notas actuales."),
-    ],
-    "PIZZA-HEN": [
-        (r"\b2\.00\b", "VALIDACIÓN ESTÁTICA / EXPERIMENTAL",
-         "El propio proyecto define v2.00 como software experimental y señala que el checkpoint I18N tiene PASS estático, no una nueva validación completa en hardware."),
-        (r"\b1\.0\b", "VALIDACIÓN PARCIAL EN HARDWARE",
-         "El desarrollador confirmó en hardware la ruta DPIv2 en FW 12.20-12.70; el acceso directo CheatRunner de Game Options se mantiene experimental."),
-        (r"\b0\.1\b", "EXPERIMENTAL",
-         "El desarrollador la publicó expresamente como primera beta pública y software experimental."),
-    ],
-    "kstuff-lite": [
-        (r"\b1\.10\b", "EN PRUEBAS",
-         "La versión 1.10 fue publicada como Beta; las notas indican mejoras de estabilidad/rendimiento y soporte hasta FW 12.70, pero el desarrollador no la presenta como estable."),
-    ],
-    "ShadowMountPlus": [
-        (r"1\.6beta16", "MÁS PROBADA",
-         "Sigue siendo la rama práctica más conservadora: otras herramientas la usan como baseline y existen reportes de usuarios que volvieron a 1.6beta16 tras problemas con 1.7 alpha."),
-        (r"1\.7alpha13fix1", "EXPERIMENTAL / PRECAUCIÓN",
-         "Pre-release alpha. Corrige un cierre de Shell y apagados inesperados en FW 12+, pero el propio desarrollador mantiene la rama 1.7 como experimental."),
-        (r"1\.7alpha", "EXPERIMENTAL",
-         "Rama alpha de desarrollo; prioriza funciones/correcciones nuevas y no debe presentarse como la opción más estable."),
-    ],
-    "APR Emu Updater": [
-        (r"\b2\.0\.6\b", "RELEASE DE CORRECCIONES",
-         "Corrige problemas de notificaciones/detección y mantiene compatibilidad con el método antiguo en ShadowMountPlus 1.6beta16 o anterior; las funciones 1.7 usan el nuevo slot de emulación."),
-    ],
-    "PS5 Game Compressor": [
-        (r"\b1\.0\.4\b", "RELEASE DE COMPATIBILIDAD",
-         "Añade compatibilidad y corrige flujos APR-EMU, firmware 4.51 y relanzado del servidor; no hay base para llamarla estable absoluta."),
-        (r"\b1\.0\.3\b", "MEJORA DE ESTABILIDAD",
-         "El propio desarrollador la describe como una pequeña release de estabilidad, con correcciones de fiabilidad USB-a-USB y reparación de imágenes FFPFSC."),
-    ],
-    "PS5 App Dumper": [
-        (r"\b1\.11\b", "EN PRUEBAS",
-         "La release oficial se denomina 'PS5 App Dumper 1.11 Beta'; corrige archivos PlayGo ausentes y amplía soporte hasta FW 13.60."),
-    ],
-    "np-fake-signin": [
-        (r"\b0\.[12]_?beta\b", "EXPERIMENTAL / PRECAUCIÓN",
-         "Las antiguas releases beta indican explícitamente que podían contener fallos y que aún no estaban probadas en PS5."),
-    ],
-    "PoorDS4": [
-        (r"rc38", "VALIDACIÓN PARCIAL EN HARDWARE",
-         "FW 11.60 está probado con varios juegos, reconexiones, cambio de juego, multijugador y limpieza de reposo; 8.60 y 12.40 conservan validación estructural pero requieren más prueba RC38 en hardware."),
-    ],
-    "Common FPS for PS5": [
-        (r"\b1\.1\.0\b", "VALIDADO EN HARDWARE",
-         "El proyecto documenta pruebas repetidas en PS5 FW 9.60, contador visible en dos juegos y reinicios normales; no debe extrapolarse esa validación a todos los firmwares."),
-    ],
-    "Pegasus DL": [
-        (r"\b1\.8\.0\b", "RELEASE OFICIAL",
-         "Release oficial actual con handoff nativo de enlaces .pkg; no hay una advertencia general de inestabilidad en las notas de esta versión."),
-    ],
-    "Spectrum Library": [
-        (r"\b1\.4\.4\b", "MEJORA DE ESTABILIDAD",
-         "Las notas de la versión mejoran la estabilidad de descargas grandes, reintentos/reanudación y manejo de interrupciones de red."),
-    ],
-}
+''',
+        "estado de payloads nuevos",
+    )
 
-RISK_TERMS = (
-    "kernel panic", "kernel panics", "crash", "crashes", "crashing",
-    "freeze", "freezes", "freezing", "shutdown", "shut down",
-    "unexpectedly shuts", "unexpected shutdown", "black screen",
-    "hang", "hangs", "hanging", "panic", "reboot loop"
-)
-
-
-# Compatibilidad solo cuando está confirmada por el desarrollador, release notes
-# o pruebas de hardware documentadas. Las reglas son específicas de versión.
-COMPATIBILITY_RULES = {
-    "kstuff-lite": [
-        (r"\b1\.10\b", "FW 3.00-12.70"),
-        (r"\b1\.0[5-9]\b", "FW 3.00-12.70"),
-    ],
-    "OnionHEN": [
-        (r"\b0\.0\.1[0-2]\b", "FW 4.03-12.70"),
-        (r"\b0\.0\.9\b", "FW 4.03-12.70"),
-    ],
-    "etaHEN": [
-        (r"\b2\.5B\b", "hasta FW 10.01"),
-    ],
-    "PS5 WebKit Autoloader": [
-        (r".*", "FW 1.00-5.50 y 7.00-12.70"),
-    ],
-    "Lapy JB Daemon": [
-        (r"\b1\.2\b", "FW 3.00-12.00"),
-    ],
-    "PS5 App Dumper": [
+    s = replace_once(
+        s,
+r'''    "PS5 App Dumper": [
         (r"\b1\.11\b", "hasta FW 13.60"),
     ],
-    "PIZZA-HEN": [
-        (r"\b1\.0\b", "DPIv2 en hardware: FW 12.20-12.70"),
+''',
+r'''    "PS5 App Dumper": [
+        (r"\b1\.11\b", "hasta FW 13.60"),
     ],
-    "BFpilot": [
-        (r"\b0\.4\.4\b", "pruebas en hardware: FW 11.60"),
+    "ps5debug-NG": [
+        (r"\b1\.3\.2\b", "hasta FW 13.60"),
     ],
-    "ps5upload": [
-        (r".*", "FW 1.00-12.70; probado en hardware en 5.10, 9.60 y 12.20"),
+    "ftpsrv Drakmor": [
+        (r"1\.16-ng-stable", "hasta FW 13.60"),
     ],
-    "singleDPI": [
-        (r"\b0\.1\.0\b", "probado por el autor en FW 5.50; otros FW requieren validacion"),
+    "PS5 BackPork": [
+        (r"\b0\.1\b", "hasta FW 12.00"),
     ],
-}
-
-def compatibility_for(app, rel):
-    text = rtext(rel)
-    for pattern, value in COMPATIBILITY_RULES.get(app["name"], []):
-        if re.search(pattern, text, flags=re.I):
-            return value
-
-    # Detección automática conservadora desde las notas oficiales.
-    body = clean_md(rel.get("body") or "")
-    patterns = [
-        r"supported firmware[: ]+([0-9.]+\s*[–-]\s*[0-9.]+)",
-        r"supports firmware[: ]+([0-9.]+\s*[–-]\s*[0-9.]+)",
-        r"firmware[: ]+([0-9.]+\s*[–-]\s*[0-9.]+)",
-        r"firmware\s+([0-9.]+)\s+(?:through|to)\s+([0-9.]+)",
-    ]
-
-    for rx in patterns:
-        m = re.search(rx, body, flags=re.I)
-        if not m:
-            continue
-        if len(m.groups()) == 1:
-            return f"FW {m.group(1).replace('–', '-')}"
-        return f"FW {m.group(1)}-{m.group(2)}"
-
-    return ""
-
-def req(url, timeout=60):
-    # Forzamos revalidación en cada ejecución: nada de reutilizar respuestas
-    # antiguas de API/CDN cuando acaba de salir una release.
-    h = {
-        "User-Agent": UA,
-        "Cache-Control": "no-cache, no-store, max-age=0",
-        "Pragma": "no-cache",
-    }
-    if "api.github.com" in url:
-        h["Accept"] = "application/vnd.github+json"
-        h["X-GitHub-Api-Version"] = "2022-11-28"
-        if TOKEN:
-            h["Authorization"] = f"Bearer {TOKEN}"
-    return urllib.request.urlopen(
-        urllib.request.Request(url, headers=h),
-        timeout=timeout
+''',
+        "compatibilidad payloads nuevos",
     )
 
-def get_json(url):
-    with req(url, 30) as r:
-        return json.load(r)
-
-def get_bytes(url):
-    with req(url, 180) as r:
-        return r.read()
-
-def api_url(app):
-    return app.get("api") or f'https://api.github.com/repos/{app["repo"]}/releases?per_page=100'
-
-def github_latest_url(app):
-    if app.get("api") or not app.get("repo"):
-        return None
-    return f'https://api.github.com/repos/{app["repo"]}/releases/latest'
-
-def source_url(app):
-    if app.get("source"):
-        return app["source"]
-    if app.get("repo"):
-        return f'https://github.com/{app["repo"]}/releases'
-    return app.get("catalog_url", "")
-
-def rtime(rel):
-    raw = rel.get("published_at") or rel.get("created_at") or ""
-    try:
-        return datetime.fromisoformat(raw.replace("Z", "+00:00")).timestamp()
-    except ValueError:
-        return 0
-
-def rtext(rel):
-    return f'{rel.get("tag_name","")} {rel.get("name","")}'.strip()
-
-def channel(rel):
-    t = rtext(rel).lower()
-    if any(x in t for x in ("alpha", "experimental", "nightly", "canary", "test", "-dev", "_dev", " dev")):
-        return "alpha"
-    if any(x in t for x in ("beta", "preview", "release candidate", "-rc", "_rc", " rc")):
-        return "beta"
-    if rel.get("prerelease", False):
-        return "beta"
-    return "stable"
-
-def valid(filename, app):
-    n = Path(filename).name.lower()
-    if not n.endswith((".elf", ".bin")):
-        return False
-    if any(x.lower() not in n for x in app.get("match", [])):
-        return False
-    if any(x.lower() in n for x in app.get("exclude", [])):
-        return False
-    return True
-
-def asset_url(a):
-    return a.get("browser_download_url") or a.get("download_url") or ""
-
-def direct_asset(rel, app):
-    xs = [a for a in rel.get("assets", []) if valid(a.get("name", ""), app)]
-    pref = [x.lower() for x in app.get("prefer", [])]
-    xs.sort(key=lambda a: (
-        -sum(x in a.get("name","").lower() for x in pref),
-        len(a.get("name","")), a.get("name","").lower()))
-    return xs[0] if xs else None
-
-def zip_asset(rel, app):
-    xs = [a for a in rel.get("assets", []) if a.get("name","").lower().endswith(".zip")]
-    terms = app.get("archive") or app.get("match", [])
-    preferred = [a for a in xs if any(x.lower() in a.get("name","").lower() for x in terms)]
-    xs = preferred or xs
-    xs.sort(key=lambda a: (len(a.get("name","")), a.get("name","").lower()))
-    return xs[0] if xs else None
-
-def extract_elf(data, app):
-    with zipfile.ZipFile(io.BytesIO(data)) as z:
-        xs = [m for m in z.namelist() if Path(m).name and valid(Path(m).name, app)]
-        xs.sort(key=lambda m: (len(Path(m).name), Path(m).name.lower()))
-        return (Path(xs[0]).name, z.read(xs[0])) if xs else None
-
-def safe(s):
-    return re.sub(r"[^A-Za-z0-9._-]+", "_", s).strip("_")
-
-def _ensure_v(ver):
-    ver = str(ver or "").strip()
-    if ver and not ver.lower().startswith("v"):
-        return "v" + ver
-    return ver
-
-
-def _strip_v(ver):
-    ver = str(ver or "").strip()
-    return re.sub(r"^[vV](?=\d)", "", ver)
-
-
-def canonical_repo_filename(app, rel, original_filename):
-    """
-    Nombre con el que PLDMGR guarda el payload.
-
-    Política HiddenKernel:
-      1) Si el payload existe en el mirror oficial de itsPLK, imitamos EXACTAMENTE
-         su convención de filename. Es la mejor referencia para convivir con la
-         fuente predeterminada de Payload Manager.
-      2) Si no está en el mirror oficial, usamos la convención ya extendida en
-         repositorios PLDMGR (principalmente Nexgen) cuando la conocemos.
-      3) Si no existe una convención conocida, conservamos el nombre del asset
-         upstream sin inventar uno nuevo.
-
-    IMPORTANTE: el campo version NO se fabrica aquí; display_version conserva el
-    tag publicado por el desarrollador. De ese modo filename y version siguen dos
-    responsabilidades distintas y se reducen falsos avisos de actualización.
-    """
-    name = app.get("name", "")
-    raw = str(rel.get("tag_name") or rel.get("name") or "").strip()
-    if not raw:
-        return original_filename
-
-    # Convenciones del mirror oficial de itsPLK / ecosistema PLDMGR.
-    if name == "kstuff-lite":
-        return f"kstuff-lite_{_ensure_v(raw)}.elf"
-    if name == "nanoDNS":
-        # itsPLK mirror: nanoDNS_0.4.elf (sin v y respetando mayúsculas).
-        return f"nanoDNS_{_strip_v(raw)}.elf"
-    if name == "etaHEN":
-        # itsPLK mirror: etaHEN_2.5B.bin.
-        return f"etaHEN_{_strip_v(raw)}.bin"
-    if name == "PS5 WebKit Autoloader":
-        # Upstream, itsPLK mirror y Nexgen coinciden en esta convención.
-        return f"webkit-autoloader-installer_{_ensure_v(raw)}.elf"
-    if name == "ftpsrv":
-        return f"ftpsrv_{_ensure_v(raw)}.elf"
-    if name == "PS5 App Dumper":
-        return f"ps5-app-dumper_{_ensure_v(raw)}.elf"
-    if name == "garlic-savemgr":
-        return f"garlic-savemgr_{_ensure_v(raw)}.elf"
-    if name == "PS5 Web File Manager":
-        return f"ps5-web-file-manager_{_ensure_v(raw)}.elf"
-    if name == "ps5upload":
-        return f"ps5upload_{_ensure_v(raw)}.elf"
-
-    if name == "ShadowMountPlus":
-        v = _strip_v(raw)
-        # Para la rama conservadora usamos EXACTAMENTE el nombre del mirror
-        # oficial de itsPLK. Para 1.7, que el mirror oficial aún no publica,
-        # seguimos la convención de Nexgen para evitar otra carpeta paralela.
-        if v.lower().startswith("1.6beta16"):
-            return f"ShadowMountPlus_{v}.elf"
-        return f"shadowmountplus_{_ensure_v(v)}.elf"
-
-    # Convenciones ampliamente usadas en repositorios PLDMGR cuando el mirror
-    # oficial no ofrece todavía ese payload.
-    known = {
-        "BFpilot": ("BFpilot_", ".elf", True),
-        "Lapy JB Daemon": ("Lapy-JB-Daemon_", ".elf", True),
-        "PS5 Game Compressor": ("PS5-Game-Compressor_", ".elf", True),
-        "APR Emu Updater": ("apr_emu_updater_", ".elf", True),
-        "PIZZA-HEN": ("PIZZA-HEN_", ".elf", True),
-        "OnionHEN": ("onionHEN_", ".elf", True),
-        "Pegasus DL": ("pegasus-dl_", ".elf", True),
-        "Spectrum Library": ("Spectrum-Library_", ".elf", True),
-        "np-fake-signin": ("np-fake-signin_", ".elf", True),
-        "Common FPS for PS5": ("Common_FPS_PS5_", ".elf", True),
-        "Ghostcontrol": ("Ghostcontrol-PS5-USB-Controller-Patcher_", ".elf", True),
-        "ELF Arsenal": ("ELF_Arsenal_", ".elf", True),
-    }
-    rule = known.get(name)
-    if not rule:
-        return original_filename
-
-    prefix, suffix, force_v = rule
-    ver = _ensure_v(raw) if force_v else raw
-    return f"{prefix}{ver}{suffix}"
-
-
-def expected_storage_root(item):
-    """Raíz esperada según la convención elegida para el ecosistema PLDMGR."""
-    name = str(item.get("name") or "")
-    version = _strip_v(str(item.get("version") or ""))
-
-    if name == "ShadowMountPlus":
-        return "ShadowMountPlus" if version.lower().startswith("1.6beta16") else "shadowmountplus"
-
-    return {
-        "nanoDNS": "nanoDNS",
-        "OnionHEN": "onionHEN",
-        "PS5 WebKit Autoloader": "webkit-autoloader-installer",
-        "kstuff-lite": "kstuff-lite",
-        "etaHEN": "etaHEN",
-        "ftpsrv": "ftpsrv",
-        "PS5 App Dumper": "ps5-app-dumper",
-        "garlic-savemgr": "garlic-savemgr",
-        "PS5 Web File Manager": "ps5-web-file-manager",
-        "ps5upload": "ps5upload",
-        "Pegasus DL": "pegasus-dl",
-        "Spectrum Library": "Spectrum-Library",
-        "Ghostcontrol": "Ghostcontrol-PS5-USB-Controller-Patcher",
-        "Lapy JB Daemon": "lapy_jb_daemon",
-        "kstuff-lite FPKG": "kstuff-lite",
-        "ShadowMountPlus FPKG": "shadowmountplus",
-        "A53 PPR Install Fast": "a53_ppr_install_fast",
-    }.get(name)
-
-
-def _pldmgr_storage_root(filename):
-    """Replica la regla de PLDMGR v0.5.1 para obtener la carpeta del payload."""
-    clean = str(filename or "")
-    clean = re.sub(r"\.(?:elf|bin)$", "", clean, flags=re.I)
-    m = re.search(r"[_-]v", clean)
-    if m:
-        clean = clean[:m.start()]
-    else:
-        m = re.search(r"[_-](?=\d)", clean)
-        if m:
-            clean = clean[:m.start()]
-    clean = re.sub(r"(?:-ps5|_ps5|-ps4|_ps4)$", "", clean)
-    return clean
-
-
-def validate_canonical_storage_roots(payloads):
-    """Impide que una edición futura vuelva a crear carpetas paralelas."""
-    for item in payloads:
-        expected = expected_storage_root(item)
-        if not expected:
-            continue
-        got = _pldmgr_storage_root(item.get("filename"))
-        if got != expected:
-            raise RuntimeError(
-                f'Raíz PLDMGR no compatible para {item.get("name")}: '
-                f'{got!r} (esperada {expected!r})'
-            )
-
-def out_filename(filename, ch, app=None, rel=None):
-    # No añadimos "_beta" ni "_unstable" por nuestra cuenta.
-    if app and app.get("install_filename"):
-        return app["install_filename"]
-    if app and rel:
-        return canonical_repo_filename(app, rel, filename)
-    return filename
-
-def payload_for(app, rel, ch):
-    a = direct_asset(rel, app)
-    if a:
-        u = asset_url(a)
-        if not u:
-            return None
-        data = get_bytes(u)
-        return dict(filename=out_filename(a["name"], ch, app, rel), url=u,
-                    source_direct=u, checksum=hashlib.sha256(data).hexdigest(),
-                    asset_updated_at=a.get("updated_at") or a.get("created_at") or "")
-
-    a = zip_asset(rel, app)
-    if not a:
-        return None
-    u = asset_url(a)
-    if not u:
-        return None
-    got = extract_elf(get_bytes(u), app)
-    if not got:
-        return None
-
-    filename, data = got
-    filename = out_filename(filename, ch, app, rel)
-    ver = rel.get("tag_name") or rel.get("name") or "unknown"
-    dest = MIRROR / safe(app["name"]) / safe(ver) / filename
-    dest.parent.mkdir(parents=True, exist_ok=True)
-    dest.write_bytes(data)
-    public = f"{PAGES}/{dest.as_posix()}"
-    return dict(filename=filename, url=public, source_direct=public,
-                checksum=hashlib.sha256(data).hexdigest(),
-                asset_updated_at=a.get("updated_at") or a.get("created_at") or "")
-
-def display_name(name, ch):
-    # El canal nunca se añade al nombre visible.
-    return name
-
-def display_version(raw, ch):
-    # Conservamos exactamente el tag/version publicado por el upstream.
-    return str(raw or "unknown").strip()
-
-def clean_md(text):
-    s = str(text or "")
-    s = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", s)
-    s = re.sub(r"<[^>]+>", " ", s)
-    s = s.replace("`", "")
-    s = s.replace("**", "").replace("__", "")
-    s = re.sub(r"\s+", " ", s).strip()
-    return s
-
-def curated_status(app, rel):
-    text = rtext(rel)
-    for pattern, label, note in CURATED_STATUS.get(app["name"], []):
-        if re.search(pattern, text, flags=re.I):
-            return label, note
-    return None
-
-def auto_status(app, rel, ch):
-    """
-    Solo calificamos "ESTABLE" si el desarrollador lo dice explícitamente.
-    En cualquier otro caso usamos términos verificables y más prudentes.
-    """
-    whole = (
-        rtext(rel) + "\n" + str(rel.get("body") or "")
-    ).lower()
-
-    if (
-        "known issue" in whole
-        and any(x in whole for x in RISK_TERMS)
-    ):
-        return (
-            "PRECAUCIÓN",
-            "Las notas oficiales incluyen una incidencia conocida relacionada con cierres, bloqueos o apagados."
-        )
-
-    if (
-        "unstable" in whole
-        or "this is experimental" in whole
-        or "experimental homebrew" in whole
-        or "test version" in whole
-    ):
-        return (
-            "EXPERIMENTAL",
-            "El propio desarrollador describe esta versión como experimental/inestable o de pruebas."
-        )
-
-    if (
-        "hardware-confirmed" in whole
-        or "hardware confirmed" in whole
-        or "hardware-validated" in whole
-        or "hardware validated" in whole
-        or "live-tested" in whole
-    ):
-        return (
-            "VALIDADO EN HARDWARE",
-            "La documentación de la release incluye una validación explícita en hardware; revisar el firmware concreto indicado por el desarrollador."
-        )
-
-    if (
-        "stable release" in whole
-        or "stable version" in whole
-        or re.search(r"\bstable\b", rtext(rel), flags=re.I)
-    ):
-        return (
-            "ESTABLE SEGÚN DESARROLLADOR",
-            "El upstream identifica explícitamente esta versión como estable; esto no implica compatibilidad universal con todos los firmwares/configuraciones."
-        )
-
-    if (
-        "stability release" in whole
-        or "improved stability" in whole
-        or "stability improvements" in whole
-        or "more reliable" in whole
-        or "improved reliability" in whole
-    ):
-        return (
-            "MEJORA DE ESTABILIDAD",
-            "Las notas oficiales destacan correcciones o mejoras de estabilidad/fiabilidad, sin afirmar estabilidad absoluta."
-        )
-
-    if (
-        ch == "alpha"
-        or "alpha" in rtext(rel).lower()
-        or "nightly" in rtext(rel).lower()
-        or "experimental" in rtext(rel).lower()
-        or "test" in rtext(rel).lower()
-    ):
-        return (
-            "EXPERIMENTAL",
-            "La versión pertenece a una rama alpha/nightly/test o equivalente."
-        )
-
-    if (
-        ch == "beta"
-        or rel.get("prerelease", False)
-        or "beta" in rtext(rel).lower()
-        or re.search(r"(^|[-_. ])rc\d*", rtext(rel).lower())
-    ):
-        return (
-            "EN PRUEBAS",
-            "El upstream la publica como pre-release, beta o release candidate; no se presenta como versión estable."
-        )
-
-    return (
-        "ESTABILIDAD NO DOCUMENTADA",
-        "Es una release publicada por el upstream, pero sus notas no aportan evidencia suficiente para calificarla como estable o inestable."
-    )
-
-def display_status(label, note):
-    label = str(label or "").upper()
-
-    if "LEGACY" in label:
-        return "LEGACY"
-    if "EXPERIMENT" in label or "ALPHA" in label:
-        return "EXPERIMENTAL"
-    if "BETA" in label or "PRUEBAS" in label or "CANDIDATE" in label:
-        return "EN PRUEBAS"
-    if "PRECAU" in label or "AVANZADO" in label:
-        return "REVISAR"
-    if "HARDWARE" in label:
-        return "PRUEBAS EN HARDWARE"
-    if "MAS PROBADA" in label or "MÁS PROBADA" in label:
-        return "PROBADA"
-    if "ESTABLE" in label and "NO DOCUMENTADA" not in label:
-        return "ESTABLE"
-    if "MEJORA DE ESTABILIDAD" in label:
-        return "FIABILIDAD MEJORADA"
-
-    return "ESTABILIDAD NO DOCUMENTADA"
-
-def build_description(app, rel, ch):
-    curated = curated_status(app, rel)
-    if curated:
-        label, status_note = curated
-    else:
-        label, status_note = auto_status(app, rel, ch)
-
-    # PLDMGR no interpreta correctamente \\n en cadenas JSON del repositorio:
-    # elimina la barra y acaba mostrando "n". Por eso usamos frases separadas
-    # y no saltos de linea.
-    parts = [
-        app["desc"].strip().rstrip(".") + ".",
-        f"ESTADO: {display_status(label, status_note)}."
-    ]
-
-    compat = compatibility_for(app, rel)
-    if compat:
-        parts.append(f"COMPATIBILIDAD: {compat}.")
-
-    return " ".join(parts)
-
-def candidates(rels, app, ch, latest_stable=None):
-    override_ids = set()
-
-    if app.get("stable_override"):
-        rx = re.compile(app["stable_override"])
-        forced = [r for r in rels if rx.search(rtext(r))]
-        override_ids = {
-            r.get("id") for r in forced
-            if r.get("id") is not None
-        }
-
-        if ch == "stable" and forced:
-            return sorted(forced, key=rtime, reverse=True)
-
-    xs = [r for r in rels if channel(r) == ch]
-
-    # Si una beta/alpha se ha promovido manualmente como rama estable/conservadora
-    # mediante stable_override, no puede volver a aparecer en su canal original.
-    if ch != "stable" and override_ids:
-        xs = [
-            r for r in xs
-            if r.get("id") not in override_ids
-        ]
-
-    # Para proyectos GitHub normales, la release estable que GitHub marca como
-    # "latest" tiene prioridad absoluta. Después dejamos las anteriores como
-    # fallback por si la última no contiene un ELF/BIN compatible.
-    if ch == "stable" and latest_stable:
-        latest_id = latest_stable.get("id")
-        xs = [
-            r for r in xs
-            if not (
-                latest_id is not None
-                and r.get("id") == latest_id
-            )
-        ]
-        xs.insert(0, latest_stable)
-
-    return xs
-
-def output_category(app, ch):
-    """Mantiene la versión principal en su categoría y manda ramas extra a ALTERNATIVOS."""
-    if ch in app.get("alternate_channels", []):
-        return "ALTERNATIVOS"
-    return app["category"]
-
-
-def make_entry(app, rel, p, ch):
-    release_raw = rel.get("published_at") or rel.get("created_at") or ""
-    asset_raw = p.get("asset_updated_at") or ""
-
-    # Si el autor reemplaza/actualiza un asset dentro de la misma release,
-    # usamos la fecha más reciente que tengamos.
-    dates = [d for d in (release_raw, asset_raw) if d]
-    raw = max(dates) if dates else ""
-
-    return {
-        "name": display_name(app["name"], ch),
-        "filename": p["filename"],
-        "url": p["url"],
-        "source": source_url(app),
-        "source_direct": p["source_direct"],
-        "description": build_description(app, rel, ch),
-        "last_update": raw[:10] if raw else "",
-        "version": display_version(rel.get("tag_name") or rel.get("name") or "unknown", ch),
-        "category": output_category(app, ch),
-        "checksum": p["checksum"],
-    }
-
-def normalize_catalog_items(obj):
-    if isinstance(obj, list):
-        return obj
-    if isinstance(obj, dict):
-        for key in ("payloads", "items", "apps", "entries"):
-            value = obj.get(key)
-            if isinstance(value, list):
-                return value
-    return []
-
-def process_catalog(app):
-    """
-    Fallback para proyectos útiles que todavía no publican un ELF mediante
-    GitHub Releases. Se consulta un catálogo espejo conocido EN CADA EJECUCIÓN,
-    se vuelve a descargar el binario y se recalcula SHA-256.
-    """
-    obj = get_json(app["catalog_url"])
-    items = normalize_catalog_items(obj)
-    wanted = {
+    s = replace_once(
+        s,
+r'''    wanted = {
         str(x).strip().lower()
         for x in app.get("catalog_names", [app["name"]])
     }
@@ -1019,33 +256,81 @@ def process_catalog(app):
         raise RuntimeError(
             f'No se encontró {app["name"]} en el catálogo externo.'
         )
-
-    url = hit.get("url") or hit.get("source_direct")
-    if not url:
-        raise RuntimeError(
-            f'{app["name"]}: el catálogo no proporciona URL descargable.'
-        )
-
-    data = get_bytes(url)
-    filename = hit.get("filename") or Path(url.split("?", 1)[0]).name
-    if not filename.lower().endswith((".elf", ".bin")):
-        raise RuntimeError(
-            f'{app["name"]}: el archivo del catálogo no parece ELF/BIN.'
-        )
-
-    version = str(hit.get("version") or "unknown")
-    pseudo = {
-        "tag_name": version,
-        "name": version,
-        "published_at": hit.get("last_update") or "",
-        "created_at": hit.get("last_update") or "",
-        "body": hit.get("description") or "",
-        "prerelease": any(
-            x in version.lower()
-            for x in ("beta", "alpha", "test", "preview", "rc")
-        ),
+''',
+r'''    wanted = {
+        str(x).strip().lower()
+        for x in app.get("catalog_names", [app["name"]])
     }
-    ch = channel(pseudo)
+    name_regexes = [
+        re.compile(str(x), flags=re.I)
+        for x in app.get("catalog_name_regex", [])
+    ]
+
+    matches = []
+    for item in items:
+        raw_name = str(item.get("name") or "").strip()
+        name = raw_name.lower()
+        if name in wanted or any(rx.search(raw_name) for rx in name_regexes):
+            matches.append(item)
+
+    if not matches:
+        raise RuntimeError(
+            f'No se encontró {app["name"]} en el catálogo externo.'
+        )
+
+    def catalog_rank(item):
+        raw_name = str(item.get("name") or "")
+        test = re.search(r"\btest\s*(\d+)\b", raw_name, flags=re.I)
+        if test:
+            return (1, int(test.group(1)), raw_name.lower())
+        return (0, 0, raw_name.lower())
+
+    hit = max(matches, key=catalog_rank) if name_regexes else matches[0]
+''',
+        "seleccion por regex en catalogos",
+    )
+
+    s = replace_once(
+        s,
+r'''    version = str(hit.get("version") or "unknown")
+    pseudo = {
+''',
+r'''    version = str(hit.get("version") or "unknown")
+    if version.strip().lower() in {"source-fixe", "source fixe", "unknown"}:
+        version = str(hit.get("name") or version)
+    pseudo = {
+''',
+        "version de builds de mirror",
+    )
+
+    s = replace_once(
+        s,
+r'''    return [{
+        "name": app["name"],
+        "filename": filename,
+        "url": url,
+        "source": app.get("source") or hit.get("source") or app["catalog_url"],
+        "source_direct": hit.get("source_direct") or url,
+        "description": build_description(app, pseudo, ch),
+''',
+r'''    description = build_description(app, pseudo, ch)
+    if app.get("status"):
+        description = re.sub(
+            r"ESTADO: [^.]+\.",
+            f'ESTADO: {app["status"]}.',
+            description,
+            count=1
+        )
+    if app.get("compatibility"):
+        if "COMPATIBILIDAD:" in description:
+            description = re.sub(
+                r"COMPATIBILIDAD: [^.]+\.",
+                f'COMPATIBILIDAD: {app["compatibility"]}.',
+                description,
+                count=1
+            )
+        else:
+            description += f' COMPATIBILIDAD: {app["compatibility"]}.'
 
     return [{
         "name": app["name"],
@@ -1053,427 +338,27 @@ def process_catalog(app):
         "url": url,
         "source": app.get("source") or hit.get("source") or app["catalog_url"],
         "source_direct": hit.get("source_direct") or url,
-        "description": build_description(app, pseudo, ch),
-        "last_update": str(hit.get("last_update") or "")[:10],
-        "version": display_version(version, ch),
-        "category": output_category(app, ch),
-        "checksum": hashlib.sha256(data).hexdigest(),
-    }]
-
-def process(app):
-    if app.get("catalog_url"):
-        return process_catalog(app)
-
-    # Lista completa fresca para detectar también beta/alpha.
-    rels = get_json(api_url(app))
-    if not isinstance(rels, list):
-        rels = [rels]
-
-    rels = sorted(
-        [r for r in rels if not r.get("draft", False)],
-        key=rtime,
-        reverse=True
+        "description": description,
+''',
+        "estado y compatibilidad de catalogos externos",
     )
 
-    # Versiones vetadas expresamente por proyecto. Esto se aplica antes de
-    # clasificar canales, de modo que una release antigua no puede reaparecer
-    # como estable, beta, alpha ni como fallback por falta de asset.
-    excluded_version_patterns = [
-        re.compile(pattern) for pattern in app.get("exclude_versions", [])
-    ]
-    if excluded_version_patterns:
-        rels = [
-            r for r in rels
-            if not any(rx.search(rtext(r)) for rx in excluded_version_patterns)
-        ]
-
-    wanted_channels = app.get("channels", ("stable", "beta", "alpha"))
-
-    # Para todos los repos GitHub con canal estable normal, consultamos además
-    # /releases/latest. Así una release recién publicada (Pegasus 1.8.0, etc.)
-    # no puede quedarse detrás de una versión antigua por orden/cache del listado.
-    latest_stable = None
-    latest_url = github_latest_url(app)
-    if (
-        latest_url
-        and "stable" in wanted_channels
-        and not app.get("stable_override")
-    ):
-        try:
-            latest_stable = get_json(latest_url)
-            if (
-                latest_stable.get("draft", False)
-                or latest_stable.get("prerelease", False)
-            ):
-                latest_stable = None
-            elif latest_stable:
-                print(f'  Latest oficial GitHub: {rtext(latest_stable)}')
-        except Exception as e:
-            # No bloqueamos el repo entero: seguimos con la lista de releases
-            # ya descargada, también forzada sin caché.
-            print(f'  Aviso latest oficial: {e}')
-            latest_stable = None
-
-    selected = {}
-    selected_release_ids = set()
-    selected_release_keys = set()
-    # Defensa adicional: una misma versión visible no puede ocupar dos canales
-    # aunque GitHub haya recreado la release y cambien id/fecha/metadatos.
-    selected_versions = set()
-
-    for ch in wanted_channels:
-        for rel in candidates(
-            rels,
-            app,
-            ch,
-            latest_stable=latest_stable
-        ):
-            rel_id = rel.get("id")
-            rel_key = (
-                str(rel.get("tag_name") or ""),
-                str(rel.get("name") or ""),
-                str(rel.get("published_at") or rel.get("created_at") or "")
-            )
-            raw_version = str(
-                rel.get("tag_name") or rel.get("name") or "unknown"
-            ).strip().lower()
-            # Solo para comparar identidad; la versión que se muestra se conserva
-            # exactamente como la publica el upstream.
-            version_key = re.sub(r"\s+", "", raw_version)
-            version_key = re.sub(r"^v(?=\d)", "", version_key)
-
-            if (
-                (rel_id is not None and rel_id in selected_release_ids)
-                or rel_key in selected_release_keys
-                or version_key in selected_versions
-            ):
-                continue
-            try:
-                # payload_for vuelve a descargar SIEMPRE el asset y recalcula
-                # SHA-256, incluso aunque versión/URL coincidan con la pasada.
-                p = payload_for(app, rel, ch)
-            except Exception as e:
-                print(f'  fallo {rtext(rel)}: {e}')
-                continue
-
-            if p:
-                selected[ch] = (rel, p)
-
-                if rel_id is not None:
-                    selected_release_ids.add(rel_id)
-                selected_release_keys.add(rel_key)
-                selected_versions.add(version_key)
-
-                print(
-                    f'  Seleccionado {ch}: '
-                    f'{rtext(rel)} -> {p["filename"]}'
-                )
-                break
-
-    if app.get("single_latest") and selected:
-        ch, pair = max(
-            selected.items(),
-            key=lambda item: rtime(item[1][0])
-        )
-        return [make_entry(app, *pair, ch)]
-
-    stable_t = rtime(selected["stable"][0]) if "stable" in selected else 0
-    output = []
-
-    if "stable" in selected:
-        output.append(
-            make_entry(
-                app,
-                *selected["stable"],
-                "stable"
-            )
-        )
-
-    for ch in ("beta", "alpha"):
-        if ch not in wanted_channels or ch not in selected:
-            continue
-
-        # No mostramos prereleases históricas más viejas que la estable,
-        # salvo que el proyecto las marque expresamente como relevantes.
-        if (
-            rtime(selected[ch][0]) > stable_t
-            or app.get(f"always_{ch}", False)
-            or "stable" not in selected
-        ):
-            output.append(
-                make_entry(
-                    app,
-                    *selected[ch],
-                    ch
-                )
-            )
-
-    return output
-
-def fixed_entry(x):
-    ch = x["channel"]
-    local_path = x.get("local_path")
-    if local_path:
-        path = Path(local_path)
-        if not path.is_file():
-            raise FileNotFoundError(f"Falta payload local: {path}")
-        data = path.read_bytes()
-        url = f"{PAGES}/{path.as_posix()}"
-    else:
-        url = x["url"]
-        data = get_bytes(url)
-
-    checksum = hashlib.sha256(data).hexdigest()
-    expected_checksum = str(x.get("expected_checksum") or "").lower().strip()
-    if expected_checksum and checksum.lower() != expected_checksum:
-        raise RuntimeError(
-            f'Checksum inesperado para {x["name"]}: {checksum} '
-            f'(esperado {expected_checksum})'
-        )
-
-    status = x.get("status", "EN PRUEBAS")
-    compatibility = x.get("compatibility", "hasta FW 12.70")
-    return {
-        "name": display_name(x["name"], ch),
-        "filename": x["filename"],
-        "url": url,
-        "source": x["source"],
-        "source_direct": url,
-        "description": (
-            f'{x["desc"].strip().rstrip(".")}. '
-            f'ESTADO: {status}. '
-            f'COMPATIBILIDAD: {compatibility}.'
-        ),
-        "last_update": x["date"],
-        "version": display_version(x["version"], ch),
-        "category": x["category"],
-        "checksum": checksum,
-    }
-
-def sanitize_visible(value):
-    if not isinstance(value, str):
-        return value
-
-    s = value
-    s = s.replace("\\r\\n", " ")
-    s = s.replace("\\n", " ")
-    s = s.replace("\\r", " ")
-    s = s.replace("\r", " ")
-    s = s.replace("\n", " ")
-    s = re.sub(r"\s+", " ", s).strip()
-    return s
-
-def sanitize_payload(entry):
-    for key in ("name", "filename", "description", "version", "category"):
-        if key in entry:
-            entry[key] = sanitize_visible(entry[key])
-    return entry
-
-def _visible_identity(item):
-    """Identidad que ve PLDMGR: nombre + versión, no el hash del binario."""
-    name = re.sub(
-        r"\s+", " ", str(item.get("name", "")).strip().lower()
-    )
-    version = re.sub(
-        r"\s+", "", str(item.get("version", "")).strip().lower()
-    )
-    version = re.sub(r"^v(?=\d)", "", version)
-
-    # Si por algún fallo no hay versión útil, no colapsamos payloads distintos
-    # solo porque compartan nombre.
-    if not version or version == "unknown":
-        return (
-            name,
-            version,
-            str(item.get("filename", "")).strip().lower(),
-            str(item.get("checksum", "")).strip().lower(),
-        )
-
-    return (name, version)
-
-def dedupe_payloads(payloads):
-    result = []
-    seen = set()
-
-    for item in payloads:
-        # IMPORTANTE: el checksum NO forma parte de la identidad visible.
-        # Si el autor recompila/reemplaza el asset de una release, el hash puede
-        # cambiar sin que cambie la versión. PLDMGR no debe mostrar dos copias.
-        key = _visible_identity(item)
-
-        if key in seen:
-            print(
-                f'Duplicado visible eliminado: '
-                f'{item.get("name")} {item.get("version")} '
-                f'({item.get("filename")})'
-            )
-            continue
-
-        seen.add(key)
-        result.append(item)
-
-    return result
-
-def validate_no_visible_duplicates(payloads):
-    """Falla la generación si vuelve a colarse nombre+versión duplicado."""
-    seen = {}
-    for item in payloads:
-        key = _visible_identity(item)
-        if len(key) != 2:
-            continue
-        if key in seen:
-            prev = seen[key]
-            raise RuntimeError(
-                "Duplicado visible tras deduplicar: "
-                f'{item.get("name")} {item.get("version")} | '
-                f'{prev.get("filename")} / {item.get("filename")}'
-            )
-        seen[key] = item
-
-def sort_key(x):
-    # Orden profesional: categoría, nombre y versión. No inferimos calidad
-    # a partir de palabras como beta/alpha para ordenar.
-    return (
-        CAT_ORDER.get(x.get("category", ""), 99),
-        x["name"].lower(),
-        str(x.get("version", "")).lower(),
-    )
-
-def load_previous_payloads():
-    path = Path("payloads.json")
-    if not path.is_file():
-        return []
-    try:
-        obj = json.loads(path.read_text(encoding="utf-8"))
-        payloads = obj.get("payloads", []) if isinstance(obj, dict) else []
-        return payloads if isinstance(payloads, list) else []
-    except Exception as e:
-        print(f"Aviso: no se pudo leer payloads.json anterior: {e}")
-        return []
-
-def previous_for_app(previous, app_name):
-    wanted = str(app_name or "").strip().casefold()
-    return [
-        dict(item) for item in previous
-        if str(item.get("name") or "").strip().casefold() == wanted
-    ]
-
-def previous_for_fixed(previous, fixed):
-    wanted_name = str(fixed.get("name") or "").strip().casefold()
-    wanted_version = str(fixed.get("version") or "").strip().casefold()
-    return [
-        dict(item) for item in previous
-        if str(item.get("name") or "").strip().casefold() == wanted_name
-        and str(item.get("version") or "").strip().casefold() == wanted_version
-    ]
-
-def cleanup_unreferenced_mirror(payloads):
-    """Elimina mirrors antiguos/alias que ya no aparecen en payloads.json."""
-    if not MIRROR.exists():
-        return
-
-    prefix = PAGES.rstrip("/") + "/"
-    keep = set()
-    for item in payloads:
-        url = str(item.get("url") or "")
-        if url.startswith(prefix):
-            rel = url[len(prefix):]
-            path = Path(rel)
-            if path.parts and path.parts[0] == MIRROR.name:
-                keep.add(path.as_posix())
-
-    removed = 0
-    for path in sorted(MIRROR.rglob("*"), key=lambda p: len(p.parts), reverse=True):
-        if path.is_file() and path.as_posix() not in keep:
-            path.unlink()
-            removed += 1
-        elif path.is_dir():
-            try:
-                path.rmdir()
-            except OSError:
-                pass
-
-    if removed:
-        print(f"Mirrors antiguos eliminados: {removed}")
+    return MARKER + "\n" + s
 
 def main():
-    print("=== HiddenKernel Store · Curated Ecosystem-Compatible ===")
-    print("Actualizaciones forzadas + fichas breves + estado y compatibilidad verificada.")
-    previous = load_previous_payloads()
-    payloads = []
-    fatal_errors = []
+    target = Path(__file__)
+    source = build_updated_source()
+    compile(source, str(target), "exec")
+    target.write_text(source, encoding="utf-8", newline="\n")
+    print("actualizador.py completo generado y validado.")
+    print("Ejecutando el actualizador nuevo...")
 
-    for app in APPS:
-        print(f'Procesando {app["name"]}...')
-        try:
-            xs = process(app)
-            if not xs:
-                raise RuntimeError("Sin release compatible.")
-            payloads.extend(xs)
-            for x in xs:
-                print(f'  OK {x["name"]}: {x["version"]}')
-        except Exception as e:
-            fallback = previous_for_app(previous, app["name"])
-            if fallback:
-                payloads.extend(fallback)
-                print(
-                    f'  AVISO: {e}. Se conserva la última entrada válida '
-                    f'({len(fallback)}).'
-                )
-            else:
-                msg = f'{app["name"]}: {e}'
-                if app.get("optional"):
-                    print(f"  AVISO OPCIONAL: {msg}. Se omite temporalmente.")
-                else:
-                    fatal_errors.append(msg)
-                    print(f"  ERROR SIN FALLBACK: {msg}")
-
-    for x in FIXED:
-        try:
-            payloads.append(fixed_entry(x))
-        except Exception as e:
-            if x.get("required"):
-                msg = f'{x["name"]}: {e}'
-                fatal_errors.append(msg)
-                print(f'  ERROR OBLIGATORIO: {msg}')
-                continue
-
-            fallback = previous_for_fixed(previous, x)
-            if fallback:
-                payloads.extend(fallback)
-                print(
-                    f'  AVISO fijo {x["name"]}: {e}. '
-                    "Se conserva la entrada anterior."
-                )
-            else:
-                msg = f'{x["name"]}: {e}'
-                fatal_errors.append(msg)
-                print(f'  ERROR fijo SIN FALLBACK: {msg}')
-
-    if fatal_errors:
-        raise RuntimeError(
-            "Generación abortada para no publicar un catálogo incompleto: "
-            + " | ".join(fatal_errors)
-        )
-
-    payloads = [sanitize_payload(x) for x in payloads]
-    payloads = dedupe_payloads(payloads)
-    validate_no_visible_duplicates(payloads)
-    validate_canonical_storage_roots(payloads)
-    payloads.sort(key=sort_key)
-
-    for x in payloads:
-        desc = x.get("description", "")
-        if "\n" in desc or "\r" in desc:
-            raise RuntimeError(f'Descripcion con salto de linea: {x.get("name")}')
-
-    cleanup_unreferenced_mirror(payloads)
-
-    with open("payloads.json", "w", encoding="utf-8") as f:
-        json.dump({"name": "HiddenKernel Store", "payloads": payloads},
-                  f, ensure_ascii=False, indent=2)
-        f.write("\n")
-    print(f"Generado payloads.json con {len(payloads)} entradas.")
+    ns = {
+        "__name__": "__main__",
+        "__file__": str(target),
+        "__package__": None,
+    }
+    exec(compile(source, str(target), "exec"), ns, ns)
 
 if __name__ == "__main__":
     main()
