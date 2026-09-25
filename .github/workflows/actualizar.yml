@@ -8,7 +8,7 @@ on:
       - main
 
   schedule:
-    - cron: "0 */3 * * *"
+    - cron: "17 */3 * * *"
 
 concurrency:
   group: hiddenkernel-store-update
