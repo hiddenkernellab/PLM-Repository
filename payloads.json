@@ -183,15 +183,15 @@
     },
     {
       "name": "ps5upload",
-      "filename": "ps5upload_v5.33.2.elf",
-      "url": "https://github.com/phantomptr/ps5upload/releases/download/v5.33.2/ps5upload-5.33.2.elf",
+      "filename": "ps5upload_v5.34.0.elf",
+      "url": "https://github.com/phantomptr/ps5upload/releases/download/v5.34.0/ps5upload-5.34.0.elf",
       "source": "https://github.com/phantomptr/ps5upload/releases",
-      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v5.33.2/ps5upload-5.33.2.elf",
+      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v5.34.0/ps5upload-5.34.0.elf",
       "description": "Transfiere archivos entre PS5 y PC/Android con control de integridad y soporte para reanudar envios. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 1.00-12.70; probado en hardware en 5.10, 9.60 y 12.20.",
-      "last_update": "2026-09-23",
-      "version": "v5.33.2",
+      "last_update": "2026-09-25",
+      "version": "v5.34.0",
       "category": "ARCHIVOS / PC",
-      "checksum": "808b7acc5173bf8cfda02281b1ab3bf706dc7977f77c8cd64e1cf733d5aa9831"
+      "checksum": "fbe6fb2c306828d72bffefef4e4149ec189a748c3f7662dffeb6c281bf7437c0"
     },
     {
       "name": "PKG Manager",
@@ -350,6 +350,30 @@
       "checksum": "73dd3f3938867ac970207ae8e4093e2d0c5b005bcad1ff9ff2aeb5d34294a161"
     },
     {
+      "name": "FPKG AIO - A53+Kstuff+SMP 3in1",
+      "filename": "A53-Kstuff-ShadowMountPlus-3in1.elf",
+      "url": "https://raw.githubusercontent.com/nexgen999/PS5-Super-PLDMGR-Auto-Updater/main/Internal/payloads/beta/SoNic-AIO/A53-Kstuff-ShadowMountPlus-3in1.elf",
+      "source": "https://github.com/nexgen999/PS5-Super-PLDMGR-Auto-Updater",
+      "source_direct": "https://raw.githubusercontent.com/nexgen999/PS5-Super-PLDMGR-Auto-Updater/main/Internal/payloads/beta/SoNic-AIO/A53-Kstuff-ShadowMountPlus-3in1.elf",
+      "description": "AIO experimental que agrupa A53, Kstuff y ShadowMountPlus. No sustituye al stack por piezas cuando se busca aislar fallos. ESTADO: EXPERIMENTAL / AIO. COMPATIBILIDAD: experimental; usar solo para pruebas.",
+      "last_update": "",
+      "version": "A53 Kstuff Shadowmountplus 3In1",
+      "category": "FPKG INTEGRADO",
+      "checksum": "51f5c7973a2edb5db61bcbfb7afc3d2336f19368631f84bfc55d08ef4a3d4ab2"
+    },
+    {
+      "name": "FPKG Integrado - Kstuff Drakmor",
+      "filename": "kstuff-1.13-fpkg-dr-test3.elf",
+      "url": "https://raw.githubusercontent.com/nexgen999/PS5-Super-PLDMGR-Auto-Updater/main/Internal/payloads/beta/Kstuff-Darkmor/kstuff-1.13-fpkg-dr-test3.elf",
+      "source": "https://github.com/nexgen999/PS5-Super-PLDMGR-Auto-Updater",
+      "source_direct": "https://raw.githubusercontent.com/nexgen999/PS5-Super-PLDMGR-Auto-Updater/main/Internal/payloads/beta/Kstuff-Darkmor/kstuff-1.13-fpkg-dr-test3.elf",
+      "description": "Rama Kstuff de pruebas FPKG de Drakmor con el flujo PPR/A53 integrado. Se mantiene separada de kstuff-lite oficial. ESTADO: EXPERIMENTAL / FPKG. COMPATIBILIDAD: FW 1.00-11.60 en test3; validar builds futuras.",
+      "last_update": "",
+      "version": "Kstuff 1.13 Fpkg Dr Test3",
+      "category": "FPKG INTEGRADO",
+      "checksum": "84a31b1ce27036fc1edd5d94ac2c057aab24ada81e0f476e96ad60111136c9e0"
+    },
+    {
       "name": "FPKG Integrado - ShadowMountPlus",
       "filename": "fpkg-integrado-shadowmountplus.elf",
       "url": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.7beta2/shadowmountplus.elf",
@@ -360,6 +384,30 @@
       "version": "1.7beta2",
       "category": "FPKG INTEGRADO",
       "checksum": "3f716a7b2220c7e87e87452ae05cad689ef842d3beb4cdad6c526cb6dfc2b6b5"
+    },
+    {
+      "name": "A53 PPR Modular 1.00-11.40",
+      "filename": "a53_ppr_install_1140_20.09.elf",
+      "url": "https://raw.githubusercontent.com/nexgen999/PS5-Super-PLDMGR-Auto-Updater/main/Internal/payloads/beta/a53_ppr/a53_ppr_install_1140_20.09.elf",
+      "source": "https://github.com/nexgen999/PS5-Super-PLDMGR-Auto-Updater",
+      "source_direct": "https://raw.githubusercontent.com/nexgen999/PS5-Super-PLDMGR-Auto-Updater/main/Internal/payloads/beta/a53_ppr/a53_ppr_install_1140_20.09.elf",
+      "description": "A53/PPR separado para el stack modular FPKG. Usar junto con Kstuff Lite y ShadowMountPlus compatibles. ESTADO: EXPERIMENTAL / A53. COMPATIBILIDAD: FW 1.00-11.40.",
+      "last_update": "",
+      "version": "A53 Ppr Install 1140 20.09",
+      "category": "FPKG MODULAR",
+      "checksum": "5d664382ea83e11f0326d9f0544af215a9f329e27fbd1edc483446e0d7b8ee13"
+    },
+    {
+      "name": "A53 PPR Modular 11.60",
+      "filename": "a53_ppr_install_1160_20.09.elf",
+      "url": "https://raw.githubusercontent.com/nexgen999/PS5-Super-PLDMGR-Auto-Updater/main/Internal/payloads/beta/a53_ppr/a53_ppr_install_1160_20.09.elf",
+      "source": "https://github.com/nexgen999/PS5-Super-PLDMGR-Auto-Updater",
+      "source_direct": "https://raw.githubusercontent.com/nexgen999/PS5-Super-PLDMGR-Auto-Updater/main/Internal/payloads/beta/a53_ppr/a53_ppr_install_1160_20.09.elf",
+      "description": "A53/PPR separado especifico para 11.60 dentro del stack modular FPKG. No usar la variante 11.40 en una 11.60. ESTADO: EXPERIMENTAL / A53. COMPATIBILIDAD: FW 11.60.",
+      "last_update": "",
+      "version": "A53 Ppr Install 1160 20.09",
+      "category": "FPKG MODULAR",
+      "checksum": "984be03548aa849bcd06757acbed5575a3764532d858f4afaaa243b9f2a08bbf"
     },
     {
       "name": "FPKG Modular - Kstuff Lite",
