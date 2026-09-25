@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import hashlib
 import urllib.request
 from pathlib import Path
 
@@ -6,13 +7,13 @@ BASE_URL = (
     "https://raw.githubusercontent.com/hiddenkernellab/PLM-Repository/"
     "089b64c0660dbf92239e6991d57cd050a6395031/actualizador.py"
 )
-MARKER = "# HK-HOTFIX-FPKG-SOURCES-2026-09-25"
+MARKER = "# HK-HOTFIX-FPKG-SOURCES-2026-09-25-V4"
 
 def download_base():
     req = urllib.request.Request(
         BASE_URL,
         headers={
-            "User-Agent": "HiddenKernel-FPKG-Hotfix/3.0",
+            "User-Agent": "HiddenKernel-FPKG-Hotfix/4.0",
             "Cache-Control": "no-cache",
         },
     )
@@ -30,49 +31,7 @@ def replace_once(s, old, new, label):
 def main():
     source = download_base()
 
-    source = replace_once(
-        source,
-        'catalog_name_regex=[r"^Kstuff .* Fpkg Dr Test\\\\d+$"],\n'
-        '         source="https://github.com/nexgen999/PS5-Super-PLDMGR-Auto-Updater",',
-        'catalog_name_regex=[r"^Kstuff .* Fpkg Dr Test\\\\d+$"],\n'
-        '         catalog_raw_dir="Internal/payloads/beta/Kstuff-Darkmor",\n'
-        '         source="https://github.com/nexgen999/PS5-Super-PLDMGR-Auto-Updater",',
-        "Kstuff Drakmor raw dir",
-    )
-
-    source = replace_once(
-        source,
-        'catalog_name_regex=[r"^A53 Kstuff Shadowmountplus 3In1$"],\n'
-        '         source="https://github.com/nexgen999/PS5-Super-PLDMGR-Auto-Updater",',
-        'catalog_name_regex=[r"^A53 Kstuff Shadowmountplus 3In1$"],\n'
-        '         catalog_raw_dir="Internal/payloads/beta/SoNic-AIO",\n'
-        '         source="https://github.com/nexgen999/PS5-Super-PLDMGR-Auto-Updater",',
-        "AIO raw dir",
-    )
-
-    source = replace_once(
-        source,
-        'catalog_name_regex=[r"^A53 Ppr Install 1140 .*"],\n'
-        '         source="https://github.com/nexgen999/PS5-Super-PLDMGR-Auto-Updater",',
-        'catalog_name_regex=[r"^A53 Ppr Install 1140 .*"],\n'
-        '         catalog_raw_dir="Internal/payloads/beta/a53_ppr",\n'
-        '         source="https://github.com/nexgen999/PS5-Super-PLDMGR-Auto-Updater",',
-        "A53 1140 raw dir",
-    )
-
-    source = replace_once(
-        source,
-        'catalog_name_regex=[r"^A53 Ppr Install 1160 .*"],\n'
-        '         source="https://github.com/nexgen999/PS5-Super-PLDMGR-Auto-Updater",',
-        'catalog_name_regex=[r"^A53 Ppr Install 1160 .*"],\n'
-        '         catalog_raw_dir="Internal/payloads/beta/a53_ppr",\n'
-        '         source="https://github.com/nexgen999/PS5-Super-PLDMGR-Auto-Updater",',
-        "A53 1160 raw dir",
-    )
-
-    source = replace_once(
-        source,
-        '''    url = hit.get("url") or hit.get("source_direct")
+    old = '''    url = hit.get("url") or hit.get("source_direct")
     if not url:
         raise RuntimeError(
             f'{app["name"]}: el catálogo no proporciona URL descargable.'
@@ -81,8 +40,9 @@ def main():
     data = get_bytes(url)
     filename = hit.get("filename") or Path(url.split("?", 1)[0]).name
     if not filename.lower().endswith((".elf", ".bin")):
-''',
-        '''    url = hit.get("url") or hit.get("source_direct")
+'''
+
+    new = '''    url = hit.get("url") or hit.get("source_direct")
     if not url:
         raise RuntimeError(
             f'{app["name"]}: el catálogo no proporciona URL descargable.'
@@ -90,32 +50,43 @@ def main():
 
     filename = hit.get("filename") or Path(url.split("?", 1)[0]).name
 
-    raw_dir = app.get("catalog_raw_dir")
-    if raw_dir:
-        url = (
-            "https://raw.githubusercontent.com/"
-            "nexgen999/PS5-Super-PLDMGR-Auto-Updater/main/"
-            f'{raw_dir.strip("/")}/{filename}'
-        )
+    # Los JSON de Nexgen son el índice correcto, pero algunas URLs de GitHub
+    # Pages devuelven 404 desde Actions. Para estas builds conocidas usamos
+    # directamente el binario del árbol Internal del repositorio.
+    nexgen_raw = (
+        "https://raw.githubusercontent.com/"
+        "nexgen999/PS5-Super-PLDMGR-Auto-Updater/main/"
+    )
+
+    if filename.startswith("kstuff-1.13-fpkg-dr-test"):
+        url = nexgen_raw + "Internal/payloads/beta/Kstuff-Darkmor/" + filename
+    elif filename.startswith("a53_ppr_install_"):
+        url = nexgen_raw + "Internal/payloads/beta/a53_ppr/" + filename
+    elif filename in {
+        "A53-Kstuff-ShadowMountPlus-3in1.elf",
+        "A53-kstuff-SMP.elf",
+    }:
+        url = nexgen_raw + "Internal/payloads/beta/SoNic-AIO/" + filename
 
     data = get_bytes(url)
     if not filename.lower().endswith((".elf", ".bin")):
-''',
-        "descarga directa de binarios de catalogo",
-    )
+'''
 
     source = replace_once(
-        source,
-        '''    return [{
+        source, old, new, "descarga directa FPKG/A53"
+    )
+
+    old_return = '''    return [{
         "name": app["name"],
         "filename": filename,
         "url": url,
-''',
-        '''    checksum = hashlib.sha256(data).hexdigest()
+'''
+
+    new_return = '''    checksum = hashlib.sha256(data).hexdigest()
     expected = str(hit.get("checksum") or "").strip().lower()
     if expected and checksum.lower() != expected:
         raise RuntimeError(
-            f'{app["name"]}: checksum del mirror no coincide '
+            f'{app["name"]}: checksum no coincide '
             f'({checksum} != {expected})'
         )
 
@@ -123,20 +94,22 @@ def main():
         "name": app["name"],
         "filename": filename,
         "url": url,
-''',
-        "validacion checksum catalogo",
+'''
+
+    source = replace_once(
+        source, old_return, new_return, "validación checksum"
     )
 
     source = replace_once(
         source,
         '"checksum": hashlib.sha256(data).hexdigest(),\n    }]\n\ndef process(app):',
         '"checksum": checksum,\n    }]\n\ndef process(app):',
-        "checksum final catalogo",
+        "checksum final",
     )
 
     source = source.replace(
         'compatibility="segun build; validar firmware antes de usar",',
-        'compatibility="FW 1.00-11.60 en la build test3; validar builds futuras",',
+        'compatibility="FW 1.00-11.60 en test3; validar builds futuras",',
         1,
     )
 
@@ -147,8 +120,7 @@ def main():
     compile(source, str(target), "exec")
     target.write_text(source, encoding="utf-8", newline="\n")
 
-    print("Hotfix FPKG/A53 aplicado y actualizador completo validado.")
-    print("Ejecutando catálogo corregido...")
+    print("Hotfix V4 aplicado. Ejecutando actualizador completo...")
 
     ns = {
         "__name__": "__main__",
