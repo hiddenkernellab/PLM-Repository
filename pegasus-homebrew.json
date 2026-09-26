@@ -61,6 +61,24 @@
       "sizeBytes": 18168015
     },
     {
+      "titleId": "MOUU12023",
+      "title": "Internet Browser (Game / Media)",
+      "version": "1.0",
+      "description": "Accesos directos al navegador de PS5. Incluye las variantes Game Menu y Media Menu del mismo Title ID para evitar duplicados en Pegasus.",
+      "downloadSource": "https://github.com/nexgen999/evoX-CoreOS",
+      "downloadLinks": [
+        {
+          "name": "Game Menu",
+          "url": "https://github.com/nexgen999/Evox_PS5PKG_Private/releases/download/v1.0/PS5PKG_InternetBrowser-Game_Menu_v1.00.pkg"
+        },
+        {
+          "name": "Media Menu",
+          "url": "https://github.com/nexgen999/Evox_PS5PKG_Private/releases/download/v1.0/PS5PKG_InternetBrowser-Media_Menu_v1.00.pkg"
+        }
+      ],
+      "posterUrl": "https://cdn.jsdelivr.net/gh/nexgen999/evoX-CoreOS@main/assets/icon/Internet-browser_Media.png"
+    },
+    {
       "titleId": "ITEM00001",
       "title": "Itemzflow Game Manager",
       "version": "1.14",
@@ -74,6 +92,66 @@
       ],
       "posterUrl": "https://raw.githubusercontent.com/LightningMods/Itemzflow/9126e4788eb8a9d9657b8096ec7e25eb3bc9ab8d/App-Media-Assets/sce_sys/icon0.png",
       "sizeBytes": 62849024
+    },
+    {
+      "titleId": "PPSA99002",
+      "title": "ProsperoLight",
+      "version": "01.000.060",
+      "description": "ProsperoLight, cliente Moonlight para PS5.",
+      "downloadSource": "https://github.com/nexgen999/evoX-CoreOS",
+      "downloadLinks": [
+        {
+          "name": "ProsperoLight",
+          "url": "https://github.com/blackbearreloaded/ProsperoLight/releases/download/01.000.060/PPSA99002.ffpfsc"
+        }
+      ],
+      "posterUrl": "https://cdn.jsdelivr.net/gh/nexgen999/evoX-CoreOS@main/assets/icon/ProsperoLight.png",
+      "sizeBytes": 39911424
+    },
+    {
+      "titleId": "PPSA99001",
+      "title": "ProsperoRadio",
+      "version": "01.000.005",
+      "description": "ProsperoRadio, reproductor de radio para PS5.",
+      "downloadSource": "https://github.com/nexgen999/evoX-CoreOS",
+      "downloadLinks": [
+        {
+          "name": "ProsperoRadio",
+          "url": "https://github.com/blackbearreloaded/ProsperoRadio/releases/download/01.000.005/PPSA99001.ffpfsc"
+        }
+      ],
+      "posterUrl": "https://cdn.jsdelivr.net/gh/nexgen999/evoX-CoreOS@main/assets/icon/ProsperoRadio.png",
+      "sizeBytes": 34275328
+    },
+    {
+      "titleId": "PPSA99003",
+      "title": "ProsperoTV",
+      "version": "01.000.015",
+      "description": "ProsperoTV, reproductor IPTV para PS5.",
+      "downloadSource": "https://github.com/nexgen999/evoX-CoreOS",
+      "downloadLinks": [
+        {
+          "name": "ProsperoTV",
+          "url": "https://github.com/blackbearreloaded/ProsperoTV/releases/download/01.000.015/PPSA99003.ffpfsc"
+        }
+      ],
+      "posterUrl": "https://cdn.jsdelivr.net/gh/nexgen999/evoX-CoreOS@main/assets/icon/prosperotv.png",
+      "sizeBytes": 34078720
+    },
+    {
+      "titleId": "NPXS39041",
+      "title": "PS5 Homebrew Store",
+      "version": "1.0",
+      "description": "Instalador de PS5 Homebrew Store. Fuente externa de la escena homebrew.",
+      "downloadSource": "https://github.com/nexgen999/evoX-CoreOS",
+      "downloadLinks": [
+        {
+          "name": "PS5 Homebrew Store",
+          "url": "https://github.com/nexgen999/Evox_PS5PKG_Private/releases/download/v1.0/PS5PKG_Homebrew_Store_installer.pkg"
+        }
+      ],
+      "posterUrl": "https://cdn.jsdelivr.net/gh/nexgen999/evoX-CoreOS@main/assets/icon/Homebrew-Store.png",
+      "sizeBytes": 43450368
     },
     {
       "titleId": "LAPY20012",
@@ -90,6 +168,36 @@
       "posterUrl": "https://pkg-zone.com/images/LAPY20012/cover.png"
     },
     {
+      "titleId": "PPNX00999",
+      "title": "PS5 Webkit",
+      "version": "1.0",
+      "description": "Instalador de acceso WebKit para PS5 mantenido por la comunidad.",
+      "downloadSource": "https://github.com/nexgen999/evoX-CoreOS",
+      "downloadLinks": [
+        {
+          "name": "PS5 Webkit",
+          "url": "https://github.com/nexgen999/Evox_PS5PKG_Private/releases/download/v1.0/PS5PKG_PS5Webit-Nexgen999_Installer_v1.00.pkg"
+        }
+      ],
+      "posterUrl": "https://cdn.jsdelivr.net/gh/nexgen999/evoX-CoreOS@main/assets/icon/ps5webkit-nexgen.png",
+      "sizeBytes": 9713429
+    },
+    {
+      "titleId": "MOUS21425",
+      "title": "PS5-SHOP-APPKG",
+      "version": "ps5shopappkg",
+      "description": "Aplicación PS5-SHOP-APPKG; requiere el payload ps5shopappkg-dpi compatible.",
+      "downloadSource": "https://github.com/nexgen999/evoX-CoreOS",
+      "downloadLinks": [
+        {
+          "name": "ps5shopappkg",
+          "url": "https://github.com/ps5xploit/ps5shopappkg/releases/download/ps5shopappkg/PS5-SHOP-APPKG.pkg"
+        }
+      ],
+      "posterUrl": "https://cdn.jsdelivr.net/gh/nexgen999/evoX-CoreOS@main/assets/icon/ps5shopappkg.png",
+      "sizeBytes": 22034961
+    },
+    {
       "titleId": "LAPY20011",
       "title": "PS5-Xplorer",
       "version": "1.05",
@@ -103,6 +211,21 @@
       ],
       "posterUrl": "https://pkg-zone.com/images/LAPY20011/cover.png",
       "sizeBytes": 81264640
+    },
+    {
+      "titleId": "PPSA99051",
+      "title": "PS5Library",
+      "version": "0.2.10",
+      "description": "Cliente PS5Library; requiere ps5library-agent.elf para funcionar.",
+      "downloadSource": "https://github.com/nexgen999/evoX-CoreOS",
+      "downloadLinks": [
+        {
+          "name": "PS5Library",
+          "url": "https://github.com/rdiol12/PS5Library/releases/download/v0.2.10/PS5Library.pkg"
+        }
+      ],
+      "posterUrl": "https://cdn.jsdelivr.net/gh/nexgen999/evoX-CoreOS@main/assets/icon/PS5Library.png",
+      "sizeBytes": 64210040
     }
   ]
 }

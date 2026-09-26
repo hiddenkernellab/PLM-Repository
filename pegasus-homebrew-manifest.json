@@ -1,6 +1,6 @@
 {
   "name": "HiddenKernel Homebrew integrity manifest",
-  "policy": "Solo homebrew/utilidades legales. Importación automática de PKG-Zone limitada a Utility/Emulator/Homebrew; no juegos comerciales, DLC, updates, Retail PKG ni Media comercial.",
+  "policy": "Solo homebrew/utilidades legales. Importación automática de PKG-Zone limitada a Utility/Emulator/Homebrew y sincronización selectiva de utilidades conocidas de EvoX-CoreOS; no juegos comerciales, DLC, updates, Retail PKG ni Media comercial.",
   "packages": [
     {
       "titleId": "FAKE00000",
@@ -60,6 +60,76 @@
       "provenance": "PKG público espejado por Nexgen y verificado contra el SHA-256 del asset de GitHub."
     },
     {
+      "titleId": "MOUS21425",
+      "version": "ps5shopappkg",
+      "url": "https://github.com/ps5xploit/ps5shopappkg/releases/download/ps5shopappkg/PS5-SHOP-APPKG.pkg",
+      "sha256": "d3a428bbd15e31344764f0e2dc4bf3664d5dfa48d2c008687af974e68fd65807",
+      "sizeBytes": 22034961,
+      "posterUrl": "https://cdn.jsdelivr.net/gh/nexgen999/evoX-CoreOS@main/assets/icon/ps5shopappkg.png",
+      "imageSource": "https://cdn.jsdelivr.net/gh/nexgen999/evoX-CoreOS@main/assets/icon/ps5shopappkg.png",
+      "sourceType": "evox-coreos-import",
+      "sourceCatalog": "https://raw.githubusercontent.com/nexgen999/evoX-CoreOS/main/json/pegasus_catalog.json",
+      "artifacts": [
+        {
+          "name": "PS5-SHOP-APPKG.pkg",
+          "version": "ps5shopappkg",
+          "url": "https://github.com/ps5xploit/ps5shopappkg/releases/download/ps5shopappkg/PS5-SHOP-APPKG.pkg",
+          "sha256": "d3a428bbd15e31344764f0e2dc4bf3664d5dfa48d2c008687af974e68fd65807",
+          "sizeBytes": 22034961
+        }
+      ],
+      "provenance": "Entrada homebrew importada de EvoX-CoreOS. Cada descarga se valida contra el asset publicado en GitHub Releases; HiddenKernel no aloja el binario."
+    },
+    {
+      "titleId": "MOUU12023",
+      "version": "1.0",
+      "url": "https://github.com/nexgen999/Evox_PS5PKG_Private/releases/download/v1.0/PS5PKG_InternetBrowser-Game_Menu_v1.00.pkg",
+      "sha256": "86792d0fd1aa6156ee93a55bd9dc767ef4961ade4250155b19573bf9bfd3adc8",
+      "sizeBytes": 37633692,
+      "posterUrl": "https://cdn.jsdelivr.net/gh/nexgen999/evoX-CoreOS@main/assets/icon/Internet-browser_Media.png",
+      "imageSource": "https://cdn.jsdelivr.net/gh/nexgen999/evoX-CoreOS@main/assets/icon/Internet-browser_Media.png",
+      "sourceType": "evox-coreos-import",
+      "sourceCatalog": "https://raw.githubusercontent.com/nexgen999/evoX-CoreOS/main/json/pegasus_catalog.json",
+      "artifacts": [
+        {
+          "name": "PS5PKG_InternetBrowser-Game_Menu_v1.00.pkg",
+          "version": "1.0",
+          "url": "https://github.com/nexgen999/Evox_PS5PKG_Private/releases/download/v1.0/PS5PKG_InternetBrowser-Game_Menu_v1.00.pkg",
+          "sha256": "86792d0fd1aa6156ee93a55bd9dc767ef4961ade4250155b19573bf9bfd3adc8",
+          "sizeBytes": 37633692
+        },
+        {
+          "name": "PS5PKG_InternetBrowser-Media_Menu_v1.00.pkg",
+          "version": "1.0",
+          "url": "https://github.com/nexgen999/Evox_PS5PKG_Private/releases/download/v1.0/PS5PKG_InternetBrowser-Media_Menu_v1.00.pkg",
+          "sha256": "90d29db230458acfd2e3332dc338afe6e63f3d0c0948517918286497c9ac17ca",
+          "sizeBytes": 37633547
+        }
+      ],
+      "provenance": "Entrada homebrew importada de EvoX-CoreOS. Cada descarga se valida contra el asset publicado en GitHub Releases; HiddenKernel no aloja el binario."
+    },
+    {
+      "titleId": "NPXS39041",
+      "version": "1.0",
+      "url": "https://github.com/nexgen999/Evox_PS5PKG_Private/releases/download/v1.0/PS5PKG_Homebrew_Store_installer.pkg",
+      "sha256": "da24bf219241d57eccd59a57c0cc81811b15edb50c3b09d49e8bb792476d7015",
+      "sizeBytes": 43450368,
+      "posterUrl": "https://cdn.jsdelivr.net/gh/nexgen999/evoX-CoreOS@main/assets/icon/Homebrew-Store.png",
+      "imageSource": "https://cdn.jsdelivr.net/gh/nexgen999/evoX-CoreOS@main/assets/icon/Homebrew-Store.png",
+      "sourceType": "evox-coreos-import",
+      "sourceCatalog": "https://raw.githubusercontent.com/nexgen999/evoX-CoreOS/main/json/pegasus_catalog.json",
+      "artifacts": [
+        {
+          "name": "PS5PKG_Homebrew_Store_installer.pkg",
+          "version": "1.0",
+          "url": "https://github.com/nexgen999/Evox_PS5PKG_Private/releases/download/v1.0/PS5PKG_Homebrew_Store_installer.pkg",
+          "sha256": "da24bf219241d57eccd59a57c0cc81811b15edb50c3b09d49e8bb792476d7015",
+          "sizeBytes": 43450368
+        }
+      ],
+      "provenance": "Entrada homebrew importada de EvoX-CoreOS. Cada descarga se valida contra el asset publicado en GitHub Releases; HiddenKernel no aloja el binario."
+    },
+    {
       "titleId": "PKGI13337",
       "version": "1.10.0",
       "url": "https://pkg-zone.com/download/ps5/PKGI13337/latest",
@@ -72,6 +142,111 @@
       "sourceType": "pkg-zone-auto",
       "verification": "PKG-Zone HTTPS source; no SHA-256 local",
       "provenance": "Detectado automáticamente en el catálogo PS5 de PKG-Zone y filtrado a categorías homebrew/utilidad permitidas. El PKG y su portada permanecen alojados por la fuente externa."
+    },
+    {
+      "titleId": "PPNX00999",
+      "version": "1.0",
+      "url": "https://github.com/nexgen999/Evox_PS5PKG_Private/releases/download/v1.0/PS5PKG_PS5Webit-Nexgen999_Installer_v1.00.pkg",
+      "sha256": "59e308b8264c0cfe1648650ab6989c7cd4496a03fa647f261a6f3e8b974bf4cb",
+      "sizeBytes": 9713429,
+      "posterUrl": "https://cdn.jsdelivr.net/gh/nexgen999/evoX-CoreOS@main/assets/icon/ps5webkit-nexgen.png",
+      "imageSource": "https://cdn.jsdelivr.net/gh/nexgen999/evoX-CoreOS@main/assets/icon/ps5webkit-nexgen.png",
+      "sourceType": "evox-coreos-import",
+      "sourceCatalog": "https://raw.githubusercontent.com/nexgen999/evoX-CoreOS/main/json/pegasus_catalog.json",
+      "artifacts": [
+        {
+          "name": "PS5PKG_PS5Webit-Nexgen999_Installer_v1.00.pkg",
+          "version": "1.0",
+          "url": "https://github.com/nexgen999/Evox_PS5PKG_Private/releases/download/v1.0/PS5PKG_PS5Webit-Nexgen999_Installer_v1.00.pkg",
+          "sha256": "59e308b8264c0cfe1648650ab6989c7cd4496a03fa647f261a6f3e8b974bf4cb",
+          "sizeBytes": 9713429
+        }
+      ],
+      "provenance": "Entrada homebrew importada de EvoX-CoreOS. Cada descarga se valida contra el asset publicado en GitHub Releases; HiddenKernel no aloja el binario."
+    },
+    {
+      "titleId": "PPSA99001",
+      "version": "01.000.005",
+      "url": "https://github.com/blackbearreloaded/ProsperoRadio/releases/download/01.000.005/PPSA99001.ffpfsc",
+      "sha256": "0f82072f1e8a4cc0dd56e6b0831fb068b68540530f78c93f9825c5c5bca21a6a",
+      "sizeBytes": 34275328,
+      "posterUrl": "https://cdn.jsdelivr.net/gh/nexgen999/evoX-CoreOS@main/assets/icon/ProsperoRadio.png",
+      "imageSource": "https://cdn.jsdelivr.net/gh/nexgen999/evoX-CoreOS@main/assets/icon/ProsperoRadio.png",
+      "sourceType": "evox-coreos-import",
+      "sourceCatalog": "https://raw.githubusercontent.com/nexgen999/evoX-CoreOS/main/json/pegasus_catalog.json",
+      "artifacts": [
+        {
+          "name": "PPSA99001.ffpfsc",
+          "version": "01.000.005",
+          "url": "https://github.com/blackbearreloaded/ProsperoRadio/releases/download/01.000.005/PPSA99001.ffpfsc",
+          "sha256": "0f82072f1e8a4cc0dd56e6b0831fb068b68540530f78c93f9825c5c5bca21a6a",
+          "sizeBytes": 34275328
+        }
+      ],
+      "provenance": "Entrada homebrew importada de EvoX-CoreOS. Cada descarga se valida contra el asset publicado en GitHub Releases; HiddenKernel no aloja el binario."
+    },
+    {
+      "titleId": "PPSA99002",
+      "version": "01.000.060",
+      "url": "https://github.com/blackbearreloaded/ProsperoLight/releases/download/01.000.060/PPSA99002.ffpfsc",
+      "sha256": "6e92e8f862cf75f3527ff0210a7470aca4b5dc453a6f7f00bb3a26a01bf3fe40",
+      "sizeBytes": 39911424,
+      "posterUrl": "https://cdn.jsdelivr.net/gh/nexgen999/evoX-CoreOS@main/assets/icon/ProsperoLight.png",
+      "imageSource": "https://cdn.jsdelivr.net/gh/nexgen999/evoX-CoreOS@main/assets/icon/ProsperoLight.png",
+      "sourceType": "evox-coreos-import",
+      "sourceCatalog": "https://raw.githubusercontent.com/nexgen999/evoX-CoreOS/main/json/pegasus_catalog.json",
+      "artifacts": [
+        {
+          "name": "PPSA99002.ffpfsc",
+          "version": "01.000.060",
+          "url": "https://github.com/blackbearreloaded/ProsperoLight/releases/download/01.000.060/PPSA99002.ffpfsc",
+          "sha256": "6e92e8f862cf75f3527ff0210a7470aca4b5dc453a6f7f00bb3a26a01bf3fe40",
+          "sizeBytes": 39911424
+        }
+      ],
+      "provenance": "Entrada homebrew importada de EvoX-CoreOS. Cada descarga se valida contra el asset publicado en GitHub Releases; HiddenKernel no aloja el binario."
+    },
+    {
+      "titleId": "PPSA99003",
+      "version": "01.000.015",
+      "url": "https://github.com/blackbearreloaded/ProsperoTV/releases/download/01.000.015/PPSA99003.ffpfsc",
+      "sha256": "4d5ea7fd048d299b4ce11462d1fb6264908f21ad3743ee3df3792c96ac08648d",
+      "sizeBytes": 34078720,
+      "posterUrl": "https://cdn.jsdelivr.net/gh/nexgen999/evoX-CoreOS@main/assets/icon/prosperotv.png",
+      "imageSource": "https://cdn.jsdelivr.net/gh/nexgen999/evoX-CoreOS@main/assets/icon/prosperotv.png",
+      "sourceType": "evox-coreos-import",
+      "sourceCatalog": "https://raw.githubusercontent.com/nexgen999/evoX-CoreOS/main/json/pegasus_catalog.json",
+      "artifacts": [
+        {
+          "name": "PPSA99003.ffpfsc",
+          "version": "01.000.015",
+          "url": "https://github.com/blackbearreloaded/ProsperoTV/releases/download/01.000.015/PPSA99003.ffpfsc",
+          "sha256": "4d5ea7fd048d299b4ce11462d1fb6264908f21ad3743ee3df3792c96ac08648d",
+          "sizeBytes": 34078720
+        }
+      ],
+      "provenance": "Entrada homebrew importada de EvoX-CoreOS. Cada descarga se valida contra el asset publicado en GitHub Releases; HiddenKernel no aloja el binario."
+    },
+    {
+      "titleId": "PPSA99051",
+      "version": "0.2.10",
+      "url": "https://github.com/rdiol12/PS5Library/releases/download/v0.2.10/PS5Library.pkg",
+      "sha256": "3b4532298dec8db8fb1e3c0f6e70a9d914d7e1d88f788e3edcbe1e626063f173",
+      "sizeBytes": 64210040,
+      "posterUrl": "https://cdn.jsdelivr.net/gh/nexgen999/evoX-CoreOS@main/assets/icon/PS5Library.png",
+      "imageSource": "https://cdn.jsdelivr.net/gh/nexgen999/evoX-CoreOS@main/assets/icon/PS5Library.png",
+      "sourceType": "evox-coreos-import",
+      "sourceCatalog": "https://raw.githubusercontent.com/nexgen999/evoX-CoreOS/main/json/pegasus_catalog.json",
+      "artifacts": [
+        {
+          "name": "PS5Library.pkg",
+          "version": "0.2.10",
+          "url": "https://github.com/rdiol12/PS5Library/releases/download/v0.2.10/PS5Library.pkg",
+          "sha256": "3b4532298dec8db8fb1e3c0f6e70a9d914d7e1d88f788e3edcbe1e626063f173",
+          "sizeBytes": 64210040
+        }
+      ],
+      "provenance": "Entrada homebrew importada de EvoX-CoreOS. Cada descarga se valida contra el asset publicado en GitHub Releases; HiddenKernel no aloja el binario."
     },
     {
       "titleId": "RMTC00001",
