@@ -111,17 +111,20 @@
     {
       "titleId": "PPSA99001",
       "title": "ProsperoRadio",
-      "version": "01.000.005",
+      "version": "01.000.005 / 01.000.026",
       "description": "ProsperoRadio, reproductor de radio para PS5.",
       "downloadSource": "https://github.com/nexgen999/evoX-CoreOS",
       "downloadLinks": [
         {
           "name": "ProsperoRadio",
           "url": "https://github.com/blackbearreloaded/ProsperoRadio/releases/download/01.000.005/PPSA99001.ffpfsc"
+        },
+        {
+          "name": "ProsperoRadio Vulkan Edition",
+          "url": "https://github.com/RastaFairy/Prospero_Radio_Vulkan/releases/download/01.000.026/PROSPERO_RADIO.ffpfsc"
         }
       ],
-      "posterUrl": "https://cdn.jsdelivr.net/gh/nexgen999/evoX-CoreOS@main/assets/icon/ProsperoRadio.png",
-      "sizeBytes": 34275328
+      "posterUrl": "https://cdn.jsdelivr.net/gh/nexgen999/evoX-CoreOS@main/assets/icon/ProsperoRadio.png"
     },
     {
       "titleId": "PPSA99003",
