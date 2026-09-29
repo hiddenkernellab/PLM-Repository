@@ -255,15 +255,15 @@
     },
     {
       "name": "Common FPS for PS5",
-      "filename": "Common_FPS_PS5_v1.2.0.elf",
-      "url": "https://github.com/porhe911/Common-FPS-for-PS5/releases/download/v1.2.0/Common_FPS_PS5_v1.2.0.elf",
+      "filename": "Common_FPS_PS5_v1.2.1.elf",
+      "url": "https://github.com/porhe911/Common-FPS-for-PS5/releases/download/v1.2.1/Common_FPS_PS5_v1.2.1.elf",
       "source": "https://github.com/porhe911/Common-FPS-for-PS5/releases",
-      "source_direct": "https://github.com/porhe911/Common-FPS-for-PS5/releases/download/v1.2.0/Common_FPS_PS5_v1.2.0.elf",
+      "source_direct": "https://github.com/porhe911/Common-FPS-for-PS5/releases/download/v1.2.1/Common_FPS_PS5_v1.2.1.elf",
       "description": "Muestra los FPS en tiempo real en juegos PS4/PS5. Disponible como ELF y como plugin para etaHEN. ESTADO: ESTABILIDAD NO DOCUMENTADA.",
-      "last_update": "2026-09-28",
-      "version": "v1.2.0",
+      "last_update": "2026-09-29",
+      "version": "v1.2.1",
       "category": "UTILIDADES",
-      "checksum": "6cab6df150bb0d77a954e7cf812992b291fc74d8b2aaf31c8316210aabb360b2"
+      "checksum": "6be733b7b3a15ed03b67adcd34ca02628427210775c330f2fbe9f000bc7b27ff"
     },
     {
       "name": "garlic-savemgr",
