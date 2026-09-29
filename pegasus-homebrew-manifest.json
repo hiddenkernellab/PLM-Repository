@@ -166,7 +166,7 @@
     },
     {
       "titleId": "PPSA99001",
-      "version": "01.000.005 / 01.000.027",
+      "version": "01.000.005 / 01.000.042",
       "url": "https://github.com/blackbearreloaded/ProsperoRadio/releases/download/01.000.005/PPSA99001.ffpfsc",
       "sha256": "0f82072f1e8a4cc0dd56e6b0831fb068b68540530f78c93f9825c5c5bca21a6a",
       "sizeBytes": 34275328,
@@ -184,10 +184,10 @@
         },
         {
           "name": "PROSPERO_RADIO.ffpfsc",
-          "version": "01.000.027",
-          "url": "https://github.com/RastaFairy/Prospero_Radio_Vulkan/releases/download/01.000.027/PROSPERO_RADIO.ffpfsc",
-          "sha256": "81d7b4c9cea5c7e159d9178b00f35788f43210283fa0e98edc5afc14b07ddc2e",
-          "sizeBytes": 52822016
+          "version": "01.000.042",
+          "url": "https://github.com/RastaFairy/Prospero_Radio_Vulkan/releases/download/01.000.042/PROSPERO_RADIO.ffpfsc",
+          "sha256": "7c515c6ec3214429264e678b0e30391c370da4f3e41048b863176a351051d3d7",
+          "sizeBytes": 52887552
         }
       ],
       "provenance": "Entrada homebrew importada de EvoX-CoreOS. Cada descarga se valida contra el asset publicado en GitHub Releases; HiddenKernel no aloja el binario."
