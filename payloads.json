@@ -98,6 +98,30 @@
       "checksum": "20cdb0979ce627aff8e684a4506e18390a72492d5e3aa15ecef0bfe1bca08bb5"
     },
     {
+      "name": "Jailbreak Store",
+      "filename": "JailbreakStore.elf",
+      "url": "https://github.com/notmaj0r/JailbreakStore/releases/download/Release/JailbreakStore.elf",
+      "source": "https://github.com/notmaj0r/JailbreakStore/releases",
+      "source_direct": "https://github.com/notmaj0r/JailbreakStore/releases/download/Release/JailbreakStore.elf",
+      "description": "Payload que transforma el acceso de PlayStation Store NPXS40047 en un lanzador WebView personalizado. El autor advierte de que modifica la base de datos de PS5 y que una corrupcion puede hacer perder FPKG de PS4. ESTADO: REVISAR.",
+      "last_update": "2026-09-02",
+      "version": "Release",
+      "category": "SISTEMA",
+      "checksum": "deb47ab4a9cee35c58a6777fb99eaeb397528e2518b4d4f5db52e8dce373de55"
+    },
+    {
+      "name": "LegacyJB",
+      "filename": "LegacyJB.bin",
+      "url": "https://github.com/Phoenixx1202/LegacyJB/releases/download/1.2.1/LegacyJB.bin",
+      "source": "https://github.com/Phoenixx1202/LegacyJB/releases",
+      "source_direct": "https://github.com/Phoenixx1202/LegacyJB/releases/download/1.2.1/LegacyJB.bin",
+      "description": "Payload Legacy Jailbreak de Phoenixx1202. Spectrum Library lo necesita para la funcion Homebrew si no se usa etaHEN con Jailbreak Legacy activado. Se sigue automaticamente la ultima release estable. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 10.20-13.60.",
+      "last_update": "2026-09-29",
+      "version": "1.2.1",
+      "category": "SISTEMA",
+      "checksum": "7633372f39a7a6e460f3990b02cd07026f4e5591aefd2509f8c6338f03b8440b"
+    },
+    {
       "name": "ProsperoMgr",
       "filename": "ProsperoMgr_vbeta.elf",
       "url": "https://nexgen999.github.io/PS5-Super-PLDMGR-Auto-Updater/payloads/ps5_hen_loader/ProsperoMgr/beta/ProsperoMgr_vbeta.elf",
@@ -115,7 +139,7 @@
       "url": "https://github.com/itsPLK/ps5-webkit-autoloader/releases/download/v0.5.0/webkit-autoloader-installer_v0.5.0.elf",
       "source": "https://github.com/itsPLK/ps5-webkit-autoloader/releases",
       "source_direct": "https://github.com/itsPLK/ps5-webkit-autoloader/releases/download/v0.5.0/webkit-autoloader-installer_v0.5.0.elf",
-      "description": "Autoloader WebKit para lanzar de forma automatica el exploit y los payloads. ESTADO: FIABILIDAD MEJORADA. COMPATIBILIDAD: FW 1.00-5.50 y 7.00-12.70.",
+      "description": "Autoloader WebKit oficial de itsPLK. Integra Relapse para FW 7.00-13.60 y umtx2 para FW 1.00-5.50, con instalacion en Media y carga automatizada de payloads. ESTADO: FIABILIDAD MEJORADA. COMPATIBILIDAD: FW 1.00-5.50 y 7.00-13.60.",
       "last_update": "2026-09-29",
       "version": "v0.5.0",
       "category": "SISTEMA",
@@ -132,6 +156,30 @@
       "version": "v0.34",
       "category": "SISTEMA",
       "checksum": "54730c867c6e1148536fdcb370e63a7762d989ea87b62488ad4caff64d43f263"
+    },
+    {
+      "name": "PSVietHoa WebKit Autoloader",
+      "filename": "psviethoa-webkit-autoloader-installer_v0.1.0.elf",
+      "url": "https://github.com/thanhsondev/psviethoa-webkit-autoloader/releases/download/v0.1.0/psviethoa-webkit-autoloader-installer_v0.1.0.elf",
+      "source": "https://github.com/thanhsondev/psviethoa-webkit-autoloader/releases",
+      "source_direct": "https://github.com/thanhsondev/psviethoa-webkit-autoloader/releases/download/v0.1.0/psviethoa-webkit-autoloader-installer_v0.1.0.elf",
+      "description": "Fork independiente del WebKit Autoloader con Relapse para FW 7.00-13.60 y umtx2 para FW 1.00-5.50. Usa Title ID PSVH00001 y puede convivir con el WebKit Autoloader oficial. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 1.00-5.50 y 7.00-13.60.",
+      "last_update": "2026-09-29",
+      "version": "v0.1.0",
+      "category": "SISTEMA",
+      "checksum": "0f330772a4ffe94088975440585fd452a5dd30ca9d778bcb6d65e56570a34410"
+    },
+    {
+      "name": "WK Autoloader Relapse (X-F1REBALL-X)",
+      "filename": "wk-autoloader-relapse_v1.0.0.elf",
+      "url": "https://github.com/X-F1REBALL-X/wk-autoloader-relapse/releases/download/v1.0.0/installer.elf",
+      "source": "https://github.com/X-F1REBALL-X/wk-autoloader-relapse/releases",
+      "source_direct": "https://github.com/X-F1REBALL-X/wk-autoloader-relapse/releases/download/v1.0.0/installer.elf",
+      "description": "Variante con Relapse para FW 7.00-13.60 y umtx2 para FW 1.00-5.50. Permite elegir Payload Manager en 8084 o Elf Launcher en 1000, recuerda la seleccion y usa Title ID SLKT00001 para convivir con otros autoloaders. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 1.00-5.50 y 7.00-13.60.",
+      "last_update": "2026-09-29",
+      "version": "v1.0.0",
+      "category": "SISTEMA",
+      "checksum": "0b1eb17ef5683621cacfb1db2a32240151887cad31af1b35acd4b0d26635a9d5"
     },
     {
       "name": "BFpilot",
@@ -231,15 +279,15 @@
     },
     {
       "name": "PS5 App Dumper",
-      "filename": "ps5-app-dumper_v1.11.elf",
-      "url": "https://github.com/EchoStretch/ps5-app-dumper/releases/download/v1.11/ps5-app-dumper.elf",
+      "filename": "ps5-app-dumper_v2.00.elf",
+      "url": "https://github.com/EchoStretch/ps5-app-dumper/releases/download/v2.00/ps5-app-dumper_v2.00.elf",
       "source": "https://github.com/EchoStretch/ps5-app-dumper/releases",
-      "source_direct": "https://github.com/EchoStretch/ps5-app-dumper/releases/download/v1.11/ps5-app-dumper.elf",
-      "description": "Vuelca aplicaciones y juegos PS5 para copias de seguridad y flujos de compatibilidad. ESTADO: EN PRUEBAS. COMPATIBILIDAD: hasta FW 13.60.",
-      "last_update": "2026-07-28",
-      "version": "v1.11",
+      "source_direct": "https://github.com/EchoStretch/ps5-app-dumper/releases/download/v2.00/ps5-app-dumper_v2.00.elf",
+      "description": "Vuelca aplicaciones y juegos PS5 para copias de seguridad y flujos de compatibilidad. ESTADO: EN PRUEBAS.",
+      "last_update": "2026-09-29",
+      "version": "v2.00",
       "category": "JUEGOS / COMPATIBILIDAD",
-      "checksum": "18483751ebaea6879b020a9dd87c0a4fb4f1bf09f3708d950362a483f78cc0d0"
+      "checksum": "b6fea71afb8937fcd1a933116c620e989acba25b7049eaeaa00cdc1bd604d686"
     },
     {
       "name": "PS5 Game Compressor",

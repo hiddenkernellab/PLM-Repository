@@ -265,6 +265,15 @@
       "posterUrl": "https://raw.githubusercontent.com/cy33hc/ps5-ezremote-client/2.13/data/sce_sys/icon0.png",
       "imageSource": "https://raw.githubusercontent.com/cy33hc/ps5-ezremote-client/2.13/data/sce_sys/icon0.png",
       "provenance": "PKG oficial de la release de ps5-ezremote-client."
+    },
+    {
+      "titleId": "SLIB00001",
+      "version": "1.4.7",
+      "url": "https://github.com/Phoenixx1202/Spectrum-Library/releases/download/1.4.7/Spectrum_Library_1.4.7_Native.pkg",
+      "sha256": "6dcef9a0264d8591ee82ff492bac4bcc8816bbf2cbf3c783d3b7919185309a10",
+      "sizeBytes": 101870190,
+      "sourceType": "github-release-official",
+      "provenance": "PKG oficial enlazado directamente desde GitHub Releases de Phoenixx1202/Spectrum-Library."
     }
   ]
 }
