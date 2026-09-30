@@ -135,15 +135,15 @@
     },
     {
       "name": "PS5 WebKit Autoloader",
-      "filename": "webkit-autoloader-installer_v0.5.0.elf",
-      "url": "https://github.com/itsPLK/ps5-webkit-autoloader/releases/download/v0.5.0/webkit-autoloader-installer_v0.5.0.elf",
+      "filename": "webkit-autoloader-installer_v0.5.1.elf",
+      "url": "https://github.com/itsPLK/ps5-webkit-autoloader/releases/download/v0.5.1/webkit-autoloader-installer_v0.5.1.elf",
       "source": "https://github.com/itsPLK/ps5-webkit-autoloader/releases",
-      "source_direct": "https://github.com/itsPLK/ps5-webkit-autoloader/releases/download/v0.5.0/webkit-autoloader-installer_v0.5.0.elf",
-      "description": "Autoloader WebKit oficial de itsPLK. Integra Relapse para FW 7.00-13.60 y umtx2 para FW 1.00-5.50, con instalacion en Media y carga automatizada de payloads. ESTADO: FIABILIDAD MEJORADA. COMPATIBILIDAD: FW 1.00-5.50 y 7.00-13.60.",
-      "last_update": "2026-09-29",
-      "version": "v0.5.0",
+      "source_direct": "https://github.com/itsPLK/ps5-webkit-autoloader/releases/download/v0.5.1/webkit-autoloader-installer_v0.5.1.elf",
+      "description": "Autoloader WebKit oficial de itsPLK. Integra Relapse para FW 7.00-13.60 y umtx2 para FW 1.00-5.50, con instalacion en Media y carga automatizada de payloads. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 1.00-5.50 y 7.00-13.60.",
+      "last_update": "2026-09-30",
+      "version": "v0.5.1",
       "category": "SISTEMA",
-      "checksum": "83c2128520267515fe2f197db35427bb95b7273934e52ad3c6bf668a4ef27b7f"
+      "checksum": "80083f76383944e1f87c2d4126e4e067cd70bd8013feb538575bc2cb08258a78"
     },
     {
       "name": "ps5-payload-websrv",
@@ -363,15 +363,15 @@
     },
     {
       "name": "PoorDS4",
-      "filename": "PoorDS4rc44.elf",
-      "url": "https://github.com/ItsBlurf/PoorDS4/releases/download/v0.1.0-rc44/PoorDS4rc44.elf",
+      "filename": "PoorDS4rc51.elf",
+      "url": "https://github.com/ItsBlurf/PoorDS4/releases/download/v0.1.0-rc51/PoorDS4rc51.elf",
       "source": "https://github.com/ItsBlurf/PoorDS4/releases",
-      "source_direct": "https://github.com/ItsBlurf/PoorDS4/releases/download/v0.1.0-rc44/PoorDS4rc44.elf",
+      "source_direct": "https://github.com/ItsBlurf/PoorDS4/releases/download/v0.1.0-rc51/PoorDS4rc51.elf",
       "description": "Permite usar un DualShock 4 inalambrico en juegos nativos de PS5. Proyecto experimental; la compatibilidad depende del firmware y del juego. ESTADO: EN PRUEBAS.",
-      "last_update": "2026-09-18",
-      "version": "v0.1.0-rc44",
+      "last_update": "2026-09-30",
+      "version": "v0.1.0-rc51",
       "category": "MANDOS",
-      "checksum": "a077fe7a1defbe6918538b834eaa502a6b4239d7feff58c8fa4ec06cd325d9a8"
+      "checksum": "e1b9f257f51678a977edaeafd4ca1f8a03e9df0afda7d5dd84435841fa20795d"
     },
     {
       "name": "Pegasus DL",
