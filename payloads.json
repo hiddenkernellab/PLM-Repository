@@ -135,15 +135,15 @@
     },
     {
       "name": "PS5 WebKit Autoloader",
-      "filename": "webkit-autoloader-installer_v0.5.1.elf",
-      "url": "https://github.com/itsPLK/ps5-webkit-autoloader/releases/download/v0.5.1/webkit-autoloader-installer_v0.5.1.elf",
+      "filename": "webkit-autoloader-installer_v0.5.2.elf",
+      "url": "https://github.com/itsPLK/ps5-webkit-autoloader/releases/download/v0.5.2/webkit-autoloader-installer_v0.5.2.elf",
       "source": "https://github.com/itsPLK/ps5-webkit-autoloader/releases",
-      "source_direct": "https://github.com/itsPLK/ps5-webkit-autoloader/releases/download/v0.5.1/webkit-autoloader-installer_v0.5.1.elf",
+      "source_direct": "https://github.com/itsPLK/ps5-webkit-autoloader/releases/download/v0.5.2/webkit-autoloader-installer_v0.5.2.elf",
       "description": "Autoloader WebKit oficial de itsPLK. Integra Relapse para FW 7.00-13.60 y umtx2 para FW 1.00-5.50, con instalacion en Media y carga automatizada de payloads. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 1.00-5.50 y 7.00-13.60.",
       "last_update": "2026-09-30",
-      "version": "v0.5.1",
+      "version": "v0.5.2",
       "category": "SISTEMA",
-      "checksum": "80083f76383944e1f87c2d4126e4e067cd70bd8013feb538575bc2cb08258a78"
+      "checksum": "f990e48e8330231d2066a7b8ab6dc25fda83b2cc36cb426c472b35b33767451a"
     },
     {
       "name": "ps5-payload-websrv",
