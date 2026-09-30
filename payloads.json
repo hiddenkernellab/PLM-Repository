@@ -231,15 +231,15 @@
     },
     {
       "name": "ps5upload",
-      "filename": "ps5upload_v5.39.1.elf",
-      "url": "https://github.com/phantomptr/ps5upload/releases/download/v5.39.1/ps5upload-5.39.1.elf",
+      "filename": "ps5upload_v5.40.0.elf",
+      "url": "https://github.com/phantomptr/ps5upload/releases/download/v5.40.0/ps5upload-5.40.0.elf",
       "source": "https://github.com/phantomptr/ps5upload/releases",
-      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v5.39.1/ps5upload-5.39.1.elf",
+      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v5.40.0/ps5upload-5.40.0.elf",
       "description": "Transfiere archivos entre PS5 y PC/Android con control de integridad y soporte para reanudar envios. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 1.00-12.70; probado en hardware en 5.10, 9.60 y 12.20.",
-      "last_update": "2026-09-29",
-      "version": "v5.39.1",
+      "last_update": "2026-09-30",
+      "version": "v5.40.0",
       "category": "ARCHIVOS / PC",
-      "checksum": "a50d66033f66cb9d6600c810066b699e59b1a0cc3d7e98bffd5a0b6eb9ebd1a3"
+      "checksum": "d10ba9d979ac6a18bd8d3d77ea3845ae592761768c9aec89e2b71735cda2927b"
     },
     {
       "name": "PKG Manager",
