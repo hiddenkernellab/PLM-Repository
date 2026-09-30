@@ -375,15 +375,15 @@
     },
     {
       "name": "Pegasus DL",
-      "filename": "pegasus-dl_v1.10.0.elf",
-      "url": "https://github.com/pegasus-ps5/pegasus-dl/releases/download/v1.10.0/pegasus_dl.elf",
+      "filename": "pegasus-dl_v1.10.1.elf",
+      "url": "https://github.com/pegasus-ps5/pegasus-dl/releases/download/v1.10.1/pegasus_dl.elf",
       "source": "https://github.com/pegasus-ps5/pegasus-dl/releases",
-      "source_direct": "https://github.com/pegasus-ps5/pegasus-dl/releases/download/v1.10.0/pegasus_dl.elf",
+      "source_direct": "https://github.com/pegasus-ps5/pegasus-dl/releases/download/v1.10.1/pegasus_dl.elf",
       "description": "Gestor de descargas web. Desde 1.8.0 puede enviar enlaces .pkg al descargador nativo de PS5. ESTADO: ESTABILIDAD NO DOCUMENTADA.",
-      "last_update": "2026-09-29",
-      "version": "v1.10.0",
+      "last_update": "2026-09-30",
+      "version": "v1.10.1",
       "category": "DESCARGAS",
-      "checksum": "724b245d8de08e5a16865180fac7f30eda72b94d45c9cc73686d9b2defc33f66"
+      "checksum": "b24fdc62fc6cad14684b214a9c5be6c1221585afbf9493e387ab90f9dee21138"
     },
     {
       "name": "Spectrum Library",
