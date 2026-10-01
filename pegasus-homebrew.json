@@ -233,16 +233,16 @@
     {
       "titleId": "SLIB00001",
       "title": "Spectrum Library",
-      "version": "1.4.7",
+      "version": "1.4.8",
       "description": "Biblioteca y gestor de contenido para PS5. Las versiones actuales incluyen soporte Homebrew PS5 y seleccion de contenido PS4/PS5. La funcion Homebrew requiere LegacyJB compatible o etaHEN con Jailbreak Legacy activado.",
       "downloadSource": "https://github.com/Phoenixx1202/Spectrum-Library",
       "downloadLinks": [
         {
           "name": "Descarga",
-          "url": "https://github.com/Phoenixx1202/Spectrum-Library/releases/download/1.4.7/Spectrum_Library_1.4.7_Native.pkg"
+          "url": "https://github.com/Phoenixx1202/Spectrum-Library/releases/download/1.4.8/Spectrum_Library_1.4.8_Native.pkg"
         }
       ],
-      "sizeBytes": 101870190
+      "sizeBytes": 101474102
     }
   ]
 }

@@ -268,10 +268,10 @@
     },
     {
       "titleId": "SLIB00001",
-      "version": "1.4.7",
-      "url": "https://github.com/Phoenixx1202/Spectrum-Library/releases/download/1.4.7/Spectrum_Library_1.4.7_Native.pkg",
-      "sha256": "6dcef9a0264d8591ee82ff492bac4bcc8816bbf2cbf3c783d3b7919185309a10",
-      "sizeBytes": 101870190,
+      "version": "1.4.8",
+      "url": "https://github.com/Phoenixx1202/Spectrum-Library/releases/download/1.4.8/Spectrum_Library_1.4.8_Native.pkg",
+      "sha256": "994ad2f9ecacea864c6dd0b0e40a4ea56ad93c0089209cc7e32861299911b675",
+      "sizeBytes": 101474102,
       "sourceType": "github-release-official",
       "provenance": "PKG oficial enlazado directamente desde GitHub Releases de Phoenixx1202/Spectrum-Library."
     }
