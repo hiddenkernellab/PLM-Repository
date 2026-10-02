@@ -1,16 +1,19 @@
 #!/usr/bin/env python3
-# HiddenKernel actualizador - escena PS5 2026-09-29.
+# HiddenKernel actualizador - escena PS5 2026-10-02.
 #
 # Parte de la version de actualizador.py que estaba en main en el commit
-# d0ad55cc1335e432c3088fdf9e51ed7ee2d92bd3, aplica las novedades de hoy y
-# ejecuta el generador normal de HiddenKernel.
+# d0ad55cc1335e432c3088fdf9e51ed7ee2d92bd3, aplica las novedades posteriores
+# y ejecuta el generador normal de HiddenKernel.
 #
-# Añade:
-# - PS5 WebKit Autoloader oficial itsPLK (descripcion/compatibilidad Relapse)
+# Añade / corrige:
+# - PS5 WebKit Autoloader oficial itsPLK
 # - PSVietHoa WebKit Autoloader
 # - WK Autoloader Relapse de X-F1REBALL-X
 # - LegacyJB
 # - Jailbreak Store de notmaj0r
+# - Kstuff FPKG Drakmor: sigue la rama experimental desde evoX-CoreOS
+#   (incluido kstuff-fpkg-1.13-dr-test5)
+# - Mantiene ShadowMountPlus FPKG en la beta mas reciente publicada por Drakmor
 
 import urllib.request
 
@@ -140,6 +143,56 @@ def patch_base(s):
         "kstuff-lite": "kstuff-lite","""
 
     s = replace_once(s, old, new, "expected_storage_root")
+
+    # La rama FPKG de Drakmor ya no se toma del indice viejo de
+    # PS5-Super-PLDMGR-Auto-Updater. Nexgen la publica y la usa para pruebas
+    # en evoX-CoreOS; ahi esta el test5 y futuras revisiones.
+    old = """    dict(name="FPKG Integrado - Kstuff Drakmor", optional=True,
+         catalog_url=("https://raw.githubusercontent.com/nexgen999/PS5-Super-PLDMGR-Auto-Updater/main/"
+                      "json/PS5_Beta.json"),
+         catalog_name_regex=[r"^Kstuff .* Fpkg Dr Test\\d+$"],
+         source="https://github.com/nexgen999/PS5-Super-PLDMGR-Auto-Updater",
+         category="FPKG INTEGRADO",
+         status="EXPERIMENTAL / FPKG",
+         compatibility="FW 1.00-11.60 en test3; validar builds futuras",
+         desc=("Rama Kstuff de pruebas FPKG de Drakmor con el flujo PPR/A53 integrado. "
+               "Se mantiene separada de kstuff-lite oficial.")),"""
+
+    new = """    dict(name="FPKG Integrado - Kstuff Drakmor", optional=True,
+         catalog_url=("https://raw.githubusercontent.com/nexgen999/evoX-CoreOS/main/"
+                      "json/payloads/PS5_Beta.json"),
+         catalog_name_regex=[r"^Kstuff[- _].*[- _]Fpkg[- _]Dr[- _]Test\\d+$"],
+         source="https://github.com/nexgen999/evoX-CoreOS",
+         category="FPKG INTEGRADO",
+         status="EXPERIMENTAL / FPKG",
+         compatibility="FPKG hasta FW 11.60; usar exFAT por encima",
+         desc=("Rama Kstuff de pruebas FPKG de Drakmor con A53/PPR integrado. "
+               "Se sigue desde el catalogo evoX-CoreOS que usa Nexgen para las pruebas. "
+               "Se mantiene separada de kstuff-lite oficial.")),"""
+
+    s = replace_once(s, old, new, "FPKG Kstuff Drakmor -> evoX-CoreOS")
+
+    # El generador viejo forzaba cualquier kstuff 1.13 testX a la carpeta
+    # Internal del repositorio antiguo. Eso rompe test5 porque no existe alli.
+    # Si evoX ofrece local_path, usamos el RAW del propio evoX-CoreOS y dejamos
+    # que el checksum del catalogo lo valide.
+    old = """    if filename.startswith("kstuff-1.13-fpkg-dr-test"):
+        url = nexgen_raw + "Internal/payloads/beta/Kstuff-Darkmor/" + filename
+    elif filename.startswith("a53_ppr_install_"):"""
+
+    new = """    if filename.startswith("kstuff-1.13-fpkg-dr-test"):
+        local_path = str(hit.get("local_path") or "").lstrip("/")
+        if local_path:
+            url = (
+                "https://raw.githubusercontent.com/nexgen999/evoX-CoreOS/main/"
+                + local_path
+            )
+        else:
+            url = nexgen_raw + "Internal/payloads/beta/Kstuff-Darkmor/" + filename
+    elif filename.startswith("a53_ppr_install_"):"""
+
+    s = replace_once(s, old, new, "descarga RAW Kstuff FPKG test5")
+
     return s
 
 
