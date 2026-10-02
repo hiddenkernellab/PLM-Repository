@@ -411,15 +411,15 @@
     },
     {
       "name": "FPKG Integrado - Kstuff Drakmor",
-      "filename": "kstuff-1.13-fpkg-dr-test3.elf",
-      "url": "https://raw.githubusercontent.com/nexgen999/PS5-Super-PLDMGR-Auto-Updater/main/Internal/payloads/beta/Kstuff-Darkmor/kstuff-1.13-fpkg-dr-test3.elf",
-      "source": "https://github.com/nexgen999/PS5-Super-PLDMGR-Auto-Updater",
-      "source_direct": "https://raw.githubusercontent.com/nexgen999/PS5-Super-PLDMGR-Auto-Updater/main/Internal/payloads/beta/Kstuff-Darkmor/kstuff-1.13-fpkg-dr-test3.elf",
-      "description": "Rama Kstuff de pruebas FPKG de Drakmor con el flujo PPR/A53 integrado. Se mantiene separada de kstuff-lite oficial. ESTADO: EXPERIMENTAL / FPKG. COMPATIBILIDAD: FW 1.00-11.60 en test3; validar builds futuras.",
+      "filename": "kstuff-1.13-fpkg-dr-test5.elf",
+      "url": "https://raw.githubusercontent.com/nexgen999/evoX-CoreOS/main/payloads/PS5_Beta/kstuff_Darkmor_Experimental/Source-Fixe/kstuff-1.13-fpkg-dr-test5.elf",
+      "source": "https://github.com/nexgen999/evoX-CoreOS",
+      "source_direct": "https://raw.githubusercontent.com/nexgen999/evoX-CoreOS/main/payloads/PS5_Beta/kstuff_Darkmor_Experimental/Source-Fixe/kstuff-1.13-fpkg-dr-test5.elf",
+      "description": "Rama Kstuff de pruebas FPKG de Drakmor con A53/PPR integrado. Se sigue desde el catalogo evoX-CoreOS que usa Nexgen para las pruebas. Se mantiene separada de kstuff-lite oficial. ESTADO: EXPERIMENTAL / FPKG. COMPATIBILIDAD: FPKG hasta FW 11.60; usar exFAT por encima.",
       "last_update": "",
-      "version": "Kstuff 1.13 Fpkg Dr Test3",
+      "version": "Kstuff-1.13-Fpkg-Dr-Test5",
       "category": "FPKG INTEGRADO",
-      "checksum": "84a31b1ce27036fc1edd5d94ac2c057aab24ada81e0f476e96ad60111136c9e0"
+      "checksum": "829b45fe871dd64fbd53874ae4558076c2f1e1f203fe1ab52db5510d5fc45923"
     },
     {
       "name": "FPKG Integrado - ShadowMountPlus",
