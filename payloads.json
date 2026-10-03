@@ -39,15 +39,15 @@
     },
     {
       "name": "ShadowMountPlus",
-      "filename": "shadowmountplus_v1.7beta3.elf",
-      "url": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.7beta3/shadowmountplus.elf",
+      "filename": "shadowmountplus_v1.7beta4.elf",
+      "url": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.7beta4/shadowmountplus.elf",
       "source": "https://github.com/drakmor/ShadowMountPlus/releases",
-      "source_direct": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.7beta3/shadowmountplus.elf",
+      "source_direct": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.7beta4/shadowmountplus.elf",
       "description": "Monta y registra juegos desde almacenamiento interno o externo. Se mantiene la rama 1.6beta16 y las 1.7 alpha por separado. ESTADO: EN PRUEBAS.",
-      "last_update": "2026-10-01",
-      "version": "1.7beta3",
+      "last_update": "2026-10-03",
+      "version": "1.7beta4",
       "category": "ESENCIALES",
-      "checksum": "2a7427e20ba7a70bd8cd01e47eb00ee7ca82db82dff3da7884f48f9c3fcbe95a"
+      "checksum": "fc4e5f715e76660ce34bde2adb10eaf1d069cb2cdf06f7a380896dfb62bd0c4a"
     },
     {
       "name": "etaHEN",
@@ -314,6 +314,54 @@
       "checksum": "e55e90aaade13b6e0d4316c1597ef90a21b67a06475c3e25de054224bc1e941b"
     },
     {
+      "name": "ProsperoEden (Switch, manual)",
+      "filename": "ProsperoEden-v1.000.040.ffpfsc",
+      "url": "https://github.com/blackbearreloaded/ProsperoEden/releases/download/v1.000.040/ProsperoEden-v1.000.040.ffpfsc",
+      "source": "https://github.com/blackbearreloaded/ProsperoEden/releases",
+      "source_direct": "https://github.com/blackbearreloaded/ProsperoEden/releases/download/v1.000.040/ProsperoEden-v1.000.040.ffpfsc",
+      "description": "Port experimental de Eden para emulación de Nintendo Switch en PS5. PLDMGR descarga la imagen FFPFSC; después hay que moverla a una ruta escaneada por ShadowMountPlus y reiniciar/reescanear ShadowMountPlus. ESTADO: EN PRUEBAS.",
+      "last_update": "2026-10-01",
+      "version": "v1.000.040",
+      "category": "EMULADORES",
+      "checksum": "6f794bb48cc3fababefc48b0d74621e2a942dd3d533e5c3bef1643abef6db67a"
+    },
+    {
+      "name": "PS5 RetroArch (manual)",
+      "filename": "PS5_RetroArch-v0.6.0-alpha.6.zip",
+      "url": "https://github.com/mihawk-99/PS5_RetroArch/releases/download/v0.6.0-alpha.6/PS5_RetroArch-v0.6.0-alpha.6.zip",
+      "source": "https://github.com/mihawk-99/PS5_RetroArch/releases",
+      "source_direct": "https://github.com/mihawk-99/PS5_RetroArch/releases/download/v0.6.0-alpha.6/PS5_RetroArch-v0.6.0-alpha.6.zip",
+      "description": "RetroArch nativo para PS5 con cores de PS1, PS2, PSP, N64, GameCube/Wii, DS, 3DS, Saturn, arcade y otros. PLDMGR descarga el ZIP; después hay que extraer PPSA99169 en /data/homebrew/PPSA99169. RPCS3/PS3 no se distribuye en las releases por incompatibilidad de licencia. ESTADO: EXPERIMENTAL.",
+      "last_update": "2026-10-02",
+      "version": "v0.6.0-alpha.6",
+      "category": "EMULADORES",
+      "checksum": "b4fb0d0c92e718bace43f848c2597c8e3bd275998d36c2b636ab9ec7061b2712"
+    },
+    {
+      "name": "PS5SX2 Helper",
+      "filename": "PS5SXHelper.elf",
+      "url": "https://github.com/Swordpdf/PS5SX2/releases/download/vk-285-118/PS5SXHelper.elf",
+      "source": "https://github.com/Swordpdf/PS5SX2/releases",
+      "source_direct": "https://github.com/Swordpdf/PS5SX2/releases/download/vk-285-118/PS5SXHelper.elf",
+      "description": "Payload Helper oficial requerido por PS5SX2 para preparar/jailbreakear la aplicación cuando arranca. El autor recomienda cargarlo junto con kstuff. ESTADO: EN PRUEBAS. COMPATIBILIDAD: probado por el proyecto en PS5/PS5 Pro con FW 6.02-12.70.",
+      "last_update": "2026-10-03",
+      "version": "1.7",
+      "category": "EMULADORES",
+      "checksum": "737d95a8a1545447c4166b094005704465e420f79f54e882e30e7f9e4cde6210"
+    },
+    {
+      "name": "PS5SX2 Installer",
+      "filename": "PS5SX2Installer.elf",
+      "url": "https://github.com/Swordpdf/PS5SX2/releases/download/vk-285-118/PS5SX2Installer.elf",
+      "source": "https://github.com/Swordpdf/PS5SX2/releases",
+      "source_direct": "https://github.com/Swordpdf/PS5SX2/releases/download/vk-285-118/PS5SX2Installer.elf",
+      "description": "Instalador y actualizador oficial de PS5SX2, el port nativo de PCSX2 para PS5. Debe usarse junto con PS5SX2 Helper y ShadowMountPlus. ESTADO: EN PRUEBAS. COMPATIBILIDAD: probado por el proyecto en PS5/PS5 Pro con FW 6.02-12.70.",
+      "last_update": "2026-10-03",
+      "version": "1.7",
+      "category": "EMULADORES",
+      "checksum": "6b1be3ea24ec8144b27b2a1f3e279cd17574f3093e9431abf8579dcc6c0bfae9"
+    },
+    {
       "name": "Common FPS for PS5",
       "filename": "Common_FPS_PS5_v1.2.1.elf",
       "url": "https://github.com/porhe911/Common-FPS-for-PS5/releases/download/v1.2.1/Common_FPS_PS5_v1.2.1.elf",
@@ -336,6 +384,18 @@
       "version": "v1.13.1",
       "category": "UTILIDADES",
       "checksum": "b0fc2fcdda977d2a1207d77148746859b7ea7f3cfcad02828a7a9b49651807f5"
+    },
+    {
+      "name": "Kura Loader",
+      "filename": "kura-loader-ps5.elf",
+      "url": "https://github.com/NookieAI/kura/releases/download/v1.6.50/kura-loader-ps5.elf",
+      "source": "https://github.com/NookieAI/kura/releases",
+      "source_direct": "https://github.com/NookieAI/kura/releases/download/v1.6.50/kura-loader-ps5.elf",
+      "description": "Payload PS5 de Kura para conectar la consola con su gestor de biblioteca de juegos y funciones de instalación, saves, cheats y control del ventilador. ESTADO: ESTABILIDAD NO DOCUMENTADA.",
+      "last_update": "2026-09-02",
+      "version": "v1.6.50",
+      "category": "UTILIDADES",
+      "checksum": "8bac520b2b99dcda8109838884380605736d8b1c23793754250bcef00536b6ab"
     },
     {
       "name": "Lapy JB Daemon",
@@ -436,14 +496,14 @@
     {
       "name": "FPKG Integrado - ShadowMountPlus",
       "filename": "fpkg-integrado-shadowmountplus.elf",
-      "url": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.7beta3/shadowmountplus.elf",
+      "url": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.7beta4/shadowmountplus.elf",
       "source": "https://github.com/drakmor/ShadowMountPlus/releases",
-      "source_direct": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.7beta3/shadowmountplus.elf",
+      "source_direct": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.7beta4/shadowmountplus.elf",
       "description": "ShadowMountPlus 1.7 para acompañar la rama Kstuff/PPR integrada. Se mantiene como entrada separada para poder actualizarlo o aislar fallos. ESTADO: EN PRUEBAS.",
-      "last_update": "2026-10-01",
-      "version": "1.7beta3",
+      "last_update": "2026-10-03",
+      "version": "1.7beta4",
       "category": "FPKG INTEGRADO",
-      "checksum": "2a7427e20ba7a70bd8cd01e47eb00ee7ca82db82dff3da7884f48f9c3fcbe95a"
+      "checksum": "fc4e5f715e76660ce34bde2adb10eaf1d069cb2cdf06f7a380896dfb62bd0c4a"
     },
     {
       "name": "A53 PPR Modular 1.00-11.40",
@@ -484,14 +544,14 @@
     {
       "name": "FPKG Modular - ShadowMountPlus",
       "filename": "fpkg-modular-shadowmountplus.elf",
-      "url": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.7beta3/shadowmountplus.elf",
+      "url": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.7beta4/shadowmountplus.elf",
       "source": "https://github.com/drakmor/ShadowMountPlus/releases",
-      "source_direct": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.7beta3/shadowmountplus.elf",
+      "source_direct": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.7beta4/shadowmountplus.elf",
       "description": "ShadowMountPlus 1.7 para el stack FPKG modular. Se carga separado del A53 para poder diagnosticar cada pieza. ESTADO: EN PRUEBAS.",
-      "last_update": "2026-10-01",
-      "version": "1.7beta3",
+      "last_update": "2026-10-03",
+      "version": "1.7beta4",
       "category": "FPKG MODULAR",
-      "checksum": "2a7427e20ba7a70bd8cd01e47eb00ee7ca82db82dff3da7884f48f9c3fcbe95a"
+      "checksum": "fc4e5f715e76660ce34bde2adb10eaf1d069cb2cdf06f7a380896dfb62bd0c4a"
     },
     {
       "name": "A53 PPR Install Fast",
