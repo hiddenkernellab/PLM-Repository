@@ -1,29 +1,32 @@
 #!/usr/bin/env python3
-# HiddenKernel actualizador - escena PS5 2026-10-02.
+# HiddenKernel actualizador - escena PS5 2026-10-03.
 #
-# Parte de la version de actualizador.py que estaba en main en el commit
-# d0ad55cc1335e432c3088fdf9e51ed7ee2d92bd3, aplica las novedades posteriores
-# y ejecuta el generador normal de HiddenKernel.
+# Parte de la version de actualizador.py publicada en HiddenKernel el 03/10/2026
+# y añade la nueva sección EMULADORES, además de seguir las novedades oficiales.
 #
-# Añade / corrige:
-# - PS5 WebKit Autoloader oficial itsPLK
-# - PSVietHoa WebKit Autoloader
-# - WK Autoloader Relapse de X-F1REBALL-X
-# - LegacyJB
-# - Jailbreak Store de notmaj0r
-# - Kstuff FPKG Drakmor: sigue la rama experimental desde evoX-CoreOS
-#   (incluido kstuff-fpkg-1.13-dr-test5)
-# - Mantiene ShadowMountPlus FPKG en la beta mas reciente publicada por Drakmor
+# Añade:
+# - EMULADORES: PS5SX2 Installer + Helper (PS2, instalación/actualización directa)
+# - EMULADORES: PS5 RetroArch (multisistema, ZIP para instalación manual)
+# - EMULADORES: ProsperoEden (Nintendo Switch, FFPFSC para instalación manual)
+# - UTILIDADES: Kura Loader (payload PS5)
+# - Vigila OnionHEN DPI v2 y lo añadirá cuando OnionBuddies publique una release ELF oficial
+# - Mantiene el comportamiento anterior para ShadowMountPlus, OnionHEN, kstuff, etc.;
+#   por tanto ShadowMountPlus 1.7beta4 se recogerá automáticamente al ejecutar.
+#
+# Nota: RetroArch y ProsperoEden son aplicaciones nativas, no payloads ELF. PLDMGR
+# puede descargar sus archivos desde el repositorio, pero su instalación final es manual.
 
+import re
 import urllib.request
 
+BASE_COMMIT = "031e13821a48c4583f2bded81cb467b465701b48"
 BASE_URL = (
     "https://raw.githubusercontent.com/hiddenkernellab/PLM-Repository/"
-    "d0ad55cc1335e432c3088fdf9e51ed7ee2d92bd3/actualizador.py"
+    f"{BASE_COMMIT}/actualizador.py"
 )
 
 
-def download_base():
+def download_base_updater():
     req = urllib.request.Request(
         BASE_URL,
         headers={
@@ -36,165 +39,219 @@ def download_base():
         return r.read().decode("utf-8")
 
 
-def replace_once(text, old, new, label):
-    if old not in text:
-        raise RuntimeError(f"No se encontro el bloque esperado: {label}")
-    return text.replace(old, new, 1)
+def load_base_namespace():
+    # Ejecutamos el actualizador anterior como módulo para reutilizar toda su
+    # lógica sin disparar main() todavía. Ese actualizador, a su vez, reconstruye
+    # la base curada que ya usa HiddenKernel.
+    ns = {
+        "__name__": "hiddenkernel_base_updater",
+        "__file__": BASE_URL,
+    }
+    source = download_base_updater()
+    exec(compile(source, BASE_URL, "exec"), ns, ns)
+    return ns
 
 
-def patch_base(s):
-    old = """    dict(name="PS5 WebKit Autoloader", repo="itsPLK/ps5-webkit-autoloader",
-         match=["webkit-autoloader-installer"], exclude=["host"], category="SISTEMA",
-         desc=("Autoloader WebKit para lanzar de forma automatica el exploit y los payloads.")),
-    dict(name="ps5-payload-websrv", repo="ps5-payload-dev/websrv","""
+def extend_hiddenkernel(ns):
+    APPS = ns["APPS"]
+    names = {str(x.get("name") or "") for x in APPS}
 
-    new = """    dict(name="PS5 WebKit Autoloader", repo="itsPLK/ps5-webkit-autoloader",
-         match=["webkit-autoloader-installer"], exclude=["host"], category="SISTEMA",
-         desc=("Autoloader WebKit oficial de itsPLK. Integra Relapse para FW 7.00-13.60 "
-               "y umtx2 para FW 1.00-5.50, con instalacion en Media y carga automatizada "
-               "de payloads.")),
-    dict(name="PSVietHoa WebKit Autoloader",
-         repo="thanhsondev/psviethoa-webkit-autoloader",
-         match=["psviethoa-webkit-autoloader-installer"], exclude=["host"],
-         category="SISTEMA", channels=["stable"], single_latest=True,
-         desc=("Fork independiente del WebKit Autoloader con Relapse para FW 7.00-13.60 "
-               "y umtx2 para FW 1.00-5.50. Usa Title ID PSVH00001 y puede convivir "
-               "con el WebKit Autoloader oficial.")),
-    dict(name="WK Autoloader Relapse (X-F1REBALL-X)",
-         repo="X-F1REBALL-X/wk-autoloader-relapse",
-         match=["installer"], category="SISTEMA",
-         channels=["stable"], single_latest=True,
-         desc=("Variante con Relapse para FW 7.00-13.60 y umtx2 para FW 1.00-5.50. "
-               "Permite elegir Payload Manager en 8084 o Elf Launcher en 1000, recuerda "
-               "la seleccion y usa Title ID SLKT00001 para convivir con otros autoloaders.")),
-    dict(name="LegacyJB",
-         repo="Phoenixx1202/LegacyJB",
-         match=["legacyjb"], prefer=[".bin"], category="SISTEMA",
-         channels=["stable"], single_latest=True,
-         desc=("Payload Legacy Jailbreak de Phoenixx1202. Spectrum Library lo necesita "
-               "para la funcion Homebrew si no se usa etaHEN con Jailbreak Legacy activado. "
-               "Se sigue automaticamente la ultima release estable.")),
-    dict(name="Jailbreak Store",
-         repo="notmaj0r/JailbreakStore",
-         match=["jailbreakstore"], category="SISTEMA",
-         channels=["stable"], single_latest=True,
-         desc=("Payload que transforma el acceso de PlayStation Store NPXS40047 en un "
-               "lanzador WebView personalizado. El autor advierte de que modifica la base "
-               "de datos de PS5 y que una corrupcion puede hacer perder FPKG de PS4.")),
-    dict(name="ps5-payload-websrv", repo="ps5-payload-dev/websrv","""
+    # Colocamos EMULADORES justo antes de UTILIDADES para que aparezca como
+    # sección propia y no mezclada con herramientas genéricas.
+    cat_order = ns["CAT_ORDER"]
+    if "EMULADORES" not in cat_order:
+        for key in list(cat_order):
+            if cat_order[key] >= 6:
+                cat_order[key] += 1
+        cat_order["EMULADORES"] = 6
 
-    s = replace_once(s, old, new, "APPS / WebKit autoloaders")
+    additions = [
+        dict(
+            name="PS5SX2 Installer",
+            repo="Swordpdf/PS5SX2",
+            match=["ps5sx2installer"],
+            category="EMULADORES",
+            channels=["stable"],
+            single_latest=True,
+            desc=(
+                "Instalador y actualizador oficial de PS5SX2, el port nativo de "
+                "PCSX2 para PS5. Debe usarse junto con PS5SX2 Helper y ShadowMountPlus"
+            ),
+        ),
+        dict(
+            name="PS5SX2 Helper",
+            repo="Swordpdf/PS5SX2",
+            match=["ps5sxhelper"],
+            category="EMULADORES",
+            channels=["stable"],
+            single_latest=True,
+            desc=(
+                "Payload Helper oficial requerido por PS5SX2 para preparar/jailbreakear "
+                "la aplicación cuando arranca. El autor recomienda cargarlo junto con kstuff"
+            ),
+        ),
+        dict(
+            name="PS5 RetroArch (manual)",
+            repo="mihawk-99/PS5_RetroArch",
+            match=["ps5_retroarch"],
+            exclude=["screenshots"],
+            extensions=[".zip"],
+            download_only=True,
+            category="EMULADORES",
+            channels=["alpha"],
+            single_latest=True,
+            desc=(
+                "RetroArch nativo para PS5 con cores de PS1, PS2, PSP, N64, "
+                "GameCube/Wii, DS, 3DS, Saturn, arcade y otros. PLDMGR descarga el ZIP; "
+                "después hay que extraer PPSA99169 en /data/homebrew/PPSA99169. "
+                "RPCS3/PS3 no se distribuye en las releases por incompatibilidad de licencia"
+            ),
+        ),
+        dict(
+            name="ProsperoEden (Switch, manual)",
+            repo="blackbearreloaded/ProsperoEden",
+            match=["prosperoeden"],
+            extensions=[".ffpfsc"],
+            download_only=True,
+            category="EMULADORES",
+            channels=["beta"],
+            single_latest=True,
+            desc=(
+                "Port experimental de Eden para emulación de Nintendo Switch en PS5. "
+                "PLDMGR descarga la imagen FFPFSC; después hay que moverla a una ruta "
+                "escaneada por ShadowMountPlus y reiniciar/reescanear ShadowMountPlus"
+            ),
+        ),
+        dict(
+            name="Kura Loader",
+            repo="NookieAI/kura",
+            match=["kura-loader-ps5"],
+            category="UTILIDADES",
+            channels=["stable"],
+            single_latest=True,
+            desc=(
+                "Payload PS5 de Kura para conectar la consola con su gestor de biblioteca "
+                "de juegos y funciones de instalación, saves, cheats y control del ventilador"
+            ),
+        ),
+        # A día 03/10/2026 el repositorio oficial existe, pero OnionBuddies todavía
+        # no publica una GitHub Release binaria. Lo dejamos vigilado: en cuanto haya
+        # un ELF oficial, el generador lo añadirá sin recurrir a MediaFire/Telegram.
+        dict(
+            name="OnionHEN DPI v2 Plugin",
+            repo="OnionBuddies/onionHEN-dpiv2-plugin",
+            match=["dpiv2"],
+            category="PKG / INSTALACION",
+            channels=["stable", "beta", "alpha"],
+            single_latest=True,
+            optional=True,
+            desc=(
+                "Plugin DPI v2 para OnionHEN: instalador remoto de PKG con WebUI, "
+                "subidas por bloques, cola y progreso SSE. Se instala como "
+                "/data/OnionHEN/plugins/DPIV00001.elf"
+            ),
+        ),
+    ]
 
-    old = """    "PS5 WebKit Autoloader": [
-        (r"\\b0\\.4\\.0\\b", "PRECAUCIÓN",
-         "Release oficial actual, pero hay reportes públicos de kernel panic/apagados en algunos firmwares 12.x; varios usuarios indican mejor comportamiento al volver a 0.3.1."),
-    ],"""
+    # Insertar antes de UTILIDADES mantiene visualmente juntos los emuladores.
+    insert_at = next(
+        (i for i, app in enumerate(APPS) if app.get("category") == "UTILIDADES"),
+        len(APPS),
+    )
+    fresh = [x for x in additions if x["name"] not in names]
+    APPS[insert_at:insert_at] = fresh
 
-    new = """    "PS5 WebKit Autoloader": [
-        (r"\\b0\\.5\\.0\\b", "EN PRUEBAS",
-         "Primera integracion oficial de Relapse. El propio desarrollador la presenta como soporte inicial y recomienda valorar 0.4.0 en FW 7.00-12.00 si ya funciona bien."),
-        (r"\\b0\\.4\\.0\\b", "PRECAUCIÓN",
-         "Release oficial anterior; existen reportes publicos de kernel panic/apagados en algunos firmwares 12.x."),
-    ],
-    "Jailbreak Store": [
-        (r".*", "PRECAUCIÓN",
-         "El autor advierte expresamente de que modificar la base de datos puede corromperla y provocar la perdida de FPKG de PS4."),
-    ],"""
+    # Extensiones específicas para aplicaciones nativas. El comportamiento normal
+    # del repositorio continúa restringido a ELF/BIN.
+    old_valid = ns["valid"]
 
-    s = replace_once(s, old, new, "CURATED_STATUS")
+    def valid_extended(filename, app):
+        extensions = app.get("extensions")
+        if not extensions:
+            return old_valid(filename, app)
 
-    old = """    "PS5 WebKit Autoloader": [
-        (r".*", "FW 1.00-5.50 y 7.00-12.70"),
-    ],"""
+        n = ns["Path"](filename).name.lower()
+        if not any(n.endswith(str(ext).lower()) for ext in extensions):
+            return False
+        if any(x.lower() not in n for x in app.get("match", [])):
+            return False
+        if any(x.lower() in n for x in app.get("exclude", [])):
+            return False
+        return True
 
-    new = """    "PS5 WebKit Autoloader": [
-        (r".*", "FW 1.00-5.50 y 7.00-13.60"),
-    ],
-    "PSVietHoa WebKit Autoloader": [
-        (r".*", "FW 1.00-5.50 y 7.00-13.60"),
-    ],
-    "WK Autoloader Relapse (X-F1REBALL-X)": [
-        (r".*", "FW 1.00-5.50 y 7.00-13.60"),
-    ],"""
+    ns["valid"] = valid_extended
 
-    s = replace_once(s, old, new, "COMPATIBILITY_RULES")
+    # Para ZIP/FFPFSC grandes usamos el SHA-256 publicado por GitHub en el asset,
+    # evitando descargar cientos de MB cada vez que corre el actualizador.
+    old_payload_for = ns["payload_for"]
 
-    old = """    if name == "PS5 WebKit Autoloader":
-        # Upstream, itsPLK mirror y Nexgen coinciden en esta convención.
-        return f"webkit-autoloader-installer_{_ensure_v(raw)}.elf"
-    if name == "ftpsrv":"""
+    def payload_for_extended(app, rel, ch):
+        if not app.get("download_only"):
+            return old_payload_for(app, rel, ch)
 
-    new = """    if name == "PS5 WebKit Autoloader":
-        # Upstream, itsPLK mirror y Nexgen coinciden en esta convención.
-        return f"webkit-autoloader-installer_{_ensure_v(raw)}.elf"
-    if name == "WK Autoloader Relapse (X-F1REBALL-X)":
-        # Upstream publica un nombre generico (installer.elf); HiddenKernel lo
-        # hace unico para no compartir carpeta con otros instaladores.
-        return f"wk-autoloader-relapse_{_ensure_v(raw)}.elf"
-    if name == "ftpsrv":"""
+        asset = ns["direct_asset"](rel, app)
+        if not asset:
+            return None
+        url = ns["asset_url"](asset)
+        if not url:
+            return None
 
-    s = replace_once(s, old, new, "canonical_repo_filename")
+        digest = str(asset.get("digest") or "").strip()
+        checksum = ""
+        if digest.lower().startswith("sha256:"):
+            candidate = digest.split(":", 1)[1].strip().lower()
+            if re.fullmatch(r"[0-9a-f]{64}", candidate):
+                checksum = candidate
 
-    old = """        "PS5 WebKit Autoloader": "webkit-autoloader-installer",
-        "kstuff-lite": "kstuff-lite","""
+        filename = ns["out_filename"](asset["name"], ch, app, rel)
+        return {
+            "filename": filename,
+            "url": url,
+            "source_direct": url,
+            "checksum": checksum,
+            "asset_updated_at": asset.get("updated_at") or asset.get("created_at") or "",
+        }
 
-    new = """        "PS5 WebKit Autoloader": "webkit-autoloader-installer",
-        "WK Autoloader Relapse (X-F1REBALL-X)": "wk-autoloader-relapse",
-        "kstuff-lite": "kstuff-lite","""
+    ns["payload_for"] = payload_for_extended
 
-    s = replace_once(s, old, new, "expected_storage_root")
+    # Fichas de estado/compatibilidad conservadoras y basadas en la documentación
+    # del propio proyecto.
+    curated = ns["CURATED_STATUS"]
+    curated["PS5SX2 Installer"] = [
+        (r".*", "EN PRUEBAS", "PS5SX2 sigue en desarrollo activo; el autor avisa de posibles asperezas y pide logs de pruebas."),
+    ]
+    curated["PS5SX2 Helper"] = [
+        (r".*", "EN PRUEBAS", "Helper del proyecto PS5SX2; usar junto al instalador y ShadowMountPlus según la guía oficial."),
+    ]
 
-    # La rama FPKG de Drakmor ya no se toma del indice viejo de
-    # PS5-Super-PLDMGR-Auto-Updater. Nexgen la publica y la usa para pruebas
-    # en evoX-CoreOS; ahi esta el test5 y futuras revisiones.
-    old = """    dict(name="FPKG Integrado - Kstuff Drakmor", optional=True,
-         catalog_url=("https://raw.githubusercontent.com/nexgen999/PS5-Super-PLDMGR-Auto-Updater/main/"
-                      "json/PS5_Beta.json"),
-         catalog_name_regex=[r"^Kstuff .* Fpkg Dr Test\\d+$"],
-         source="https://github.com/nexgen999/PS5-Super-PLDMGR-Auto-Updater",
-         category="FPKG INTEGRADO",
-         status="EXPERIMENTAL / FPKG",
-         compatibility="FW 1.00-11.60 en test3; validar builds futuras",
-         desc=("Rama Kstuff de pruebas FPKG de Drakmor con el flujo PPR/A53 integrado. "
-               "Se mantiene separada de kstuff-lite oficial.")),"""
+    compat = ns["COMPATIBILITY_RULES"]
+    compat["PS5SX2 Installer"] = [
+        (r".*", "probado por el proyecto en PS5/PS5 Pro con FW 6.02-12.70"),
+    ]
+    compat["PS5SX2 Helper"] = [
+        (r".*", "probado por el proyecto en PS5/PS5 Pro con FW 6.02-12.70"),
+    ]
 
-    new = """    dict(name="FPKG Integrado - Kstuff Drakmor", optional=True,
-         catalog_url=("https://raw.githubusercontent.com/nexgen999/evoX-CoreOS/main/"
-                      "json/payloads/PS5_Beta.json"),
-         catalog_name_regex=[r"^Kstuff[- _].*[- _]Fpkg[- _]Dr[- _]Test\\d+$"],
-         source="https://github.com/nexgen999/evoX-CoreOS",
-         category="FPKG INTEGRADO",
-         status="EXPERIMENTAL / FPKG",
-         compatibility="FPKG hasta FW 11.60; usar exFAT por encima",
-         desc=("Rama Kstuff de pruebas FPKG de Drakmor con A53/PPR integrado. "
-               "Se sigue desde el catalogo evoX-CoreOS que usa Nexgen para las pruebas. "
-               "Se mantiene separada de kstuff-lite oficial.")),"""
+    # La release usa tag técnico vk-285-118 pero nombre humano PS5SX2 1.7.
+    # Mostramos 1.7 para que la Store sea más clara, sin alterar la selección.
+    old_make_entry = ns["make_entry"]
 
-    s = replace_once(s, old, new, "FPKG Kstuff Drakmor -> evoX-CoreOS")
+    def make_entry_extended(app, rel, p, ch):
+        entry = old_make_entry(app, rel, p, ch)
+        if app.get("name") in ("PS5SX2 Installer", "PS5SX2 Helper"):
+            m = re.search(r"PS5SX2\s+([0-9]+(?:\.[0-9]+)*)", str(rel.get("name") or ""), re.I)
+            if m:
+                entry["version"] = m.group(1)
+        return entry
 
-    # El generador viejo forzaba cualquier kstuff 1.13 testX a la carpeta
-    # Internal del repositorio antiguo. Eso rompe test5 porque no existe alli.
-    # Si evoX ofrece local_path, usamos el RAW del propio evoX-CoreOS y dejamos
-    # que el checksum del catalogo lo valide.
-    old = """    if filename.startswith("kstuff-1.13-fpkg-dr-test"):
-        url = nexgen_raw + "Internal/payloads/beta/Kstuff-Darkmor/" + filename
-    elif filename.startswith("a53_ppr_install_"):"""
-
-    new = """    if filename.startswith("kstuff-1.13-fpkg-dr-test"):
-        local_path = str(hit.get("local_path") or "").lstrip("/")
-        if local_path:
-            url = (
-                "https://raw.githubusercontent.com/nexgen999/evoX-CoreOS/main/"
-                + local_path
-            )
-        else:
-            url = nexgen_raw + "Internal/payloads/beta/Kstuff-Darkmor/" + filename
-    elif filename.startswith("a53_ppr_install_"):"""
-
-    s = replace_once(s, old, new, "descarga RAW Kstuff FPKG test5")
-
-    return s
+    ns["make_entry"] = make_entry_extended
 
 
-code = patch_base(download_base())
-exec(compile(code, BASE_URL, "exec"), globals(), globals())
+def main():
+    ns = load_base_namespace()
+    extend_hiddenkernel(ns)
+    ns["main"]()
+
+
+if __name__ == "__main__":
+    main()
