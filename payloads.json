@@ -74,6 +74,18 @@
       "checksum": "aa3f98847948e2ae8ea600c3f437e28247a0a4f8b73651a046d2859924bf97b3"
     },
     {
+      "name": "OnionHEN",
+      "filename": "onionHEN_v0.9.0-beta1.elf",
+      "url": "https://github.com/aydencharles/onionHEN/releases/download/v0.9.0-beta1/OnionHEN.elf",
+      "source": "https://github.com/aydencharles/onionHEN/releases",
+      "source_direct": "https://github.com/aydencharles/onionHEN/releases/download/v0.9.0-beta1/OnionHEN.elf",
+      "description": "HEN AIO con Toolbox, trucos, overlays y servicios integrados. ESTADO: ESTABLE.",
+      "last_update": "2026-10-03",
+      "version": "v0.9.0-beta1",
+      "category": "HEN / AIO",
+      "checksum": "c587a0e92158d0a64f1c78e10a9743709b3ab194bee2d4cf8ffdd3147c3a7530"
+    },
+    {
       "name": "PIZZA-HEN",
       "filename": "PIZZA-HEN_v2.00.elf",
       "url": "https://github.com/Michele-M-Media/PIZZA-HEN/releases/download/v2.00/PIZZA-HEN-v2.00.elf",
