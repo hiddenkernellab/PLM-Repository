@@ -421,6 +421,27 @@ def add_curated_evox_elf(ns):
     ]
 
 
+
+def force_ascii_descriptions(ns):
+    import unicodedata
+
+    old_make_entry = ns["make_entry"]
+
+    def clean_description(value):
+        value = str(value or "")
+        value = value.replace("ñ", "n").replace("Ñ", "N")
+        value = unicodedata.normalize("NFKD", value)
+        value = "".join(ch for ch in value if not unicodedata.combining(ch))
+        return value
+
+    def make_entry_ascii(app, rel, p, ch):
+        entry = old_make_entry(app, rel, p, ch)
+        entry["description"] = clean_description(entry.get("description", ""))
+        return entry
+
+    ns["make_entry"] = make_entry_ascii
+
+
 def main():
     # 1) Cargamos el actualizador que está ahora mismo en HiddenKernel.
     current = load_current_wrapper()
@@ -433,10 +454,14 @@ def main():
     # 3) Limpiamos ramas antiguas y duplicados de la época de FPKG experimental.
     clean_obsolete_entries(ns)
 
-    # 4) Añadimos solo la selección nueva que merece la pena y tiene ELF.
+    # 4) Anadimos solo la seleccion nueva que merece la pena y tiene ELF.
     add_curated_evox_elf(ns)
 
-    # 5) Ejecutamos el generador normal de HiddenKernel.
+    # 5) Saneamos TODAS las descripciones para Payload Manager:
+    #    sin tildes ni otros diacriticos y con n en lugar de enie.
+    force_ascii_descriptions(ns)
+
+    # 6) Ejecutamos el generador normal de HiddenKernel.
     ns["main"]()
 
 
