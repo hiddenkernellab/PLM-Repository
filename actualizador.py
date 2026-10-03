@@ -1,32 +1,45 @@
 #!/usr/bin/env python3
-# HiddenKernel actualizador - escena PS5 2026-10-03.
+# HiddenKernel - actualizador limpio + radar evoX-CoreOS
+# Fecha: 2026-10-03
 #
-# Parte de la version de actualizador.py publicada en HiddenKernel el 03/10/2026
-# y añade la nueva sección EMULADORES, además de seguir las novedades oficiales.
+# Base exacta: hiddenkernellab/PLM-Repository @
+# a418c0637cee4b507891188ca2e0045260be5d9e
 #
-# Añade:
-# - EMULADORES: PS5SX2 Installer + Helper (PS2, instalación/actualización directa)
-# - EMULADORES: PS5 RetroArch (multisistema, ZIP para instalación manual)
-# - EMULADORES: ProsperoEden (Nintendo Switch, FFPFSC para instalación manual)
-# - UTILIDADES: Kura Loader (payload PS5)
-# - Vigila OnionHEN DPI v2 y lo añadirá cuando OnionBuddies publique una release ELF oficial
-# - Mantiene el comportamiento anterior para ShadowMountPlus, OnionHEN, kstuff, etc.;
-#   por tanto ShadowMountPlus 1.7beta4 se recogerá automáticamente al ejecutar.
+# OBJETIVOS
+# ---------
+# 1) Retirar del catálogo normal los restos de las primeras pruebas FPKG:
+#    - A53/PPR separados
+#    - kstuff FPKG test builds
+#    - AIO 3-in-1 experimentales
+#    - ShadowMountPlus alpha FPKG/legacy
+#    - ramas alternativas antiguas de kstuff/ShadowMountPlus
+# 2) Mantener el stack actual y útil:
+#    - kstuff-lite oficial (actualmente 1.11)
+#    - ShadowMountPlus 1.7 beta más reciente (actualmente 1.7beta4)
+# 3) Retirar BackPork del catálogo curado porque ShadowMountPlus 1.7 ya incorpora
+#    backports PKG y el propio proyecto advierte de no usar ambos a la vez.
+# 4) Retirar etaHEN 2.6B de ALTERNATIVOS (build de pruebas ya caducada).
+# 5) Aplicar la regla "nuevas incorporaciones = ELF" y no añadir ZIP/FFPFSC
+#    como entradas de PLDMGR.
+# 6) Añadir una selección útil y mantenida de lo que está apareciendo en
+#    evoX-CoreOS / entorno de Jhon, preferentemente desde el upstream oficial.
 #
-# Nota: RetroArch y ProsperoEden son aplicaciones nativas, no payloads ELF. PLDMGR
-# puede descargar sus archivos desde el repositorio, pero su instalación final es manual.
+# NOTA
+# ----
+# evoX-CoreOS sustituye al antiguo "PS5 Super PLDMGR Auto Updater" de Nexgen.
+# Este script NO importa sus ~100 payloads a ciegas: usa evoX como radar,
+# pero HiddenKernel sigue siendo un catálogo curado y más limpio.
 
-import re
 import urllib.request
 
-BASE_COMMIT = "031e13821a48c4583f2bded81cb467b465701b48"
+BASE_COMMIT = "a418c0637cee4b507891188ca2e0045260be5d9e"
 BASE_URL = (
     "https://raw.githubusercontent.com/hiddenkernellab/PLM-Repository/"
     f"{BASE_COMMIT}/actualizador.py"
 )
 
 
-def download_base_updater():
+def download_current_updater():
     req = urllib.request.Request(
         BASE_URL,
         headers={
@@ -39,217 +52,391 @@ def download_base_updater():
         return r.read().decode("utf-8")
 
 
-def load_base_namespace():
-    # Ejecutamos el actualizador anterior como módulo para reutilizar toda su
-    # lógica sin disparar main() todavía. Ese actualizador, a su vez, reconstruye
-    # la base curada que ya usa HiddenKernel.
+def load_current_wrapper():
     ns = {
-        "__name__": "hiddenkernel_base_updater",
+        "__name__": "hiddenkernel_current_wrapper",
         "__file__": BASE_URL,
     }
-    source = download_base_updater()
+    source = download_current_updater()
     exec(compile(source, BASE_URL, "exec"), ns, ns)
     return ns
 
 
-def extend_hiddenkernel(ns):
-    APPS = ns["APPS"]
-    names = {str(x.get("name") or "") for x in APPS}
+def clean_obsolete_entries(ns):
+    apps = ns["APPS"]
 
-    # Colocamos EMULADORES justo antes de UTILIDADES para que aparezca como
-    # sección propia y no mezclada con herramientas genéricas.
-    cat_order = ns["CAT_ORDER"]
-    if "EMULADORES" not in cat_order:
-        for key in list(cat_order):
-            if cat_order[key] >= 6:
-                cat_order[key] += 1
-        cat_order["EMULADORES"] = 6
+    # Las tres familias FPKG de prueba nacieron antes de que el flujo actual
+    # quedase integrado en kstuff-lite 1.11 + ShadowMountPlus 1.7.
+    obsolete_categories = {
+        "FPKG INTEGRADO",
+        "FPKG MODULAR",
+        "FPKG LEGACY",
+    }
+
+    # Entradas antiguas/duplicadas que ya no aportan nada al catálogo normal.
+    obsolete_pairs = {
+        ("ALTERNATIVOS", "kstuff-lite Drakmor"),
+        ("ALTERNATIVOS", "ShadowMountPlus"),
+        ("ALTERNATIVOS", "PS5 BackPork"),
+        ("ALTERNATIVOS", "etaHEN"),  # 2.6B de pruebas/caducada
+        ("EMULADORES", "PS5 RetroArch (manual)"),       # ZIP, no ELF
+        ("EMULADORES", "ProsperoEden (Switch, manual)"),# FFPFSC, no ELF
+    }
+
+    kept = []
+    for app in apps:
+        cat = str(app.get("category") or "")
+        name = str(app.get("name") or "")
+        if cat in obsolete_categories:
+            continue
+        if (cat, name) in obsolete_pairs:
+            continue
+        kept.append(app)
+
+    apps[:] = kept
+
+    # Reordenamos el catálogo tras eliminar las secciones FPKG legacy.
+    order = [
+        "ESENCIALES",
+        "HEN / AIO",
+        "SISTEMA",
+        "ARCHIVOS / RED",
+        "PKG / INSTALACION",
+        "JUEGOS / COMPATIBILIDAD",
+        "EMULADORES",
+        "MULTIMEDIA",
+        "UTILIDADES",
+        "CHEATS",
+        "MANDOS / AUDIO",
+        "DESCARGAS",
+        "PERSONALIZACION",
+        "ALTERNATIVOS",
+    ]
+    ns["CAT_ORDER"].clear()
+    ns["CAT_ORDER"].update({name: i for i, name in enumerate(order)})
+
+
+def add_curated_evox_elf(ns):
+    apps = ns["APPS"]
+    names = {str(a.get("name") or "") for a in apps}
 
     additions = [
+        # MANDOS / AUDIO
         dict(
-            name="PS5SX2 Installer",
-            repo="Swordpdf/PS5SX2",
-            match=["ps5sx2installer"],
-            category="EMULADORES",
-            channels=["stable"],
-            single_latest=True,
-            desc=(
-                "Instalador y actualizador oficial de PS5SX2, el port nativo de "
-                "PCSX2 para PS5. Debe usarse junto con PS5SX2 Helper y ShadowMountPlus"
-            ),
-        ),
-        dict(
-            name="PS5SX2 Helper",
-            repo="Swordpdf/PS5SX2",
-            match=["ps5sxhelper"],
-            category="EMULADORES",
-            channels=["stable"],
-            single_latest=True,
-            desc=(
-                "Payload Helper oficial requerido por PS5SX2 para preparar/jailbreakear "
-                "la aplicación cuando arranca. El autor recomienda cargarlo junto con kstuff"
-            ),
-        ),
-        dict(
-            name="PS5 RetroArch (manual)",
-            repo="mihawk-99/PS5_RetroArch",
-            match=["ps5_retroarch"],
-            exclude=["screenshots"],
-            extensions=[".zip"],
-            download_only=True,
-            category="EMULADORES",
+            name="AnyPad PS5",
+            repo="sinfiltros/AnyPad-PS5",
+            match=["anypad-ps5"],
+            category="MANDOS / AUDIO",
             channels=["alpha"],
             single_latest=True,
+            elf_only=True,
             desc=(
-                "RetroArch nativo para PS5 con cores de PS1, PS2, PSP, N64, "
-                "GameCube/Wii, DS, 3DS, Saturn, arcade y otros. PLDMGR descarga el ZIP; "
-                "después hay que extraer PPSA99169 en /data/homebrew/PPSA99169. "
-                "RPCS3/PS3 no se distribuye en las releases por incompatibilidad de licencia"
+                "Crea mandos virtuales DualSense para usar gamepads Bluetooth externos. "
+                "Proyecto alpha; DS4 validado y otros mandos dependen del modelo/firmware"
             ),
         ),
         dict(
-            name="ProsperoEden (Switch, manual)",
-            repo="blackbearreloaded/ProsperoEden",
-            match=["prosperoeden"],
-            extensions=[".ffpfsc"],
-            download_only=True,
-            category="EMULADORES",
-            channels=["beta"],
+            name="FGG XSense",
+            repo="FGGstore/FGG-XSense",
+            match=["fgg-xsense"],
+            category="MANDOS / AUDIO",
+            channels=["stable"],
             single_latest=True,
+            elf_only=True,
             desc=(
-                "Port experimental de Eden para emulación de Nintendo Switch en PS5. "
-                "PLDMGR descarga la imagen FFPFSC; después hay que moverla a una ruta "
-                "escaneada por ShadowMountPlus y reiniciar/reescanear ShadowMountPlus"
+                "Payload dedicado para usar mandos Xbox en una PS5 con jailbreak. "
+                "Se conserva como alternativa estable a AnyPad"
             ),
         ),
         dict(
-            name="Kura Loader",
-            repo="NookieAI/kura",
-            match=["kura-loader-ps5"],
+            name="FGG PlayPods",
+            repo="FGGstore/FGG-PlayPods",
+            match=["fgg-playpods"],
+            category="MANDOS / AUDIO",
+            channels=["stable"],
+            single_latest=True,
+            elf_only=True,
+            desc=(
+                "Permite enviar el audio de la PS5 a auriculares Bluetooth corrientes "
+                "sin dongle externo"
+            ),
+        ),
+
+        # ARCHIVOS / RED
+        dict(
+            name="zftpd",
+            repo="seregonwar/zftpd",
+            match=["zftpd-ps5-v"],
+            exclude=["zhttp"],
+            category="ARCHIVOS / RED",
+            channels=["stable", "beta", "alpha"],
+            single_latest=True,
+            elf_only=True,
+            desc=(
+                "Servidor FTP moderno para PS5. Se selecciona únicamente la build PS5 ELF "
+                "normal, separada de la variante HTTP"
+            ),
+        ),
+        dict(
+            name="zftpd + zhttp",
+            repo="seregonwar/zftpd",
+            match=["zftpd-ps5-zhttp"],
+            category="ARCHIVOS / RED",
+            channels=["stable", "beta", "alpha"],
+            single_latest=True,
+            elf_only=True,
+            desc=(
+                "Variante PS5 de zftpd que añade el servidor zhttp para administración "
+                "y transferencias desde la red local"
+            ),
+        ),
+        dict(
+            name="AirPSX",
+            repo="barisyild/airpsx",
+            match=["airpsx"],
+            exclude=[".zip"],
+            category="ARCHIVOS / RED",
+            channels=["stable"],
+            single_latest=True,
+            elf_only=True,
+            desc=(
+                "Escritorio web remoto tipo AirDroid para administrar una PS5 modificada "
+                "desde el navegador de otro dispositivo"
+            ),
+        ),
+        dict(
+            name="unrar-ps5",
+            repo="bizkut/unrar-ps5",
+            match=["unrar_ps5"],
+            category="ARCHIVOS / RED",
+            channels=["stable"],
+            single_latest=True,
+            elf_only=True,
+            desc=(
+                "Extrae RAR y 7z directamente en PS5, incluidos multipartes, y puede "
+                "colocar homebrew extraído en una ruta configurable"
+            ),
+        ),
+        dict(
+            name="FGG Unpack",
+            repo="FGGstore/FGG-Unpack",
+            match=["fgg-unpack"],
+            category="ARCHIVOS / RED",
+            channels=["stable"],
+            single_latest=True,
+            elf_only=True,
+            desc=(
+                "Extractor ligero de ZIP y 7z directamente en una PS5 con jailbreak"
+            ),
+        ),
+
+        # PKG
+        dict(
+            name="PKG Receiver",
+            repo="Loopayeh/pkg-sender",
+            match=["pkg-receiver"],
+            category="PKG / INSTALACION",
+            channels=["stable"],
+            single_latest=True,
+            elf_only=True,
+            desc=(
+                "Receptor PS5 para PKG Sender. Permite enviar e instalar PKG por LAN "
+                "desde la aplicación de escritorio/móvil compatible"
+            ),
+        ),
+
+        # EMULACIÓN
+        dict(
+            name="RomM Sync",
+            repo="s0liton/ps5-romm",
+            match=["romm-sync"],
+            category="EMULADORES",
+            channels=["stable"],
+            single_latest=True,
+            elf_only=True,
+            desc=(
+                "Cliente PS5 para servidores RomM: biblioteca, descarga de ROM/BIOS hacia "
+                "perfiles de emulador y sincronización de saves/savestates"
+            ),
+        ),
+
+        # MULTIMEDIA
+        dict(
+            name="PS Play",
+            repo="MounirHero/PS-PLAY",
+            match=["psplay"],
+            category="MULTIMEDIA",
+            channels=["stable"],
+            single_latest=True,
+            elf_only=True,
+            desc=(
+                "Hub multimedia nativo para PS5 con USB, red, DLNA, IPTV y reproducción "
+                "de medios desde una interfaz adaptada al mando"
+            ),
+        ),
+        dict(
+            name="Nuvio PS5",
+            repo="theghostonline/Nuvio-PS5",
+            match=["nuvio-ps5"],
+            category="MULTIMEDIA",
+            channels=["stable"],
+            single_latest=True,
+            elf_only=True,
+            desc=(
+                "Interfaz Nuvio para PS5 con reproductor nativo orientado a 4K/HDR "
+                "y funciones de streaming multimedia"
+            ),
+        ),
+
+        # UTILIDADES
+        dict(
+            name="PS5 Hardware Overlay",
+            repo="smoxa/ps5-new-overlay",
+            match=["ps5_overlay.elf"],
             category="UTILIDADES",
             channels=["stable"],
             single_latest=True,
+            elf_only=True,
             desc=(
-                "Payload PS5 de Kura para conectar la consola con su gestor de biblioteca "
-                "de juegos y funciones de instalación, saves, cheats y control del ventilador"
+                "Overlay ligero con FPS, temperaturas, carga CPU/GPU, RAM/VRAM "
+                "y ventilador durante el juego"
             ),
         ),
-        # A día 03/10/2026 el repositorio oficial existe, pero OnionBuddies todavía
-        # no publica una GitHub Release binaria. Lo dejamos vigilado: en cuanto haya
-        # un ELF oficial, el generador lo añadirá sin recurrir a MediaFire/Telegram.
         dict(
-            name="OnionHEN DPI v2 Plugin",
-            repo="OnionBuddies/onionHEN-dpiv2-plugin",
-            match=["dpiv2"],
-            category="PKG / INSTALACION",
+            name="PS5 Date & Time Sync",
+            repo="kerrdec97/ps5-date-time-sync",
+            match=["ps5-date-time-sync"],
+            category="UTILIDADES",
+            channels=["stable"],
+            single_latest=True,
+            elf_only=True,
+            desc=(
+                "Restaura automáticamente fecha y hora de la consola mediante NTP; "
+                "útil en consolas offline o con PSN bloqueado"
+            ),
+        ),
+        dict(
+            name="CheatRunner",
+            repo="notmaj0r/CheatRunner",
+            match=["cheatrunner"],
+            category="CHEATS",
             channels=["stable", "beta", "alpha"],
             single_latest=True,
-            optional=True,
+            elf_only=True,
             desc=(
-                "Plugin DPI v2 para OnionHEN: instalador remoto de PKG con WebUI, "
-                "subidas por bloques, cola y progreso SSE. Se instala como "
-                "/data/OnionHEN/plugins/DPIV00001.elf"
+                "Trainer de cheats con interfaz web local, separado de los HEN/AIO"
+            ),
+        ),
+
+        # DESCARGAS
+        dict(
+            name="PatchDL",
+            repo="knutwurst/patchdl",
+            match=["patchdl"],
+            category="DESCARGAS",
+            channels=["stable"],
+            single_latest=True,
+            elf_only=True,
+            desc=(
+                "Busca y descarga actualizaciones compatibles de juegos y permite "
+                "gestionar el proceso desde la propia PS5"
+            ),
+        ),
+        dict(
+            name="Orbit Store",
+            repo="saawant12/orbit-store-ps5",
+            match=["orbit_store"],
+            category="DESCARGAS",
+            channels=["stable", "beta"],
+            single_latest=True,
+            elf_only=True,
+            desc=(
+                "Gestor de descargas para PS5 con cola persistente, pausa/reanudación, "
+                "selección de almacenamiento e interfaz local para móvil/PC. "
+                "Usar únicamente con contenido que se tenga derecho a descargar"
+            ),
+        ),
+
+        # PERSONALIZACIÓN
+        dict(
+            name="PS5 Wallpaper Modder",
+            repo="hgr9519/ps5-wallpaper-modd",
+            match=["ps5-wallpaper-modd"],
+            category="PERSONALIZACION",
+            channels=["stable"],
+            single_latest=True,
+            elf_only=True,
+            desc=(
+                "Cambia fondos del sistema desde JPG/PNG/DDS e incluye copia de seguridad "
+                "y restauración de los wallpapers originales"
             ),
         ),
     ]
 
-    # Insertar antes de UTILIDADES mantiene visualmente juntos los emuladores.
-    insert_at = next(
-        (i for i, app in enumerate(APPS) if app.get("category") == "UTILIDADES"),
-        len(APPS),
-    )
-    fresh = [x for x in additions if x["name"] not in names]
-    APPS[insert_at:insert_at] = fresh
+    # Para todas las nuevas incorporaciones: ELF y nada más.
+    previous_valid = ns["valid"]
 
-    # Extensiones específicas para aplicaciones nativas. El comportamiento normal
-    # del repositorio continúa restringido a ELF/BIN.
-    old_valid = ns["valid"]
-
-    def valid_extended(filename, app):
-        extensions = app.get("extensions")
-        if not extensions:
-            return old_valid(filename, app)
-
-        n = ns["Path"](filename).name.lower()
-        if not any(n.endswith(str(ext).lower()) for ext in extensions):
+    def valid_curated(filename, app):
+        if app.get("elf_only") and not str(filename).lower().endswith(".elf"):
             return False
-        if any(x.lower() not in n for x in app.get("match", [])):
-            return False
-        if any(x.lower() in n for x in app.get("exclude", [])):
-            return False
-        return True
+        return previous_valid(filename, app)
 
-    ns["valid"] = valid_extended
+    ns["valid"] = valid_curated
 
-    # Para ZIP/FFPFSC grandes usamos el SHA-256 publicado por GitHub en el asset,
-    # evitando descargar cientos de MB cada vez que corre el actualizador.
-    old_payload_for = ns["payload_for"]
+    for item in additions:
+        if item["name"] not in names:
+            apps.append(item)
+            names.add(item["name"])
 
-    def payload_for_extended(app, rel, ch):
-        if not app.get("download_only"):
-            return old_payload_for(app, rel, ch)
-
-        asset = ns["direct_asset"](rel, app)
-        if not asset:
-            return None
-        url = ns["asset_url"](asset)
-        if not url:
-            return None
-
-        digest = str(asset.get("digest") or "").strip()
-        checksum = ""
-        if digest.lower().startswith("sha256:"):
-            candidate = digest.split(":", 1)[1].strip().lower()
-            if re.fullmatch(r"[0-9a-f]{64}", candidate):
-                checksum = candidate
-
-        filename = ns["out_filename"](asset["name"], ch, app, rel)
-        return {
-            "filename": filename,
-            "url": url,
-            "source_direct": url,
-            "checksum": checksum,
-            "asset_updated_at": asset.get("updated_at") or asset.get("created_at") or "",
-        }
-
-    ns["payload_for"] = payload_for_extended
-
-    # Fichas de estado/compatibilidad conservadoras y basadas en la documentación
-    # del propio proyecto.
+    # Estados conservadores donde realmente aportan contexto.
     curated = ns["CURATED_STATUS"]
-    curated["PS5SX2 Installer"] = [
-        (r".*", "EN PRUEBAS", "PS5SX2 sigue en desarrollo activo; el autor avisa de posibles asperezas y pide logs de pruebas."),
-    ]
-    curated["PS5SX2 Helper"] = [
-        (r".*", "EN PRUEBAS", "Helper del proyecto PS5SX2; usar junto al instalador y ShadowMountPlus según la guía oficial."),
-    ]
 
-    compat = ns["COMPATIBILITY_RULES"]
-    compat["PS5SX2 Installer"] = [
-        (r".*", "probado por el proyecto en PS5/PS5 Pro con FW 6.02-12.70"),
+    curated["AnyPad PS5"] = [
+        (
+            r".*",
+            "ALPHA / EN PRUEBAS",
+            "Proyecto muy reciente. Conviene validar mando y firmware antes de ponerlo en autoload.",
+        )
     ]
-    compat["PS5SX2 Helper"] = [
-        (r".*", "probado por el proyecto en PS5/PS5 Pro con FW 6.02-12.70"),
+    curated["Orbit Store"] = [
+        (
+            r".*",
+            "BETA / EN PRUEBAS",
+            "La aplicación sigue ampliando validación en hardware; usar la cola y descargas con la consola despierta.",
+        )
     ]
-
-    # La release usa tag técnico vk-285-118 pero nombre humano PS5SX2 1.7.
-    # Mostramos 1.7 para que la Store sea más clara, sin alterar la selección.
-    old_make_entry = ns["make_entry"]
-
-    def make_entry_extended(app, rel, p, ch):
-        entry = old_make_entry(app, rel, p, ch)
-        if app.get("name") in ("PS5SX2 Installer", "PS5SX2 Helper"):
-            m = re.search(r"PS5SX2\s+([0-9]+(?:\.[0-9]+)*)", str(rel.get("name") or ""), re.I)
-            if m:
-                entry["version"] = m.group(1)
-        return entry
-
-    ns["make_entry"] = make_entry_extended
+    curated["PS5 Wallpaper Modder"] = [
+        (
+            r".*",
+            "PRECAUCIÓN / CON BACKUP",
+            "Modifica recursos visuales del sistema; usar primero su función de copia de seguridad y conservarla.",
+        )
+    ]
+    curated["AirPSX"] = [
+        (
+            r".*",
+            "RED LOCAL / PRECAUCIÓN",
+            "Expone funciones de administración en una interfaz web; mantenerla restringida a una red local de confianza.",
+        )
+    ]
 
 
 def main():
-    ns = load_base_namespace()
-    extend_hiddenkernel(ns)
+    # 1) Cargamos el actualizador que está ahora mismo en HiddenKernel.
+    current = load_current_wrapper()
+
+    # 2) Ese actualizador es un wrapper sobre la base anterior; reproducimos
+    #    exactamente su construcción para no perder ninguna mejora ya presente.
+    ns = current["load_base_namespace"]()
+    current["extend_hiddenkernel"](ns)
+
+    # 3) Limpiamos ramas antiguas y duplicados de la época de FPKG experimental.
+    clean_obsolete_entries(ns)
+
+    # 4) Añadimos solo la selección nueva que merece la pena y tiene ELF.
+    add_curated_evox_elf(ns)
+
+    # 5) Ejecutamos el generador normal de HiddenKernel.
     ns["main"]()
 
 
