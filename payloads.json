@@ -532,14 +532,14 @@
     {
       "name": "Orbit Store",
       "filename": "orbit_store.elf",
-      "url": "https://github.com/saawant12/orbit-store-ps5/releases/download/v0.4.2/orbit_store.elf",
+      "url": "https://github.com/saawant12/orbit-store-ps5/releases/download/v0.6.0/orbit_store.elf",
       "source": "https://github.com/saawant12/orbit-store-ps5/releases",
-      "source_direct": "https://github.com/saawant12/orbit-store-ps5/releases/download/v0.4.2/orbit_store.elf",
+      "source_direct": "https://github.com/saawant12/orbit-store-ps5/releases/download/v0.6.0/orbit_store.elf",
       "description": "Gestor de descargas para PS5 con cola persistente, pausa/reanudacion, seleccion de almacenamiento e interfaz local para movil/PC. Usar unicamente con contenido que se tenga derecho a descargar. ESTADO: EN PRUEBAS.",
       "last_update": "2026-10-04",
-      "version": "v0.4.2",
+      "version": "v0.6.0",
       "category": "DESCARGAS",
-      "checksum": "0b31068fec0319cf79cf7caf16f547d2a9f7daa9b6fb15cdfd53f14ea0756760"
+      "checksum": "71ae6b84b16461a07c9e883bf7e28829800022d08a7fde8d9815f3b7f2e3964b"
     },
     {
       "name": "PatchDL",

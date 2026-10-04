@@ -166,7 +166,7 @@
     },
     {
       "titleId": "PPSA99001",
-      "version": "01.000.005 / 02.000.054",
+      "version": "01.000.005 / 02.000.055",
       "url": "https://github.com/blackbearreloaded/ProsperoRadio/releases/download/01.000.005/PPSA99001.ffpfsc",
       "sha256": "0f82072f1e8a4cc0dd56e6b0831fb068b68540530f78c93f9825c5c5bca21a6a",
       "sizeBytes": 34275328,
@@ -184,9 +184,9 @@
         },
         {
           "name": "PROSPERO_RADIO.ffpfsc",
-          "version": "02.000.054",
-          "url": "https://github.com/RastaFairy/Prospero_Radio_Vulkan/releases/download/02.000.054/PROSPERO_RADIO.ffpfsc",
-          "sha256": "3066c1d729b6df3c0306af3561ee2db89d026887b5ce0d036e01322be6af5875",
+          "version": "02.000.055",
+          "url": "https://github.com/RastaFairy/Prospero_Radio_Vulkan/releases/download/02.000.055/PROSPERO_RADIO.ffpfsc",
+          "sha256": "7fc1350a77683c344b9098f1cdfc26fd9080fed3efce35891789bf08f0cfeeec",
           "sizeBytes": 50135040
         }
       ],
