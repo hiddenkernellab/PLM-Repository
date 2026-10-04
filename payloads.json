@@ -328,24 +328,24 @@
     {
       "name": "PS5SX2 Helper",
       "filename": "PS5SXHelper.elf",
-      "url": "https://github.com/Swordpdf/PS5SX2/releases/download/vk-285-122/PS5SXHelper.elf",
+      "url": "https://github.com/Swordpdf/PS5SX2/releases/download/vk-285-128/PS5SXHelper.elf",
       "source": "https://github.com/Swordpdf/PS5SX2/releases",
-      "source_direct": "https://github.com/Swordpdf/PS5SX2/releases/download/vk-285-122/PS5SXHelper.elf",
+      "source_direct": "https://github.com/Swordpdf/PS5SX2/releases/download/vk-285-128/PS5SXHelper.elf",
       "description": "Payload Helper oficial requerido por PS5SX2 para preparar/jailbreakear la aplicacion cuando arranca. El autor recomienda cargarlo junto con kstuff. ESTADO: EN PRUEBAS. COMPATIBILIDAD: probado por el proyecto en PS5/PS5 Pro con FW 6.02-12.70.",
-      "last_update": "2026-10-03",
-      "version": "1.8",
+      "last_update": "2026-10-04",
+      "version": "1.85",
       "category": "EMULADORES",
       "checksum": "737d95a8a1545447c4166b094005704465e420f79f54e882e30e7f9e4cde6210"
     },
     {
       "name": "PS5SX2 Installer",
       "filename": "PS5SX2Installer.elf",
-      "url": "https://github.com/Swordpdf/PS5SX2/releases/download/vk-285-122/PS5SX2Installer.elf",
+      "url": "https://github.com/Swordpdf/PS5SX2/releases/download/vk-285-128/PS5SX2Installer.elf",
       "source": "https://github.com/Swordpdf/PS5SX2/releases",
-      "source_direct": "https://github.com/Swordpdf/PS5SX2/releases/download/vk-285-122/PS5SX2Installer.elf",
+      "source_direct": "https://github.com/Swordpdf/PS5SX2/releases/download/vk-285-128/PS5SX2Installer.elf",
       "description": "Instalador y actualizador oficial de PS5SX2, el port nativo de PCSX2 para PS5. Debe usarse junto con PS5SX2 Helper y ShadowMountPlus. ESTADO: EN PRUEBAS. COMPATIBILIDAD: probado por el proyecto en PS5/PS5 Pro con FW 6.02-12.70.",
-      "last_update": "2026-10-03",
-      "version": "1.8",
+      "last_update": "2026-10-04",
+      "version": "1.85",
       "category": "EMULADORES",
       "checksum": "6b1be3ea24ec8144b27b2a1f3e279cd17574f3093e9431abf8579dcc6c0bfae9"
     },
@@ -532,14 +532,14 @@
     {
       "name": "Orbit Store",
       "filename": "orbit_store.elf",
-      "url": "https://github.com/saawant12/orbit-store-ps5/releases/download/v0.3.0/orbit_store.elf",
+      "url": "https://github.com/saawant12/orbit-store-ps5/releases/download/v0.4.2/orbit_store.elf",
       "source": "https://github.com/saawant12/orbit-store-ps5/releases",
-      "source_direct": "https://github.com/saawant12/orbit-store-ps5/releases/download/v0.3.0/orbit_store.elf",
+      "source_direct": "https://github.com/saawant12/orbit-store-ps5/releases/download/v0.4.2/orbit_store.elf",
       "description": "Gestor de descargas para PS5 con cola persistente, pausa/reanudacion, seleccion de almacenamiento e interfaz local para movil/PC. Usar unicamente con contenido que se tenga derecho a descargar. ESTADO: EN PRUEBAS.",
-      "last_update": "2026-10-03",
-      "version": "v0.3.0",
+      "last_update": "2026-10-04",
+      "version": "v0.4.2",
       "category": "DESCARGAS",
-      "checksum": "d3a1e2a8dd0043808b706c7c3355032cb55b566e60a2c22c320092f4272ba7b5"
+      "checksum": "0b31068fec0319cf79cf7caf16f547d2a9f7daa9b6fb15cdfd53f14ea0756760"
     },
     {
       "name": "PatchDL",
