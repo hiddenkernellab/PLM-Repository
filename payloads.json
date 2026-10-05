@@ -532,14 +532,14 @@
     {
       "name": "Orbit Store",
       "filename": "orbit_store.elf",
-      "url": "https://github.com/saawant12/orbit-store-ps5/releases/download/v0.6.1/orbit_store.elf",
+      "url": "https://github.com/saawant12/orbit-store-ps5/releases/download/v0.7.0/orbit_store.elf",
       "source": "https://github.com/saawant12/orbit-store-ps5/releases",
-      "source_direct": "https://github.com/saawant12/orbit-store-ps5/releases/download/v0.6.1/orbit_store.elf",
+      "source_direct": "https://github.com/saawant12/orbit-store-ps5/releases/download/v0.7.0/orbit_store.elf",
       "description": "Gestor de descargas para PS5 con cola persistente, pausa/reanudacion, seleccion de almacenamiento e interfaz local para movil/PC. Usar unicamente con contenido que se tenga derecho a descargar. ESTADO: EN PRUEBAS.",
-      "last_update": "2026-10-04",
-      "version": "v0.6.1",
+      "last_update": "2026-10-05",
+      "version": "v0.7.0",
       "category": "DESCARGAS",
-      "checksum": "cb548c8c39e45d6a1b72bb81f0b7c74d569fd050aafdd9ce163fa3ac8e738bc2"
+      "checksum": "12f9f3b7cb66ba45ae6ce3732781a4ae2ed3228f14d4f85fba0cebe6adfa2eb8"
     },
     {
       "name": "PatchDL",
@@ -699,27 +699,27 @@
     },
     {
       "name": "PS5 Web File Manager",
-      "filename": "ps5-web-file-manager_v1.9.elf",
-      "url": "https://github.com/owendswang/ps5-web-file-manager/releases/download/v1.9/web-file-mgr-v1.9.elf",
+      "filename": "ps5-web-file-manager_v1.10.elf",
+      "url": "https://github.com/owendswang/ps5-web-file-manager/releases/download/v1.10/web-file-mgr-v1.10.elf",
       "source": "https://github.com/owendswang/ps5-web-file-manager/releases",
-      "source_direct": "https://github.com/owendswang/ps5-web-file-manager/releases/download/v1.9/web-file-mgr-v1.9.elf",
+      "source_direct": "https://github.com/owendswang/ps5-web-file-manager/releases/download/v1.10/web-file-mgr-v1.10.elf",
       "description": "Explorador web ligero para mover archivos desde la red local e instalar PKG. ESTADO: ESTABILIDAD NO DOCUMENTADA.",
-      "last_update": "2026-09-16",
-      "version": "v1.9",
+      "last_update": "2026-10-05",
+      "version": "v1.10",
       "category": "ARCHIVOS / PC",
-      "checksum": "711cb076e887fcd55d973ade8b84bb6c22720be295bfde18e32761f6e0479a3e"
+      "checksum": "409145ec9a1c338ecb5f6f917c3b057c4ba48bfae2e86d621e19dda7ac129bd3"
     },
     {
       "name": "ps5upload",
-      "filename": "ps5upload_v5.41.0.elf",
-      "url": "https://github.com/phantomptr/ps5upload/releases/download/v5.41.0/ps5upload-5.41.0.elf",
+      "filename": "ps5upload_v6.0.0.elf",
+      "url": "https://github.com/phantomptr/ps5upload/releases/download/v6.0.0/ps5upload-6.0.0.elf",
       "source": "https://github.com/phantomptr/ps5upload/releases",
-      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v5.41.0/ps5upload-5.41.0.elf",
+      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v6.0.0/ps5upload-6.0.0.elf",
       "description": "Transfiere archivos entre PS5 y PC/Android con control de integridad y soporte para reanudar envios. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 1.00-12.70; probado en hardware en 5.10, 9.60 y 12.20.",
-      "last_update": "2026-10-01",
-      "version": "v5.41.0",
+      "last_update": "2026-10-05",
+      "version": "v6.0.0",
       "category": "ARCHIVOS / PC",
-      "checksum": "90db08434228a08554e06a949f26457fb25c9b607f126fa63616b8d261426dee"
+      "checksum": "2395d07eb8c316cbf96e8850c6d58ace6c86983c4607a45d00755be793088f98"
     },
     {
       "name": "ShadowMountPlus FPKG",
