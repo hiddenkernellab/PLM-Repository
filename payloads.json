@@ -62,6 +62,18 @@
       "checksum": "4845cac45095361b8983b14d6690622183b0dcfbf6d7fda16e161aa91ff0531e"
     },
     {
+      "name": "etaHEN 13.60",
+      "filename": "etaHEN-13.60.elf",
+      "url": "https://github.com/GronedWaffel/etahen-11.00-13.60/releases/download/v2.5B-13.60-r3/etaHEN-13.60.elf",
+      "source": "https://github.com/GronedWaffel/etahen-13.60/releases",
+      "source_direct": "https://github.com/GronedWaffel/etahen-11.00-13.60/releases/download/v2.5B-13.60-r3/etaHEN-13.60.elf",
+      "description": "Port no oficial de etaHEN 2.5B para PS5 FW 13.60. Usar solo en 13.60; no sustituye a etaHEN oficial 2.5B. ESTADO: ESTABILIDAD NO DOCUMENTADA.",
+      "last_update": "2026-10-01",
+      "version": "v2.5B-13.60-r3",
+      "category": "HEN / AIO",
+      "checksum": "aa166a43347d10a31f7efa5ca26ec32f512c65e8910466bfc8033537337b87b2"
+    },
+    {
       "name": "OnionHEN",
       "filename": "onionHEN_v0.0.13.elf",
       "url": "https://github.com/aydencharles/onionHEN/releases/download/v0.0.13/OnionHEN.elf",
@@ -135,15 +147,15 @@
     },
     {
       "name": "ProsperoMgr",
-      "filename": "ProsperoMgr_vbeta.elf",
-      "url": "https://nexgen999.github.io/PS5-Super-PLDMGR-Auto-Updater/payloads/ps5_hen_loader/ProsperoMgr/beta/ProsperoMgr_vbeta.elf",
-      "source": "https://github.com/notmaj0r/ProsperoMgr",
-      "source_direct": "https://nexgen999.github.io/PS5-Super-PLDMGR-Auto-Updater/payloads/ps5_hen_loader/ProsperoMgr/beta/ProsperoMgr_vbeta.elf",
-      "description": "Gestor web AIO para archivos, payloads, PKG, saves, procesos, autoload y datos del sistema. ESTADO: EN PRUEBAS.",
-      "last_update": "",
-      "version": "beta",
+      "filename": "ProsperoMgr.elf",
+      "url": "https://github.com/notmaj0r/ProsperoMgr/releases/download/v1.1/ProsperoMgr.elf",
+      "source": "https://github.com/notmaj0r/ProsperoMgr/releases",
+      "source_direct": "https://github.com/notmaj0r/ProsperoMgr/releases/download/v1.1/ProsperoMgr.elf",
+      "description": "Gestor web AIO para archivos, payloads, PKG, saves, procesos, autoload y datos del sistema. Release oficial estable. ESTADO: ESTABLE.",
+      "last_update": "2026-09-28",
+      "version": "v1.1",
       "category": "SISTEMA",
-      "checksum": "6cde8d8e97478ff43f69d2c6b22ac6512311d83b1d9ceb09d56796b9200c1b3c"
+      "checksum": "e7a6bb544adb2fb2a61aa9cc83b0ad15f70b32d7511a3de0f1fb88812f11983c"
     },
     {
       "name": "PS5 WebKit Autoloader",
@@ -315,15 +327,15 @@
     },
     {
       "name": "PS5 Game Compressor",
-      "filename": "PS5-Game-Compressor_v1.0.4.elf",
-      "url": "https://github.com/juma-sayeh/PS5-Game-Compressor/releases/download/v1.0.4/game-compressor.elf",
-      "source": "https://github.com/juma-sayeh/PS5-Game-Compressor/releases",
-      "source_direct": "https://github.com/juma-sayeh/PS5-Game-Compressor/releases/download/v1.0.4/game-compressor.elf",
-      "description": "Comprime, descomprime, valida y repara juegos usados con ShadowMountPlus y ofrece funciones para APR Emu. ESTADO: ESTABILIDAD NO DOCUMENTADA.",
-      "last_update": "2026-08-21",
-      "version": "v1.0.4",
+      "filename": "PS5-Game-Compressor_v1.1.1.elf",
+      "url": "https://github.com/gcoding97/PS5-Game-Compressor/releases/download/v1.1.1/game-compressor.elf",
+      "source": "https://github.com/gcoding97/PS5-Game-Compressor/releases",
+      "source_direct": "https://github.com/gcoding97/PS5-Game-Compressor/releases/download/v1.1.1/game-compressor.elf",
+      "description": "Fork mantenido de PS5 Game Compressor para comprimir, descomprimir, validar y reparar juegos usados con ShadowMountPlus. ESTADO: ESTABLE.",
+      "last_update": "2026-10-02",
+      "version": "v1.1.1",
       "category": "JUEGOS / COMPATIBILIDAD",
-      "checksum": "e55e90aaade13b6e0d4316c1597ef90a21b67a06475c3e25de054224bc1e941b"
+      "checksum": "5fec05b8a3cb89bafbc97970d5d68d9f31e6fcde873b5523243890e50836592b"
     },
     {
       "name": "PS5SX2 Helper",
@@ -458,6 +470,18 @@
       "checksum": "91806229803845930b2173174e1afeadf509e4c171f6396788f929558fad6849"
     },
     {
+      "name": "PS5 Fan Control",
+      "filename": "ps5-fan-control-v0.3.elf",
+      "url": "https://github.com/owendswang/ps5-fan-control/releases/download/v0.3/ps5-fan-control-v0.3.elf",
+      "source": "https://github.com/owendswang/ps5-fan-control/releases",
+      "source_direct": "https://github.com/owendswang/ps5-fan-control/releases/download/v0.3/ps5-fan-control-v0.3.elf",
+      "description": "Control independiente del ventilador con temperatura objetivo configurable. ESTADO: ESTABILIDAD NO DOCUMENTADA.",
+      "last_update": "2026-08-08",
+      "version": "v0.3",
+      "category": "UTILIDADES",
+      "checksum": "b10b6b9b9c00efed8bf9202a83b6cb762345d1f84130a419eff7139250026b36"
+    },
+    {
       "name": "PS5 Hardware Overlay",
       "filename": "ps5_overlay.elf",
       "url": "https://github.com/smoxa/ps5-new-overlay/releases/download/v1.0.15/ps5_overlay.elf",
@@ -470,6 +494,18 @@
       "checksum": "5e843b4b20b5954802a88722e5f9436d71d29bc3c82c22d7aa828b83b9960ff9"
     },
     {
+      "name": "PS5 SysLang",
+      "filename": "ps5-syslang-ar-v0.2.1.elf",
+      "url": "https://github.com/owendswang/ps5-syslang/releases/download/v0.2.1/ps5-syslang-ar-v0.2.1.elf",
+      "source": "https://github.com/owendswang/ps5-syslang/releases",
+      "source_direct": "https://github.com/owendswang/ps5-syslang/releases/download/v0.2.1/ps5-syslang-ar-v0.2.1.elf",
+      "description": "Permite cambiar el idioma de ShellUI, incluso en consolas con limitaciones regionales de idioma. ESTADO: ESTABILIDAD NO DOCUMENTADA.",
+      "last_update": "2026-10-01",
+      "version": "v0.2.1",
+      "category": "UTILIDADES",
+      "checksum": "4c73035028de95edc173e3b038030615d8c86bf03a52bc9958efc5f26687ad99"
+    },
+    {
       "name": "ps5debug-NG",
       "filename": "ps5debug-NG_v1.3.2.elf",
       "url": "https://github.com/Pharaoh2k/ps5debug-NG/releases/download/1.3.2/ps5debug-NG_v1.3.2.elf",
@@ -480,6 +516,18 @@
       "version": "1.3.2",
       "category": "UTILIDADES",
       "checksum": "949b0e6e0fe3f24f4a820319fd76d9ccb92f9770cbb1a64b09a8eca5c1fc9ff3"
+    },
+    {
+      "name": "PS5LM",
+      "filename": "ps5lm.elf",
+      "url": "https://github.com/cobanov/PS5LM/releases/download/v0.1.1/ps5lm.elf",
+      "source": "https://github.com/cobanov/PS5LM/releases",
+      "source_direct": "https://github.com/cobanov/PS5LM/releases/download/v0.1.1/ps5lm.elf",
+      "description": "Ejecuta modelos GGUF localmente en PS5 mediante llama.cpp y ofrece biblioteca web, chat local y API compatible con OpenAI en la LAN. ESTADO: EXPERIMENTAL.",
+      "last_update": "2026-10-02",
+      "version": "v0.1.1",
+      "category": "UTILIDADES",
+      "checksum": "10ee1a913e2d534fc81e1822e5969a6d70740ff88f4eb7c8fe98789d22152126"
     },
     {
       "name": "CheatRunner",
