@@ -7,7 +7,7 @@
 #
 # OBJETIVOS
 # ---------
-# 1) Retirar del catálogo normal los restos de las primeras pruebas FPKG:
+# 1) Conservar las primeras pruebas FPKG como historico TEST/LEGACY:
 #    - A53/PPR separados
 #    - kstuff FPKG test builds
 #    - AIO 3-in-1 experimentales
@@ -245,6 +245,21 @@ def add_curated_evox_elf(ns):
             ),
         ),
 
+        # JUEGOS / COMPATIBILIDAD
+        dict(
+            name="PS5 Game Compressor Fork",
+            repo="gcoding97/PS5-Game-Compressor",
+            match=["game-compressor"],
+            category="JUEGOS / COMPATIBILIDAD",
+            channels=["stable"],
+            single_latest=True,
+            elf_only=True,
+            desc=(
+                "Fork mantenido de PS5 Game Compressor para comprimir juegos directamente "
+                "en PS5 y reducir espacio ocupado"
+            ),
+        ),
+
         # EMULACIÓN
         dict(
             name="RomM Sync",
@@ -257,6 +272,61 @@ def add_curated_evox_elf(ns):
             desc=(
                 "Cliente PS5 para servidores RomM: biblioteca, descarga de ROM/BIOS hacia "
                 "perfiles de emulador y sincronización de saves/savestates"
+            ),
+        ),
+
+        # BACKUP / JUEGOS
+        dict(
+            name="PS5 App Dumper",
+            repo="EchoStretch/ps5-app-dumper",
+            match=["ps5-app-dumper"],
+            category="JUEGOS / COMPATIBILIDAD",
+            channels=["stable", "beta"],
+            single_latest=True,
+            elf_only=True,
+            desc=(
+                "Dumper moderno de aplicaciones PS5. La rama 2.10 anade volcado de DLC, "
+                "cola ampliada, deteccion de dumps incompletos y mejoras de gestion"
+            ),
+        ),
+
+        # UTILIDADES / RED
+        dict(
+            name="PS5LM",
+            repo="cobanov/PS5LM",
+            match=["ps5lm.elf"],
+            category="UTILIDADES",
+            channels=["stable"],
+            single_latest=True,
+            elf_only=True,
+            desc=(
+                "Ejecuta modelos GGUF localmente en PS5 mediante llama.cpp y ofrece "
+                "biblioteca web, chat local y API compatible con OpenAI en la LAN"
+            ),
+        ),
+        dict(
+            name="PS5 SysLang",
+            repo="owendswang/ps5-syslang",
+            match=["ps5-syslang"],
+            category="UTILIDADES",
+            channels=["stable"],
+            single_latest=True,
+            elf_only=True,
+            desc=(
+                "Permite cambiar el idioma de ShellUI, incluso en consolas con "
+                "limitaciones regionales de idioma"
+            ),
+        ),
+        dict(
+            name="PS5 Fan Control",
+            repo="owendswang/ps5-fan-control",
+            match=["ps5-fan-control"],
+            category="UTILIDADES",
+            channels=["stable"],
+            single_latest=True,
+            elf_only=True,
+            desc=(
+                "Control independiente del ventilador con temperatura objetivo configurable"
             ),
         ),
 
@@ -422,6 +492,96 @@ def add_curated_evox_elf(ns):
 
 
 
+
+def apply_hiddenkernel_v2_maintenance(ns):
+    """Mantenimiento conservador sin cambiar el schema publico de Payload Manager."""
+    apps = ns["APPS"]
+
+    # Las familias FPKG historicas se conservan como TEST/LEGACY.
+    obsolete_categories = set()
+    kept = []
+    for app in apps:
+        name = str(app.get("name") or "")
+        cat = str(app.get("category") or "")
+        repo = str(app.get("repo") or "")
+
+        if cat in obsolete_categories:
+            continue
+        if cat == "ALTERNATIVOS" and name == "etaHEN":
+            continue
+        if repo in {"juma-sayeh/PS5-Game-Compressor", "gcoding97/PS5-Game-Compressor"}:
+            continue
+        if name == "ProsperoMgr":
+            continue
+        kept.append(app)
+
+    apps[:] = kept
+
+    apps.extend([
+        dict(
+            name="etaHEN 13.60",
+            repo="GronedWaffel/etahen-13.60",
+            match=["etaHEN-13.60.elf"],
+            category="HEN / AIO",
+            channels=["stable"],
+            single_latest=True,
+            elf_only=True,
+            desc=(
+                "Port no oficial de etaHEN 2.5B para PS5 FW 13.60. "
+                "Usar solo en 13.60; no sustituye a etaHEN oficial 2.5B"
+            ),
+        ),
+        dict(
+            name="ProsperoMgr",
+            repo="notmaj0r/ProsperoMgr",
+            match=["ProsperoMgr.elf"],
+            category="SISTEMA",
+            channels=["stable"],
+            single_latest=True,
+            elf_only=True,
+            desc=(
+                "Gestor web AIO para archivos, payloads, PKG, saves, procesos, "
+                "autoload y datos del sistema. Release oficial estable"
+            ),
+        ),
+        dict(
+            name="PS5 Game Compressor",
+            repo="gcoding97/PS5-Game-Compressor",
+            match=["game-compressor.elf"],
+            category="JUEGOS / COMPATIBILIDAD",
+            channels=["stable"],
+            single_latest=True,
+            elf_only=True,
+            desc=(
+                "Fork mantenido de PS5 Game Compressor para comprimir, descomprimir, "
+                "validar y reparar juegos usados con ShadowMountPlus"
+            ),
+        ),
+    ])
+
+    curated = ns["CURATED_STATUS"]
+    curated["etaHEN 13.60"] = [
+        (
+            r".*",
+            "NO OFICIAL / FW 13.60",
+            "Port r3 validado en hardware 13.60. No usar como sustituto general de etaHEN oficial.",
+        )
+    ]
+    curated["PS5 App Dumper"] = [
+        (r".*", "BETA / UTIL", "La rama 2.x sigue marcada beta por upstream.")
+    ]
+    curated["PS5LM"] = [
+        (r".*", "EXPERIMENTAL / LOCAL", "Proyecto nuevo; modelos pequenos y ejecucion local en PS5.")
+    ]
+    curated["ProsperoMgr"] = [
+        (r".*", "ESTABLE", "Release oficial estable desde el upstream del autor.")
+    ]
+    curated["PS5 Game Compressor"] = [
+        (r".*", "ESTABLE", "Fork mantenido; usar la release oficial mas reciente.")
+    ]
+
+
+
 def force_ascii_descriptions(ns):
     import unicodedata
 
@@ -451,17 +611,20 @@ def main():
     ns = current["load_base_namespace"]()
     current["extend_hiddenkernel"](ns)
 
-    # 3) Limpiamos ramas antiguas y duplicados de la época de FPKG experimental.
+    # 3) Limpiamos duplicados obsoletos sin borrar el historico FPKG TEST/LEGACY.
     clean_obsolete_entries(ns)
 
     # 4) Anadimos solo la seleccion nueva que merece la pena y tiene ELF.
     add_curated_evox_elf(ns)
 
-    # 5) Saneamos TODAS las descripciones para Payload Manager:
+    # 5) Mantenimiento v2: upstreams oficiales, sustituciones y limpieza definitiva.
+    apply_hiddenkernel_v2_maintenance(ns)
+
+    # 6) Saneamos TODAS las descripciones para Payload Manager:
     #    sin tildes ni otros diacriticos y con n en lugar de enie.
     force_ascii_descriptions(ns)
 
-    # 6) Ejecutamos el generador normal de HiddenKernel.
+    # 7) Ejecutamos el generador normal de HiddenKernel.
     ns["main"]()
 
 
