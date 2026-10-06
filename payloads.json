@@ -592,9 +592,9 @@
     {
       "name": "PatchDL",
       "filename": "patchdl_0.0.6.elf",
-      "url": "https://github.com/knutwurst/patchdl/releases/download/v0.0.6/patchdl_0.0.6.elf",
+      "url": "https://github.com/knutwurst/ps5-patchdl/releases/download/v0.0.6/patchdl_0.0.6.elf",
       "source": "https://github.com/knutwurst/patchdl/releases",
-      "source_direct": "https://github.com/knutwurst/patchdl/releases/download/v0.0.6/patchdl_0.0.6.elf",
+      "source_direct": "https://github.com/knutwurst/ps5-patchdl/releases/download/v0.0.6/patchdl_0.0.6.elf",
       "description": "Busca y descarga actualizaciones compatibles de juegos y permite gestionar el proceso desde la propia PS5. ESTADO: ESTABILIDAD NO DOCUMENTADA.",
       "last_update": "2026-06-25",
       "version": "v0.0.6",
