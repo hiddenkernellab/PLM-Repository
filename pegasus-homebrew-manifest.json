@@ -166,22 +166,15 @@
     },
     {
       "titleId": "PPSA99001",
-      "version": "01.000.005 / 02.000.055",
-      "url": "https://github.com/blackbearreloaded/ProsperoRadio/releases/download/01.000.005/PPSA99001.ffpfsc",
-      "sha256": "0f82072f1e8a4cc0dd56e6b0831fb068b68540530f78c93f9825c5c5bca21a6a",
-      "sizeBytes": 34275328,
+      "version": "02.000.055",
+      "url": "https://github.com/RastaFairy/Prospero_Radio_Vulkan/releases/download/02.000.055/PROSPERO_RADIO.ffpfsc",
+      "sha256": "7fc1350a77683c344b9098f1cdfc26fd9080fed3efce35891789bf08f0cfeeec",
+      "sizeBytes": 50135040,
       "posterUrl": "https://cdn.jsdelivr.net/gh/nexgen999/evoX-CoreOS@main/assets/icon/ProsperoRadio.png",
       "imageSource": "https://cdn.jsdelivr.net/gh/nexgen999/evoX-CoreOS@main/assets/icon/ProsperoRadio.png",
       "sourceType": "evox-coreos-import",
       "sourceCatalog": "https://raw.githubusercontent.com/nexgen999/evoX-CoreOS/main/json/pegasus_catalog.json",
       "artifacts": [
-        {
-          "name": "PPSA99001.ffpfsc",
-          "version": "01.000.005",
-          "url": "https://github.com/blackbearreloaded/ProsperoRadio/releases/download/01.000.005/PPSA99001.ffpfsc",
-          "sha256": "0f82072f1e8a4cc0dd56e6b0831fb068b68540530f78c93f9825c5c5bca21a6a",
-          "sizeBytes": 34275328
-        },
         {
           "name": "PROSPERO_RADIO.ffpfsc",
           "version": "02.000.055",
