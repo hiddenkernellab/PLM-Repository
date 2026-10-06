@@ -230,6 +230,18 @@
       "checksum": "e8c8e57bbda31b5d16d131797aac6f83b555cae8d439b1f475c952f3d9554eff"
     },
     {
+      "name": "PS5 Tailscale",
+      "filename": "tailscale.elf",
+      "url": "https://github.com/holdmysocks/ps5-tailscale/releases/download/v0.6.0/tailscale.elf",
+      "source": "https://github.com/holdmysocks/ps5-tailscale/releases",
+      "source_direct": "https://github.com/holdmysocks/ps5-tailscale/releases/download/v0.6.0/tailscale.elf",
+      "description": "Cliente Tailscale no oficial para acceso remoto a la PS5, Remote Play y recepcion de archivos mediante Taildrop. Requiere cuenta y configuracion de la tailnet. ESTADO: ESTABILIDAD NO DOCUMENTADA.",
+      "last_update": "2026-10-05",
+      "version": "v0.6.0",
+      "category": "ARCHIVOS / RED",
+      "checksum": "6f73be53ad09370f95a3c4ca4b96ddf193daaa70022f83511b0e352221b0d5cf"
+    },
+    {
       "name": "unrar-ps5",
       "filename": "unrar_ps5.elf",
       "url": "https://github.com/bizkut/unrar-ps5/releases/download/v1.4.0/unrar_ps5.elf",
@@ -580,14 +592,14 @@
     {
       "name": "Orbit Store",
       "filename": "orbit_store.elf",
-      "url": "https://github.com/saawant12/orbit-store-ps5/releases/download/v0.7.0/orbit_store.elf",
+      "url": "https://github.com/saawant12/orbit-store-ps5/releases/download/v0.8.0/orbit_store.elf",
       "source": "https://github.com/saawant12/orbit-store-ps5/releases",
-      "source_direct": "https://github.com/saawant12/orbit-store-ps5/releases/download/v0.7.0/orbit_store.elf",
+      "source_direct": "https://github.com/saawant12/orbit-store-ps5/releases/download/v0.8.0/orbit_store.elf",
       "description": "Gestor de descargas para PS5 con cola persistente, pausa/reanudacion, seleccion de almacenamiento e interfaz local para movil/PC. Usar unicamente con contenido que se tenga derecho a descargar. ESTADO: EN PRUEBAS.",
-      "last_update": "2026-10-05",
-      "version": "v0.7.0",
+      "last_update": "2026-10-06",
+      "version": "v0.8.0",
       "category": "DESCARGAS",
-      "checksum": "12f9f3b7cb66ba45ae6ce3732781a4ae2ed3228f14d4f85fba0cebe6adfa2eb8"
+      "checksum": "f8188366e1b6a36cf7ce1c3429df15a1d0fa69c2a93cb9cca36ea5a46cedbb4d"
     },
     {
       "name": "PatchDL",
@@ -612,6 +624,30 @@
       "version": "v1.10.1",
       "category": "DESCARGAS",
       "checksum": "b24fdc62fc6cad14684b214a9c5be6c1221585afbf9493e387ab90f9dee21138"
+    },
+    {
+      "name": "PS5 aria2",
+      "filename": "aria2-v1.37.0-3.elf",
+      "url": "https://github.com/owendswang/ps5-aria2/releases/download/v1.37.0-3/aria2-v1.37.0-3.elf",
+      "source": "https://github.com/owendswang/ps5-aria2/releases",
+      "source_direct": "https://github.com/owendswang/ps5-aria2/releases/download/v1.37.0-3/aria2-v1.37.0-3.elf",
+      "description": "Motor de descargas aria2 para PS5 con reanudacion, conexiones multiples e interfaz AriaNg en el puerto 6800. ESTADO: ESTABILIDAD NO DOCUMENTADA.",
+      "last_update": "2026-10-05",
+      "version": "v1.37.0-3",
+      "category": "DESCARGAS",
+      "checksum": "802d53a201545ea84a86c1a3bc2f9b84446a1d245ea11108b912116ffbc1a8a6"
+    },
+    {
+      "name": "PS5 Library",
+      "filename": "ps5-library.elf",
+      "url": "https://github.com/deox1111/ps5-library/releases/download/v0.7.10/ps5-library.elf",
+      "source": "https://github.com/deox1111/ps5-library/releases",
+      "source_direct": "https://github.com/deox1111/ps5-library/releases/download/v0.7.10/ps5-library.elf",
+      "description": "Biblioteca para PS5 con interfaz de mando, catalogos, instalacion y descargas reanudables. Requiere kstuff y ShadowMountPlus; 1.7beta4 o posterior permite listar juegos instalados desde PKG. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 13.60 probado por upstream; requiere kstuff y ShadowMountPlus.",
+      "last_update": "2026-10-06",
+      "version": "v0.7.10",
+      "category": "DESCARGAS",
+      "checksum": "5475e5f792b596b07167c3f97dd55067e2311903b7f76590f3083ce31694f164"
     },
     {
       "name": "Spectrum Library",
