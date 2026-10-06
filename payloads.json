@@ -759,15 +759,15 @@
     },
     {
       "name": "ps5upload",
-      "filename": "ps5upload_v6.1.1.elf",
-      "url": "https://github.com/phantomptr/ps5upload/releases/download/v6.1.1/ps5upload-6.1.1.elf",
+      "filename": "ps5upload_v6.1.2.elf",
+      "url": "https://github.com/phantomptr/ps5upload/releases/download/v6.1.2/ps5upload-6.1.2.elf",
       "source": "https://github.com/phantomptr/ps5upload/releases",
-      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v6.1.1/ps5upload-6.1.1.elf",
+      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v6.1.2/ps5upload-6.1.2.elf",
       "description": "Transfiere archivos entre PS5 y PC/Android con control de integridad y soporte para reanudar envios. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 1.00-12.70; probado en hardware en 5.10, 9.60 y 12.20.",
-      "last_update": "2026-10-05",
-      "version": "v6.1.1",
+      "last_update": "2026-10-06",
+      "version": "v6.1.2",
       "category": "ARCHIVOS / PC",
-      "checksum": "db3f750a1a0daecc9c6c25b85fadf47c1083185bd7e6a4f9628724382eee78c0"
+      "checksum": "1fdf0a79687a4a823dd7c331c267cf492f849bd2bc6666e2db496fc03e544162"
     },
     {
       "name": "ShadowMountPlus FPKG",
