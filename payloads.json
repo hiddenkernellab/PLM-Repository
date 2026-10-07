@@ -87,15 +87,15 @@
     },
     {
       "name": "OnionHEN",
-      "filename": "onionHEN_v0.9.0-beta1.elf",
-      "url": "https://github.com/aydencharles/onionHEN/releases/download/v0.9.0-beta1/OnionHEN.elf",
+      "filename": "onionHEN_v0.9.0-beta2.elf",
+      "url": "https://github.com/aydencharles/onionHEN/releases/download/v0.9.0-beta2/OnionHEN.elf",
       "source": "https://github.com/aydencharles/onionHEN/releases",
-      "source_direct": "https://github.com/aydencharles/onionHEN/releases/download/v0.9.0-beta1/OnionHEN.elf",
+      "source_direct": "https://github.com/aydencharles/onionHEN/releases/download/v0.9.0-beta2/OnionHEN.elf",
       "description": "HEN AIO con Toolbox, trucos, overlays y servicios integrados. ESTADO: ESTABLE.",
-      "last_update": "2026-10-03",
-      "version": "v0.9.0-beta1",
+      "last_update": "2026-10-07",
+      "version": "v0.9.0-beta2",
       "category": "HEN / AIO",
-      "checksum": "c587a0e92158d0a64f1c78e10a9743709b3ab194bee2d4cf8ffdd3147c3a7530"
+      "checksum": "dd2e78af126d9d115df147a0f2bff6269de7a3eee5a556e06b6c21726a36f087"
     },
     {
       "name": "PIZZA-HEN",
@@ -168,6 +168,18 @@
       "version": "v0.5.2",
       "category": "SISTEMA",
       "checksum": "f990e48e8330231d2066a7b8ab6dc25fda83b2cc36cb426c472b35b33767451a"
+    },
+    {
+      "name": "PS5 WebKit Autoloader",
+      "filename": "webkit-autoloader-installer_v0.6.0-pre-4488577.elf",
+      "url": "https://github.com/itsPLK/ps5-webkit-autoloader/releases/download/v0.6.0-pre-4488577/webkit-autoloader-installer_v0.6.0-pre-4488577.elf",
+      "source": "https://github.com/itsPLK/ps5-webkit-autoloader/releases",
+      "source_direct": "https://github.com/itsPLK/ps5-webkit-autoloader/releases/download/v0.6.0-pre-4488577/webkit-autoloader-installer_v0.6.0-pre-4488577.elf",
+      "description": "Autoloader WebKit oficial de itsPLK. Integra Relapse para FW 7.00-13.60 y umtx2 para FW 1.00-5.50, con instalacion en Media y carga automatizada de payloads. ESTADO: FIABILIDAD MEJORADA. COMPATIBILIDAD: FW 1.00-5.50 y 7.00-13.60.",
+      "last_update": "2026-10-07",
+      "version": "v0.6.0-pre-4488577",
+      "category": "SISTEMA",
+      "checksum": "7b7e2284c331599a6193cb00fa7d5fd227d784ef95ceda32b1485989ff1d6b21"
     },
     {
       "name": "ps5-payload-websrv",
@@ -795,15 +807,15 @@
     },
     {
       "name": "ps5upload",
-      "filename": "ps5upload_v6.2.3.elf",
-      "url": "https://github.com/phantomptr/ps5upload/releases/download/v6.2.3/ps5upload-6.2.3.elf",
+      "filename": "ps5upload_v6.3.0.elf",
+      "url": "https://github.com/phantomptr/ps5upload/releases/download/v6.3.0/ps5upload-6.3.0.elf",
       "source": "https://github.com/phantomptr/ps5upload/releases",
-      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v6.2.3/ps5upload-6.2.3.elf",
-      "description": "Transfiere archivos entre PS5 y PC/Android con control de integridad y soporte para reanudar envios. ESTADO: FIABILIDAD MEJORADA. COMPATIBILIDAD: FW 1.00-12.70; probado en hardware en 5.10, 9.60 y 12.20.",
+      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v6.3.0/ps5upload-6.3.0.elf",
+      "description": "Transfiere archivos entre PS5 y PC/Android con control de integridad y soporte para reanudar envios. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 1.00-12.70; probado en hardware en 5.10, 9.60 y 12.20.",
       "last_update": "2026-10-07",
-      "version": "v6.2.3",
+      "version": "v6.3.0",
       "category": "ARCHIVOS / PC",
-      "checksum": "19c0455f2e460badba95021501468dd7b06d3b8b3baa0348c7d3bc777d4c5f74"
+      "checksum": "9614060e2b7903bc583f14909dbade4357654e635606e29a4e93eee4886560b5"
     },
     {
       "name": "ShadowMountPlus FPKG",
