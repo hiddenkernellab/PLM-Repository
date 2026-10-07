@@ -640,14 +640,14 @@
     {
       "name": "PS5 Library",
       "filename": "ps5-library.elf",
-      "url": "https://github.com/deox1111/ps5-library/releases/download/v0.7.11/ps5-library.elf",
+      "url": "https://github.com/deox1111/ps5-library/releases/download/v0.7.12/ps5-library.elf",
       "source": "https://github.com/deox1111/ps5-library/releases",
-      "source_direct": "https://github.com/deox1111/ps5-library/releases/download/v0.7.11/ps5-library.elf",
+      "source_direct": "https://github.com/deox1111/ps5-library/releases/download/v0.7.12/ps5-library.elf",
       "description": "Biblioteca para PS5 con interfaz de mando, catalogos, instalacion y descargas reanudables. Requiere kstuff y ShadowMountPlus; 1.7beta4 o posterior permite listar juegos instalados desde PKG. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 13.60 probado por upstream; requiere kstuff y ShadowMountPlus.",
       "last_update": "2026-10-07",
-      "version": "v0.7.11",
+      "version": "v0.7.12",
       "category": "DESCARGAS",
-      "checksum": "4cee0f0349d368f6ec7186bac72914b056d54e4c49fb680204f1dce34a9c051a"
+      "checksum": "87c015f2a71861509b305ff75d9c5cd310ee437849ecca0436c0cd83c76a99a1"
     },
     {
       "name": "Spectrum Library",
