@@ -232,14 +232,14 @@
     {
       "name": "PS5 Tailscale",
       "filename": "tailscale.elf",
-      "url": "https://github.com/holdmysocks/ps5-tailscale/releases/download/v0.6.0/tailscale.elf",
+      "url": "https://github.com/holdmysocks/ps5-tailscale/releases/download/v0.7.0/tailscale.elf",
       "source": "https://github.com/holdmysocks/ps5-tailscale/releases",
-      "source_direct": "https://github.com/holdmysocks/ps5-tailscale/releases/download/v0.6.0/tailscale.elf",
+      "source_direct": "https://github.com/holdmysocks/ps5-tailscale/releases/download/v0.7.0/tailscale.elf",
       "description": "Cliente Tailscale no oficial para acceso remoto a la PS5, Remote Play y recepcion de archivos mediante Taildrop. Requiere cuenta y configuracion de la tailnet. ESTADO: ESTABILIDAD NO DOCUMENTADA.",
-      "last_update": "2026-10-05",
-      "version": "v0.6.0",
+      "last_update": "2026-10-06",
+      "version": "v0.7.0",
       "category": "ARCHIVOS / RED",
-      "checksum": "6f73be53ad09370f95a3c4ca4b96ddf193daaa70022f83511b0e352221b0d5cf"
+      "checksum": "20c246b0426bc7dd66df1fb566ba53d62d432f4171f7f4caf4b3808725f0a8fb"
     },
     {
       "name": "unrar-ps5",
