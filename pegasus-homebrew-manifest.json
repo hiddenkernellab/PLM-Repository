@@ -207,27 +207,6 @@
       "provenance": "Entrada homebrew importada de EvoX-CoreOS. Cada descarga se valida contra el asset publicado en GitHub Releases; HiddenKernel no aloja el binario."
     },
     {
-      "titleId": "PPSA99003",
-      "version": "01.000.015",
-      "url": "https://github.com/blackbearreloaded/ProsperoTV/releases/download/01.000.015/PPSA99003.ffpfsc",
-      "sha256": "4d5ea7fd048d299b4ce11462d1fb6264908f21ad3743ee3df3792c96ac08648d",
-      "sizeBytes": 34078720,
-      "posterUrl": "https://cdn.jsdelivr.net/gh/nexgen999/evoX-CoreOS@main/assets/icon/prosperotv.png",
-      "imageSource": "https://cdn.jsdelivr.net/gh/nexgen999/evoX-CoreOS@main/assets/icon/prosperotv.png",
-      "sourceType": "evox-coreos-import",
-      "sourceCatalog": "https://raw.githubusercontent.com/nexgen999/evoX-CoreOS/main/json/pegasus_catalog.json",
-      "artifacts": [
-        {
-          "name": "PPSA99003.ffpfsc",
-          "version": "01.000.015",
-          "url": "https://github.com/blackbearreloaded/ProsperoTV/releases/download/01.000.015/PPSA99003.ffpfsc",
-          "sha256": "4d5ea7fd048d299b4ce11462d1fb6264908f21ad3743ee3df3792c96ac08648d",
-          "sizeBytes": 34078720
-        }
-      ],
-      "provenance": "Entrada homebrew importada de EvoX-CoreOS. Cada descarga se valida contra el asset publicado en GitHub Releases; HiddenKernel no aloja el binario."
-    },
-    {
       "titleId": "PPSA99051",
       "version": "0.2.10",
       "url": "https://github.com/rdiol12/PS5Library/releases/download/v0.2.10/PS5Library.pkg",

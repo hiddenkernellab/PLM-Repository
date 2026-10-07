@@ -124,21 +124,6 @@
       "sizeBytes": 50135040
     },
     {
-      "titleId": "PPSA99003",
-      "title": "ProsperoTV",
-      "version": "01.000.015",
-      "description": "ProsperoTV, reproductor IPTV para PS5.",
-      "downloadSource": "https://github.com/nexgen999/evoX-CoreOS",
-      "downloadLinks": [
-        {
-          "name": "ProsperoTV",
-          "url": "https://github.com/blackbearreloaded/ProsperoTV/releases/download/01.000.015/PPSA99003.ffpfsc"
-        }
-      ],
-      "posterUrl": "https://cdn.jsdelivr.net/gh/nexgen999/evoX-CoreOS@main/assets/icon/prosperotv.png",
-      "sizeBytes": 34078720
-    },
-    {
       "titleId": "NPXS39041",
       "title": "PS5 Homebrew Store",
       "version": "1.0",
