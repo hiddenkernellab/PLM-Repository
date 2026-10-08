@@ -147,15 +147,15 @@
     },
     {
       "name": "PS5 WebKit Autoloader",
-      "filename": "webkit-autoloader-installer_v0.6.0.elf",
-      "url": "https://github.com/itsPLK/ps5-webkit-autoloader/releases/download/v0.6.0/webkit-autoloader-installer_v0.6.0.elf",
+      "filename": "webkit-autoloader-installer_v0.6.1.elf",
+      "url": "https://github.com/itsPLK/ps5-webkit-autoloader/releases/download/v0.6.1/webkit-autoloader-installer_v0.6.1.elf",
       "source": "https://github.com/itsPLK/ps5-webkit-autoloader/releases",
-      "source_direct": "https://github.com/itsPLK/ps5-webkit-autoloader/releases/download/v0.6.0/webkit-autoloader-installer_v0.6.0.elf",
-      "description": "Autoloader WebKit oficial de itsPLK. Integra Relapse para FW 7.00-13.60 y umtx2 para FW 1.00-5.50, con instalacion en Media y carga automatizada de payloads. ESTADO: FIABILIDAD MEJORADA. COMPATIBILIDAD: FW 1.00-5.50 y 7.00-13.60.",
+      "source_direct": "https://github.com/itsPLK/ps5-webkit-autoloader/releases/download/v0.6.1/webkit-autoloader-installer_v0.6.1.elf",
+      "description": "Autoloader WebKit oficial de itsPLK. Rama 0.6.x con Poops y Relapse. v0.6.1 corrige Poops en FW 9.05, 11.40 y 11.60; Relapse no admite 9.05 ni 11.40. La rama 0.6.x no admite FW 1.00-5.50 (umtx2 retirado). La version se selecciona automaticamente desde la release oficial. ESTADO: ESTABLE. COMPATIBILIDAD: FW 1.00-5.50 y 7.00-13.60.",
       "last_update": "2026-10-08",
-      "version": "v0.6.0",
+      "version": "v0.6.1",
       "category": "SISTEMA",
-      "checksum": "b4dc090ea7f22529d507e684909ab4524a21a6a26777a425bf787dbffc5b419c"
+      "checksum": "f662c75a502e4f1bc41b055dcb490625f8222c499ce437dc80f439a3a279e93f"
     },
     {
       "name": "ps5-payload-websrv",
@@ -195,27 +195,27 @@
     },
     {
       "name": "PS5 Tailscale",
-      "filename": "tailscale.elf",
-      "url": "https://github.com/holdmysocks/ps5-tailscale/releases/download/v0.7.0/tailscale.elf",
+      "filename": "tailscale-0.7.1.elf",
+      "url": "https://github.com/holdmysocks/ps5-tailscale/releases/download/v0.7.1/tailscale-0.7.1.elf",
       "source": "https://github.com/holdmysocks/ps5-tailscale/releases",
-      "source_direct": "https://github.com/holdmysocks/ps5-tailscale/releases/download/v0.7.0/tailscale.elf",
-      "description": "Cliente Tailscale no oficial para acceso remoto a la PS5, Remote Play y recepcion de archivos mediante Taildrop. Requiere cuenta y configuracion de la tailnet. ESTADO: ESTABILIDAD NO DOCUMENTADA.",
+      "source_direct": "https://github.com/holdmysocks/ps5-tailscale/releases/download/v0.7.1/tailscale-0.7.1.elf",
+      "description": "Cliente Tailscale no oficial para acceso remoto a la PS5. v0.7.1 incorpora Wake-on-LAN, diagnosticos descargables y pruebas de conexion. No equivale a una VPN completa. Al actualizar, revisar el ELF configurado en autoload. ESTADO: ESTABLE.",
       "last_update": "2026-10-06",
-      "version": "v0.7.0",
+      "version": "v0.7.1",
       "category": "ARCHIVOS / RED",
-      "checksum": "20c246b0426bc7dd66df1fb566ba53d62d432f4171f7f4caf4b3808725f0a8fb"
+      "checksum": "af320493c8e2fc3443b8f42496ac11aa3db77b112e95777706d835eccd304cb9"
     },
     {
       "name": "ps5upload",
-      "filename": "ps5upload_v6.4.0.elf",
-      "url": "https://github.com/phantomptr/ps5upload/releases/download/v6.4.0/ps5upload-6.4.0.elf",
+      "filename": "ps5upload_v6.5.0.elf",
+      "url": "https://github.com/phantomptr/ps5upload/releases/download/v6.5.0/ps5upload-6.5.0.elf",
       "source": "https://github.com/phantomptr/ps5upload/releases",
-      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v6.4.0/ps5upload-6.4.0.elf",
+      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v6.5.0/ps5upload-6.5.0.elf",
       "description": "Transfiere archivos entre PS5 y PC/Android con control de integridad y soporte para reanudar envios. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 1.00-12.70; probado en hardware en 5.10, 9.60 y 12.20.",
       "last_update": "2026-10-08",
-      "version": "v6.4.0",
+      "version": "v6.5.0",
       "category": "ARCHIVOS / RED",
-      "checksum": "b0392932ae957821fbaccee44d761a9320655995ccfa80c9ffdcc5cec2497f70"
+      "checksum": "af6aac4acc7776909124eba6b737a9119e587364eeb1f63f9a4382589a8e0b56"
     },
     {
       "name": "unrar-ps5",
