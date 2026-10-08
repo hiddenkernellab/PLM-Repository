@@ -72,6 +72,27 @@ def clean(ns):
             app["category"] = "ARCHIVOS / RED"
         elif app.get("name") == "Orbit Store":
             app["category"] = "DESCARGAS"
+        elif app.get("name") == "PS5 Tailscale":
+            # Since 0.7.1 the ELF asset is versioned (tailscale-0.7.1.elf).
+            # The old exact fragment tailscale.elf no longer matches it.
+            app["match"] = ["tailscale"]
+            app["desc"] = (
+                "Cliente Tailscale no oficial para acceso remoto a la PS5. "
+                "v0.7.1 incorpora Wake-on-LAN, diagnosticos descargables "
+                "y pruebas de conexion. No equivale a una VPN completa. "
+                "Al actualizar, revisar el ELF configurado en autoload."
+            )
+        elif app.get("name") == "PS5 WebKit Autoloader":
+            # 0.6.1: Poops offsets fixed for FW 9.05, 11.40 and 11.60.
+            # Relapse still does not support 9.05 or 11.40.
+            # The 0.6.x branch no longer supports umtx2 / FW 1.00-5.50.
+            app["desc"] = (
+                "Autoloader WebKit oficial de itsPLK. Rama 0.6.x con Poops y Relapse. "
+                "v0.6.1 corrige Poops en FW 9.05, 11.40 y 11.60; "
+                "Relapse no admite 9.05 ni 11.40. "
+                "La rama 0.6.x no admite FW 1.00-5.50 (umtx2 retirado). "
+                "La version se selecciona automaticamente desde la release oficial."
+            )
     curated=ns.get("CURATED_STATUS",{})
     for x in REMOVE_NAMES: curated.pop(x,None)
     curated.update({
@@ -81,6 +102,12 @@ def clean(ns):
                            "Seguir la ultima release ELF oficial. v6.4.0 corrige instalacion desde enlaces y el helper de PS5.")],
       "Orbit Store":[(r".*","BETA / DESCARGAS",
                            "v0.9.0 mejora la cola y deteccion de SSD M.2; mantener actualizaciones del ELF desde upstream.")],
+      "PS5 Tailscale":[(r".*","ESTABLE / RED REMOTA",
+                           "v0.7.1 incluye Wake-on-LAN, diagnosticos y pruebas de conexion. "
+                           "Revisar autoload para no volver a iniciar el ELF anterior.")],
+      "PS5 WebKit Autoloader":[(r".*","ESTABLE / POOPS-RELAPSE",
+                           "v0.6.1 repara Poops en 9.05, 11.40 y 11.60. "
+                           "Relapse no funciona en 9.05 ni 11.40; 1.00-5.50 no admitidos en 0.6.x.")],
       "XPSemu Helper":[(r".*","ALPHA / XBOX ORIGINAL",
                            "Alpha 2: helper.elf. No es el emulador completo; requiere la app XPSemu instalada.")],
       "PuckbridgePS5":[(r".*","ESTABLE / MANDOS","Alternativa avanzada a Ghostcontrol; validar el mando antes de autoload.")],
@@ -96,7 +123,7 @@ def main():
     ns["force_ascii_descriptions"](ns)
     clean(ns)
     # El generador original consulta siempre las releases oficiales de cada repo:
-    # PS5Upload 6.4.0 y Orbit Store 0.9.0 se seleccionan automaticamente.
+    # Las versiones ELF se seleccionan automaticamente desde upstream.
     ns["generate_catalog"]()
 
 if __name__=="__main__":
