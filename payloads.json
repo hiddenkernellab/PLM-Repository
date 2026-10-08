@@ -110,18 +110,6 @@
       "checksum": "8535d399612d61c50a528b2ae416f2fc3ccfb7480296df99c17302583fb3e345"
     },
     {
-      "name": "ELF Arsenal",
-      "filename": "ELF_Arsenal_v1.6.23.elf",
-      "url": "https://git.etawen.dev/soniciso/elf-arsenal/releases/download/v1.6.23/elf-arsenal.elf",
-      "source": "https://git.etawen.dev/soniciso/elf-arsenal/releases",
-      "source_direct": "https://git.etawen.dev/soniciso/elf-arsenal/releases/download/v1.6.23/elf-arsenal.elf",
-      "description": "AIO con muchas herramientas y payloads integrados. Proyecto discontinuado; se conserva por su utilidad en sistemas ya configurados. ESTADO: ESTABILIDAD NO DOCUMENTADA.",
-      "last_update": "2026-09-23",
-      "version": "v1.6.23",
-      "category": "SISTEMA",
-      "checksum": "20cdb0979ce627aff8e684a4506e18390a72492d5e3aa15ecef0bfe1bca08bb5"
-    },
-    {
       "name": "Jailbreak Store",
       "filename": "JailbreakStore.elf",
       "url": "https://github.com/notmaj0r/JailbreakStore/releases/download/Release/JailbreakStore.elf",
@@ -194,30 +182,6 @@
       "checksum": "54730c867c6e1148536fdcb370e63a7762d989ea87b62488ad4caff64d43f263"
     },
     {
-      "name": "PSVietHoa WebKit Autoloader",
-      "filename": "psviethoa-webkit-autoloader-installer_v0.1.0.elf",
-      "url": "https://github.com/thanhsondev/psviethoa-webkit-autoloader/releases/download/v0.1.0/psviethoa-webkit-autoloader-installer_v0.1.0.elf",
-      "source": "https://github.com/thanhsondev/psviethoa-webkit-autoloader/releases",
-      "source_direct": "https://github.com/thanhsondev/psviethoa-webkit-autoloader/releases/download/v0.1.0/psviethoa-webkit-autoloader-installer_v0.1.0.elf",
-      "description": "Fork independiente del WebKit Autoloader con Relapse para FW 7.00-13.60 y umtx2 para FW 1.00-5.50. Usa Title ID PSVH00001 y puede convivir con el WebKit Autoloader oficial. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 1.00-5.50 y 7.00-13.60.",
-      "last_update": "2026-09-29",
-      "version": "v0.1.0",
-      "category": "SISTEMA",
-      "checksum": "0f330772a4ffe94088975440585fd452a5dd30ca9d778bcb6d65e56570a34410"
-    },
-    {
-      "name": "WK Autoloader Relapse (X-F1REBALL-X)",
-      "filename": "wk-autoloader-relapse_v1.0.0.elf",
-      "url": "https://github.com/X-F1REBALL-X/wk-autoloader-relapse/releases/download/v1.0.0/installer.elf",
-      "source": "https://github.com/X-F1REBALL-X/wk-autoloader-relapse/releases",
-      "source_direct": "https://github.com/X-F1REBALL-X/wk-autoloader-relapse/releases/download/v1.0.0/installer.elf",
-      "description": "Variante con Relapse para FW 7.00-13.60 y umtx2 para FW 1.00-5.50. Permite elegir Payload Manager en 8084 o Elf Launcher en 1000, recuerda la seleccion y usa Title ID SLKT00001 para convivir con otros autoloaders. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 1.00-5.50 y 7.00-13.60.",
-      "last_update": "2026-09-29",
-      "version": "v1.0.0",
-      "category": "SISTEMA",
-      "checksum": "0b1eb17ef5683621cacfb1db2a32240151887cad31af1b35acd4b0d26635a9d5"
-    },
-    {
       "name": "AirPSX",
       "filename": "airpsx.elf",
       "url": "https://github.com/barisyild/airpsx/releases/download/0.19/airpsx.elf",
@@ -252,6 +216,18 @@
       "version": "v0.7.0",
       "category": "ARCHIVOS / RED",
       "checksum": "20c246b0426bc7dd66df1fb566ba53d62d432f4171f7f4caf4b3808725f0a8fb"
+    },
+    {
+      "name": "ps5upload",
+      "filename": "ps5upload_v6.4.0.elf",
+      "url": "https://github.com/phantomptr/ps5upload/releases/download/v6.4.0/ps5upload-6.4.0.elf",
+      "source": "https://github.com/phantomptr/ps5upload/releases",
+      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v6.4.0/ps5upload-6.4.0.elf",
+      "description": "Transfiere archivos entre PS5 y PC/Android con control de integridad y soporte para reanudar envios. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 1.00-12.70; probado en hardware en 5.10, 9.60 y 12.20.",
+      "last_update": "2026-10-08",
+      "version": "v6.4.0",
+      "category": "ARCHIVOS / RED",
+      "checksum": "b0392932ae957821fbaccee44d761a9320655995ccfa80c9ffdcc5cec2497f70"
     },
     {
       "name": "unrar-ps5",
@@ -367,7 +343,7 @@
       "url": "https://github.com/Swordpdf/PS5SX2/releases/download/vk-285-130/PS5SXHelper.elf",
       "source": "https://github.com/Swordpdf/PS5SX2/releases",
       "source_direct": "https://github.com/Swordpdf/PS5SX2/releases/download/vk-285-130/PS5SXHelper.elf",
-      "description": "Payload Helper oficial requerido por PS5SX2 para preparar/jailbreakear la aplicacion cuando arranca. El autor recomienda cargarlo junto con kstuff. ESTADO: EN PRUEBAS. COMPATIBILIDAD: probado por el proyecto en PS5/PS5 Pro con FW 6.02-12.70.",
+      "description": "Helper oficial requerido por PS5SX2 para los recompiladores y acceso a /data. Usar junto con kstuff. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: probado por el proyecto en PS5/PS5 Pro con FW 6.02-12.70.",
       "last_update": "2026-10-05",
       "version": "1.9",
       "category": "EMULADORES",
@@ -379,7 +355,7 @@
       "url": "https://github.com/Swordpdf/PS5SX2/releases/download/vk-285-130/PS5SX2Installer.elf",
       "source": "https://github.com/Swordpdf/PS5SX2/releases",
       "source_direct": "https://github.com/Swordpdf/PS5SX2/releases/download/vk-285-130/PS5SX2Installer.elf",
-      "description": "Instalador y actualizador oficial de PS5SX2, el port nativo de PCSX2 para PS5. Debe usarse junto con PS5SX2 Helper y ShadowMountPlus. ESTADO: EN PRUEBAS. COMPATIBILIDAD: probado por el proyecto en PS5/PS5 Pro con FW 6.02-12.70.",
+      "description": "Instalador oficial de PS5SX2. Instala y mantiene actualizada la build principal del emulador nativo de PS2 para PS5. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: probado por el proyecto en PS5/PS5 Pro con FW 6.02-12.70.",
       "last_update": "2026-10-05",
       "version": "1.9",
       "category": "EMULADORES",
@@ -396,6 +372,18 @@
       "version": "v1.0.2",
       "category": "EMULADORES",
       "checksum": "210b85775b551ca1267a5a84998e3cc9c498f764fcb7bbdd66a98d1c4c5a420d"
+    },
+    {
+      "name": "XPSemu Helper",
+      "filename": "xpsemu-helper.elf",
+      "url": "https://github.com/ZiZc3/XPSemu/releases/download/Alpha-2/helper.elf",
+      "source": "https://github.com/ZiZc3/XPSemu/releases",
+      "source_direct": "https://github.com/ZiZc3/XPSemu/releases/download/Alpha-2/helper.elf",
+      "description": "Helper para XPSemu, emulador nativo de Xbox original en PS5. Alpha 2 elimina whitelist y admite juegos en USB. Cargar junto con kstuff; evitar cargar simultaneamente helpers equivalentes. ESTADO: EXPERIMENTAL.",
+      "last_update": "2026-10-07",
+      "version": "Alpha-2",
+      "category": "EMULADORES",
+      "checksum": "29c271432859a394d433329c7a58c7df27912ad7fa5551cd2ac0374f834bf716"
     },
     {
       "name": "Nuvio PS5",
@@ -602,16 +590,28 @@
       "checksum": "55195ccb02fbdbfa002e9188b0eff72d7d2e6de6c7a1c91666f88c6c9ff0d6c0"
     },
     {
+      "name": "PuckbridgePS5",
+      "filename": "puckbridge-ps5.elf",
+      "url": "https://github.com/ThisIsAkill/PuckbridgePS5/releases/download/v1.4.0/ghost-control-ps5.elf",
+      "source": "https://github.com/ThisIsAkill/PuckbridgePS5/releases",
+      "source_direct": "https://github.com/ThisIsAkill/PuckbridgePS5/releases/download/v1.4.0/ghost-control-ps5.elf",
+      "description": "Fork ampliado de Ghostcontrol para Steam Controller 2026 y mandos compatibles, con rumble, gyro, flick stick, motion controls, trigger feedback, remapeo web y perfiles. ESTADO: ESTABLE.",
+      "last_update": "2026-10-02",
+      "version": "v1.4.0",
+      "category": "MANDOS / AUDIO",
+      "checksum": "c344b63a20ad5b2406fa46fd2b44dc56a9182e18ee52496f8dc80dbd9bee54a3"
+    },
+    {
       "name": "Orbit Store",
       "filename": "orbit_store.elf",
-      "url": "https://github.com/saawant12/orbit-store-ps5/releases/download/v0.8.0/orbit_store.elf",
+      "url": "https://github.com/saawant12/orbit-store-ps5/releases/download/v0.9.0/orbit_store.elf",
       "source": "https://github.com/saawant12/orbit-store-ps5/releases",
-      "source_direct": "https://github.com/saawant12/orbit-store-ps5/releases/download/v0.8.0/orbit_store.elf",
+      "source_direct": "https://github.com/saawant12/orbit-store-ps5/releases/download/v0.9.0/orbit_store.elf",
       "description": "Gestor de descargas para PS5 con cola persistente, pausa/reanudacion, seleccion de almacenamiento e interfaz local para movil/PC. Usar unicamente con contenido que se tenga derecho a descargar. ESTADO: EN PRUEBAS.",
-      "last_update": "2026-10-06",
-      "version": "v0.8.0",
+      "last_update": "2026-10-07",
+      "version": "v0.9.0",
       "category": "DESCARGAS",
-      "checksum": "f8188366e1b6a36cf7ce1c3429df15a1d0fa69c2a93cb9cca36ea5a46cedbb4d"
+      "checksum": "aeef769d81507157837a017886a72c169ee7acb472e7c029a1d5e830735762df"
     },
     {
       "name": "PatchDL",
@@ -686,30 +686,6 @@
       "checksum": "b18a866bac9deff45b921b7d3ea6143d541117b56c666d817ecdc81961829139"
     },
     {
-      "name": "etaHEN",
-      "filename": "etaHEN-2.6B.bin",
-      "url": "https://raw.githubusercontent.com/zecoxao/zecoxao.github.io/main/luasauce/payloads/etaHEN-2.6B.bin",
-      "source": "https://github.com/zecoxao/zecoxao.github.io/blob/main/luasauce/payloads/etaHEN-2.6B.bin",
-      "source_direct": "https://raw.githubusercontent.com/zecoxao/zecoxao.github.io/main/luasauce/payloads/etaHEN-2.6B.bin",
-      "description": "Build de pruebas de etaHEN con Toolbox, plugins, trucos y servicios integrados. ESTADO: BUILD DE PRUEBAS; esta build caduca el 1 de octubre de 2026. COMPATIBILIDAD: hasta FW 12.70.",
-      "last_update": "2026-08-18",
-      "version": "2.6B",
-      "category": "ALTERNATIVOS",
-      "checksum": "512c74a9d6f56bb5a4ab871a0306a8cbefb8b3d5454ba8f1d833b020b245a126"
-    },
-    {
-      "name": "ftpsrv Drakmor",
-      "filename": "ftpsrv-ps5.elf",
-      "url": "https://github.com/drakmor/ftpsrv/releases/download/1.16-ng-stable/ftpsrv-ps5.elf",
-      "source": "https://github.com/drakmor/ftpsrv/releases",
-      "source_direct": "https://github.com/drakmor/ftpsrv/releases/download/1.16-ng-stable/ftpsrv-ps5.elf",
-      "description": "Fork de ftpsrv orientado a PS5 con /proc, utilidades LOWER/UPPER y soporte reciente de descifrado SELF en firmwares altos. ESTADO: ESTABLE. COMPATIBILIDAD: hasta FW 13.60.",
-      "last_update": "2026-09-20",
-      "version": "1.16-ng-stable",
-      "category": "ALTERNATIVOS",
-      "checksum": "f19ae469b25453a7a4af4529527521d31f143100f18a2c6839666e7121c8bd32"
-    },
-    {
       "name": "ShadowMountPlus",
       "filename": "shadowmountplus_v1.7alpha13fix1.elf",
       "url": "https://hiddenkernellab.github.io/PLM-Repository/payloads/ShadowMountPlus/1.7alpha13fix1/shadowmountplus_v1.7alpha13fix1.elf",
@@ -720,18 +696,6 @@
       "version": "1.7alpha13fix1",
       "category": "ALTERNATIVOS",
       "checksum": "15af22e6cefefbcc9f16f137b5255b6b94d546788ba5f404dc9220da4759a6ff"
-    },
-    {
-      "name": "A53 PPR Install Fast",
-      "filename": "a53_ppr_install_fast.elf",
-      "url": "https://hiddenkernellab.github.io/PLM-Repository/payloads/fpkg-tests/a53_ppr_install_fast.elf",
-      "source": "Discord de Drakmor (fpkg-test-reports-only)",
-      "source_direct": "https://hiddenkernellab.github.io/PLM-Repository/payloads/fpkg-tests/a53_ppr_install_fast.elf",
-      "description": "Payload que instala en memoria el parche PPR del A53 para el flujo FPKG. La build fast activa por defecto el transporte rapido, persistente, batch y mixed-I/O; permite restaurar el estado original mediante la accion de desinstalacion. ESTADO: PRUEBA FPKG / A53. COMPATIBILIDAD: perfiles incluidos hasta FW 11.40.",
-      "last_update": "2026-09-15",
-      "version": "15.09-bf641bf7",
-      "category": "FPKG LEGACY",
-      "checksum": "bf641bf7b3502ceeb1853d36c6aaad7ef501a0d1af931fc3f013eebe08908ebc"
     },
     {
       "name": "BFpilot",
@@ -756,18 +720,6 @@
       "version": "v0.21.1",
       "category": "ARCHIVOS / PC",
       "checksum": "7d4b31c83eae4e056580482a3a074e1db25922efc74ac1e439473b45d71a5938"
-    },
-    {
-      "name": "kstuff-lite FPKG",
-      "filename": "kstuff-lite_v1.12-fpkg-dr-test8.elf",
-      "url": "https://hiddenkernellab.github.io/PLM-Repository/payloads/fpkg-tests/kstuff.elf",
-      "source": "Discord de Drakmor (fpkg-test-reports-only)",
-      "source_direct": "https://hiddenkernellab.github.io/PLM-Repository/payloads/fpkg-tests/kstuff.elf",
-      "description": "Build experimental de kstuff-lite preparada para las pruebas de FPKG nativos. No sustituye a la version recomendada de ESENCIALES salvo que se quiera probar FPKG. ESTADO: PRUEBA FPKG. COMPATIBILIDAD: FW compatibles hasta 11.40.",
-      "last_update": "2026-09-15",
-      "version": "1.12-fpkg-dr-test8",
-      "category": "FPKG LEGACY",
-      "checksum": "fafee1a13933e4a783e3438d7b3d10478e8dfd6f29e6e432a7a2a711650d81a4"
     },
     {
       "name": "PoorDS4",
@@ -804,30 +756,6 @@
       "version": "v1.10",
       "category": "ARCHIVOS / PC",
       "checksum": "409145ec9a1c338ecb5f6f917c3b057c4ba48bfae2e86d621e19dda7ac129bd3"
-    },
-    {
-      "name": "ps5upload",
-      "filename": "ps5upload_v6.3.1.elf",
-      "url": "https://github.com/phantomptr/ps5upload/releases/download/v6.3.1/ps5upload-6.3.1.elf",
-      "source": "https://github.com/phantomptr/ps5upload/releases",
-      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v6.3.1/ps5upload-6.3.1.elf",
-      "description": "Transfiere archivos entre PS5 y PC/Android con control de integridad y soporte para reanudar envios. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 1.00-12.70; probado en hardware en 5.10, 9.60 y 12.20.",
-      "last_update": "2026-10-07",
-      "version": "v6.3.1",
-      "category": "ARCHIVOS / PC",
-      "checksum": "2ff17e8096fa06c36fe27f4ea28d750733a9d10677ae6c566fd851f07da6b136"
-    },
-    {
-      "name": "ShadowMountPlus FPKG",
-      "filename": "shadowmountplus_v1.7alpha13fix1-13-g072c17.elf",
-      "url": "https://hiddenkernellab.github.io/PLM-Repository/payloads/fpkg-tests/shadowmountplus.elf",
-      "source": "Discord de Drakmor (fpkg-test-reports-only)",
-      "source_direct": "https://hiddenkernellab.github.io/PLM-Repository/payloads/fpkg-tests/shadowmountplus.elf",
-      "description": "Build experimental de ShadowMountPlus usada en las pruebas de FPKG nativos. Mantener separada de la rama recomendada de ESENCIALES. ESTADO: PRUEBA FPKG. COMPATIBILIDAD: FW compatibles hasta 11.40.",
-      "last_update": "2026-09-15",
-      "version": "1.7alpha13fix1-13-g072c17",
-      "category": "FPKG LEGACY",
-      "checksum": "03688cd6c361b22c07aa8c72314dcb3573b7e83b104634a9e99697de784eb760"
     }
   ]
 }
