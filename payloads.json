@@ -207,15 +207,15 @@
     },
     {
       "name": "ps5upload",
-      "filename": "ps5upload_v6.5.0.elf",
-      "url": "https://github.com/phantomptr/ps5upload/releases/download/v6.5.0/ps5upload-6.5.0.elf",
+      "filename": "ps5upload_v6.5.1.elf",
+      "url": "https://github.com/phantomptr/ps5upload/releases/download/v6.5.1/ps5upload-6.5.1.elf",
       "source": "https://github.com/phantomptr/ps5upload/releases",
-      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v6.5.0/ps5upload-6.5.0.elf",
+      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v6.5.1/ps5upload-6.5.1.elf",
       "description": "Transfiere archivos entre PS5 y PC/Android con control de integridad y soporte para reanudar envios. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 1.00-12.70; probado en hardware en 5.10, 9.60 y 12.20.",
       "last_update": "2026-10-08",
-      "version": "v6.5.0",
+      "version": "v6.5.1",
       "category": "ARCHIVOS / RED",
-      "checksum": "af6aac4acc7776909124eba6b737a9119e587364eeb1f63f9a4382589a8e0b56"
+      "checksum": "c1f924b6ccddde28a132f56aab4b30628bd79cbb98be6e9566d9768fbac93c3a"
     },
     {
       "name": "unrar-ps5",
@@ -255,15 +255,15 @@
     },
     {
       "name": "PKG Manager",
-      "filename": "pkg-manager_v1.4.1.elf",
-      "url": "https://github.com/itsPLK/ps5-pkg-manager/releases/download/v1.4.1/pkg-manager_v1.4.1.elf",
+      "filename": "pkg-manager_v1.5.0.elf",
+      "url": "https://github.com/itsPLK/ps5-pkg-manager/releases/download/v1.5.0/pkg-manager_v1.5.0.elf",
       "source": "https://github.com/itsPLK/ps5-pkg-manager/releases",
-      "source_direct": "https://github.com/itsPLK/ps5-pkg-manager/releases/download/v1.4.1/pkg-manager_v1.4.1.elf",
+      "source_direct": "https://github.com/itsPLK/ps5-pkg-manager/releases/download/v1.5.0/pkg-manager_v1.5.0.elf",
       "description": "Gestor de PKG con instalacion local, Direct Install y recursos SMB. La rama 1.3 corrige la instalacion consecutiva en FW 9.60+ y mejora bibliotecas grandes. ESTADO: ESTABILIDAD NO DOCUMENTADA.",
-      "last_update": "2026-09-27",
-      "version": "v1.4.1",
+      "last_update": "2026-10-08",
+      "version": "v1.5.0",
       "category": "PKG / INSTALACION",
-      "checksum": "09adaff13b858bb3db519faaea673ee3fa67298081e608d32f6501ed6e9f706e"
+      "checksum": "fb29a0e3c058cd69e00320668db57704207b827b92b92e0cd23fb5fe7fe1429d"
     },
     {
       "name": "PKG Receiver",
@@ -328,24 +328,24 @@
     {
       "name": "PS5SX2 Helper",
       "filename": "PS5SXHelper.elf",
-      "url": "https://github.com/Swordpdf/PS5SX2/releases/download/vk-285-130/PS5SXHelper.elf",
+      "url": "https://github.com/Swordpdf/PS5SX2/releases/download/vk-285-139/PS5SXHelper.elf",
       "source": "https://github.com/Swordpdf/PS5SX2/releases",
-      "source_direct": "https://github.com/Swordpdf/PS5SX2/releases/download/vk-285-130/PS5SXHelper.elf",
+      "source_direct": "https://github.com/Swordpdf/PS5SX2/releases/download/vk-285-139/PS5SXHelper.elf",
       "description": "Helper oficial requerido por PS5SX2 para los recompiladores y acceso a /data. Usar junto con kstuff. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: probado por el proyecto en PS5/PS5 Pro con FW 6.02-12.70.",
-      "last_update": "2026-10-05",
-      "version": "1.9",
+      "last_update": "2026-10-08",
+      "version": "2.00",
       "category": "EMULADORES",
       "checksum": "737d95a8a1545447c4166b094005704465e420f79f54e882e30e7f9e4cde6210"
     },
     {
       "name": "PS5SX2 Installer",
       "filename": "PS5SX2Installer.elf",
-      "url": "https://github.com/Swordpdf/PS5SX2/releases/download/vk-285-130/PS5SX2Installer.elf",
+      "url": "https://github.com/Swordpdf/PS5SX2/releases/download/vk-285-139/PS5SX2Installer.elf",
       "source": "https://github.com/Swordpdf/PS5SX2/releases",
-      "source_direct": "https://github.com/Swordpdf/PS5SX2/releases/download/vk-285-130/PS5SX2Installer.elf",
+      "source_direct": "https://github.com/Swordpdf/PS5SX2/releases/download/vk-285-139/PS5SX2Installer.elf",
       "description": "Instalador oficial de PS5SX2. Instala y mantiene actualizada la build principal del emulador nativo de PS2 para PS5. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: probado por el proyecto en PS5/PS5 Pro con FW 6.02-12.70.",
-      "last_update": "2026-10-05",
-      "version": "1.9",
+      "last_update": "2026-10-08",
+      "version": "2.00",
       "category": "EMULADORES",
       "checksum": "6b1be3ea24ec8144b27b2a1f3e279cd17574f3093e9431abf8579dcc6c0bfae9"
     },
@@ -592,14 +592,14 @@
     {
       "name": "Orbit Store",
       "filename": "orbit_store.elf",
-      "url": "https://github.com/saawant12/orbit-store-ps5/releases/download/v0.9.1/orbit_store.elf",
+      "url": "https://github.com/saawant12/orbit-store-ps5/releases/download/v1.0.0/orbit_store.elf",
       "source": "https://github.com/saawant12/orbit-store-ps5/releases",
-      "source_direct": "https://github.com/saawant12/orbit-store-ps5/releases/download/v0.9.1/orbit_store.elf",
+      "source_direct": "https://github.com/saawant12/orbit-store-ps5/releases/download/v1.0.0/orbit_store.elf",
       "description": "Gestor de descargas para PS5 con cola persistente, pausa/reanudacion, seleccion de almacenamiento e interfaz local para movil/PC. Usar unicamente con contenido que se tenga derecho a descargar. ESTADO: EN PRUEBAS.",
       "last_update": "2026-10-08",
-      "version": "v0.9.1",
+      "version": "v1.0.0",
       "category": "DESCARGAS",
-      "checksum": "a7ff23dfc0ed5cd7d5c4b05c7e0c0a4e1ea2ee2c91742e00d754122917f8f318"
+      "checksum": "8ac8d13e3855e29456205992cebe9fa1604dae0509a6ec20198076560f2a93a0"
     },
     {
       "name": "PatchDL",
@@ -640,14 +640,14 @@
     {
       "name": "PS5 Library",
       "filename": "ps5-library.elf",
-      "url": "https://github.com/deox1111/ps5-library/releases/download/v0.7.16/ps5-library.elf",
+      "url": "https://github.com/deox1111/ps5-library/releases/download/v0.7.17/ps5-library.elf",
       "source": "https://github.com/deox1111/ps5-library/releases",
-      "source_direct": "https://github.com/deox1111/ps5-library/releases/download/v0.7.16/ps5-library.elf",
+      "source_direct": "https://github.com/deox1111/ps5-library/releases/download/v0.7.17/ps5-library.elf",
       "description": "Biblioteca para PS5 con interfaz de mando, catalogos, instalacion y descargas reanudables. Requiere kstuff y ShadowMountPlus; 1.7beta4 o posterior permite listar juegos instalados desde PKG. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 13.60 probado por upstream; requiere kstuff y ShadowMountPlus.",
       "last_update": "2026-10-08",
-      "version": "v0.7.16",
+      "version": "v0.7.17",
       "category": "DESCARGAS",
-      "checksum": "7de481c6468f8705bb82ef517dd0962048c9393a8324a148768e787dc72c1223"
+      "checksum": "db26629870a87a933c8775c01c7638773c57c61c8f05e793aa06c5da666efc6a"
     },
     {
       "name": "Spectrum Library",
