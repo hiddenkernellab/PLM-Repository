@@ -147,27 +147,15 @@
     },
     {
       "name": "PS5 WebKit Autoloader",
-      "filename": "webkit-autoloader-installer_v0.5.2.elf",
-      "url": "https://github.com/itsPLK/ps5-webkit-autoloader/releases/download/v0.5.2/webkit-autoloader-installer_v0.5.2.elf",
+      "filename": "webkit-autoloader-installer_v0.6.0.elf",
+      "url": "https://github.com/itsPLK/ps5-webkit-autoloader/releases/download/v0.6.0/webkit-autoloader-installer_v0.6.0.elf",
       "source": "https://github.com/itsPLK/ps5-webkit-autoloader/releases",
-      "source_direct": "https://github.com/itsPLK/ps5-webkit-autoloader/releases/download/v0.5.2/webkit-autoloader-installer_v0.5.2.elf",
-      "description": "Autoloader WebKit oficial de itsPLK. Integra Relapse para FW 7.00-13.60 y umtx2 para FW 1.00-5.50, con instalacion en Media y carga automatizada de payloads. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 1.00-5.50 y 7.00-13.60.",
-      "last_update": "2026-09-30",
-      "version": "v0.5.2",
-      "category": "SISTEMA",
-      "checksum": "f990e48e8330231d2066a7b8ab6dc25fda83b2cc36cb426c472b35b33767451a"
-    },
-    {
-      "name": "PS5 WebKit Autoloader",
-      "filename": "webkit-autoloader-installer_v0.6.0-pre-4488577.elf",
-      "url": "https://github.com/itsPLK/ps5-webkit-autoloader/releases/download/v0.6.0-pre-4488577/webkit-autoloader-installer_v0.6.0-pre-4488577.elf",
-      "source": "https://github.com/itsPLK/ps5-webkit-autoloader/releases",
-      "source_direct": "https://github.com/itsPLK/ps5-webkit-autoloader/releases/download/v0.6.0-pre-4488577/webkit-autoloader-installer_v0.6.0-pre-4488577.elf",
+      "source_direct": "https://github.com/itsPLK/ps5-webkit-autoloader/releases/download/v0.6.0/webkit-autoloader-installer_v0.6.0.elf",
       "description": "Autoloader WebKit oficial de itsPLK. Integra Relapse para FW 7.00-13.60 y umtx2 para FW 1.00-5.50, con instalacion en Media y carga automatizada de payloads. ESTADO: FIABILIDAD MEJORADA. COMPATIBILIDAD: FW 1.00-5.50 y 7.00-13.60.",
-      "last_update": "2026-10-07",
-      "version": "v0.6.0-pre-4488577",
+      "last_update": "2026-10-08",
+      "version": "v0.6.0",
       "category": "SISTEMA",
-      "checksum": "7b7e2284c331599a6193cb00fa7d5fd227d784ef95ceda32b1485989ff1d6b21"
+      "checksum": "b4dc090ea7f22529d507e684909ab4524a21a6a26777a425bf787dbffc5b419c"
     },
     {
       "name": "ps5-payload-websrv",
@@ -652,14 +640,14 @@
     {
       "name": "PS5 Library",
       "filename": "ps5-library.elf",
-      "url": "https://github.com/deox1111/ps5-library/releases/download/v0.7.12/ps5-library.elf",
+      "url": "https://github.com/deox1111/ps5-library/releases/download/v0.7.13/ps5-library.elf",
       "source": "https://github.com/deox1111/ps5-library/releases",
-      "source_direct": "https://github.com/deox1111/ps5-library/releases/download/v0.7.12/ps5-library.elf",
+      "source_direct": "https://github.com/deox1111/ps5-library/releases/download/v0.7.13/ps5-library.elf",
       "description": "Biblioteca para PS5 con interfaz de mando, catalogos, instalacion y descargas reanudables. Requiere kstuff y ShadowMountPlus; 1.7beta4 o posterior permite listar juegos instalados desde PKG. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 13.60 probado por upstream; requiere kstuff y ShadowMountPlus.",
-      "last_update": "2026-10-07",
-      "version": "v0.7.12",
+      "last_update": "2026-10-08",
+      "version": "v0.7.13",
       "category": "DESCARGAS",
-      "checksum": "87c015f2a71861509b305ff75d9c5cd310ee437849ecca0436c0cd83c76a99a1"
+      "checksum": "6fb8954ff55dfb3ebbf1d27a810635809008fcb8745db0412f272dd66214df0d"
     },
     {
       "name": "Spectrum Library",
