@@ -331,7 +331,7 @@
       "url": "https://github.com/MisterTemaki/fbneo-ps5/releases/download/v1.7/FBNeoPS5-v1.7.elf",
       "source": "https://github.com/MisterTemaki/fbneo-ps5/releases",
       "source_direct": "https://github.com/MisterTemaki/fbneo-ps5/releases/download/v1.7/FBNeoPS5-v1.7.elf",
-      "description": "Instalador y helper del emulador nativo FinalBurn Neo 1.0.0.3 para PS5. Recreativas CPS-1/2/3, Neo Geo, Sega, Konami y otros sistemas; ROMs desde /data/fbneo/roms o USB. v1.4 elimina rewind para evitar ralentizaciones en CPS-3 y permite configurar DIP antes de iniciar. Requiere entorno homebrew con elfldr, kstuff y ShadowMountPlus. Pruebas de host documentadas; compatibilidad real por juego aun por verificar. ESTADO: EXPERIMENTAL.",
+      "description": "Instalador y helper del emulador nativo FinalBurn Neo 1.0.0.3 para PS5. Recreativas CPS-1/2/3, Neo Geo, Sega, Konami y otros sistemas; ROMs desde /data/fbneo/roms o USB. v1.7 mueve guardado, carga, cambio de slot, Service y Test al menu de pausa (L3+R3); L2/R2 sin atajos. Requiere entorno homebrew con elfldr, kstuff y ShadowMountPlus. 226 pruebas host documentadas con PS5 simulada; compatibilidad real por juego aun por verificar. ESTADO: EXPERIMENTAL.",
       "last_update": "2026-10-09",
       "version": "v1.7",
       "category": "EMULADORES",
@@ -340,14 +340,14 @@
     {
       "name": "Genesis Plus GX PS5",
       "filename": "GenesisPlusGXPS5.elf",
-      "url": "https://github.com/MisterTemaki/genplusgxPS5/releases/download/v1.5/GenesisPlusGXPS5-v1.5.elf",
+      "url": "https://github.com/MisterTemaki/genplusgxPS5/releases/download/v1.6/GenesisPlusGXPS5-v1.6.elf",
       "source": "https://github.com/MisterTemaki/genplusgxPS5/releases",
-      "source_direct": "https://github.com/MisterTemaki/genplusgxPS5/releases/download/v1.5/GenesisPlusGXPS5-v1.5.elf",
+      "source_direct": "https://github.com/MisterTemaki/genplusgxPS5/releases/download/v1.6/GenesisPlusGXPS5-v1.6.elf",
       "description": "Instalador y helper del emulador nativo Genesis Plus GX para PS5: Mega Drive, Sega CD, Master System, Game Gear y SG-1000. Requiere kstuff y ShadowMountPlus. v1.3: shaders CRT, guardados y correcciones. Version experimental pendiente de validacion amplia en PS5 real. ESTADO: EXPERIMENTAL.",
       "last_update": "2026-10-09",
-      "version": "v1.5",
+      "version": "v1.6",
       "category": "EMULADORES",
-      "checksum": "f66f4c8111e6d3ac55a1b5247c2b2aa20439b24024884fa31a86986e5906db23"
+      "checksum": "c548e4dd9e15f58bff8cccc2e7042df276462643ec74a0ea7548deeee6941548"
     },
     {
       "name": "PS5SX2 Helper",
@@ -576,6 +576,18 @@
       "version": "v0.17.2",
       "category": "CHEATS",
       "checksum": "36ad03e236e6603aaaf05d95ed3399c7b54475a9bceba085cbe02899bc88ae0f"
+    },
+    {
+      "name": "Kylin Core",
+      "filename": "kylin-core.elf",
+      "url": "https://github.com/aydencharles/kylin-core-release/releases/download/v2.0.0-community-lite/kylin-core.elf",
+      "source": "https://github.com/aydencharles/kylin-core-release/releases",
+      "source_direct": "https://github.com/aydencharles/kylin-core-release/releases/download/v2.0.0-community-lite/kylin-core.elf",
+      "description": "Motor de trucos en tiempo real para PS4 y PS5 sobre PS5, con deteccion automatica de juegos y Web UI local en puerto 9023. v2.0.0-community-lite admite JSON, SHN y MC4; ShnExt sigue en alpha. Cargar desde PLDMGR; no requiere PKG adicional. FW 4.03-13.60 segun el autor. Evitar ejecutar junto a otro motor de trucos sin comprobar conflictos. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 4.0.3 - 13.60.",
+      "last_update": "2026-10-01",
+      "version": "v2.0.0-community-lite",
+      "category": "CHEATS",
+      "checksum": "7f5245f2db67b131c6f9e991b731117c2c730923a9dd65a2d82b36f2e2b91545"
     },
     {
       "name": "AnyPad PS5",
