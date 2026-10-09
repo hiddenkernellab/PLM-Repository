@@ -207,15 +207,15 @@
     },
     {
       "name": "ps5upload",
-      "filename": "ps5upload_v6.6.1.elf",
-      "url": "https://github.com/phantomptr/ps5upload/releases/download/v6.6.1/ps5upload-6.6.1.elf",
+      "filename": "ps5upload_v6.7.1.elf",
+      "url": "https://github.com/phantomptr/ps5upload/releases/download/v6.7.1/ps5upload-6.7.1.elf",
       "source": "https://github.com/phantomptr/ps5upload/releases",
-      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v6.6.1/ps5upload-6.6.1.elf",
+      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v6.7.1/ps5upload-6.7.1.elf",
       "description": "Transfiere archivos entre PS5 y PC/Android con control de integridad y soporte para reanudar envios. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 1.00-12.70; probado en hardware en 5.10, 9.60 y 12.20.",
       "last_update": "2026-10-09",
-      "version": "v6.6.1",
+      "version": "v6.7.1",
       "category": "ARCHIVOS / RED",
-      "checksum": "bca34345897b4332334c3da7b61b851eca884d3c0db5dca275b3327ac623b17a"
+      "checksum": "731ce3a827d13bb3a577722c13c9b8ffc7fead9b290144fbcae7db7fc8d08d35"
     },
     {
       "name": "unrar-ps5",
@@ -328,14 +328,14 @@
     {
       "name": "FBNeo PS5",
       "filename": "FBNeoPS5.elf",
-      "url": "https://github.com/MisterTemaki/fbneo-ps5/releases/download/v1.4/FBNeoPS5-v1.4.elf",
+      "url": "https://github.com/MisterTemaki/fbneo-ps5/releases/download/v1.7/FBNeoPS5-v1.7.elf",
       "source": "https://github.com/MisterTemaki/fbneo-ps5/releases",
-      "source_direct": "https://github.com/MisterTemaki/fbneo-ps5/releases/download/v1.4/FBNeoPS5-v1.4.elf",
+      "source_direct": "https://github.com/MisterTemaki/fbneo-ps5/releases/download/v1.7/FBNeoPS5-v1.7.elf",
       "description": "Instalador y helper del emulador nativo FinalBurn Neo 1.0.0.3 para PS5. Recreativas CPS-1/2/3, Neo Geo, Sega, Konami y otros sistemas; ROMs desde /data/fbneo/roms o USB. v1.4 elimina rewind para evitar ralentizaciones en CPS-3 y permite configurar DIP antes de iniciar. Requiere entorno homebrew con elfldr, kstuff y ShadowMountPlus. Pruebas de host documentadas; compatibilidad real por juego aun por verificar. ESTADO: EXPERIMENTAL.",
-      "last_update": "2026-10-08",
-      "version": "v1.4",
+      "last_update": "2026-10-09",
+      "version": "v1.7",
       "category": "EMULADORES",
-      "checksum": "80a8f5565c7fd8d5a6e9dc25f953a39c2ba5257205d9a4d82f8000fe90a180e1"
+      "checksum": "9b85f6cbd9b77ba5eb5ffb01b8737a3818f8141903efa78e8de229c2b2e7daf5"
     },
     {
       "name": "Genesis Plus GX PS5",
@@ -628,14 +628,14 @@
     {
       "name": "Orbit Store",
       "filename": "orbit_store.elf",
-      "url": "https://github.com/saawant12/orbit-store-ps5/releases/download/v1.0.0/orbit_store.elf",
+      "url": "https://github.com/saawant12/orbit-store-ps5/releases/download/v1.0.5/orbit_store.elf",
       "source": "https://github.com/saawant12/orbit-store-ps5/releases",
-      "source_direct": "https://github.com/saawant12/orbit-store-ps5/releases/download/v1.0.0/orbit_store.elf",
+      "source_direct": "https://github.com/saawant12/orbit-store-ps5/releases/download/v1.0.5/orbit_store.elf",
       "description": "Gestor de descargas para PS5 con cola persistente, pausa/reanudacion, seleccion de almacenamiento e interfaz local para movil/PC. Usar unicamente con contenido que se tenga derecho a descargar. ESTADO: EN PRUEBAS.",
-      "last_update": "2026-10-08",
-      "version": "v1.0.0",
+      "last_update": "2026-10-09",
+      "version": "v1.0.5",
       "category": "DESCARGAS",
-      "checksum": "8ac8d13e3855e29456205992cebe9fa1604dae0509a6ec20198076560f2a93a0"
+      "checksum": "7883cf64b62252594d58e5558ea29f8de7ed3ca1d9a3182c844f23513eaf7617"
     },
     {
       "name": "PatchDL",
@@ -676,14 +676,14 @@
     {
       "name": "PS5 Library",
       "filename": "ps5-library.elf",
-      "url": "https://github.com/deox1111/ps5-library/releases/download/v0.7.20/ps5-library.elf",
+      "url": "https://github.com/deox1111/ps5-library/releases/download/v0.7.21/ps5-library.elf",
       "source": "https://github.com/deox1111/ps5-library/releases",
-      "source_direct": "https://github.com/deox1111/ps5-library/releases/download/v0.7.20/ps5-library.elf",
+      "source_direct": "https://github.com/deox1111/ps5-library/releases/download/v0.7.21/ps5-library.elf",
       "description": "Biblioteca para PS5 con interfaz de mando, catalogos, instalacion y descargas reanudables. Requiere kstuff y ShadowMountPlus; 1.7beta4 o posterior permite listar juegos instalados desde PKG. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 13.60 probado por upstream; requiere kstuff y ShadowMountPlus.",
       "last_update": "2026-10-09",
-      "version": "v0.7.20",
+      "version": "v0.7.21",
       "category": "DESCARGAS",
-      "checksum": "93e668f0826537df87b30a811ea59b1dc4882eab9d63a2f91ae8b06a2d71b27a"
+      "checksum": "0f939c74387c3086006c9bf3e6d5b7b8dbf6a770a816569a6b83671c5f56145c"
     },
     {
       "name": "Spectrum Library",
