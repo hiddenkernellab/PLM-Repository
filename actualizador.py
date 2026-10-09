@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# HiddenKernel CLEAN updater 2026-10-08
+# HiddenKernel CLEAN updater 2026-10-09 (basado en main d49c525)
 # Poda el catalogo actual antes de generar los JSON.
 import urllib.request
 
@@ -33,6 +33,33 @@ ADDITIONS=[
       category="MANDOS / AUDIO",channels=["stable"],single_latest=True,elf_only=True,
       install_filename="puckbridge-ps5.elf",
       desc="Fork ampliado de Ghostcontrol para Steam Controller 2026 y mandos compatibles, con rumble, gyro, flick stick, motion controls, trigger feedback, remapeo web y perfiles."),
+ # 2026-10-08: instaladores/helper ELF de emuladores nativos confirmados upstream.
+ dict(name="Genesis Plus GX PS5",optional=True,repo="MisterTemaki/genplusgxPS5",
+      match=["GenesisPlusGXPS5-"],category="EMULADORES",
+      channels=["stable"],single_latest=True,elf_only=True,
+      install_filename="GenesisPlusGXPS5.elf",
+      desc=("Instalador y helper del emulador nativo Genesis Plus GX para PS5: "
+            "Mega Drive, Sega CD, Master System, Game Gear y SG-1000. "
+            "Requiere kstuff y ShadowMountPlus. v1.3: shaders CRT, guardados y correcciones. "
+            "Version experimental pendiente de validacion amplia en PS5 real.")),
+ # 2026-10-08: port nativo de FinalBurn Neo para recreativas.
+ dict(name="FBNeo PS5",optional=True,repo="MisterTemaki/fbneo-ps5",
+      match=["FBNeoPS5-v"],category="EMULADORES",
+      channels=["stable"],single_latest=True,elf_only=True,
+      install_filename="FBNeoPS5.elf",
+      desc=("Instalador y helper del emulador nativo FinalBurn Neo 1.0.0.3 para PS5. "
+            "Recreativas CPS-1/2/3, Neo Geo, Sega, Konami y otros sistemas; ROMs desde /data/fbneo/roms o USB. "
+            "v1.4 elimina rewind para evitar ralentizaciones en CPS-3 y permite configurar DIP antes de iniciar. "
+            "Requiere entorno homebrew con elfldr, kstuff y ShadowMountPlus. "
+            "Pruebas de host documentadas; compatibilidad real por juego aun por verificar.")),
+ dict(name="Snes9x PS5",optional=True,repo="MisterTemaki/snes9xPS5",
+      match=["Snes9xPS5-v"],category="EMULADORES",
+      channels=["stable"],single_latest=True,elf_only=True,
+      install_filename="Snes9xPS5.elf",
+      desc=("Instalador y helper del emulador nativo Super Nintendo para PS5. "
+            "v2.2: descarga de caratulas en segundo plano, inicio inmediato y sin reinicios. "
+            "Incluye shaders CRT y ScaleFX, MSU-1, DualSense, guardados y ROMs USB. "
+            "Requiere kstuff, ShadowMountPlus y elfldr.")),
 ]
 
 def load_base():
@@ -99,9 +126,9 @@ def clean(ns):
       "PS5SX2 Installer":[(r".*","RECOMENDADO / PS2","Usar junto con PS5SX2 Helper, kstuff y ShadowMountPlus.")],
       "PS5SX2 Helper":[(r".*","RECOMENDADO / AUTOLOAD","Upstream recomienda cargar Helper junto con kstuff.")],
       "ps5upload":[(r".*","UPSTREAM / ACTUALIZABLE",
-                           "Seguir la ultima release ELF oficial. v6.4.0 corrige instalacion desde enlaces y el helper de PS5.")],
+                           "Seguir la ultima release ELF oficial. v6.5.1 permite enviar juegos de la coleccion y cancelar instalaciones activas.")],
       "Orbit Store":[(r".*","BETA / DESCARGAS",
-                           "v0.9.0 mejora la cola y deteccion de SSD M.2; mantener actualizaciones del ELF desde upstream.")],
+                           "v1.0.0 permite descargas y transferencias desde Orbit Zero por red local; seguir ELF upstream.")],
       "PS5 Tailscale":[(r".*","ESTABLE / RED REMOTA",
                            "v0.7.1 incluye Wake-on-LAN, diagnosticos y pruebas de conexion. "
                            "Revisar autoload para no volver a iniciar el ELF anterior.")],
@@ -111,6 +138,13 @@ def clean(ns):
       "XPSemu Helper":[(r".*","ALPHA / XBOX ORIGINAL",
                            "Alpha 2: helper.elf. No es el emulador completo; requiere la app XPSemu instalada.")],
       "PuckbridgePS5":[(r".*","ESTABLE / MANDOS","Alternativa avanzada a Ghostcontrol; validar el mando antes de autoload.")],
+      "Genesis Plus GX PS5":[(r".*","EXPERIMENTAL / SEGA",
+                           "Instalador/helper ELF de emulador Sega. Validacion en PS5 real limitada.")],
+      "FBNeo PS5":[(r".*","EXPERIMENTAL / ARCADE",
+                        "v1.4 elimina rewind para mejorar CPS-3; 212 pruebas host no equivalen a validacion PS5 real.")],
+      "Snes9x PS5":[(r".*","EN PRUEBAS / SNES",
+                           "v2.2: caratulas en segundo plano, inicio rapido y helper en puerto 9080. "
+                           "Requiere kstuff, ShadowMountPlus y ELF loader; no incluye ROMs.")],
     })
 
 def main():
