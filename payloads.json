@@ -326,6 +326,30 @@
       "checksum": "5fec05b8a3cb89bafbc97970d5d68d9f31e6fcde873b5523243890e50836592b"
     },
     {
+      "name": "FBNeo PS5",
+      "filename": "FBNeoPS5.elf",
+      "url": "https://github.com/MisterTemaki/fbneo-ps5/releases/download/v1.4/FBNeoPS5-v1.4.elf",
+      "source": "https://github.com/MisterTemaki/fbneo-ps5/releases",
+      "source_direct": "https://github.com/MisterTemaki/fbneo-ps5/releases/download/v1.4/FBNeoPS5-v1.4.elf",
+      "description": "Instalador y helper del emulador nativo FinalBurn Neo 1.0.0.3 para PS5. Recreativas CPS-1/2/3, Neo Geo, Sega, Konami y otros sistemas; ROMs desde /data/fbneo/roms o USB. v1.4 elimina rewind para evitar ralentizaciones en CPS-3 y permite configurar DIP antes de iniciar. Requiere entorno homebrew con elfldr, kstuff y ShadowMountPlus. Pruebas de host documentadas; compatibilidad real por juego aun por verificar. ESTADO: EXPERIMENTAL.",
+      "last_update": "2026-10-08",
+      "version": "v1.4",
+      "category": "EMULADORES",
+      "checksum": "80a8f5565c7fd8d5a6e9dc25f953a39c2ba5257205d9a4d82f8000fe90a180e1"
+    },
+    {
+      "name": "Genesis Plus GX PS5",
+      "filename": "GenesisPlusGXPS5.elf",
+      "url": "https://github.com/MisterTemaki/genplusgxPS5/releases/download/v1.3/GenesisPlusGXPS5-v1.3.elf",
+      "source": "https://github.com/MisterTemaki/genplusgxPS5/releases",
+      "source_direct": "https://github.com/MisterTemaki/genplusgxPS5/releases/download/v1.3/GenesisPlusGXPS5-v1.3.elf",
+      "description": "Instalador y helper del emulador nativo Genesis Plus GX para PS5: Mega Drive, Sega CD, Master System, Game Gear y SG-1000. Requiere kstuff y ShadowMountPlus. v1.3: shaders CRT, guardados y correcciones. Version experimental pendiente de validacion amplia en PS5 real. ESTADO: EXPERIMENTAL.",
+      "last_update": "2026-10-08",
+      "version": "v1.3",
+      "category": "EMULADORES",
+      "checksum": "a4d1b06f19e4bff7017e16d698143abb46a7171a3f3f9f569eb4add72dfb9192"
+    },
+    {
       "name": "PS5SX2 Helper",
       "filename": "PS5SXHelper.elf",
       "url": "https://github.com/Swordpdf/PS5SX2/releases/download/vk-285-139/PS5SXHelper.elf",
@@ -360,6 +384,18 @@
       "version": "v1.1.0",
       "category": "EMULADORES",
       "checksum": "aea27d2a7a8207fffaac3725006f6f15bcb600a9ed7b05978fda767bf184afe2"
+    },
+    {
+      "name": "Snes9x PS5",
+      "filename": "Snes9xPS5.elf",
+      "url": "https://github.com/MisterTemaki/snes9xPS5/releases/download/v2.2/Snes9xPS5-v2.2.elf",
+      "source": "https://github.com/MisterTemaki/snes9xPS5/releases",
+      "source_direct": "https://github.com/MisterTemaki/snes9xPS5/releases/download/v2.2/Snes9xPS5-v2.2.elf",
+      "description": "Instalador y helper del emulador nativo Super Nintendo para PS5. v2.2: descarga de caratulas en segundo plano, inicio inmediato y sin reinicios. Incluye shaders CRT y ScaleFX, MSU-1, DualSense, guardados y ROMs USB. Requiere kstuff, ShadowMountPlus y elfldr. ESTADO: EN PRUEBAS.",
+      "last_update": "2026-10-09",
+      "version": "v2.2",
+      "category": "EMULADORES",
+      "checksum": "ba2c14e9a91001a1ab338afb858c0016151dcf919a20e644387ce79c20210e94"
     },
     {
       "name": "XPSemu Helper",
@@ -640,14 +676,14 @@
     {
       "name": "PS5 Library",
       "filename": "ps5-library.elf",
-      "url": "https://github.com/deox1111/ps5-library/releases/download/v0.7.17/ps5-library.elf",
+      "url": "https://github.com/deox1111/ps5-library/releases/download/v0.7.19/ps5-library.elf",
       "source": "https://github.com/deox1111/ps5-library/releases",
-      "source_direct": "https://github.com/deox1111/ps5-library/releases/download/v0.7.17/ps5-library.elf",
+      "source_direct": "https://github.com/deox1111/ps5-library/releases/download/v0.7.19/ps5-library.elf",
       "description": "Biblioteca para PS5 con interfaz de mando, catalogos, instalacion y descargas reanudables. Requiere kstuff y ShadowMountPlus; 1.7beta4 o posterior permite listar juegos instalados desde PKG. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 13.60 probado por upstream; requiere kstuff y ShadowMountPlus.",
-      "last_update": "2026-10-08",
-      "version": "v0.7.17",
+      "last_update": "2026-10-09",
+      "version": "v0.7.19",
       "category": "DESCARGAS",
-      "checksum": "db26629870a87a933c8775c01c7638773c57c61c8f05e793aa06c5da666efc6a"
+      "checksum": "b9bdf7f4ad89b6f9a9c03e31dad63b9c470424fc73be72eb3af46bc73ea5937f"
     },
     {
       "name": "Spectrum Library",
