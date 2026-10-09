@@ -340,14 +340,14 @@
     {
       "name": "Genesis Plus GX PS5",
       "filename": "GenesisPlusGXPS5.elf",
-      "url": "https://github.com/MisterTemaki/genplusgxPS5/releases/download/v1.3/GenesisPlusGXPS5-v1.3.elf",
+      "url": "https://github.com/MisterTemaki/genplusgxPS5/releases/download/v1.5/GenesisPlusGXPS5-v1.5.elf",
       "source": "https://github.com/MisterTemaki/genplusgxPS5/releases",
-      "source_direct": "https://github.com/MisterTemaki/genplusgxPS5/releases/download/v1.3/GenesisPlusGXPS5-v1.3.elf",
+      "source_direct": "https://github.com/MisterTemaki/genplusgxPS5/releases/download/v1.5/GenesisPlusGXPS5-v1.5.elf",
       "description": "Instalador y helper del emulador nativo Genesis Plus GX para PS5: Mega Drive, Sega CD, Master System, Game Gear y SG-1000. Requiere kstuff y ShadowMountPlus. v1.3: shaders CRT, guardados y correcciones. Version experimental pendiente de validacion amplia en PS5 real. ESTADO: EXPERIMENTAL.",
-      "last_update": "2026-10-08",
-      "version": "v1.3",
+      "last_update": "2026-10-09",
+      "version": "v1.5",
       "category": "EMULADORES",
-      "checksum": "a4d1b06f19e4bff7017e16d698143abb46a7171a3f3f9f569eb4add72dfb9192"
+      "checksum": "f66f4c8111e6d3ac55a1b5247c2b2aa20439b24024884fa31a86986e5906db23"
     },
     {
       "name": "PS5SX2 Helper",
@@ -676,14 +676,14 @@
     {
       "name": "PS5 Library",
       "filename": "ps5-library.elf",
-      "url": "https://github.com/deox1111/ps5-library/releases/download/v0.7.19/ps5-library.elf",
+      "url": "https://github.com/deox1111/ps5-library/releases/download/v0.7.20/ps5-library.elf",
       "source": "https://github.com/deox1111/ps5-library/releases",
-      "source_direct": "https://github.com/deox1111/ps5-library/releases/download/v0.7.19/ps5-library.elf",
+      "source_direct": "https://github.com/deox1111/ps5-library/releases/download/v0.7.20/ps5-library.elf",
       "description": "Biblioteca para PS5 con interfaz de mando, catalogos, instalacion y descargas reanudables. Requiere kstuff y ShadowMountPlus; 1.7beta4 o posterior permite listar juegos instalados desde PKG. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 13.60 probado por upstream; requiere kstuff y ShadowMountPlus.",
       "last_update": "2026-10-09",
-      "version": "v0.7.19",
+      "version": "v0.7.20",
       "category": "DESCARGAS",
-      "checksum": "b9bdf7f4ad89b6f9a9c03e31dad63b9c470424fc73be72eb3af46bc73ea5937f"
+      "checksum": "93e668f0826537df87b30a811ea59b1dc4882eab9d63a2f91ae8b06a2d71b27a"
     },
     {
       "name": "Spectrum Library",
