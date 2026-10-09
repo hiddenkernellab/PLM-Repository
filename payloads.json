@@ -352,14 +352,14 @@
     {
       "name": "RomM Sync",
       "filename": "romm-sync.elf",
-      "url": "https://github.com/s0liton/RommPS/releases/download/v1.0.2/romm-sync.elf",
+      "url": "https://github.com/s0liton/RommPS/releases/download/v1.1.0/romm-sync.elf",
       "source": "https://github.com/s0liton/ps5-romm/releases",
-      "source_direct": "https://github.com/s0liton/RommPS/releases/download/v1.0.2/romm-sync.elf",
+      "source_direct": "https://github.com/s0liton/RommPS/releases/download/v1.1.0/romm-sync.elf",
       "description": "Cliente PS5 para servidores RomM: biblioteca, descarga de ROM/BIOS hacia perfiles de emulador y sincronizacion de saves/savestates. ESTADO: ESTABILIDAD NO DOCUMENTADA.",
-      "last_update": "2026-10-03",
-      "version": "v1.0.2",
+      "last_update": "2026-10-09",
+      "version": "v1.1.0",
       "category": "EMULADORES",
-      "checksum": "210b85775b551ca1267a5a84998e3cc9c498f764fcb7bbdd66a98d1c4c5a420d"
+      "checksum": "aea27d2a7a8207fffaac3725006f6f15bcb600a9ed7b05978fda767bf184afe2"
     },
     {
       "name": "XPSemu Helper",
