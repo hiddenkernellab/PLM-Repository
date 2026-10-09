@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# HiddenKernel CLEAN updater 2026-10-09 (basado en main d49c525)
+# HiddenKernel CLEAN updater 2026-10-09 (main + Kylin Core + FBNeo 1.7)
 # Poda el catalogo actual antes de generar los JSON.
 import urllib.request
 
@@ -42,16 +42,16 @@ ADDITIONS=[
             "Mega Drive, Sega CD, Master System, Game Gear y SG-1000. "
             "Requiere kstuff y ShadowMountPlus. v1.3: shaders CRT, guardados y correcciones. "
             "Version experimental pendiente de validacion amplia en PS5 real.")),
- # 2026-10-08: port nativo de FinalBurn Neo para recreativas.
+ # 2026-10-09: port nativo de FinalBurn Neo para recreativas (upstream v1.7).
  dict(name="FBNeo PS5",optional=True,repo="MisterTemaki/fbneo-ps5",
       match=["FBNeoPS5-v"],category="EMULADORES",
       channels=["stable"],single_latest=True,elf_only=True,
       install_filename="FBNeoPS5.elf",
       desc=("Instalador y helper del emulador nativo FinalBurn Neo 1.0.0.3 para PS5. "
             "Recreativas CPS-1/2/3, Neo Geo, Sega, Konami y otros sistemas; ROMs desde /data/fbneo/roms o USB. "
-            "v1.4 elimina rewind para evitar ralentizaciones en CPS-3 y permite configurar DIP antes de iniciar. "
+            "v1.7 mueve guardado, carga, cambio de slot, Service y Test al menu de pausa (L3+R3); L2/R2 sin atajos. "
             "Requiere entorno homebrew con elfldr, kstuff y ShadowMountPlus. "
-            "Pruebas de host documentadas; compatibilidad real por juego aun por verificar.")),
+            "226 pruebas host documentadas con PS5 simulada; compatibilidad real por juego aun por verificar.")),
  dict(name="Snes9x PS5",optional=True,repo="MisterTemaki/snes9xPS5",
       match=["Snes9xPS5-v"],category="EMULADORES",
       channels=["stable"],single_latest=True,elf_only=True,
@@ -60,6 +60,18 @@ ADDITIONS=[
             "v2.2: descarga de caratulas en segundo plano, inicio inmediato y sin reinicios. "
             "Incluye shaders CRT y ScaleFX, MSU-1, DualSense, guardados y ROMs USB. "
             "Requiere kstuff, ShadowMountPlus y elfldr.")),
+ # 2026-10-09: herramienta de cheats con ELF oficial y Web UI integrada.
+ dict(name="Kylin Core",optional=True,repo="aydencharles/kylin-core-release",
+      match=["kylin-core.elf"],category="CHEATS",
+      channels=["stable"],single_latest=True,elf_only=True,
+      install_filename="kylin-core.elf",
+      desc=("Motor de trucos en tiempo real para PS4 y PS5 sobre PS5, con deteccion "
+            "automatica de juegos y Web UI local en puerto 9023. "
+            "v2.0.0-community-lite admite JSON, SHN y MC4; ShnExt sigue en alpha. "
+            "Cargar desde PLDMGR; no requiere PKG adicional. "
+            "FW 4.03-13.60 segun el autor. Evitar ejecutar junto a otro motor "
+            "de trucos sin comprobar conflictos.")),
+
 ]
 
 def load_base():
@@ -126,7 +138,7 @@ def clean(ns):
       "PS5SX2 Installer":[(r".*","RECOMENDADO / PS2","Usar junto con PS5SX2 Helper, kstuff y ShadowMountPlus.")],
       "PS5SX2 Helper":[(r".*","RECOMENDADO / AUTOLOAD","Upstream recomienda cargar Helper junto con kstuff.")],
       "ps5upload":[(r".*","UPSTREAM / ACTUALIZABLE",
-                           "Seguir la ultima release ELF oficial. v6.5.1 permite enviar juegos de la coleccion y cancelar instalaciones activas.")],
+                           "Seguir la ultima release ELF oficial; v6.6.3 es mantenimiento de pruebas sin cambios funcionales respecto a v6.6.1.")],
       "Orbit Store":[(r".*","BETA / DESCARGAS",
                            "v1.0.0 permite descargas y transferencias desde Orbit Zero por red local; seguir ELF upstream.")],
       "PS5 Tailscale":[(r".*","ESTABLE / RED REMOTA",
@@ -138,10 +150,13 @@ def clean(ns):
       "XPSemu Helper":[(r".*","ALPHA / XBOX ORIGINAL",
                            "Alpha 2: helper.elf. No es el emulador completo; requiere la app XPSemu instalada.")],
       "PuckbridgePS5":[(r".*","ESTABLE / MANDOS","Alternativa avanzada a Ghostcontrol; validar el mando antes de autoload.")],
+      "Kylin Core":[(r".*","UPSTREAM / CHEATS",
+                       "v2.0.0 Community Lite: ELF autonomo, Web UI 9023, sin PKG. "
+                       "Evitar uso simultaneo con otros motores de cheats.")],
       "Genesis Plus GX PS5":[(r".*","EXPERIMENTAL / SEGA",
                            "Instalador/helper ELF de emulador Sega. Validacion en PS5 real limitada.")],
       "FBNeo PS5":[(r".*","EXPERIMENTAL / ARCADE",
-                        "v1.4 elimina rewind para mejorar CPS-3; 212 pruebas host no equivalen a validacion PS5 real.")],
+                        "v1.7: controles L2/R2 sin atajos, Service/Test y estados desde pausa; 226 pruebas host, sin validacion PS5 real extensa.")],
       "Snes9x PS5":[(r".*","EN PRUEBAS / SNES",
                            "v2.2: caratulas en segundo plano, inicio rapido y helper en puerto 9080. "
                            "Requiere kstuff, ShadowMountPlus y ELF loader; no incluye ROMs.")],
