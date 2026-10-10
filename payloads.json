@@ -183,15 +183,15 @@
     },
     {
       "name": "ps5upload",
-      "filename": "ps5upload_v6.8.1.elf",
-      "url": "https://github.com/phantomptr/ps5upload/releases/download/v6.8.1/ps5upload-6.8.1.elf",
+      "filename": "ps5upload_v6.8.2.elf",
+      "url": "https://github.com/phantomptr/ps5upload/releases/download/v6.8.2/ps5upload-6.8.2.elf",
       "source": "https://github.com/phantomptr/ps5upload/releases",
-      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v6.8.1/ps5upload-6.8.1.elf",
+      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v6.8.2/ps5upload-6.8.2.elf",
       "description": "Transfiere archivos entre PS5 y PC/Android con control de integridad y soporte para reanudar envios. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 1.00-12.70; probado en hardware en 5.10, 9.60 y 12.20.",
       "last_update": "2026-10-10",
-      "version": "v6.8.1",
+      "version": "v6.8.2",
       "category": "ARCHIVOS / RED",
-      "checksum": "4593fcbd6169b67a4dcbfda8f13b0f0485b9ac93adff19ab515957e2c1fa397b"
+      "checksum": "e9cb922ea48f3e8007aefd2862c2d41dd522eea11a92c846b136333ab37e9e0d"
     },
     {
       "name": "unrar-ps5",
@@ -544,14 +544,14 @@
     {
       "name": "CheatRunner",
       "filename": "CheatRunner.elf",
-      "url": "https://github.com/notmaj0r/CheatRunner/releases/download/v0.17.2/CheatRunner.elf",
+      "url": "https://github.com/notmaj0r/CheatRunner/releases/download/v0.18/CheatRunner.elf",
       "source": "https://github.com/notmaj0r/CheatRunner/releases",
-      "source_direct": "https://github.com/notmaj0r/CheatRunner/releases/download/v0.17.2/CheatRunner.elf",
+      "source_direct": "https://github.com/notmaj0r/CheatRunner/releases/download/v0.18/CheatRunner.elf",
       "description": "Trainer de cheats con interfaz web local, separado de los HEN/AIO. ESTADO: ESTABILIDAD NO DOCUMENTADA.",
-      "last_update": "2026-10-01",
-      "version": "v0.17.2",
+      "last_update": "2026-10-10",
+      "version": "v0.18",
       "category": "CHEATS",
-      "checksum": "36ad03e236e6603aaaf05d95ed3399c7b54475a9bceba085cbe02899bc88ae0f"
+      "checksum": "4ae1ea4e37b2e67d5487355ddf671f166861ed6dceea348c048ad060770c0140"
     },
     {
       "name": "Kylin Core",
@@ -664,14 +664,14 @@
     {
       "name": "PS5 Library",
       "filename": "ps5-library.elf",
-      "url": "https://github.com/deox1111/ps5-library/releases/download/v0.7.25/ps5-library.elf",
+      "url": "https://github.com/deox1111/ps5-library/releases/download/v0.7.27/ps5-library.elf",
       "source": "https://github.com/deox1111/ps5-library/releases",
-      "source_direct": "https://github.com/deox1111/ps5-library/releases/download/v0.7.25/ps5-library.elf",
+      "source_direct": "https://github.com/deox1111/ps5-library/releases/download/v0.7.27/ps5-library.elf",
       "description": "Biblioteca para PS5 con interfaz de mando, catalogos, instalacion y descargas reanudables. Requiere kstuff y ShadowMountPlus; 1.7beta4 o posterior permite listar juegos instalados desde PKG. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 13.60 probado por upstream; requiere kstuff y ShadowMountPlus.",
       "last_update": "2026-10-10",
-      "version": "v0.7.25",
+      "version": "v0.7.27",
       "category": "DESCARGAS",
-      "checksum": "b17612a2f0eae4492afa065cb9f37d0c2be0589bf79a802d58fe1deccb420eaf"
+      "checksum": "95b0d762d953524593ca8a4b5aa8ed1928b5e31adaf6684e41597d119bafc7c8"
     },
     {
       "name": "Spectrum Library",
@@ -756,6 +756,30 @@
       "version": "v1.10",
       "category": "ARCHIVOS / PC",
       "checksum": "409145ec9a1c338ecb5f6f917c3b057c4ba48bfae2e86d621e19dda7ac129bd3"
+    },
+    {
+      "name": "KStuff FPKG",
+      "filename": "kstuff-1.13-fpkg-dr-test5.elf",
+      "url": "https://nexgen999.github.io/evoX-CoreOS/payloads/PS5_Beta/kstuff_Drakmor_Experimental/Source-Fixe/kstuff-1.13-fpkg-dr-test5.elf",
+      "source": "https://github.com/nexgen999/evoX-CoreOS",
+      "source_direct": "https://nexgen999.github.io/evoX-CoreOS/payloads/PS5_Beta/kstuff_Drakmor_Experimental/Source-Fixe/kstuff-1.13-fpkg-dr-test5.elf",
+      "description": "KStuff FPKG 1.13-dr-test5. Build experimental distribuida por evoX. AVISO: el catalogo de evoX etiqueta el archivo como test5 pero su descripcion menciona test3; no se ha verificado una release publica oficial de esta build. ESTADO: EXPERIMENTAL.",
+      "last_update": "2026-10-10",
+      "version": "1.13-dr-test5",
+      "category": "ESENCIALES",
+      "checksum": "829b45fe871dd64fbd53874ae4558076c2f1e1f203fe1ab52db5510d5fc45923"
+    },
+    {
+      "name": "ShadowMountPlus",
+      "filename": "shadowmountplus_1.7-beta5fix1.elf",
+      "url": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.7-beta5fix1/shadowmountplus.elf",
+      "source": "https://github.com/drakmor/ShadowMountPlus/releases",
+      "source_direct": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.7-beta5fix1/shadowmountplus.elf",
+      "description": "Montaje automatico de juegos PS5, backports y fakelib. 1.7beta5 incorpora modos fakelib por juego, mejoras de sandbox USB, fuentes y recuperacion de ShellCore. fix1 corrige iconos de juegos PS4 en unidades externas. Ya no usa auto-pausa ni autotune de KStuff: usar KStuff reciente y evitar etaHEN simultaneo. ESTADO: BETA RECIENTE; PROBAR ANTES DE AUTOCARGAR.",
+      "last_update": "2026-10-10",
+      "version": "1.7-beta5fix1",
+      "category": "ESENCIALES",
+      "checksum": "e85fd63b705498488f39c09c9aea6f9fa22e0df2e932865de49a8cedf25172d5"
     }
   ]
 }
