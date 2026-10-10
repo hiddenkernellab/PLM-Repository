@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # HiddenKernel RADAR - 2026-10-10
 # Basado en main de hiddenkernellab/PLM-Repository (commit bb83d07c...)
-# Actualiza solo los ELF seleccionados de KStuff y ShadowMountPlus.
+# Actualiza KStuff, ShadowMountPlus y PS5SX2 AIO.
 # No realiza push, ni altera el repositorio remoto.
 
 import json
@@ -106,9 +106,52 @@ def update_catalog(path=Path("payloads.json")):
     print(f"HiddenKernel: {len(retained)} entradas; KStuff test5 y SMP beta5fix1 incluidos")
 
 
+
+def update_ps5sx2_aio(path=Path("payloads.json")):
+    """Replace legacy PS5SX2 payloads with the official 2.01 AIO ELF."""
+    data = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(data, dict) or not isinstance(data.get("payloads"), list):
+        raise ValueError("Formato inesperado de payloads.json")
+    old_names = {"ps5sx2 helper", "ps5sx2 installer", "ps5sx2 aio", "disclaunch", "ps5sx2 disclaunch"}
+    old_files = {"ps5sxhelper.elf", "ps5sx2installer.elf", "disclaunch.elf", "ps5sx2-aio.elf"}
+    kept = []
+    for item in data["payloads"]:
+        if not isinstance(item, dict):
+            kept.append(item)
+            continue
+        name = str(item.get("name", "")).strip().casefold()
+        filename = str(item.get("filename", "")).strip().casefold()
+        if name in old_names or filename in old_files:
+            continue
+        kept.append(item)
+    url = "https://github.com/Swordpdf/PS5SX2/releases/download/vk-285-161/ps5sx2-aio.elf"
+    kept.append({
+        "name": "PS5SX2 AIO",
+        "filename": "ps5sx2-aio.elf",
+        "url": url,
+        "source": "https://github.com/Swordpdf/PS5SX2/releases",
+        "source_direct": url,
+        "description": (
+            "PS5SX2 2.01: instalador, helper y lanzador automatico de discos PS2 "
+            "en un solo ELF. Sustituye PS5SXHelper, PS5SX2Installer y DiscLaunch. "
+            "No ejecutar a la vez que los payloads anteriores; reiniciar antes "
+            "de cambiar el autoload. ESTADO: EN PRUEBAS."
+        ),
+        "last_update": "2026-10-10",
+        "version": "2.01 (vk-285-161)",
+        "category": "EMULADORES",
+        "checksum": "b52c7a70c266826974314417bc059063b6e8ab0b8cc9537471f65f0e4915560d",
+    })
+    data["payloads"] = kept
+    tmp = path.with_name(path.name + ".tmp")
+    tmp.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    tmp.replace(path)
+    print("HiddenKernel: PS5SX2 AIO 2.01 incluido; Installer, Helper y DiscLaunch retirados")
+
 def main():
     run_main_snapshot()
     update_catalog()
+    update_ps5sx2_aio()
 
 
 if __name__ == "__main__":
