@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# HiddenKernel CLEAN updater 2026-10-09 (main + Kylin Core + FBNeo 1.7)
+# HiddenKernel CLEAN updater 2026-10-10 (main + KStuff test5 / ShadowMountPlus beta4)
 # Poda el catalogo actual antes de generar los JSON.
 import urllib.request
 
@@ -111,6 +111,28 @@ def clean(ns):
             app["category"] = "ARCHIVOS / RED"
         elif app.get("name") == "Orbit Store":
             app["category"] = "DESCARGAS"
+        elif app.get("name") == "kstuff-lite":
+            # No aceptar releases distintas de la build elegida.
+            app["channels"] = ["stable", "beta", "alpha"]
+            app["single_latest"] = True
+            app["desc"] = "Kstuff FPKG 1.13 dr test5: version seleccionada por HiddenKernel."
+        elif app.get("name") == "ShadowMountPlus":
+            # Mantener solo la version principal mas reciente (stable/beta).
+            # El generador base conserva ademas una alpha historica en ALTERNATIVOS.
+            # No se debe publicar una alpha anterior junto a 1.7beta4.
+            app["channels"] = ["stable", "beta"]
+            app["single_latest"] = True
+            app["alternate_channels"] = []
+            app["always_alpha"] = False
+            app["stable_override"] = None
+            app["exclude_versions"] = list(dict.fromkeys(
+                list(app.get("exclude_versions", [])) + [r"(?i)alpha"]
+            ))
+            app["desc"] = (
+                "Montaje y registro automatico de juegos desde almacenamiento "
+                "interno o externo. Version seleccionada: 1.7beta3; "
+                "se excluyen las builds alpha antiguas y los FPKG experimentales."
+            )
         elif app.get("name") == "PS5 Tailscale":
             # Since 0.7.1 the ELF asset is versioned (tailscale-0.7.1.elf).
             # The old exact fragment tailscale.elf no longer matches it.
@@ -135,6 +157,8 @@ def clean(ns):
     curated=ns.get("CURATED_STATUS",{})
     for x in REMOVE_NAMES: curated.pop(x,None)
     curated.update({
+      "ShadowMountPlus":[(r".*","UPSTREAM / PRINCIPAL",
+                            "Una sola release estable/beta; se retiran las alpha historicas duplicadas.")],
       "PS5SX2 Installer":[(r".*","RECOMENDADO / PS2","Usar junto con PS5SX2 Helper, kstuff y ShadowMountPlus.")],
       "PS5SX2 Helper":[(r".*","RECOMENDADO / AUTOLOAD","Upstream recomienda cargar Helper junto con kstuff.")],
       "ps5upload":[(r".*","UPSTREAM / ACTUALIZABLE",
@@ -164,6 +188,15 @@ def clean(ns):
 
 def main():
     ns=load_base()
+    # Evita que un fallo temporal de red restaure una alpha obsoleta del JSON
+    # anterior mediante el fallback del generador original.
+    original_previous_for_app = ns["previous_for_app"]
+    def previous_without_obsolete_alpha(previous, app_name):
+        entries = original_previous_for_app(previous, app_name)
+        if str(app_name).casefold() == "shadowmountplus":
+            entries = [x for x in entries if "alpha" not in str(x.get("version", "")).lower()]
+        return entries
+    ns["previous_for_app"] = previous_without_obsolete_alpha
     ns["extend_hiddenkernel"](ns)
     ns["clean_obsolete_entries"](ns)
     ns["add_curated_evox_elf"](ns)
@@ -174,6 +207,32 @@ def main():
     # El generador original consulta siempre las releases oficiales de cada repo:
     # Las versiones ELF se seleccionan automaticamente desde upstream.
     ns["generate_catalog"]()
+    # Limpieza final sobre el JSON publicado. No inventa URLs ni hashes.
+    import json
+    from pathlib import Path
+    path = Path("payloads.json")
+    if path.exists():
+        data = json.loads(path.read_text(encoding="utf-8"))
+        # El catalogo base usa una lista dentro de un objeto.
+        for key, entries in data.items():
+            if not isinstance(entries, list):
+                continue
+            retained = []
+            for item in entries:
+                if not isinstance(item, dict):
+                    retained.append(item); continue
+                name = str(item.get("name", "")).lower()
+                identity = " ".join(str(item.get(k, "")) for k in ("name", "filename", "version", "url")).lower()
+                if "shadowmount" in name and "1.7beta4" not in identity:
+                    continue
+                if ("kstuff" in name or "k-stuff" in name) and "1.13" not in identity:
+                    continue
+                if ("kstuff" in name or "k-stuff" in name) and "test5" not in identity:
+                    continue
+                retained.append(item)
+            data[key] = retained
+        path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
 
 if __name__=="__main__":
     main()
