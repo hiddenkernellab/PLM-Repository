@@ -1,238 +1,115 @@
 #!/usr/bin/env python3
-# HiddenKernel CLEAN updater 2026-10-10 (main + KStuff test5 / ShadowMountPlus beta4)
-# Poda el catalogo actual antes de generar los JSON.
+# HiddenKernel RADAR - 2026-10-10
+# Basado en main de hiddenkernellab/PLM-Repository (commit bb83d07c...)
+# Actualiza solo los ELF seleccionados de KStuff y ShadowMountPlus.
+# No realiza push, ni altera el repositorio remoto.
+
+import json
 import urllib.request
+from pathlib import Path
 
-BASE_URL="https://raw.githubusercontent.com/hiddenkernellab/PLM-Repository/0582daf2265993358eb7f4a830db5d360714876a/actualizador.py"
+# Snapshot exacto del main revisado. Evita ejecutar recursivamente este wrapper
+# si posteriormente se publica como actualizador.py en la rama main.
+MAIN_SHA = "bb83d07c9d3d8779eb5339ca7b9a8d2269811e8a"
+MAIN_URL = (
+    "https://raw.githubusercontent.com/hiddenkernellab/PLM-Repository/"
+    + MAIN_SHA + "/actualizador.py"
+)
 
-REMOVE_NAMES={
-"ELF Arsenal","PSVietHoa WebKit Autoloader","WK Autoloader Relapse (X-F1REBALL-X)",
-"ftpsrv Drakmor","FPKG Integrado - Kstuff Drakmor","FPKG Integrado - ShadowMountPlus",
-"FPKG AIO - A53+Kstuff+SMP 3in1","FPKG Modular - Kstuff Lite",
-"FPKG Modular - ShadowMountPlus","A53 PPR Modular 1.00-11.40","A53 PPR Modular 11.60",
-}
-REMOVE_CATEGORIES={"FPKG INTEGRADO","FPKG MODULAR"}
+KSTUFF_URL = (
+    "https://nexgen999.github.io/evoX-CoreOS/payloads/PS5_Beta/"
+    "kstuff_Drakmor_Experimental/Source-Fixe/"
+    "kstuff-1.13-fpkg-dr-test5.elf"
+)
+SMP_URL = (
+    "https://github.com/drakmor/ShadowMountPlus/releases/download/"
+    "1.7-beta5fix1/shadowmountplus.elf"
+)
 
-ADDITIONS=[
- dict(name="PS5SX2 Installer",repo="Swordpdf/PS5SX2",match=["PS5SX2Installer.elf"],
-      category="EMULADORES",channels=["stable"],single_latest=True,elf_only=True,
-      install_filename="PS5SX2Installer.elf",
-      desc="Instalador oficial de PS5SX2. Instala y mantiene actualizada la build principal del emulador nativo de PS2 para PS5."),
- dict(name="PS5SX2 Helper",repo="Swordpdf/PS5SX2",match=["PS5SXHelper.elf"],
-      category="EMULADORES",channels=["stable"],single_latest=True,elf_only=True,
-      install_filename="PS5SXHelper.elf",
-      desc="Helper oficial requerido por PS5SX2 para los recompiladores y acceso a /data. Usar junto con kstuff."),
- dict(name="XPSemu Helper",optional=True,repo="ZiZc3/XPSemu",match=["helper.elf"],
-      category="EMULADORES",channels=["stable","beta","alpha"],
-      single_latest=True,elf_only=True,
-      install_filename="xpsemu-helper.elf",
-      desc=("Helper para XPSemu, emulador nativo de Xbox original en PS5. "
-            "Alpha 2 elimina whitelist y admite juegos en USB. "
-            "Cargar junto con kstuff; evitar cargar simultaneamente helpers equivalentes.")),
- dict(name="PuckbridgePS5",optional=True,repo="ThisIsAkill/PuckbridgePS5",match=["ghost-control-ps5.elf"],
-      category="MANDOS / AUDIO",channels=["stable"],single_latest=True,elf_only=True,
-      install_filename="puckbridge-ps5.elf",
-      desc="Fork ampliado de Ghostcontrol para Steam Controller 2026 y mandos compatibles, con rumble, gyro, flick stick, motion controls, trigger feedback, remapeo web y perfiles."),
- # 2026-10-08: instaladores/helper ELF de emuladores nativos confirmados upstream.
- dict(name="Genesis Plus GX PS5",optional=True,repo="MisterTemaki/genplusgxPS5",
-      match=["GenesisPlusGXPS5-"],category="EMULADORES",
-      channels=["stable"],single_latest=True,elf_only=True,
-      install_filename="GenesisPlusGXPS5.elf",
-      desc=("Instalador y helper del emulador nativo Genesis Plus GX para PS5: "
-            "Mega Drive, Sega CD, Master System, Game Gear y SG-1000. "
-            "Requiere kstuff y ShadowMountPlus. v1.3: shaders CRT, guardados y correcciones. "
-            "Version experimental pendiente de validacion amplia en PS5 real.")),
- # 2026-10-09: port nativo de FinalBurn Neo para recreativas (upstream v1.7).
- dict(name="FBNeo PS5",optional=True,repo="MisterTemaki/fbneo-ps5",
-      match=["FBNeoPS5-v"],category="EMULADORES",
-      channels=["stable"],single_latest=True,elf_only=True,
-      install_filename="FBNeoPS5.elf",
-      desc=("Instalador y helper del emulador nativo FinalBurn Neo 1.0.0.3 para PS5. "
-            "Recreativas CPS-1/2/3, Neo Geo, Sega, Konami y otros sistemas; ROMs desde /data/fbneo/roms o USB. "
-            "v1.7 mueve guardado, carga, cambio de slot, Service y Test al menu de pausa (L3+R3); L2/R2 sin atajos. "
-            "Requiere entorno homebrew con elfldr, kstuff y ShadowMountPlus. "
-            "226 pruebas host documentadas con PS5 simulada; compatibilidad real por juego aun por verificar.")),
- dict(name="Snes9x PS5",optional=True,repo="MisterTemaki/snes9xPS5",
-      match=["Snes9xPS5-v"],category="EMULADORES",
-      channels=["stable"],single_latest=True,elf_only=True,
-      install_filename="Snes9xPS5.elf",
-      desc=("Instalador y helper del emulador nativo Super Nintendo para PS5. "
-            "v2.2: descarga de caratulas en segundo plano, inicio inmediato y sin reinicios. "
-            "Incluye shaders CRT y ScaleFX, MSU-1, DualSense, guardados y ROMs USB. "
-            "Requiere kstuff, ShadowMountPlus y elfldr.")),
- # 2026-10-09: herramienta de cheats con ELF oficial y Web UI integrada.
- dict(name="Kylin Core",optional=True,repo="aydencharles/kylin-core-release",
-      match=["kylin-core.elf"],category="CHEATS",
-      channels=["stable"],single_latest=True,elf_only=True,
-      install_filename="kylin-core.elf",
-      desc=("Motor de trucos en tiempo real para PS4 y PS5 sobre PS5, con deteccion "
-            "automatica de juegos y Web UI local en puerto 9023. "
-            "v2.0.0-community-lite admite JSON, SHN y MC4; ShnExt sigue en alpha. "
-            "Cargar desde PLDMGR; no requiere PKG adicional. "
-            "FW 4.03-13.60 segun el autor. Evitar ejecutar junto a otro motor "
-            "de trucos sin comprobar conflictos.")),
-
+SELECTED = [
+    {
+        "name": "KStuff FPKG",
+        "filename": "kstuff-1.13-fpkg-dr-test5.elf",
+        "url": KSTUFF_URL,
+        "source": "https://github.com/nexgen999/evoX-CoreOS",
+        "source_direct": KSTUFF_URL,
+        "description": (
+            "KStuff FPKG 1.13-dr-test5. Build experimental distribuida por evoX. "
+            "AVISO: el catalogo de evoX etiqueta el archivo como test5 pero "
+            "su descripcion menciona test3; no se ha verificado una release "
+            "publica oficial de esta build. ESTADO: EXPERIMENTAL."
+        ),
+        "last_update": "2026-10-10",
+        "version": "1.13-dr-test5",
+        "category": "ESENCIALES",
+        "checksum": "829b45fe871dd64fbd53874ae4558076c2f1e1f203fe1ab52db5510d5fc45923",
+    },
+    {
+        "name": "ShadowMountPlus",
+        "filename": "shadowmountplus_1.7-beta5fix1.elf",
+        "url": SMP_URL,
+        "source": "https://github.com/drakmor/ShadowMountPlus/releases",
+        "source_direct": SMP_URL,
+        "description": (
+            "Montaje automatico de juegos PS5, backports y fakelib. "
+            "1.7beta5 incorpora modos fakelib por juego, mejoras de sandbox USB, "
+            "fuentes y recuperacion de ShellCore. fix1 corrige iconos de juegos "
+            "PS4 en unidades externas. Ya no usa auto-pausa ni autotune de "
+            "KStuff: usar KStuff reciente y evitar etaHEN simultaneo. "
+            "ESTADO: BETA RECIENTE; PROBAR ANTES DE AUTOCARGAR."
+        ),
+        "last_update": "2026-10-10",
+        "version": "1.7-beta5fix1",
+        "category": "ESENCIALES",
+        "checksum": "e85fd63b705498488f39c09c9aea6f9fa22e0df2e932865de49a8cedf25172d5",
+    },
 ]
 
-def load_base():
-    req=urllib.request.Request(BASE_URL,headers={"User-Agent":"HiddenKernel-Clean-Updater/2026-10-08","Cache-Control":"no-cache"})
-    with urllib.request.urlopen(req,timeout=60) as r:
-        src=r.read().decode("utf-8")
-    src=src.replace('if __name__ == "__main__":\n    main()','if __name__ == "__hiddenkernel_base__":\n    main()')
-    ns={"__name__":"__hiddenkernel_clean__"}
-    exec(compile(src,BASE_URL,"exec"),ns,ns)
-    return ns
 
-def clean(ns):
-    apps=ns["APPS"]
-    out=[]
-    for app in apps:
-        if app.get("name") in REMOVE_NAMES or app.get("category") in REMOVE_CATEGORIES:
+def run_main_snapshot():
+    req = urllib.request.Request(
+        MAIN_URL,
+        headers={"User-Agent": "HiddenKernel-Radar/2026-10-10", "Cache-Control": "no-cache"},
+    )
+    with urllib.request.urlopen(req, timeout=60) as response:
+        source = response.read().decode("utf-8")
+    # Al ejecutarlo con otro __name__, el main del script original no se inicia
+    # automaticamente. Invocamos main() exactamente una vez.
+    namespace = {"__name__": "__hiddenkernel_main_snapshot__"}
+    exec(compile(source, MAIN_URL, "exec"), namespace, namespace)
+    namespace["main"]()
+
+
+def update_catalog(path=Path("payloads.json")):
+    if not path.is_file():
+        raise FileNotFoundError(f"No se ha generado {path}")
+    data = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(data, dict) or not isinstance(data.get("payloads"), list):
+        raise ValueError("Formato inesperado de payloads.json: no se modifica")
+    payloads = data["payloads"]
+    retained = []
+    for item in payloads:
+        if not isinstance(item, dict):
+            retained.append(item)
             continue
-        # Quita duplicados por nombre conservando la definicion mas reciente.
-        out=[x for x in out if x.get("name")!=app.get("name")]
-        out.append(app)
-    newnames={x["name"] for x in ADDITIONS}
-    out=[x for x in out if x.get("name") not in newnames]
-    out.extend(ADDITIONS)
-    apps[:]=out
-    ns["FIXED"][:] = [
-        x for x in ns["FIXED"]
-        if x.get("name") not in {
-            "kstuff-lite FPKG", "ShadowMountPlus FPKG",
-            "A53 PPR Install Fast",
-        }
-        and not (x.get("name") == "etaHEN" and x.get("version") == "2.6B")
-        and x.get("category") != "FPKG LEGACY"
-    ]
-    # Reorganiza entradas utiles existentes sin duplicar ni fijar versiones.
-    for app in apps:
-        if app.get("name") == "ps5upload":
-            app["category"] = "ARCHIVOS / RED"
-        elif app.get("name") == "Orbit Store":
-            app["category"] = "DESCARGAS"
-        elif app.get("name") == "kstuff-lite":
-            # No aceptar releases distintas de la build elegida.
-            app["channels"] = ["stable", "beta", "alpha"]
-            app["single_latest"] = True
-            app["desc"] = "Kstuff FPKG 1.13 dr test5: version seleccionada por HiddenKernel."
-        elif app.get("name") == "ShadowMountPlus":
-            # Mantener solo la version principal mas reciente (stable/beta).
-            # El generador base conserva ademas una alpha historica en ALTERNATIVOS.
-            # No se debe publicar una alpha anterior junto a 1.7beta4.
-            app["channels"] = ["stable", "beta"]
-            app["single_latest"] = True
-            app["alternate_channels"] = []
-            app["always_alpha"] = False
-            app["stable_override"] = None
-            app["exclude_versions"] = list(dict.fromkeys(
-                list(app.get("exclude_versions", [])) + [r"(?i)alpha"]
-            ))
-            app["desc"] = (
-                "Montaje y registro automatico de juegos desde almacenamiento "
-                "interno o externo. Version seleccionada: 1.7beta3; "
-                "se excluyen las builds alpha antiguas y los FPKG experimentales."
-            )
-        elif app.get("name") == "PS5 Tailscale":
-            # Since 0.7.1 the ELF asset is versioned (tailscale-0.7.1.elf).
-            # The old exact fragment tailscale.elf no longer matches it.
-            app["match"] = ["tailscale"]
-            app["desc"] = (
-                "Cliente Tailscale no oficial para acceso remoto a la PS5. "
-                "v0.7.1 incorpora Wake-on-LAN, diagnosticos descargables "
-                "y pruebas de conexion. No equivale a una VPN completa. "
-                "Al actualizar, revisar el ELF configurado en autoload."
-            )
-        elif app.get("name") == "PS5 WebKit Autoloader":
-            # 0.6.1: Poops offsets fixed for FW 9.05, 11.40 and 11.60.
-            # Relapse still does not support 9.05 or 11.40.
-            # The 0.6.x branch no longer supports umtx2 / FW 1.00-5.50.
-            app["desc"] = (
-                "Autoloader WebKit oficial de itsPLK. Rama 0.6.x con Poops y Relapse. "
-                "v0.6.1 corrige Poops en FW 9.05, 11.40 y 11.60; "
-                "Relapse no admite 9.05 ni 11.40. "
-                "La rama 0.6.x no admite FW 1.00-5.50 (umtx2 retirado). "
-                "La version se selecciona automaticamente desde la release oficial."
-            )
-    curated=ns.get("CURATED_STATUS",{})
-    for x in REMOVE_NAMES: curated.pop(x,None)
-    curated.update({
-      "ShadowMountPlus":[(r".*","UPSTREAM / PRINCIPAL",
-                            "Una sola release estable/beta; se retiran las alpha historicas duplicadas.")],
-      "PS5SX2 Installer":[(r".*","RECOMENDADO / PS2","Usar junto con PS5SX2 Helper, kstuff y ShadowMountPlus.")],
-      "PS5SX2 Helper":[(r".*","RECOMENDADO / AUTOLOAD","Upstream recomienda cargar Helper junto con kstuff.")],
-      "ps5upload":[(r".*","UPSTREAM / ACTUALIZABLE",
-                           "Seguir la ultima release ELF oficial; v6.6.3 es mantenimiento de pruebas sin cambios funcionales respecto a v6.6.1.")],
-      "Orbit Store":[(r".*","BETA / DESCARGAS",
-                           "v1.0.0 permite descargas y transferencias desde Orbit Zero por red local; seguir ELF upstream.")],
-      "PS5 Tailscale":[(r".*","ESTABLE / RED REMOTA",
-                           "v0.7.1 incluye Wake-on-LAN, diagnosticos y pruebas de conexion. "
-                           "Revisar autoload para no volver a iniciar el ELF anterior.")],
-      "PS5 WebKit Autoloader":[(r".*","ESTABLE / POOPS-RELAPSE",
-                           "v0.6.1 repara Poops en 9.05, 11.40 y 11.60. "
-                           "Relapse no funciona en 9.05 ni 11.40; 1.00-5.50 no admitidos en 0.6.x.")],
-      "XPSemu Helper":[(r".*","ALPHA / XBOX ORIGINAL",
-                           "Alpha 2: helper.elf. No es el emulador completo; requiere la app XPSemu instalada.")],
-      "PuckbridgePS5":[(r".*","ESTABLE / MANDOS","Alternativa avanzada a Ghostcontrol; validar el mando antes de autoload.")],
-      "Kylin Core":[(r".*","UPSTREAM / CHEATS",
-                       "v2.0.0 Community Lite: ELF autonomo, Web UI 9023, sin PKG. "
-                       "Evitar uso simultaneo con otros motores de cheats.")],
-      "Genesis Plus GX PS5":[(r".*","EXPERIMENTAL / SEGA",
-                           "Instalador/helper ELF de emulador Sega. Validacion en PS5 real limitada.")],
-      "FBNeo PS5":[(r".*","EXPERIMENTAL / ARCADE",
-                        "v1.7: controles L2/R2 sin atajos, Service/Test y estados desde pausa; 226 pruebas host, sin validacion PS5 real extensa.")],
-      "Snes9x PS5":[(r".*","EN PRUEBAS / SNES",
-                           "v2.2: caratulas en segundo plano, inicio rapido y helper en puerto 9080. "
-                           "Requiere kstuff, ShadowMountPlus y ELF loader; no incluye ROMs.")],
-    })
+        name = str(item.get("name", "")).casefold()
+        # Se eliminan variantes antiguas y duplicadas, no otras herramientas.
+        if "kstuff" in name or "k-stuff" in name or "shadowmount" in name:
+            continue
+        retained.append(item)
+    retained.extend(SELECTED)
+    data["payloads"] = retained
+    # Escritura atomica para no dejar un JSON truncado si falla el proceso.
+    tmp = path.with_name(path.name + ".tmp")
+    tmp.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    tmp.replace(path)
+    print(f"HiddenKernel: {len(retained)} entradas; KStuff test5 y SMP beta5fix1 incluidos")
+
 
 def main():
-    ns=load_base()
-    # Evita que un fallo temporal de red restaure una alpha obsoleta del JSON
-    # anterior mediante el fallback del generador original.
-    original_previous_for_app = ns["previous_for_app"]
-    def previous_without_obsolete_alpha(previous, app_name):
-        entries = original_previous_for_app(previous, app_name)
-        if str(app_name).casefold() == "shadowmountplus":
-            entries = [x for x in entries if "alpha" not in str(x.get("version", "")).lower()]
-        return entries
-    ns["previous_for_app"] = previous_without_obsolete_alpha
-    ns["extend_hiddenkernel"](ns)
-    ns["clean_obsolete_entries"](ns)
-    ns["add_curated_evox_elf"](ns)
-    ns["apply_hiddenkernel_v2_maintenance"](ns)
-    ns["add_verified_elf"](ns)
-    ns["force_ascii_descriptions"](ns)
-    clean(ns)
-    # El generador original consulta siempre las releases oficiales de cada repo:
-    # Las versiones ELF se seleccionan automaticamente desde upstream.
-    ns["generate_catalog"]()
-    # Limpieza final sobre el JSON publicado. No inventa URLs ni hashes.
-    import json
-    from pathlib import Path
-    path = Path("payloads.json")
-    if path.exists():
-        data = json.loads(path.read_text(encoding="utf-8"))
-        # El catalogo base usa una lista dentro de un objeto.
-        for key, entries in data.items():
-            if not isinstance(entries, list):
-                continue
-            retained = []
-            for item in entries:
-                if not isinstance(item, dict):
-                    retained.append(item); continue
-                name = str(item.get("name", "")).lower()
-                identity = " ".join(str(item.get(k, "")) for k in ("name", "filename", "version", "url")).lower()
-                if "shadowmount" in name and "1.7beta4" not in identity:
-                    continue
-                if ("kstuff" in name or "k-stuff" in name) and "1.13" not in identity:
-                    continue
-                if ("kstuff" in name or "k-stuff" in name) and "test5" not in identity:
-                    continue
-                retained.append(item)
-            data[key] = retained
-        path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    run_main_snapshot()
+    update_catalog()
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
     main()
