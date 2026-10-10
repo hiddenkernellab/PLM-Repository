@@ -326,30 +326,6 @@
       "checksum": "c548e4dd9e15f58bff8cccc2e7042df276462643ec74a0ea7548deeee6941548"
     },
     {
-      "name": "PS5SX2 Helper",
-      "filename": "PS5SXHelper.elf",
-      "url": "https://github.com/Swordpdf/PS5SX2/releases/download/vk-285-139/PS5SXHelper.elf",
-      "source": "https://github.com/Swordpdf/PS5SX2/releases",
-      "source_direct": "https://github.com/Swordpdf/PS5SX2/releases/download/vk-285-139/PS5SXHelper.elf",
-      "description": "Helper oficial requerido por PS5SX2 para los recompiladores y acceso a /data. Usar junto con kstuff. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: probado por el proyecto en PS5/PS5 Pro con FW 6.02-12.70.",
-      "last_update": "2026-10-08",
-      "version": "2.00",
-      "category": "EMULADORES",
-      "checksum": "737d95a8a1545447c4166b094005704465e420f79f54e882e30e7f9e4cde6210"
-    },
-    {
-      "name": "PS5SX2 Installer",
-      "filename": "PS5SX2Installer.elf",
-      "url": "https://github.com/Swordpdf/PS5SX2/releases/download/vk-285-139/PS5SX2Installer.elf",
-      "source": "https://github.com/Swordpdf/PS5SX2/releases",
-      "source_direct": "https://github.com/Swordpdf/PS5SX2/releases/download/vk-285-139/PS5SX2Installer.elf",
-      "description": "Instalador oficial de PS5SX2. Instala y mantiene actualizada la build principal del emulador nativo de PS2 para PS5. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: probado por el proyecto en PS5/PS5 Pro con FW 6.02-12.70.",
-      "last_update": "2026-10-08",
-      "version": "2.00",
-      "category": "EMULADORES",
-      "checksum": "6b1be3ea24ec8144b27b2a1f3e279cd17574f3093e9431abf8579dcc6c0bfae9"
-    },
-    {
       "name": "RomM Sync",
       "filename": "romm-sync.elf",
       "url": "https://github.com/s0liton/RommPS/releases/download/v1.1.1/romm-sync.elf",
@@ -616,14 +592,14 @@
     {
       "name": "Orbit Store",
       "filename": "orbit_store.elf",
-      "url": "https://github.com/saawant12/orbit-store-ps5/releases/download/v1.0.5/orbit_store.elf",
+      "url": "https://github.com/saawant12/orbit-store-ps5/releases/download/v1.1.0/orbit_store.elf",
       "source": "https://github.com/saawant12/orbit-store-ps5/releases",
-      "source_direct": "https://github.com/saawant12/orbit-store-ps5/releases/download/v1.0.5/orbit_store.elf",
+      "source_direct": "https://github.com/saawant12/orbit-store-ps5/releases/download/v1.1.0/orbit_store.elf",
       "description": "Gestor de descargas para PS5 con cola persistente, pausa/reanudacion, seleccion de almacenamiento e interfaz local para movil/PC. Usar unicamente con contenido que se tenga derecho a descargar. ESTADO: EN PRUEBAS.",
-      "last_update": "2026-10-09",
-      "version": "v1.0.5",
+      "last_update": "2026-10-10",
+      "version": "v1.1.0",
       "category": "DESCARGAS",
-      "checksum": "7883cf64b62252594d58e5558ea29f8de7ed3ca1d9a3182c844f23513eaf7617"
+      "checksum": "e7afcd24678828436efc3aa3d58bb88cd0165f7dc39e72fb1ae60cf64037b986"
     },
     {
       "name": "PatchDL",
@@ -780,6 +756,18 @@
       "version": "1.7-beta5fix1",
       "category": "ESENCIALES",
       "checksum": "e85fd63b705498488f39c09c9aea6f9fa22e0df2e932865de49a8cedf25172d5"
+    },
+    {
+      "name": "PS5SX2 AIO",
+      "filename": "ps5sx2-aio.elf",
+      "url": "https://github.com/Swordpdf/PS5SX2/releases/download/vk-285-161/ps5sx2-aio.elf",
+      "source": "https://github.com/Swordpdf/PS5SX2/releases",
+      "source_direct": "https://github.com/Swordpdf/PS5SX2/releases/download/vk-285-161/ps5sx2-aio.elf",
+      "description": "PS5SX2 2.01: instalador, helper y lanzador automatico de discos PS2 en un solo ELF. Sustituye PS5SXHelper, PS5SX2Installer y DiscLaunch. No ejecutar a la vez que los payloads anteriores; reiniciar antes de cambiar el autoload. ESTADO: EN PRUEBAS.",
+      "last_update": "2026-10-10",
+      "version": "2.01 (vk-285-161)",
+      "category": "EMULADORES",
+      "checksum": "b52c7a70c266826974314417bc059063b6e8ab0b8cc9537471f65f0e4915560d"
     }
   ]
 }
