@@ -207,15 +207,15 @@
     },
     {
       "name": "ps5upload",
-      "filename": "ps5upload_v6.7.1.elf",
-      "url": "https://github.com/phantomptr/ps5upload/releases/download/v6.7.1/ps5upload-6.7.1.elf",
+      "filename": "ps5upload_v6.7.3.elf",
+      "url": "https://github.com/phantomptr/ps5upload/releases/download/v6.7.3/ps5upload-6.7.3.elf",
       "source": "https://github.com/phantomptr/ps5upload/releases",
-      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v6.7.1/ps5upload-6.7.1.elf",
+      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v6.7.3/ps5upload-6.7.3.elf",
       "description": "Transfiere archivos entre PS5 y PC/Android con control de integridad y soporte para reanudar envios. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 1.00-12.70; probado en hardware en 5.10, 9.60 y 12.20.",
       "last_update": "2026-10-09",
-      "version": "v6.7.1",
+      "version": "v6.7.3",
       "category": "ARCHIVOS / RED",
-      "checksum": "731ce3a827d13bb3a577722c13c9b8ffc7fead9b290144fbcae7db7fc8d08d35"
+      "checksum": "468740692643ecef083da7d761169c09accec4f43b199a64df9c394ecd6b5df3"
     },
     {
       "name": "unrar-ps5",
@@ -328,14 +328,14 @@
     {
       "name": "FBNeo PS5",
       "filename": "FBNeoPS5.elf",
-      "url": "https://github.com/MisterTemaki/fbneo-ps5/releases/download/v1.7/FBNeoPS5-v1.7.elf",
+      "url": "https://github.com/MisterTemaki/fbneo-ps5/releases/download/v1.8/FBNeoPS5-v1.8.elf",
       "source": "https://github.com/MisterTemaki/fbneo-ps5/releases",
-      "source_direct": "https://github.com/MisterTemaki/fbneo-ps5/releases/download/v1.7/FBNeoPS5-v1.7.elf",
+      "source_direct": "https://github.com/MisterTemaki/fbneo-ps5/releases/download/v1.8/FBNeoPS5-v1.8.elf",
       "description": "Instalador y helper del emulador nativo FinalBurn Neo 1.0.0.3 para PS5. Recreativas CPS-1/2/3, Neo Geo, Sega, Konami y otros sistemas; ROMs desde /data/fbneo/roms o USB. v1.7 mueve guardado, carga, cambio de slot, Service y Test al menu de pausa (L3+R3); L2/R2 sin atajos. Requiere entorno homebrew con elfldr, kstuff y ShadowMountPlus. 226 pruebas host documentadas con PS5 simulada; compatibilidad real por juego aun por verificar. ESTADO: EXPERIMENTAL.",
       "last_update": "2026-10-09",
-      "version": "v1.7",
+      "version": "v1.8",
       "category": "EMULADORES",
-      "checksum": "9b85f6cbd9b77ba5eb5ffb01b8737a3818f8141903efa78e8de229c2b2e7daf5"
+      "checksum": "9e3b4af4239eeb574adb1b042f5da54e806d6ec018a85c6f93cf8a423815b11c"
     },
     {
       "name": "Genesis Plus GX PS5",
@@ -376,26 +376,26 @@
     {
       "name": "RomM Sync",
       "filename": "romm-sync.elf",
-      "url": "https://github.com/s0liton/RommPS/releases/download/v1.1.0/romm-sync.elf",
+      "url": "https://github.com/s0liton/RommPS/releases/download/v1.1.1/romm-sync.elf",
       "source": "https://github.com/s0liton/ps5-romm/releases",
-      "source_direct": "https://github.com/s0liton/RommPS/releases/download/v1.1.0/romm-sync.elf",
+      "source_direct": "https://github.com/s0liton/RommPS/releases/download/v1.1.1/romm-sync.elf",
       "description": "Cliente PS5 para servidores RomM: biblioteca, descarga de ROM/BIOS hacia perfiles de emulador y sincronizacion de saves/savestates. ESTADO: ESTABILIDAD NO DOCUMENTADA.",
       "last_update": "2026-10-09",
-      "version": "v1.1.0",
+      "version": "v1.1.1",
       "category": "EMULADORES",
-      "checksum": "aea27d2a7a8207fffaac3725006f6f15bcb600a9ed7b05978fda767bf184afe2"
+      "checksum": "dc71f337c6d3cf99a6c005ff990717bcb9796d9ec2df7a6d19ae9d5f9b0a8041"
     },
     {
       "name": "Snes9x PS5",
       "filename": "Snes9xPS5.elf",
-      "url": "https://github.com/MisterTemaki/snes9xPS5/releases/download/v2.2/Snes9xPS5-v2.2.elf",
+      "url": "https://github.com/MisterTemaki/snes9xPS5/releases/download/v2.3/Snes9xPS5-v2.3.elf",
       "source": "https://github.com/MisterTemaki/snes9xPS5/releases",
-      "source_direct": "https://github.com/MisterTemaki/snes9xPS5/releases/download/v2.2/Snes9xPS5-v2.2.elf",
+      "source_direct": "https://github.com/MisterTemaki/snes9xPS5/releases/download/v2.3/Snes9xPS5-v2.3.elf",
       "description": "Instalador y helper del emulador nativo Super Nintendo para PS5. v2.2: descarga de caratulas en segundo plano, inicio inmediato y sin reinicios. Incluye shaders CRT y ScaleFX, MSU-1, DualSense, guardados y ROMs USB. Requiere kstuff, ShadowMountPlus y elfldr. ESTADO: EN PRUEBAS.",
       "last_update": "2026-10-09",
-      "version": "v2.2",
+      "version": "v2.3",
       "category": "EMULADORES",
-      "checksum": "ba2c14e9a91001a1ab338afb858c0016151dcf919a20e644387ce79c20210e94"
+      "checksum": "d71f900bc434eaed55b304e603ae79327ef7de6be147a159d78803dd0eb7fe27"
     },
     {
       "name": "XPSemu Helper",
@@ -663,15 +663,15 @@
     },
     {
       "name": "Pegasus DL",
-      "filename": "pegasus-dl_v1.10.1.elf",
-      "url": "https://github.com/pegasus-ps5/pegasus-dl/releases/download/v1.10.1/pegasus_dl.elf",
+      "filename": "pegasus-dl_v1.11.0.elf",
+      "url": "https://github.com/pegasus-ps5/pegasus-dl/releases/download/v1.11.0/pegasus_dl.elf",
       "source": "https://github.com/pegasus-ps5/pegasus-dl/releases",
-      "source_direct": "https://github.com/pegasus-ps5/pegasus-dl/releases/download/v1.10.1/pegasus_dl.elf",
+      "source_direct": "https://github.com/pegasus-ps5/pegasus-dl/releases/download/v1.11.0/pegasus_dl.elf",
       "description": "Gestor de descargas web. Desde 1.8.0 puede enviar enlaces .pkg al descargador nativo de PS5. ESTADO: ESTABILIDAD NO DOCUMENTADA.",
-      "last_update": "2026-09-30",
-      "version": "v1.10.1",
+      "last_update": "2026-10-09",
+      "version": "v1.11.0",
       "category": "DESCARGAS",
-      "checksum": "b24fdc62fc6cad14684b214a9c5be6c1221585afbf9493e387ab90f9dee21138"
+      "checksum": "32b69c2089bb545abfabd04d5827444698f9c4f1bc4915d72247cb781e8c23d9"
     },
     {
       "name": "PS5 aria2",
@@ -688,14 +688,14 @@
     {
       "name": "PS5 Library",
       "filename": "ps5-library.elf",
-      "url": "https://github.com/deox1111/ps5-library/releases/download/v0.7.21/ps5-library.elf",
+      "url": "https://github.com/deox1111/ps5-library/releases/download/v0.7.22/ps5-library.elf",
       "source": "https://github.com/deox1111/ps5-library/releases",
-      "source_direct": "https://github.com/deox1111/ps5-library/releases/download/v0.7.21/ps5-library.elf",
+      "source_direct": "https://github.com/deox1111/ps5-library/releases/download/v0.7.22/ps5-library.elf",
       "description": "Biblioteca para PS5 con interfaz de mando, catalogos, instalacion y descargas reanudables. Requiere kstuff y ShadowMountPlus; 1.7beta4 o posterior permite listar juegos instalados desde PKG. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 13.60 probado por upstream; requiere kstuff y ShadowMountPlus.",
       "last_update": "2026-10-09",
-      "version": "v0.7.21",
+      "version": "v0.7.22",
       "category": "DESCARGAS",
-      "checksum": "0f939c74387c3086006c9bf3e6d5b7b8dbf6a770a816569a6b83671c5f56145c"
+      "checksum": "e4eeabaa0eda1a6ac601b0c7b3dbd9b0821526b7e118eac0e4760c575405f878"
     },
     {
       "name": "Spectrum Library",
