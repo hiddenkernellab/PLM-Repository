@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-# HiddenKernel RADAR - 2026-10-10
+# HiddenKernel RADAR - 2026-10-11 22:00 CEST
 # Basado en main de hiddenkernellab/PLM-Repository (commit bb83d07c...)
-# Actualiza KStuff, ShadowMountPlus y PS5SX2 AIO.
+# Basado en main actual; actualiza Orbit 1.2.0 y retira AnyPad con origen caido.
 # No realiza push, ni altera el repositorio remoto.
 
 import json
@@ -148,10 +148,118 @@ def update_ps5sx2_aio(path=Path("payloads.json")):
     tmp.replace(path)
     print("HiddenKernel: PS5SX2 AIO 2.01 incluido; Installer, Helper y DiscLaunch retirados")
 
+
+
+# Actualizacion contrastada con releases oficiales, 11-10-2026.
+# No se incluye PS5SX2 2.02: su AIO ELF es byte-identico al 2.01.
+# BlackBox se excluye: el autor prohibe cargar su ELF desde Payload Manager.
+import re
+
+RELEASES_VERIFIED = (
+    {
+        "repo": "saawant12/orbit-store-ps5",
+        "name": "Orbit Store",
+        "tag": "v1.2.0",
+        "asset": "orbit_store.elf",
+        "checksum": "86778d4fa830b1ff46379d167568c32294764cb05bc06ce6b05edc9db2a91691",
+        "category": "DESCARGAS",
+        "description": (
+            "Orbit Store 1.2.0 beta: tienda y gestor de descargas en PS5, "
+            "con extraccion de ZIP, RAR y 7z en la consola, mejoras para "
+            "USB externo y control de descargas simultaneas. "
+            "Usar solo para contenido autorizado. ESTADO: BETA."
+        ),
+    },
+)
+
+
+def _version_key(tag):
+    parts = re.findall(r"\d+", str(tag))
+    return tuple(int(x) for x in parts[:4])
+
+
+def _latest_verified(spec):
+    """Use GitHub release only if a real ELF asset with SHA-256 is published.
+
+    On API errors, retain the pinned, already verified release.
+    """
+    tag, checksum, asset_name = spec["tag"], spec["checksum"], spec["asset"]
+    try:
+        req = urllib.request.Request(
+            "https://api.github.com/repos/" + spec["repo"] + "/releases/latest",
+            headers={"Accept": "application/vnd.github+json", "User-Agent": "HiddenKernel-Radar/2026-10-11"},
+        )
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            release = json.load(resp)
+        candidate = str(release.get("tag_name", ""))
+        assets = [a for a in release.get("assets", [])
+                  if str(a.get("name", "")).lower() == asset_name.lower()]
+        if candidate and _version_key(candidate) > _version_key(tag) and len(assets) == 1:
+            digest = str(assets[0].get("digest", ""))
+            url = str(assets[0].get("browser_download_url", ""))
+            expected = ("https://github.com/" + spec["repo"] +
+                        "/releases/download/" + candidate + "/" + asset_name)
+            if digest.startswith("sha256:") and re.fullmatch(r"[0-9a-f]{64}", digest[7:]) and url == expected:
+                tag, checksum = candidate, digest[7:]
+            else:
+                print("AVISO: release nueva sin SHA256/ELF verificable:", spec["name"])
+    except (OSError, ValueError, KeyError) as exc:
+        print("AVISO: GitHub API no accesible para", spec["name"], "- usando release verificada")
+    return {
+        "name": spec["name"],
+        "filename": asset_name,
+        "url": "https://github.com/" + spec["repo"] + "/releases/download/" + tag + "/" + asset_name,
+        "source": "https://github.com/" + spec["repo"] + "/releases",
+        "source_direct": "https://github.com/" + spec["repo"] + "/releases/download/" + tag + "/" + asset_name,
+        "description": spec["description"],
+        "last_update": "2026-10-11",
+        "version": tag,
+        "category": spec["category"],
+        "checksum": checksum,
+    }
+
+
+def update_radar_20261011(path=Path("payloads.json")):
+    data = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(data, dict) or not isinstance(data.get("payloads"), list):
+        raise ValueError("Formato inesperado de payloads.json")
+    items = data["payloads"]
+    # El repositorio original de AnyPad 0.4.7-alpha devuelve 404; no dejar un ELF roto.
+    before = len(items)
+    items = [item for item in items if not (
+        isinstance(item, dict)
+        and str(item.get("name", "")).casefold().strip() == "anypad ps5"
+        and "sinfiltros/AnyPad-PS5" in str(item.get("url", ""))
+    )]
+    if len(items) < before:
+        print("HiddenKernel: retirado AnyPad 0.4.7-alpha (upstream 404)")
+
+    for spec in RELEASES_VERIFIED:
+        entry = _latest_verified(spec)
+        old = [item for item in items if isinstance(item, dict)
+               and str(item.get("name", "")).casefold() == spec["name"].casefold()]
+        if old and max(_version_key(x.get("version", "")) for x in old) > _version_key(entry["version"]):
+            print("HiddenKernel: no se degrada", spec["name"])
+            continue
+        items = [item for item in items if not (
+            isinstance(item, dict)
+            and (str(item.get("name", "")).casefold() == spec["name"].casefold()
+                 or str(item.get("filename", "")).casefold() == spec["asset"].casefold())
+        )]
+        items.append(entry)
+        print("HiddenKernel:", spec["name"], entry["version"], "ELF verificado")
+
+    data["payloads"] = items
+    tmp = path.with_name(path.name + ".tmp")
+    tmp.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    tmp.replace(path)
+
+
 def main():
     run_main_snapshot()
     update_catalog()
     update_ps5sx2_aio()
+    update_radar_20261011()
 
 
 if __name__ == "__main__":
