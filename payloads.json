@@ -195,15 +195,15 @@
     },
     {
       "name": "ps5upload",
-      "filename": "ps5upload_v7.0.8.elf",
-      "url": "https://github.com/phantomptr/ps5upload/releases/download/v7.0.8/ps5upload-7.0.8.elf",
+      "filename": "ps5upload_v7.0.10.elf",
+      "url": "https://github.com/phantomptr/ps5upload/releases/download/v7.0.10/ps5upload-7.0.10.elf",
       "source": "https://github.com/phantomptr/ps5upload/releases",
-      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v7.0.8/ps5upload-7.0.8.elf",
+      "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v7.0.10/ps5upload-7.0.10.elf",
       "description": "Transfiere archivos entre PS5 y PC/Android con control de integridad y soporte para reanudar envios. ESTADO: ESTABILIDAD NO DOCUMENTADA. COMPATIBILIDAD: FW 1.00-12.70; probado en hardware en 5.10, 9.60 y 12.20.",
       "last_update": "2026-10-11",
-      "version": "v7.0.8",
+      "version": "v7.0.10",
       "category": "ARCHIVOS / RED",
-      "checksum": "085d27825a78bb2066c334506791e2a85e12240c0710db1e649e4bf15f8f4aa4"
+      "checksum": "265cb3d2ed90a29a721a137b6877e680007c7f6041dfe324822c5b260eadc67f"
     },
     {
       "name": "unrar-ps5",
