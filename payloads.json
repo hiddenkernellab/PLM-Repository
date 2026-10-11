@@ -554,18 +554,6 @@
       "checksum": "7f5245f2db67b131c6f9e991b731117c2c730923a9dd65a2d82b36f2e2b91545"
     },
     {
-      "name": "AnyPad PS5",
-      "filename": "AnyPad-PS5-0.4.7-alpha.elf",
-      "url": "https://github.com/sinfiltros/AnyPad-PS5/releases/download/v0.4.7-alpha/AnyPad-PS5-0.4.7-alpha.elf",
-      "source": "https://github.com/sinfiltros/AnyPad-PS5/releases",
-      "source_direct": "https://github.com/sinfiltros/AnyPad-PS5/releases/download/v0.4.7-alpha/AnyPad-PS5-0.4.7-alpha.elf",
-      "description": "Crea mandos virtuales DualSense para usar gamepads Bluetooth externos. Proyecto alpha; DS4 validado y otros mandos dependen del modelo/firmware. ESTADO: EXPERIMENTAL.",
-      "last_update": "2026-10-03",
-      "version": "v0.4.7-alpha",
-      "category": "MANDOS / AUDIO",
-      "checksum": "ab36181551bf215a33100a7f56d973a24ea3402adbcbe3dadc06f15fdf5d1b11"
-    },
-    {
       "name": "FGG PlayPods",
       "filename": "fgg-playpods.elf",
       "url": "https://github.com/FGGstore/FGG-PlayPods/releases/download/1.0/fgg-playpods.elf",
@@ -600,18 +588,6 @@
       "version": "v1.4.0",
       "category": "MANDOS / AUDIO",
       "checksum": "c344b63a20ad5b2406fa46fd2b44dc56a9182e18ee52496f8dc80dbd9bee54a3"
-    },
-    {
-      "name": "Orbit Store",
-      "filename": "orbit_store.elf",
-      "url": "https://github.com/saawant12/orbit-store-ps5/releases/download/v1.1.0/orbit_store.elf",
-      "source": "https://github.com/saawant12/orbit-store-ps5/releases",
-      "source_direct": "https://github.com/saawant12/orbit-store-ps5/releases/download/v1.1.0/orbit_store.elf",
-      "description": "Gestor de descargas para PS5 con cola persistente, pausa/reanudacion, seleccion de almacenamiento e interfaz local para movil/PC. Usar unicamente con contenido que se tenga derecho a descargar. ESTADO: EN PRUEBAS.",
-      "last_update": "2026-10-10",
-      "version": "v1.1.0",
-      "category": "DESCARGAS",
-      "checksum": "e7afcd24678828436efc3aa3d58bb88cd0165f7dc39e72fb1ae60cf64037b986"
     },
     {
       "name": "PatchDL",
@@ -780,6 +756,18 @@
       "version": "2.01 (vk-285-161)",
       "category": "EMULADORES",
       "checksum": "b52c7a70c266826974314417bc059063b6e8ab0b8cc9537471f65f0e4915560d"
+    },
+    {
+      "name": "Orbit Store",
+      "filename": "orbit_store.elf",
+      "url": "https://github.com/saawant12/orbit-store-ps5/releases/download/v1.2.0/orbit_store.elf",
+      "source": "https://github.com/saawant12/orbit-store-ps5/releases",
+      "source_direct": "https://github.com/saawant12/orbit-store-ps5/releases/download/v1.2.0/orbit_store.elf",
+      "description": "Orbit Store 1.2.0 beta: tienda y gestor de descargas en PS5, con extraccion de ZIP, RAR y 7z en la consola, mejoras para USB externo y control de descargas simultaneas. Usar solo para contenido autorizado. ESTADO: BETA.",
+      "last_update": "2026-10-11",
+      "version": "v1.2.0",
+      "category": "DESCARGAS",
+      "checksum": "86778d4fa830b1ff46379d167568c32294764cb05bc06ce6b05edc9db2a91691"
     }
   ]
 }
