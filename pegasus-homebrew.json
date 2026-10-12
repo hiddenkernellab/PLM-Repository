@@ -94,21 +94,6 @@
       "sizeBytes": 62849024
     },
     {
-      "titleId": "PPSA99002",
-      "title": "ProsperoLight",
-      "version": "01.000.060",
-      "description": "ProsperoLight, cliente Moonlight para PS5.",
-      "downloadSource": "https://github.com/nexgen999/evoX-CoreOS",
-      "downloadLinks": [
-        {
-          "name": "ProsperoLight",
-          "url": "https://github.com/blackbearreloaded/ProsperoLight/releases/download/01.000.060/PPSA99002.ffpfsc"
-        }
-      ],
-      "posterUrl": "https://cdn.jsdelivr.net/gh/nexgen999/evoX-CoreOS@main/assets/icon/ProsperoLight.png",
-      "sizeBytes": 39911424
-    },
-    {
       "titleId": "PPSA99001",
       "title": "ProsperoRadio",
       "version": "02.000.055",
