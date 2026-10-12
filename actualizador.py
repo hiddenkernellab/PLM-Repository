@@ -86,6 +86,19 @@ def run_main_snapshot():
         source = response.read().decode("utf-8")
     namespace = {"__name__": "__hiddenkernel_main_snapshot__"}
     exec(compile(source, MAIN_URL, "exec"), namespace, namespace)
+    # AnyPad upstream no longer exists (404). Remove it BEFORE the historical
+    # generator resolves releases; removing it afterwards is too late.
+    original_generate = namespace["generate_catalog"]
+
+    def generate_without_dead_upstreams():
+        apps = namespace.get("APPS", [])
+        apps[:] = [app for app in apps if str(app.get("name", "")).casefold().strip() != "anypad ps5"]
+        fixed = namespace.get("FIXED")
+        if isinstance(fixed, list):
+            fixed[:] = [app for app in fixed if str(app.get("name", "")).casefold().strip() != "anypad ps5"]
+        return original_generate()
+
+    namespace["generate_catalog"] = generate_without_dead_upstreams
     namespace["main"]()
 
 
@@ -221,7 +234,6 @@ def update_radar_20261011(path=Path("payloads.json")):
     items = [item for item in data["payloads"] if not (
         isinstance(item, dict)
         and str(item.get("name", "")).casefold().strip() == "anypad ps5"
-        and "sinfiltros/AnyPad-PS5" in str(item.get("url", ""))
     )]
     for spec in RELEASES_VERIFIED:
         entry = _latest_verified(spec)
