@@ -768,6 +768,18 @@
       "version": "v1.2.0",
       "category": "DESCARGAS",
       "checksum": "86778d4fa830b1ff46379d167568c32294764cb05bc06ce6b05edc9db2a91691"
+    },
+    {
+      "name": "PS4Mount",
+      "filename": "ps4mount.elf",
+      "url": "https://github.com/gasb07/ps4mount/releases/download/v0.4.1/ps4mount.elf",
+      "source": "https://github.com/gasb07/ps4mount/releases",
+      "source_direct": "https://github.com/gasb07/ps4mount/releases/download/v0.4.1/ps4mount.elf",
+      "description": "Monta PS4 fake PKG y sus actualizaciones desde USB exFAT sin copiarlos al almacenamiento interno. Crea accesos en el menu y ofrece panel web local en puerto 8770. Requiere soporte FPKG y acceso a klog. DLC no soportados. Probado por el autor solo en FW 13.20; otras versiones sin verificar. ESTADO: EXPERIMENTAL. No incluir en autoload hasta probar compatibilidad.",
+      "last_update": "2026-10-13",
+      "version": "v0.4.1",
+      "category": "JUEGOS / COMPATIBILIDAD",
+      "checksum": "c4c24a5c1e03cf9f8edf752567041270f6e99fa73af98bce8e884a7e20286c7d"
     }
   ]
 }
