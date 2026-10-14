@@ -760,26 +760,26 @@
     {
       "name": "Orbit Store",
       "filename": "orbit_store.elf",
-      "url": "https://github.com/saawant12/orbit-store-ps5/releases/download/v1.2.0/orbit_store.elf",
+      "url": "https://github.com/saawant12/orbit-store-ps5/releases/download/v1.3.0/orbit_store.elf",
       "source": "https://github.com/saawant12/orbit-store-ps5/releases",
-      "source_direct": "https://github.com/saawant12/orbit-store-ps5/releases/download/v1.2.0/orbit_store.elf",
+      "source_direct": "https://github.com/saawant12/orbit-store-ps5/releases/download/v1.3.0/orbit_store.elf",
       "description": "Orbit Store 1.2.0 beta: tienda y gestor de descargas en PS5, con extraccion de ZIP, RAR y 7z en la consola, mejoras para USB externo y control de descargas simultaneas. Usar solo para contenido autorizado. ESTADO: BETA.",
-      "last_update": "2026-10-11",
-      "version": "v1.2.0",
+      "last_update": "2026-10-13",
+      "version": "v1.3.0",
       "category": "DESCARGAS",
-      "checksum": "86778d4fa830b1ff46379d167568c32294764cb05bc06ce6b05edc9db2a91691"
+      "checksum": "553b39e7503ec141f6a015b7939c83e93fe8f05dee176e42c7e3bc026b0ea519"
     },
     {
       "name": "PS4Mount",
       "filename": "ps4mount.elf",
-      "url": "https://github.com/gasb07/ps4mount/releases/download/v0.4.2/ps4mount.elf",
+      "url": "https://github.com/gasb07/ps4mount/releases/download/v0.4.4/ps4mount.elf",
       "source": "https://github.com/gasb07/ps4mount/releases",
-      "source_direct": "https://github.com/gasb07/ps4mount/releases/download/v0.4.2/ps4mount.elf",
+      "source_direct": "https://github.com/gasb07/ps4mount/releases/download/v0.4.4/ps4mount.elf",
       "description": "Monta PS4 fake PKG y sus actualizaciones desde USB exFAT sin copiarlos al almacenamiento interno. Crea accesos en el menu y ofrece panel web local en puerto 8770. Requiere soporte FPKG y acceso a klog. DLC no soportados. Probado por el autor solo en FW 13.20; otras versiones sin verificar. ESTADO: EXPERIMENTAL. No incluir en autoload hasta probar compatibilidad.",
       "last_update": "2026-10-13",
-      "version": "v0.4.2",
+      "version": "v0.4.4",
       "category": "JUEGOS / COMPATIBILIDAD",
-      "checksum": "29b9224e7f07948d1f4b5766af0e6c1aa32fb3bdd990abb7e737a2f680ffe2c7"
+      "checksum": "338c325b5a237e6ecee6aeda4dd0e50e5bc5676aef7a59a4c9079308048f3680"
     }
   ]
 }
