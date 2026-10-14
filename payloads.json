@@ -11,7 +11,9 @@
       "last_update": "2026-09-20",
       "version": "0.4",
       "category": "ESENCIALES",
-      "checksum": "fcfb7d47c3b295560ea1603dc015f7c4950353ef0faca16428bd425680ef1fc5"
+      "checksum": "fcfb7d47c3b295560ea1603dc015f7c4950353ef0faca16428bd425680ef1fc5",
+      "icon_key": "nanodns",
+      "id": "nanodns"
     },
     {
       "name": "PLDMGR Install & Update",
@@ -23,7 +25,9 @@
       "last_update": "2026-09-09",
       "version": "v0.1.1-beta",
       "category": "ESENCIALES",
-      "checksum": "6881b9df8ac9c295f06ae2e581d8b5cb444be81d0d1c47ca0a3d366d4c898671"
+      "checksum": "6881b9df8ac9c295f06ae2e581d8b5cb444be81d0d1c47ca0a3d366d4c898671",
+      "icon_key": "pldmgr-install-update",
+      "id": "pldmgr-install-update"
     },
     {
       "name": "etaHEN",
@@ -35,7 +39,9 @@
       "last_update": "2025-12-25",
       "version": "2.5B",
       "category": "HEN / AIO",
-      "checksum": "4845cac45095361b8983b14d6690622183b0dcfbf6d7fda16e161aa91ff0531e"
+      "checksum": "4845cac45095361b8983b14d6690622183b0dcfbf6d7fda16e161aa91ff0531e",
+      "icon_key": "etahen",
+      "id": "etahen"
     },
     {
       "name": "etaHEN 13.60",
@@ -47,7 +53,9 @@
       "last_update": "2026-10-01",
       "version": "v2.5B-13.60-r3",
       "category": "HEN / AIO",
-      "checksum": "aa166a43347d10a31f7efa5ca26ec32f512c65e8910466bfc8033537337b87b2"
+      "checksum": "aa166a43347d10a31f7efa5ca26ec32f512c65e8910466bfc8033537337b87b2",
+      "icon_key": "etahen-13.60",
+      "id": "etahen-13.60"
     },
     {
       "name": "OnionHEN",
@@ -59,7 +67,9 @@
       "last_update": "2026-09-11",
       "version": "v0.0.13",
       "category": "HEN / AIO",
-      "checksum": "aa3f98847948e2ae8ea600c3f437e28247a0a4f8b73651a046d2859924bf97b3"
+      "checksum": "aa3f98847948e2ae8ea600c3f437e28247a0a4f8b73651a046d2859924bf97b3",
+      "icon_key": "onionhen",
+      "id": "onionhen"
     },
     {
       "name": "OnionHEN",
@@ -71,7 +81,9 @@
       "last_update": "2026-10-07",
       "version": "v0.9.0-beta2",
       "category": "HEN / AIO",
-      "checksum": "dd2e78af126d9d115df147a0f2bff6269de7a3eee5a556e06b6c21726a36f087"
+      "checksum": "dd2e78af126d9d115df147a0f2bff6269de7a3eee5a556e06b6c21726a36f087",
+      "icon_key": "onionhen-onionhen_v0.9.0-beta2.elf",
+      "id": "onionhen-onionhen_v0.9.0-beta2.elf"
     },
     {
       "name": "PIZZA-HEN",
@@ -83,7 +95,9 @@
       "last_update": "2026-08-24",
       "version": "v2.00",
       "category": "HEN / AIO",
-      "checksum": "8535d399612d61c50a528b2ae416f2fc3ccfb7480296df99c17302583fb3e345"
+      "checksum": "8535d399612d61c50a528b2ae416f2fc3ccfb7480296df99c17302583fb3e345",
+      "icon_key": "pizza-hen",
+      "id": "pizza-hen"
     },
     {
       "name": "Jailbreak Store",
@@ -95,7 +109,9 @@
       "last_update": "2026-09-02",
       "version": "Release",
       "category": "SISTEMA",
-      "checksum": "deb47ab4a9cee35c58a6777fb99eaeb397528e2518b4d4f5db52e8dce373de55"
+      "checksum": "deb47ab4a9cee35c58a6777fb99eaeb397528e2518b4d4f5db52e8dce373de55",
+      "icon_key": "jailbreak-store",
+      "id": "jailbreak-store"
     },
     {
       "name": "LegacyJB",
@@ -107,7 +123,9 @@
       "last_update": "2026-09-29",
       "version": "1.2.1",
       "category": "SISTEMA",
-      "checksum": "7633372f39a7a6e460f3990b02cd07026f4e5591aefd2509f8c6338f03b8440b"
+      "checksum": "7633372f39a7a6e460f3990b02cd07026f4e5591aefd2509f8c6338f03b8440b",
+      "icon_key": "legacyjb",
+      "id": "legacyjb"
     },
     {
       "name": "ProsperoMgr",
@@ -119,7 +137,9 @@
       "last_update": "2026-09-28",
       "version": "v1.1",
       "category": "SISTEMA",
-      "checksum": "e7a6bb544adb2fb2a61aa9cc83b0ad15f70b32d7511a3de0f1fb88812f11983c"
+      "checksum": "e7a6bb544adb2fb2a61aa9cc83b0ad15f70b32d7511a3de0f1fb88812f11983c",
+      "icon_key": "prosperomgr",
+      "id": "prosperomgr"
     },
     {
       "name": "PS5 WebKit Autoloader",
@@ -131,7 +151,9 @@
       "last_update": "2026-10-08",
       "version": "v0.6.1",
       "category": "SISTEMA",
-      "checksum": "f662c75a502e4f1bc41b055dcb490625f8222c499ce437dc80f439a3a279e93f"
+      "checksum": "f662c75a502e4f1bc41b055dcb490625f8222c499ce437dc80f439a3a279e93f",
+      "icon_key": "ps5-webkit-autoloader",
+      "id": "ps5-webkit-autoloader"
     },
     {
       "name": "ps5-payload-websrv",
@@ -143,7 +165,9 @@
       "last_update": "2026-08-02",
       "version": "v0.34",
       "category": "SISTEMA",
-      "checksum": "54730c867c6e1148536fdcb370e63a7762d989ea87b62488ad4caff64d43f263"
+      "checksum": "54730c867c6e1148536fdcb370e63a7762d989ea87b62488ad4caff64d43f263",
+      "icon_key": "ps5-payload-websrv",
+      "id": "ps5-payload-websrv"
     },
     {
       "name": "ps5-payload-websrv",
@@ -155,7 +179,9 @@
       "last_update": "2026-10-10",
       "version": "v0.35",
       "category": "SISTEMA",
-      "checksum": "25501b41887a42789792d1367edd2fc892454bfe6b0b1519bc36456a581f264c"
+      "checksum": "25501b41887a42789792d1367edd2fc892454bfe6b0b1519bc36456a581f264c",
+      "icon_key": "ps5-payload-websrv-websrv-ps5.elf",
+      "id": "ps5-payload-websrv-websrv-ps5.elf"
     },
     {
       "name": "AirPSX",
@@ -167,7 +193,9 @@
       "last_update": "2025-05-31",
       "version": "0.19",
       "category": "ARCHIVOS / RED",
-      "checksum": "ae025ca7727b3a8abf6a705903ca9116a6fa6e7f7ead606916109cf9044c5d63"
+      "checksum": "ae025ca7727b3a8abf6a705903ca9116a6fa6e7f7ead606916109cf9044c5d63",
+      "icon_key": "airpsx",
+      "id": "airpsx"
     },
     {
       "name": "FGG Unpack",
@@ -179,7 +207,9 @@
       "last_update": "2026-09-05",
       "version": "v0.1",
       "category": "ARCHIVOS / RED",
-      "checksum": "e8c8e57bbda31b5d16d131797aac6f83b555cae8d439b1f475c952f3d9554eff"
+      "checksum": "e8c8e57bbda31b5d16d131797aac6f83b555cae8d439b1f475c952f3d9554eff",
+      "icon_key": "fgg-unpack",
+      "id": "fgg-unpack"
     },
     {
       "name": "PS5 Tailscale",
@@ -191,7 +221,9 @@
       "last_update": "2026-10-06",
       "version": "v0.7.1",
       "category": "ARCHIVOS / RED",
-      "checksum": "af320493c8e2fc3443b8f42496ac11aa3db77b112e95777706d835eccd304cb9"
+      "checksum": "af320493c8e2fc3443b8f42496ac11aa3db77b112e95777706d835eccd304cb9",
+      "icon_key": "ps5-tailscale",
+      "id": "ps5-tailscale"
     },
     {
       "name": "ps5upload",
@@ -203,7 +235,9 @@
       "last_update": "2026-10-12",
       "version": "v7.0.22",
       "category": "ARCHIVOS / RED",
-      "checksum": "e382353612fdf85b2fdbfea75f4f5ebad260c767faa51b0446118646a6db0267"
+      "checksum": "e382353612fdf85b2fdbfea75f4f5ebad260c767faa51b0446118646a6db0267",
+      "icon_key": "ps5upload",
+      "id": "ps5upload"
     },
     {
       "name": "unrar-ps5",
@@ -215,7 +249,9 @@
       "last_update": "2026-06-18",
       "version": "v1.4.0",
       "category": "ARCHIVOS / RED",
-      "checksum": "2ef04b0bc8fc1932b29da1a53336c40ed0a3f6a945a0746bef2e5dde52149701"
+      "checksum": "2ef04b0bc8fc1932b29da1a53336c40ed0a3f6a945a0746bef2e5dde52149701",
+      "icon_key": "unrar-ps5",
+      "id": "unrar-ps5"
     },
     {
       "name": "zftpd",
@@ -227,7 +263,9 @@
       "last_update": "2026-09-30",
       "version": "v1.6.0",
       "category": "ARCHIVOS / RED",
-      "checksum": "39ed57bef579282418f822da2e58ea5d56acfa5aa4cd38816744b1f610bfa14d"
+      "checksum": "39ed57bef579282418f822da2e58ea5d56acfa5aa4cd38816744b1f610bfa14d",
+      "icon_key": "zftpd",
+      "id": "zftpd"
     },
     {
       "name": "zftpd + zhttp",
@@ -239,7 +277,9 @@
       "last_update": "2026-09-30",
       "version": "v1.6.0",
       "category": "ARCHIVOS / RED",
-      "checksum": "fc59b60aab2dce9a8bae385c106bfa174048d765c826101355f1f010a789b497"
+      "checksum": "fc59b60aab2dce9a8bae385c106bfa174048d765c826101355f1f010a789b497",
+      "icon_key": "zftpd-zhttp",
+      "id": "zftpd-zhttp"
     },
     {
       "name": "PKG Manager",
@@ -251,7 +291,9 @@
       "last_update": "2026-10-10",
       "version": "v1.5.1",
       "category": "PKG / INSTALACION",
-      "checksum": "82e3548edcc41419b644482cccaef65689334fc0315dc20247f48b90bf182dca"
+      "checksum": "82e3548edcc41419b644482cccaef65689334fc0315dc20247f48b90bf182dca",
+      "icon_key": "pkg-manager",
+      "id": "pkg-manager"
     },
     {
       "name": "PKG Receiver",
@@ -263,7 +305,9 @@
       "last_update": "2026-10-04",
       "version": "v1.2.9",
       "category": "PKG / INSTALACION",
-      "checksum": "6946d52c6c04a3f43d3141a505394ba8e0c6923f17fe471054e11567c9a526c7"
+      "checksum": "6946d52c6c04a3f43d3141a505394ba8e0c6923f17fe471054e11567c9a526c7",
+      "icon_key": "pkg-receiver",
+      "id": "pkg-receiver"
     },
     {
       "name": "singleDPI",
@@ -275,7 +319,9 @@
       "last_update": "2026-10-02",
       "version": "0.2.2",
       "category": "PKG / INSTALACION",
-      "checksum": "7e58279af299a25b5391d43b7404908574acf36daf13a06de101bc208d4d9b85"
+      "checksum": "7e58279af299a25b5391d43b7404908574acf36daf13a06de101bc208d4d9b85",
+      "icon_key": "singledpi",
+      "id": "singledpi"
     },
     {
       "name": "APR Emu Updater",
@@ -287,7 +333,9 @@
       "last_update": "2026-08-29",
       "version": "v2.0.6",
       "category": "JUEGOS / COMPATIBILIDAD",
-      "checksum": "4f04464283a6a551883e40e36b59134ecad0e38ecbb7ea89cbec3f91a3bd9122"
+      "checksum": "4f04464283a6a551883e40e36b59134ecad0e38ecbb7ea89cbec3f91a3bd9122",
+      "icon_key": "apr-emu-updater",
+      "id": "apr-emu-updater"
     },
     {
       "name": "PS5 App Dumper",
@@ -299,7 +347,9 @@
       "last_update": "2026-10-03",
       "version": "v2.10",
       "category": "JUEGOS / COMPATIBILIDAD",
-      "checksum": "c850f1df6f2787824d6ddeeed69ce4144e00569b32135973401c2985cfb0345b"
+      "checksum": "c850f1df6f2787824d6ddeeed69ce4144e00569b32135973401c2985cfb0345b",
+      "icon_key": "ps5-app-dumper",
+      "id": "ps5-app-dumper"
     },
     {
       "name": "PS5 Game Compressor",
@@ -311,7 +361,9 @@
       "last_update": "2026-10-02",
       "version": "v1.1.1",
       "category": "JUEGOS / COMPATIBILIDAD",
-      "checksum": "5fec05b8a3cb89bafbc97970d5d68d9f31e6fcde873b5523243890e50836592b"
+      "checksum": "5fec05b8a3cb89bafbc97970d5d68d9f31e6fcde873b5523243890e50836592b",
+      "icon_key": "ps5-game-compressor",
+      "id": "ps5-game-compressor"
     },
     {
       "name": "FBNeo PS5",
@@ -323,7 +375,9 @@
       "last_update": "2026-10-09",
       "version": "v1.8",
       "category": "EMULADORES",
-      "checksum": "9e3b4af4239eeb574adb1b042f5da54e806d6ec018a85c6f93cf8a423815b11c"
+      "checksum": "9e3b4af4239eeb574adb1b042f5da54e806d6ec018a85c6f93cf8a423815b11c",
+      "icon_key": "fbneo-ps5",
+      "id": "fbneo-ps5"
     },
     {
       "name": "Genesis Plus GX PS5",
@@ -335,7 +389,9 @@
       "last_update": "2026-10-09",
       "version": "v1.6",
       "category": "EMULADORES",
-      "checksum": "c548e4dd9e15f58bff8cccc2e7042df276462643ec74a0ea7548deeee6941548"
+      "checksum": "c548e4dd9e15f58bff8cccc2e7042df276462643ec74a0ea7548deeee6941548",
+      "icon_key": "genesis-plus-gx-ps5",
+      "id": "genesis-plus-gx-ps5"
     },
     {
       "name": "RomM Sync",
@@ -347,7 +403,9 @@
       "last_update": "2026-10-09",
       "version": "v1.1.1",
       "category": "EMULADORES",
-      "checksum": "dc71f337c6d3cf99a6c005ff990717bcb9796d9ec2df7a6d19ae9d5f9b0a8041"
+      "checksum": "dc71f337c6d3cf99a6c005ff990717bcb9796d9ec2df7a6d19ae9d5f9b0a8041",
+      "icon_key": "romm-sync",
+      "id": "romm-sync"
     },
     {
       "name": "Snes9x PS5",
@@ -359,7 +417,9 @@
       "last_update": "2026-10-09",
       "version": "v2.3",
       "category": "EMULADORES",
-      "checksum": "d71f900bc434eaed55b304e603ae79327ef7de6be147a159d78803dd0eb7fe27"
+      "checksum": "d71f900bc434eaed55b304e603ae79327ef7de6be147a159d78803dd0eb7fe27",
+      "icon_key": "snes9x-ps5",
+      "id": "snes9x-ps5"
     },
     {
       "name": "XPSemu Helper",
@@ -371,7 +431,9 @@
       "last_update": "2026-10-10",
       "version": "Alpha-2.1",
       "category": "EMULADORES",
-      "checksum": "31c8a3479937e310f758d36d87c937c91ae942921fa4645473b3d228a7d88959"
+      "checksum": "31c8a3479937e310f758d36d87c937c91ae942921fa4645473b3d228a7d88959",
+      "icon_key": "xpsemu-helper",
+      "id": "xpsemu-helper"
     },
     {
       "name": "Nuvio PS5",
@@ -383,7 +445,9 @@
       "last_update": "2026-10-12",
       "version": "v1.8.0",
       "category": "MULTIMEDIA",
-      "checksum": "2c4812fdf411116652db756a5bd563cb4934f9df76373f59bdba3ff25a79cc3b"
+      "checksum": "2c4812fdf411116652db756a5bd563cb4934f9df76373f59bdba3ff25a79cc3b",
+      "icon_key": "nuvio-ps5",
+      "id": "nuvio-ps5"
     },
     {
       "name": "PS Play",
@@ -395,7 +459,9 @@
       "last_update": "2026-08-14",
       "version": "2.1",
       "category": "MULTIMEDIA",
-      "checksum": "e3392379d5bc6ca4e44cb0d2a1d8921083b2c3ea480725f68378831874542d8d"
+      "checksum": "e3392379d5bc6ca4e44cb0d2a1d8921083b2c3ea480725f68378831874542d8d",
+      "icon_key": "ps-play",
+      "id": "ps-play"
     },
     {
       "name": "Common FPS for PS5",
@@ -407,7 +473,9 @@
       "last_update": "2026-09-29",
       "version": "v1.2.1",
       "category": "UTILIDADES",
-      "checksum": "6be733b7b3a15ed03b67adcd34ca02628427210775c330f2fbe9f000bc7b27ff"
+      "checksum": "6be733b7b3a15ed03b67adcd34ca02628427210775c330f2fbe9f000bc7b27ff",
+      "icon_key": "common-fps-for-ps5",
+      "id": "common-fps-for-ps5"
     },
     {
       "name": "garlic-savemgr",
@@ -419,7 +487,9 @@
       "last_update": "2026-09-19",
       "version": "v1.13.1",
       "category": "UTILIDADES",
-      "checksum": "b0fc2fcdda977d2a1207d77148746859b7ea7f3cfcad02828a7a9b49651807f5"
+      "checksum": "b0fc2fcdda977d2a1207d77148746859b7ea7f3cfcad02828a7a9b49651807f5",
+      "icon_key": "garlic-savemgr",
+      "id": "garlic-savemgr"
     },
     {
       "name": "Kura Loader",
@@ -431,7 +501,9 @@
       "last_update": "2026-09-02",
       "version": "v1.6.50",
       "category": "UTILIDADES",
-      "checksum": "8bac520b2b99dcda8109838884380605736d8b1c23793754250bcef00536b6ab"
+      "checksum": "8bac520b2b99dcda8109838884380605736d8b1c23793754250bcef00536b6ab",
+      "icon_key": "kura-loader",
+      "id": "kura-loader"
     },
     {
       "name": "Lapy JB Daemon",
@@ -443,7 +515,9 @@
       "last_update": "2026-05-07",
       "version": "1.2",
       "category": "UTILIDADES",
-      "checksum": "e8230ac4597b8f0388e75d7515ad1a2e251c4589cc3b8d56a483ffae73627eed"
+      "checksum": "e8230ac4597b8f0388e75d7515ad1a2e251c4589cc3b8d56a483ffae73627eed",
+      "icon_key": "lapy-jb-daemon",
+      "id": "lapy-jb-daemon"
     },
     {
       "name": "np-fake-signin",
@@ -455,7 +529,9 @@
       "last_update": "2026-02-02",
       "version": "1.1",
       "category": "UTILIDADES",
-      "checksum": "6a38ee251b2252ae6752bf23f4f22d970d449731cfe69c1f513f18670efd5314"
+      "checksum": "6a38ee251b2252ae6752bf23f4f22d970d449731cfe69c1f513f18670efd5314",
+      "icon_key": "np-fake-signin",
+      "id": "np-fake-signin"
     },
     {
       "name": "PS5 Date & Time Sync",
@@ -467,7 +543,9 @@
       "last_update": "2026-08-24",
       "version": "v1.0.0",
       "category": "UTILIDADES",
-      "checksum": "91806229803845930b2173174e1afeadf509e4c171f6396788f929558fad6849"
+      "checksum": "91806229803845930b2173174e1afeadf509e4c171f6396788f929558fad6849",
+      "icon_key": "ps5-date-time-sync",
+      "id": "ps5-date-time-sync"
     },
     {
       "name": "PS5 Fan Control",
@@ -479,7 +557,9 @@
       "last_update": "2026-08-08",
       "version": "v0.3",
       "category": "UTILIDADES",
-      "checksum": "b10b6b9b9c00efed8bf9202a83b6cb762345d1f84130a419eff7139250026b36"
+      "checksum": "b10b6b9b9c00efed8bf9202a83b6cb762345d1f84130a419eff7139250026b36",
+      "icon_key": "ps5-fan-control",
+      "id": "ps5-fan-control"
     },
     {
       "name": "PS5 Hardware Overlay",
@@ -491,7 +571,9 @@
       "last_update": "2026-09-21",
       "version": "v1.0.15",
       "category": "UTILIDADES",
-      "checksum": "5e843b4b20b5954802a88722e5f9436d71d29bc3c82c22d7aa828b83b9960ff9"
+      "checksum": "5e843b4b20b5954802a88722e5f9436d71d29bc3c82c22d7aa828b83b9960ff9",
+      "icon_key": "ps5-hardware-overlay",
+      "id": "ps5-hardware-overlay"
     },
     {
       "name": "PS5 SysLang",
@@ -503,7 +585,9 @@
       "last_update": "2026-10-01",
       "version": "v0.2.1",
       "category": "UTILIDADES",
-      "checksum": "4c73035028de95edc173e3b038030615d8c86bf03a52bc9958efc5f26687ad99"
+      "checksum": "4c73035028de95edc173e3b038030615d8c86bf03a52bc9958efc5f26687ad99",
+      "icon_key": "ps5-syslang",
+      "id": "ps5-syslang"
     },
     {
       "name": "ps5debug-NG",
@@ -515,7 +599,9 @@
       "last_update": "2026-09-23",
       "version": "1.3.2",
       "category": "UTILIDADES",
-      "checksum": "949b0e6e0fe3f24f4a820319fd76d9ccb92f9770cbb1a64b09a8eca5c1fc9ff3"
+      "checksum": "949b0e6e0fe3f24f4a820319fd76d9ccb92f9770cbb1a64b09a8eca5c1fc9ff3",
+      "icon_key": "ps5debug-ng",
+      "id": "ps5debug-ng"
     },
     {
       "name": "PS5LM",
@@ -527,7 +613,9 @@
       "last_update": "2026-10-02",
       "version": "v0.1.1",
       "category": "UTILIDADES",
-      "checksum": "10ee1a913e2d534fc81e1822e5969a6d70740ff88f4eb7c8fe98789d22152126"
+      "checksum": "10ee1a913e2d534fc81e1822e5969a6d70740ff88f4eb7c8fe98789d22152126",
+      "icon_key": "ps5lm",
+      "id": "ps5lm"
     },
     {
       "name": "CheatRunner",
@@ -539,7 +627,9 @@
       "last_update": "2026-10-10",
       "version": "v0.18",
       "category": "CHEATS",
-      "checksum": "4ae1ea4e37b2e67d5487355ddf671f166861ed6dceea348c048ad060770c0140"
+      "checksum": "4ae1ea4e37b2e67d5487355ddf671f166861ed6dceea348c048ad060770c0140",
+      "icon_key": "cheatrunner",
+      "id": "cheatrunner"
     },
     {
       "name": "Kylin Core",
@@ -551,7 +641,9 @@
       "last_update": "2026-10-01",
       "version": "v2.0.0-community-lite",
       "category": "CHEATS",
-      "checksum": "7f5245f2db67b131c6f9e991b731117c2c730923a9dd65a2d82b36f2e2b91545"
+      "checksum": "7f5245f2db67b131c6f9e991b731117c2c730923a9dd65a2d82b36f2e2b91545",
+      "icon_key": "kylin-core",
+      "id": "kylin-core"
     },
     {
       "name": "FGG PlayPods",
@@ -563,7 +655,9 @@
       "last_update": "2026-09-26",
       "version": "1.0",
       "category": "MANDOS / AUDIO",
-      "checksum": "9ee1958ec24e4a927992fea9ee202f5a173756091bd3abc02ebf4d2d686211a4"
+      "checksum": "9ee1958ec24e4a927992fea9ee202f5a173756091bd3abc02ebf4d2d686211a4",
+      "icon_key": "fgg-playpods",
+      "id": "fgg-playpods"
     },
     {
       "name": "FGG XSense",
@@ -575,7 +669,9 @@
       "last_update": "2026-09-18",
       "version": "1.1",
       "category": "MANDOS / AUDIO",
-      "checksum": "55195ccb02fbdbfa002e9188b0eff72d7d2e6de6c7a1c91666f88c6c9ff0d6c0"
+      "checksum": "55195ccb02fbdbfa002e9188b0eff72d7d2e6de6c7a1c91666f88c6c9ff0d6c0",
+      "icon_key": "fgg-xsense",
+      "id": "fgg-xsense"
     },
     {
       "name": "PuckbridgePS5",
@@ -587,7 +683,9 @@
       "last_update": "2026-10-02",
       "version": "v1.4.0",
       "category": "MANDOS / AUDIO",
-      "checksum": "c344b63a20ad5b2406fa46fd2b44dc56a9182e18ee52496f8dc80dbd9bee54a3"
+      "checksum": "c344b63a20ad5b2406fa46fd2b44dc56a9182e18ee52496f8dc80dbd9bee54a3",
+      "icon_key": "puckbridgeps5",
+      "id": "puckbridgeps5"
     },
     {
       "name": "PatchDL",
@@ -599,7 +697,9 @@
       "last_update": "2026-06-25",
       "version": "v0.0.6",
       "category": "DESCARGAS",
-      "checksum": "09db97b155b19e228fa3981b3d3df45e68bba2cfaf5693a3ad264b508cd960bd"
+      "checksum": "09db97b155b19e228fa3981b3d3df45e68bba2cfaf5693a3ad264b508cd960bd",
+      "icon_key": "patchdl",
+      "id": "patchdl"
     },
     {
       "name": "Pegasus DL",
@@ -611,7 +711,9 @@
       "last_update": "2026-10-09",
       "version": "v1.11.0",
       "category": "DESCARGAS",
-      "checksum": "32b69c2089bb545abfabd04d5827444698f9c4f1bc4915d72247cb781e8c23d9"
+      "checksum": "32b69c2089bb545abfabd04d5827444698f9c4f1bc4915d72247cb781e8c23d9",
+      "icon_key": "pegasus-dl",
+      "id": "pegasus-dl"
     },
     {
       "name": "PS5 aria2",
@@ -623,7 +725,9 @@
       "last_update": "2026-10-05",
       "version": "v1.37.0-3",
       "category": "DESCARGAS",
-      "checksum": "802d53a201545ea84a86c1a3bc2f9b84446a1d245ea11108b912116ffbc1a8a6"
+      "checksum": "802d53a201545ea84a86c1a3bc2f9b84446a1d245ea11108b912116ffbc1a8a6",
+      "icon_key": "ps5-aria2",
+      "id": "ps5-aria2"
     },
     {
       "name": "PS5 Library",
@@ -635,7 +739,9 @@
       "last_update": "2026-10-12",
       "version": "v0.7.28",
       "category": "DESCARGAS",
-      "checksum": "3acf549cd88ef55ad998c42fc8c24674fb07ac5fd767c0155ea6208876585b57"
+      "checksum": "3acf549cd88ef55ad998c42fc8c24674fb07ac5fd767c0155ea6208876585b57",
+      "icon_key": "ps5-library",
+      "id": "ps5-library"
     },
     {
       "name": "Spectrum Library",
@@ -647,7 +753,9 @@
       "last_update": "2026-10-01",
       "version": "1.4.8",
       "category": "DESCARGAS",
-      "checksum": "5d1372d48f76167e3f9e24b335cf571ea6e4b3960e6b7202d2802b0f78c3a519"
+      "checksum": "5d1372d48f76167e3f9e24b335cf571ea6e4b3960e6b7202d2802b0f78c3a519",
+      "icon_key": "spectrum-library",
+      "id": "spectrum-library"
     },
     {
       "name": "PS5 Wallpaper Modder",
@@ -659,7 +767,9 @@
       "last_update": "2026-06-05",
       "version": "v1.0",
       "category": "PERSONALIZACION",
-      "checksum": "b18a866bac9deff45b921b7d3ea6143d541117b56c666d817ecdc81961829139"
+      "checksum": "b18a866bac9deff45b921b7d3ea6143d541117b56c666d817ecdc81961829139",
+      "icon_key": "ps5-wallpaper-modder",
+      "id": "ps5-wallpaper-modder"
     },
     {
       "name": "BFpilot",
@@ -671,7 +781,9 @@
       "last_update": "2026-08-11",
       "version": "v0.4.4",
       "category": "ARCHIVOS / PC",
-      "checksum": "5a8237630260026ad054d71fbbe661e433ac9ffa2cb4eea2785769c1eb7ee1c1"
+      "checksum": "5a8237630260026ad054d71fbbe661e433ac9ffa2cb4eea2785769c1eb7ee1c1",
+      "icon_key": "bfpilot",
+      "id": "bfpilot"
     },
     {
       "name": "ftpsrv",
@@ -683,7 +795,9 @@
       "last_update": "2026-08-20",
       "version": "v0.21.1",
       "category": "ARCHIVOS / PC",
-      "checksum": "7d4b31c83eae4e056580482a3a074e1db25922efc74ac1e439473b45d71a5938"
+      "checksum": "7d4b31c83eae4e056580482a3a074e1db25922efc74ac1e439473b45d71a5938",
+      "icon_key": "ftpsrv",
+      "id": "ftpsrv"
     },
     {
       "name": "PoorDS4",
@@ -695,7 +809,9 @@
       "last_update": "2026-09-30",
       "version": "v0.1.0-rc51",
       "category": "MANDOS",
-      "checksum": "e1b9f257f51678a977edaeafd4ca1f8a03e9df0afda7d5dd84435841fa20795d"
+      "checksum": "e1b9f257f51678a977edaeafd4ca1f8a03e9df0afda7d5dd84435841fa20795d",
+      "icon_key": "poords4",
+      "id": "poords4"
     },
     {
       "name": "PS5 File Explorer",
@@ -707,7 +823,9 @@
       "last_update": "2026-06-19",
       "version": "file-explorer-v0.2.1",
       "category": "ARCHIVOS / PC",
-      "checksum": "6d4b905b42727dddeaedddb2a657ed0d4e7110ddd068a6daab0aafb2ba32604b"
+      "checksum": "6d4b905b42727dddeaedddb2a657ed0d4e7110ddd068a6daab0aafb2ba32604b",
+      "icon_key": "ps5-file-explorer",
+      "id": "ps5-file-explorer"
     },
     {
       "name": "PS5 Web File Manager",
@@ -719,7 +837,9 @@
       "last_update": "2026-10-05",
       "version": "v1.10",
       "category": "ARCHIVOS / PC",
-      "checksum": "409145ec9a1c338ecb5f6f917c3b057c4ba48bfae2e86d621e19dda7ac129bd3"
+      "checksum": "409145ec9a1c338ecb5f6f917c3b057c4ba48bfae2e86d621e19dda7ac129bd3",
+      "icon_key": "ps5-web-file-manager",
+      "id": "ps5-web-file-manager"
     },
     {
       "name": "KStuff FPKG",
@@ -731,7 +851,9 @@
       "last_update": "2026-10-10",
       "version": "1.13-dr-test5",
       "category": "ESENCIALES",
-      "checksum": "829b45fe871dd64fbd53874ae4558076c2f1e1f203fe1ab52db5510d5fc45923"
+      "checksum": "829b45fe871dd64fbd53874ae4558076c2f1e1f203fe1ab52db5510d5fc45923",
+      "icon_key": "kstuff-fpkg",
+      "id": "kstuff-fpkg"
     },
     {
       "name": "ShadowMountPlus",
@@ -743,7 +865,9 @@
       "last_update": "2026-10-10",
       "version": "1.7-beta5fix1",
       "category": "ESENCIALES",
-      "checksum": "e85fd63b705498488f39c09c9aea6f9fa22e0df2e932865de49a8cedf25172d5"
+      "checksum": "e85fd63b705498488f39c09c9aea6f9fa22e0df2e932865de49a8cedf25172d5",
+      "icon_key": "shadowmountplus",
+      "id": "shadowmountplus"
     },
     {
       "name": "PS5SX2 Bot",
@@ -755,7 +879,9 @@
       "last_update": "2026-10-11",
       "version": "2.03 (vk-285-163)",
       "category": "EMULADORES",
-      "checksum": "3420cdb5c826014b22b8ca8fa60a2026f0d9f91d3f5a5b818d4c98373eccb123"
+      "checksum": "3420cdb5c826014b22b8ca8fa60a2026f0d9f91d3f5a5b818d4c98373eccb123",
+      "icon_key": "ps5sx2-bot",
+      "id": "ps5sx2-bot"
     },
     {
       "name": "Orbit Store",
@@ -767,7 +893,9 @@
       "last_update": "2026-10-13",
       "version": "v1.3.0",
       "category": "DESCARGAS",
-      "checksum": "553b39e7503ec141f6a015b7939c83e93fe8f05dee176e42c7e3bc026b0ea519"
+      "checksum": "553b39e7503ec141f6a015b7939c83e93fe8f05dee176e42c7e3bc026b0ea519",
+      "icon_key": "orbit-store",
+      "id": "orbit-store"
     },
     {
       "name": "PS4Mount",
@@ -779,7 +907,24 @@
       "last_update": "2026-10-13",
       "version": "v0.4.4",
       "category": "JUEGOS / COMPATIBILIDAD",
-      "checksum": "338c325b5a237e6ecee6aeda4dd0e50e5bc5676aef7a59a4c9079308048f3680"
+      "checksum": "338c325b5a237e6ecee6aeda4dd0e50e5bc5676aef7a59a4c9079308048f3680",
+      "icon_key": "ps4mount",
+      "id": "ps4mount"
+    },
+    {
+      "name": "Payload Manager",
+      "filename": "pldmgr_v0.6.0.elf",
+      "url": "https://github.com/itsPLK/ps5-payload-manager/releases/download/v0.6.0/pldmgr_v0.6.0.elf",
+      "source": "https://github.com/itsPLK/ps5-payload-manager/releases",
+      "source_direct": "https://github.com/itsPLK/ps5-payload-manager/releases/download/v0.6.0/pldmgr_v0.6.0.elf",
+      "description": "Gestor de payloads con tienda visual, busqueda, detalles, favoritos sincronizados y autoload. La v0.6.0 corrige bloqueos con catalogos grandes, esperas de red durante el arranque y problemas de instalacion; verifica checksums y refuerza las peticiones web. Es el gestor oficial, distinto de HK-PLDMGR-Install-Update. Puede actualizarse tambien desde su propia interfaz.",
+      "last_update": "2026-10-13",
+      "version": "v0.6.0",
+      "category": "SISTEMA",
+      "checksum": "5b31079d81d6467f2754edd1d6dbe63b0306502e135c21a425ecb263e39e2059",
+      "icon_key": "payload-manager",
+      "id": "payload-manager"
     }
-  ]
+  ],
+  "icons_url": "icons.json"
 }
