@@ -3,8 +3,8 @@
 
 Basado en PLM-Repository/main (commit 7fce507, 2026-10-14).
 Conserva las migraciones curadas, el refresco conservador de releases oficiales,
-la poda exacta de AnyPad y la escritura atomica. Incorpora Payload Manager
-v0.6.0 desde su upstream oficial, con SHA-256 validado por GitHub.
+la poda exacta de AnyPad y la escritura atomica. Incorpora Payload Manager v0.6.1 y PatchDL v0.0.7 desde upstreams
+oficiales, con SHA-256 validado por GitHub.
 
 No ejecuta codigo remoto ni realiza operaciones de escritura en GitHub.
 """
@@ -49,15 +49,27 @@ TRACKED = (
                         'PS5SX2Installer. La aplicacion PS5SX2 se instala aparte.'),
     },
     {
+        'key': 'patchdl', 'name': 'PatchDL', 'repo': 'knutwurst/ps5-patchdl',
+        'tag': 'v0.0.7', 'asset': 'patchdl_0.0.7.elf',
+        'sha256': '925d211fa8aaeb6b52b635c54641a14e36239ad3ebbdd3f7738c79a1c1e688e3',
+        'date': '2026-10-14', 'category': 'DESCARGAS',
+        'description': ('Descarga e instala actualizaciones oficiales compatibles de juegos '
+                        'ya instalados, con cola y reanudacion desde interfaz web. '
+                        'La v0.0.7 corrige el arranque y acceso directo en FW 13.xx; '
+                        'probado por el autor en 11.60 y 13.60. Solo actualizaciones '
+                        'oficiales, no descarga juegos.'),
+    },
+    {
         'key': 'pldmgr', 'name': 'Payload Manager',
         'repo': 'itsPLK/ps5-payload-manager',
-        'tag': 'v0.6.0', 'asset': 'pldmgr_v0.6.0.elf',
-        'sha256': '5b31079d81d6467f2754edd1d6dbe63b0306502e135c21a425ecb263e39e2059',
-        'date': '2026-10-13', 'category': 'SISTEMA',
+        'tag': 'v0.6.1', 'asset': 'pldmgr_v0.6.1.elf',
+        'sha256': '5165cbe4c13360828bd0f5d558cdbb9e2d55b0660b1dc7f7a58d3f4ee9e23285',
+        'date': '2026-10-14', 'category': 'SISTEMA',
         'description': ('Gestor de payloads con tienda visual, busqueda, detalles, favoritos '
-                        'sincronizados y autoload. La v0.6.0 corrige bloqueos con catalogos '
-                        'grandes, esperas de red durante el arranque y problemas de instalacion; '
-                        'verifica checksums y refuerza las peticiones web. '
+                        'sincronizados y autoload. La v0.6.1 recupera el cierre automatico '
+                        'del reproductor de discos al iniciar, util para BD-JB antiguos '
+                        '(autoloaders anteriores a v1.4.0). Conserva las mejoras de '
+                        'v0.6.0: catalogos grandes, red, instalacion y checksums. '
                         'Es el gestor oficial, distinto de HK-PLDMGR-Install-Update. '
                         'Puede actualizarse tambien desde su propia interfaz.'),
     },
@@ -146,6 +158,9 @@ def matches_target(item, key):
             r'ps5upload[-_]v?\d+(?:\.\d+)*\.elf', filename))
     if key == 'nuvio':
         return name == 'nuvio ps5' or filename == 'nuvio-ps5.elf'
+    if key == 'patchdl':
+        return name == 'patchdl' or bool(re.fullmatch(
+            r'patchdl[-_]v?\d+(?:\.\d+)*\.elf', filename))
     if key == 'pldmgr':
         # Deliberadamente NO toca HK-PLDMGR-Install-Update, un producto distinto.
         return name in ('payload manager', 'pldmgr') or bool(re.fullmatch(
@@ -180,6 +195,8 @@ def select_tracked(spec):
         release = fetch_release(spec['repo'])
         if spec['key'] == 'ps5upload':
             candidate_asset = ('ps5upload-' + str(release.get('tag_name', '')).removeprefix('v') + '.elf')
+        elif spec['key'] == 'patchdl':
+            candidate_asset = ('patchdl_' + str(release.get('tag_name', '')).removeprefix('v') + '.elf')
         elif spec['key'] == 'pldmgr':
             candidate_asset = 'pldmgr_' + str(release.get('tag_name', '')) + '.elf'
         else:
