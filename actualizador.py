@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
-"""HiddenKernel ELF updater - 2026-10-12.
+"""HiddenKernel ELF updater - 2026-10-14.
 
-Basado en el actualizador independiente de PLM-Repository/main (12-10-2026).
-Mantiene sus migraciones curadas, el refresco conservador de releases oficiales,
-la poda exacta de AnyPad y la escritura atomica. Incorpora PS4Mount cuando la
-release oficial ofrece un unico .elf y SHA-256 validos.
+Basado en PLM-Repository/main (commit 7fce507, 2026-10-14).
+Conserva las migraciones curadas, el refresco conservador de releases oficiales,
+la poda exacta de AnyPad y la escritura atomica. Incorpora Payload Manager
+v0.6.0 desde su upstream oficial, con SHA-256 validado por GitHub.
 
 No ejecuta codigo remoto ni realiza operaciones de escritura en GitHub.
 """
 import json
+import base64
 import os
 import re
 import urllib.request
@@ -47,6 +48,19 @@ TRACKED = (
                         'Sustituye el antiguo ps5sx2-aio.elf, PS5SXHelper y '
                         'PS5SX2Installer. La aplicacion PS5SX2 se instala aparte.'),
     },
+    {
+        'key': 'pldmgr', 'name': 'Payload Manager',
+        'repo': 'itsPLK/ps5-payload-manager',
+        'tag': 'v0.6.0', 'asset': 'pldmgr_v0.6.0.elf',
+        'sha256': '5b31079d81d6467f2754edd1d6dbe63b0306502e135c21a425ecb263e39e2059',
+        'date': '2026-10-13', 'category': 'SISTEMA',
+        'description': ('Gestor de payloads con tienda visual, busqueda, detalles, favoritos '
+                        'sincronizados y autoload. La v0.6.0 corrige bloqueos con catalogos '
+                        'grandes, esperas de red durante el arranque y problemas de instalacion; '
+                        'verifica checksums y refuerza las peticiones web. '
+                        'Es el gestor oficial, distinto de HK-PLDMGR-Install-Update. '
+                        'Puede actualizarse tambien desde su propia interfaz.'),
+    },
 )
 
 PS4MOUNT = {
@@ -82,7 +96,7 @@ def version_numbers(value):
 def fetch_release(repo):
     headers = {
         'Accept': 'application/vnd.github+json',
-        'User-Agent': 'HiddenKernel-ELF-Updater/2026-10-12',
+        'User-Agent': 'HiddenKernel-ELF-Updater/2026-10-14',
     }
     token = os.getenv('GITHUB_TOKEN', '').strip()
     if token:
@@ -116,7 +130,7 @@ def checked_asset(repo, release, asset_name):
         return None
     date = str(release.get('published_at') or '')[:10]
     if not re.fullmatch(r'\d{4}-\d{2}-\d{2}', date):
-        date = '2026-10-12'
+        date = '2026-10-14'
     return tag, asset_name, url, digest[7:], date
 
 
@@ -132,6 +146,10 @@ def matches_target(item, key):
             r'ps5upload[-_]v?\d+(?:\.\d+)*\.elf', filename))
     if key == 'nuvio':
         return name == 'nuvio ps5' or filename == 'nuvio-ps5.elf'
+    if key == 'pldmgr':
+        # Deliberadamente NO toca HK-PLDMGR-Install-Update, un producto distinto.
+        return name in ('payload manager', 'pldmgr') or bool(re.fullmatch(
+            r'pldmgr(?:_v?\d+(?:\.\d+)*)?\.elf', filename))
     if key == 'ps4mount':
         return name == 'ps4mount' or filename == 'ps4mount.elf'
     return False
@@ -160,8 +178,12 @@ def select_tracked(spec):
     release_name = ''
     try:
         release = fetch_release(spec['repo'])
-        candidate_asset = ('ps5upload-' + str(release.get('tag_name', '')).removeprefix('v')
-                           + '.elf') if spec['key'] == 'ps5upload' else asset
+        if spec['key'] == 'ps5upload':
+            candidate_asset = ('ps5upload-' + str(release.get('tag_name', '')).removeprefix('v') + '.elf')
+        elif spec['key'] == 'pldmgr':
+            candidate_asset = 'pldmgr_' + str(release.get('tag_name', '')) + '.elf'
+        else:
+            candidate_asset = asset
         candidate = checked_asset(spec['repo'], release, candidate_asset)
         if candidate and version_numbers(candidate[0]) >= version_numbers(tag):
             choice = candidate
@@ -314,5 +336,72 @@ def update_catalog(path=CATALOG):
     return True
 
 
+PALETTE = ('#245b93','#177b79','#744c9e','#99522b','#366a42','#8b4461')
+
+def slug(s):
+    s = re.sub(r'[^a-z0-9._-]+','-',s.lower()).strip('-')
+    return s[:110] or 'payload'
+
+def symbol(item):
+    t = (item.get('name','')+' '+item.get('category','')+' '+item.get('description','')).lower()
+    for terms, sign in [
+        (('ftp','upload','transfer','network','red'), 'FTP'),
+        (('save','backup','guardad'), 'SAVE'),
+        (('mount','disco','usb'), 'DISK'),
+        (('emul','ps2','ps3','retro'), 'EMU'),
+        (('cheat','trainer','trucos'), 'CODE'),
+        (('video','media','nuvio'), 'PLAY'),
+        (('payload','autoload','loader'), 'ELF'),
+        (('debug','log','kernel'), 'SYS'),
+    ]:
+        if any(w in t for w in terms): return sign
+    return 'PS5'
+
+def svg_icon(item, n):
+    label=symbol(item)
+    color=PALETTE[n%len(PALETTE)]
+    svg=(f'<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">'
+         f'<rect width="128" height="128" rx="25" fill="{color}"/>'
+         f'<rect x="10" y="10" width="108" height="108" rx="19" fill="none" stroke="#ffffff" stroke-opacity=".28" stroke-width="2"/>'
+         f'<circle cx="64" cy="43" r="17" fill="#ffffff" fill-opacity=".16"/>'
+         f'<path d="M55 43h18M64 34v18" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>'
+         f'<text x="64" y="94" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-size="22" font-weight="bold">{label}</text></svg>')
+    return 'data:image/svg+xml;base64,'+base64.b64encode(svg.encode()).decode()
+
+def update_icons(path):
+    data=json.loads(path.read_text(encoding='utf-8'))
+    if not isinstance(data,dict) or not isinstance(data.get('payloads'),list):
+        raise ValueError('Expected catalog object with payloads list')
+    icons={};used=set()
+    for n,item in enumerate(data['payloads']):
+        if not isinstance(item,dict):raise ValueError('Invalid payload entry')
+        key=item.get('icon_key') or item.get('id') or slug(item.get('name',''))
+        key=slug(key)
+        if key in used:
+            key=slug(key+'-'+slug(item.get('filename','')))
+        if key in used:
+            key=slug(key+'-'+str(n))
+        used.add(key)
+        item['icon_key']=key
+        item.setdefault('id',key)
+        icons[key]=svg_icon(item,n)
+    data.setdefault('name','HiddenKernel')
+    data['icons_url']='icons.json'
+    icon_path=path.with_name('icons.json')
+    if len(icons)>4096:raise ValueError('Too many icons')
+    content=json.dumps({'icons':icons},ensure_ascii=False,indent=2)+'\n'
+    if len(content.encode())>=4*1024*1024:raise ValueError('Icon catalog too large')
+    catalog=json.dumps(data,ensure_ascii=False,indent=2)+'\n'
+    # Create local files; the user can review and upload both to GitHub together.
+    tmp_icon=icon_path.with_suffix('.json.tmp')
+    tmp_catalog=path.with_suffix('.json.tmp')
+    tmp_icon.write_text(content,encoding='utf-8')
+    tmp_catalog.write_text(catalog,encoding='utf-8')
+    tmp_icon.replace(icon_path)
+    tmp_catalog.replace(path)
+    print(f'{len(icons)} icons generated; {path} and {icon_path}')
+
+
 if __name__ == '__main__':
     update_catalog()
+    update_icons(CATALOG)
