@@ -689,17 +689,17 @@
     },
     {
       "name": "PatchDL",
-      "filename": "patchdl_0.0.7.elf",
-      "url": "https://github.com/knutwurst/ps5-patchdl/releases/download/v0.0.7/patchdl_0.0.7.elf",
+      "filename": "patchdl_0.0.8.elf",
+      "url": "https://github.com/knutwurst/ps5-patchdl/releases/download/v0.0.8/patchdl_0.0.8.elf",
       "source": "https://github.com/knutwurst/ps5-patchdl/releases",
-      "source_direct": "https://github.com/knutwurst/ps5-patchdl/releases/download/v0.0.7/patchdl_0.0.7.elf",
+      "source_direct": "https://github.com/knutwurst/ps5-patchdl/releases/download/v0.0.8/patchdl_0.0.8.elf",
       "description": "Descarga e instala actualizaciones oficiales compatibles de juegos ya instalados, con cola y reanudacion desde interfaz web. La v0.0.7 corrige el arranque y acceso directo en FW 13.xx; probado por el autor en 11.60 y 13.60. Solo actualizaciones oficiales, no descarga juegos.",
-      "last_update": "2026-10-14",
-      "version": "v0.0.7",
+      "last_update": "2026-10-15",
+      "version": "v0.0.8",
       "category": "DESCARGAS",
-      "checksum": "925d211fa8aaeb6b52b635c54641a14e36239ad3ebbdd3f7738c79a1c1e688e3",
-      "icon_key": "patchdl",
-      "id": "patchdl"
+      "checksum": "a55b402efe63cb42cd820e0dfb0a11f33dfd9f95fe482e70d76c4527d113b9e5",
+      "id": "patchdl",
+      "icon_key": "patchdl"
     },
     {
       "name": "Pegasus DL",
