@@ -57,6 +57,7 @@ RENOMBRAR_CATEGORIAS = {
 NO_AUTOMATICOS = frozenset({
     "kstuff-fpkg", "shadowmountplus", "ps5sx2-helper",
     "ps5sx2-installer", "etahen-13.60", "pldmgr-install-update",
+    "ps5-hardware-overlay",  # v0.0.18 tag follows v1.0.15; manual review needed
 })
 
 # Unica migracion forzosa: la version PS5 estable de Drakmor.
@@ -76,6 +77,61 @@ FTP_DESCRIPCION = (
     "que corrija los directorios duplicados de Solid Explorer. Ejecutar solo "
     "un servidor FTP en el mismo puerto."
 )
+
+
+# Release upstream verificada: la etiqueta v0.0.18 contiene el ELF AIO 1.0.18.
+# NO usar overlay_payload.elf: es la carga interna, no el lanzador autonomo.
+OVERLAY_RELEASE = {
+    "name": "PS5 Hardware Overlay (KUS)",
+    "filename": "ps5-overlay-kus_v1.0.18.elf",
+    "url": "https://github.com/smoxa/ps5-new-overlay/releases/download/v0.0.18/ps5-overlay-kus_v1.0.18.elf",
+    "source": "https://github.com/smoxa/ps5-new-overlay/releases",
+    "source_direct": "https://github.com/smoxa/ps5-new-overlay/releases/download/v0.0.18/ps5-overlay-kus_v1.0.18.elf",
+    "description": (
+        "Overlay KUS 1.0.18 (release GitHub v0.0.18): HUD de 12 metricas "
+        "(FPS, temperaturas, CPU/GPU, RAM, SSD M.2, ventilador, consumo, IP), "
+        "configuracion web en puerto 8585 y descarga en caliente. "
+        "ELF AIO ps5-overlay-kus; NO ejecutar overlay_payload.elf por separado. "
+        "Requiere jailbreak y cargador ELF; compatibilidad por firmware "
+        "no confirmada en todos los modelos. EXPERIMENTAL: no autocargar; "
+        "no ejecutar simultaneamente con otros overlays de ShellUI."
+    ),
+    "last_update": "2026-10-17",
+    "version": "v0.0.18",
+    "category": "UTILIDADES",
+    "checksum": "96562d1fc8deb641c67e19dc618cf2334f14512bc02e15732f53361f31005e29",
+}
+
+# Unico binario de uso normal. Excluir ps5-signal-dev.elf (servidor de pruebas).
+PS5_SIGNAL = {
+    "name": "PS5 Signal",
+    "filename": "ps5-signal.elf",
+    "url": "https://github.com/Marice/ps5-signal/releases/download/v0.1.0/ps5-signal.elf",
+    "source": "https://github.com/Marice/ps5-signal/releases",
+    "source_direct": "https://github.com/Marice/ps5-signal/releases/download/v0.1.0/ps5-signal.elf",
+    "description": (
+        "Personaliza la luz LED y los pitidos de PS5, con secuencias de inicio "
+        "y API local 127.0.0.1:9150. Configuracion con Signal Companion "
+        "(aplicacion opcional). FW 9.00 o superior segun autor; probado solo "
+        "en PS5 Pro 13.60. No usar ps5-signal-dev.elf para uso habitual. "
+        "EXPERIMENTAL en otros firmwares; autocarga opcional."
+    ),
+    "last_update": "2026-10-16",
+    "version": "v0.1.0",
+    "category": "PERSONALIZACION",
+    "checksum": "e39199ab216986442dd4ae66df7fe7ec012c50984a27fc8aff9b42834359e9d8",
+    "icon_key": "ps5-signal",
+    "id": "ps5-signal",
+}
+
+
+def migrar_overlay(item: dict) -> None:
+    # Conservar el mismo ID/icono para favoritos y ajustes del usuario.
+    # Solo sustituir la version antigua conocida, nunca pisar una futura.
+    if (str(item.get("version")) in {"v1.0.15", "1.0.15"}
+            or "/v1.0.15/" in str(item.get("url", ""))):
+        item.update(OVERLAY_RELEASE)
+        print("ACTUALIZADO: PS5 Hardware Overlay -> KUS 1.0.18 (tag v0.0.18)")
 
 
 def leer_json(path: Path) -> dict:
@@ -256,6 +312,17 @@ def normalizar_descripcion(item: dict) -> None:
             "con extraccion ZIP/RAR/7z, control de descargas y soporte USB. "
             "ESTADO: BETA; revisar los cambios upstream antes de autocargar."
         )
+    elif ident == "ps4mount" and version_numerica(item.get("version")) >= (0, 6, 0, 0):
+        item["description"] = (
+            "PS4Mount " + str(item["version"]) + ": monta juegos PS4 FPKG y "
+            "actualizaciones desde USB exFAT sin copiar al SSD interno; "
+            "panel web en el puerto 8770. Desde 0.6.0 registra nuevos juegos "
+            "mas rapido sin recorrer toda la biblioteca y corrige Stop para "
+            "poder reiniciar el payload sin reiniciar la consola. Si se viene "
+            "de 0.5.1 y se uso Stop, reiniciar la PS5 una vez antes de cargar "
+            "la nueva version. ESTADO: EXPERIMENTAL; no autocargar. "
+            "Consultar notas upstream para cambios posteriores."
+        )
     elif ident == "ps5-webkit-autoloader":
         # No afirmar compatibilidad 1.00-5.50 en la rama 0.6.x.
         item["description"] = str(item.get("description", "")).replace(
@@ -314,9 +381,20 @@ def icono_nuevo(item: dict) -> str:
         "ARCHIVOS / RED": ("#174d66", "#54a9e5"),
         "DESCARGAS / TIENDAS": ("#4b3b8c", "#a676e5"),
         "MANDOS / AUDIO": ("#265747", "#5ecca7"),
+        "PERSONALIZACION": ("#3b2468", "#b17fe3"),
     }
     a, b = colors.get(category, ("#243b60", "#709dd9"))
-    if category == "EMULADORES":
+    if item.get("id") == "ps5-signal":
+        a, b = "#0b2558", "#9556c8"
+        shape = (
+            '<path d="M36 31q28-10 56 0l-7 60q-21 10-42 0z" '
+            'stroke="white" stroke-width="5" fill="none"/>'
+            '<path d="M42 43q22 8 44 0" stroke="#66dcff" '
+            'stroke-width="6" stroke-linecap="round"/>'
+            '<path d="M68 49v24a9 9 0 1 1-6-9V53l18-5v20a9 9 0 1 1-6-9V46z" '
+            'fill="white"/>'
+        )
+    elif category == "EMULADORES":
         shape = '<rect x="25" y="29" width="78" height="70" rx="12" stroke="white" stroke-width="7" fill="none"/><path d="M41 80h19M50 70v20" stroke="white" stroke-width="6"/><circle cx="83" cy="81" r="5" fill="white"/>'
     elif category == "ARCHIVOS / RED":
         shape = '<circle cx="64" cy="63" r="31" stroke="white" stroke-width="7" fill="none"/><path d="M33 63h62M64 32a45 45 0 010 62M64 32a45 45 0 000 62" stroke="white" stroke-width="5" fill="none"/>'
@@ -344,11 +422,16 @@ def procesar(offline: bool = False) -> tuple[int, int, bool, bool]:
 
     initial = len(items)
     activos = [dict(x) for x in items if x.get("id") not in RETIRADOS]
+    if not any(x.get("id") == "ps5-signal" for x in activos):
+        activos.append(dict(PS5_SIGNAL))
+        print("AÑADIDO: PS5 Signal v0.1.0 (ELF oficial)")
     if not any(x.get("id") == "ftpsrv" for x in activos):
         raise ValueError("No se encontro ftpsrv original: no se toca el catalogo")
     cache: dict[str, dict | None] = {}
     resultado = []
     for item in activos:
+        if item.get("id") == "ps5-hardware-overlay":
+            migrar_overlay(item)
         if item.get("id") == "ftpsrv":
             # Migrar la version antigua una sola vez; permitir futuras
             # versiones estables verificadas de Drakmor, sin retroceder.
