@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """HiddenKernelLab | Actualizador del catalogo PLDMGR.
 
-Reemplaza el actualizador.py existente en PLM-Repository. GitHub Actions
-lo ejecuta cada 3 horas: actualiza las releases verificables, depura el
-catalogo, conserva IDs/favoritos/autoload e iconos, y genera los JSON.
-
-No modifica el repositorio remoto por si mismo. Requiere Python 3.10+.
+Base: hiddenkernellab/PLM-Repository/main, consultado 2026-10-17
+(blob ff5e6310446343b6a47cc354844239845e769d1d).
+Mantiene los IDs, las categorias y los iconos del repositorio.
+No modifica GitHub por si mismo. Requiere Python 3.10+.
 Uso local: python actualizador.py [--offline]
 """
 
@@ -29,7 +28,6 @@ ICONS = ROOT / "icons.json"
 GITHUB_API = "https://api.github.com/repos/{}/releases/latest"
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
 
-# Limpiar solo las cuatro entradas acordadas; las alternativas utiles siguen.
 RETIRADOS = frozenset({
     "airpsx", "jailbreak-store", "ps5-file-explorer", "zftpd-zhttp",
 })
@@ -52,15 +50,13 @@ RENOMBRAR_CATEGORIAS = {
     "MANDOS": "MANDOS / AUDIO",
 }
 
-# Fijar builds experimentales que funcionan con combinaciones concretas.
-# No sustituirlas por una beta incompatible sin revision manual.
+# Builds experimentales que requieren revision manual.
 NO_AUTOMATICOS = frozenset({
     "kstuff-fpkg", "shadowmountplus", "ps5sx2-helper",
     "ps5sx2-installer", "etahen-13.60", "pldmgr-install-update",
-    "ps5-hardware-overlay",  # v0.0.18 tag follows v1.0.15; manual review needed
+    "ps5-hardware-overlay",
 })
 
-# Unica migracion forzosa: la version PS5 estable de Drakmor.
 FTP_VERSION = "1.16-ng-stable"
 FTP_REPO = "drakmor/ftpsrv"
 FTP_ARCHIVO = "ftpsrv-ps5.elf"
@@ -78,9 +74,8 @@ FTP_DESCRIPCION = (
     "un servidor FTP en el mismo puerto."
 )
 
-
-# Release upstream verificada: la etiqueta v0.0.18 contiene el ELF AIO 1.0.18.
-# NO usar overlay_payload.elf: es la carga interna, no el lanzador autonomo.
+# Release upstream: el tag v0.0.18 contiene el ELF AIO 1.0.18.
+# No usar overlay_payload.elf, que es la carga interna.
 OVERLAY_RELEASE = {
     "name": "PS5 Hardware Overlay (KUS)",
     "filename": "ps5-overlay-kus_v1.0.18.elf",
@@ -102,36 +97,48 @@ OVERLAY_RELEASE = {
     "checksum": "96562d1fc8deb641c67e19dc618cf2334f14512bc02e15732f53361f31005e29",
 }
 
-# Unico binario de uso normal. Excluir ps5-signal-dev.elf (servidor de pruebas).
+# ps5-signal v0.2.0: SHA-256 oficial del ELF normal, NO de ps5-signal-dev.elf.
 PS5_SIGNAL = {
     "name": "PS5 Signal",
     "filename": "ps5-signal.elf",
-    "url": "https://github.com/Marice/ps5-signal/releases/download/v0.1.0/ps5-signal.elf",
+    "url": "https://github.com/Marice/ps5-signal/releases/download/v0.2.0/ps5-signal.elf",
     "source": "https://github.com/Marice/ps5-signal/releases",
-    "source_direct": "https://github.com/Marice/ps5-signal/releases/download/v0.1.0/ps5-signal.elf",
+    "source_direct": "https://github.com/Marice/ps5-signal/releases/download/v0.2.0/ps5-signal.elf",
     "description": (
-        "Personaliza la luz LED y los pitidos de PS5, con secuencias de inicio "
-        "y API local 127.0.0.1:9150. Configuracion con Signal Companion "
-        "(aplicacion opcional). FW 9.00 o superior segun autor; probado solo "
-        "en PS5 Pro 13.60. No usar ps5-signal-dev.elf para uso habitual. "
+        "Personaliza el LED y los pitidos de PS5; tonos y secuencias de inicio, "
+        "volumen del pitido (0-2), LED segun temperatura de CPU/SoC y API "
+        "local 127.0.0.1:9150. Version 0.2.0 corrige que la 0.1.0 "
+        "desactivase los pitidos del sistema, recupera la conexion al salir "
+        "del modo reposo y respeta el LED original durante el reposo. "
+        "Compatible segun el autor desde FW 9.00; probado solo en PS5 Pro "
+        "13.60. Si 0.1.0 desactivo el pitido, volver a activarlo una vez "
+        "en Ajustes. No usar ps5-signal-dev.elf (escucha en red). "
         "EXPERIMENTAL en otros firmwares; autocarga opcional."
     ),
-    "last_update": "2026-10-16",
-    "version": "v0.1.0",
+    "last_update": "2026-10-17",
+    "version": "v0.2.0",
     "category": "PERSONALIZACION",
-    "checksum": "e39199ab216986442dd4ae66df7fe7ec012c50984a27fc8aff9b42834359e9d8",
+    "checksum": "189b51ac204600f40d4aa9adc8394e897decf96042689c2066d9292b47fd173e",
     "icon_key": "ps5-signal",
     "id": "ps5-signal",
 }
 
 
 def migrar_overlay(item: dict) -> None:
-    # Conservar el mismo ID/icono para favoritos y ajustes del usuario.
-    # Solo sustituir la version antigua conocida, nunca pisar una futura.
+    # Mantener el ID y el icono del usuario.
     if (str(item.get("version")) in {"v1.0.15", "1.0.15"}
             or "/v1.0.15/" in str(item.get("url", ""))):
         item.update(OVERLAY_RELEASE)
         print("ACTUALIZADO: PS5 Hardware Overlay -> KUS 1.0.18 (tag v0.0.18)")
+
+
+def migrar_signal(item: dict) -> None:
+    # No retroceder si el catalogo ya contiene una version posterior.
+    if version_numerica(item.get("version", "")) < version_numerica(PS5_SIGNAL["version"]):
+        preserved = {k: item[k] for k in ("id", "icon_key") if k in item}
+        item.update(PS5_SIGNAL)
+        item.update(preserved)
+        print("ACTUALIZADO: PS5 Signal -> v0.2.0 (ELF normal oficial)")
 
 
 def leer_json(path: Path) -> dict:
@@ -146,7 +153,6 @@ def escribir_si_cambia(path: Path, value: dict) -> bool:
     data = (json.dumps(value, indent=2, ensure_ascii=False) + "\n").encode("utf-8")
     if path.exists() and path.read_bytes() == data:
         return False
-    # Mismo directorio para que os.replace mantenga atomicidad por archivo.
     temp = None
     try:
         with NamedTemporaryFile(dir=path.parent, prefix=path.name + ".", suffix=".tmp",
@@ -174,7 +180,7 @@ def version_numerica(value: object) -> tuple[int, ...]:
 def solicitar_release(repo: str) -> dict:
     headers = {
         "Accept": "application/vnd.github+json",
-        "User-Agent": "HiddenKernelLab-Catalog-Updater/2026-10-16",
+        "User-Agent": "HiddenKernelLab-Catalog-Updater/2026-10-17",
         "X-GitHub-Api-Version": "2022-11-28",
     }
     token = os.getenv("GITHUB_TOKEN", "").strip()
@@ -200,7 +206,6 @@ def candidates(item: dict, tag: str) -> list[str]:
     """Intentar nombres de activos verificables sin inventar enlaces."""
     name = str(item.get("url", "")).split("/")[-1]
     oldtag = str(item.get("version", ""))
-    # Si la version mostrada lleva anotaciones, obtener la etiqueta del enlace.
     parts = str(item.get("url", "")).split("/releases/download/")
     if len(parts) == 2:
         oldtag = parts[1].split("/", 1)[0]
@@ -215,7 +220,6 @@ def candidates(item: dict, tag: str) -> list[str]:
         found.insert(0, f"ps5upload-{shortnew}.elf")
     if item.get("id") == "patchdl":
         found.insert(0, f"patchdl_{shortnew}.elf")
-    # No seleccionar compilaciones debug, PS4 ni archivos de test.
     return list(dict.fromkeys(x for x in found if x.lower().endswith(".elf")))
 
 
@@ -226,10 +230,8 @@ def elegir_activo(item: dict, repo: str, release: dict) -> tuple | None:
     if not tag or not re.fullmatch(r"[a-zA-Z0-9][a-zA-Z0-9._-]*", tag):
         return None
     old_tag = str(item.get("version", ""))
-    # Conservar builds especiales; normalizar 'v' sin asumir firmware compatible.
     if version_numerica(tag) <= version_numerica(old_tag):
         return None
-    # No confundir series experimentales/forks de nomenclatura arbitraria.
     old_release_url = str(item.get("url", ""))
     if "/releases/download/" not in old_release_url:
         return None
@@ -324,7 +326,6 @@ def normalizar_descripcion(item: dict) -> None:
             "Consultar notas upstream para cambios posteriores."
         )
     elif ident == "ps5-webkit-autoloader":
-        # No afirmar compatibilidad 1.00-5.50 en la rama 0.6.x.
         item["description"] = str(item.get("description", "")).replace(
             "ESTADO: ESTABLE. COMPATIBILIDAD: FW 1.00-5.50 y 7.00-13.60.",
             "ESTADO: ESTABLE. COMPATIBILIDAD: rama 0.6.x FW 7.00-13.60 "
@@ -372,7 +373,6 @@ def validar(catalogo: dict) -> None:
 
 def icono_nuevo(item: dict) -> str:
     """Solo para futuras entradas sin icono: no sobreescribe imagenes existentes."""
-    name = str(item.get("name", ""))
     category = str(item.get("category", ""))
     colors = {
         "ESENCIALES": ("#163968", "#4e88d8"),
@@ -424,7 +424,7 @@ def procesar(offline: bool = False) -> tuple[int, int, bool, bool]:
     activos = [dict(x) for x in items if x.get("id") not in RETIRADOS]
     if not any(x.get("id") == "ps5-signal" for x in activos):
         activos.append(dict(PS5_SIGNAL))
-        print("AÑADIDO: PS5 Signal v0.1.0 (ELF oficial)")
+        print("AÑADIDO: PS5 Signal v0.2.0 (ELF oficial)")
     if not any(x.get("id") == "ftpsrv" for x in activos):
         raise ValueError("No se encontro ftpsrv original: no se toca el catalogo")
     cache: dict[str, dict | None] = {}
@@ -432,9 +432,9 @@ def procesar(offline: bool = False) -> tuple[int, int, bool, bool]:
     for item in activos:
         if item.get("id") == "ps5-hardware-overlay":
             migrar_overlay(item)
+        if item.get("id") == "ps5-signal":
+            migrar_signal(item)
         if item.get("id") == "ftpsrv":
-            # Migrar la version antigua una sola vez; permitir futuras
-            # versiones estables verificadas de Drakmor, sin retroceder.
             if (github_repo(item) != FTP_REPO or
                     version_numerica(item.get("version", "")) < version_numerica(FTP_VERSION)):
                 migrar_ftp(item)
@@ -452,7 +452,6 @@ def procesar(offline: bool = False) -> tuple[int, int, bool, bool]:
     catalogo["icons_url"] = "icons.json"
     validar(catalogo)
 
-    # No regenerar iconos ya personalizados, incluso si cambia el orden.
     imagenes = {}
     for item in resultado:
         key = item["icon_key"]
@@ -463,7 +462,6 @@ def procesar(offline: bool = False) -> tuple[int, int, bool, bool]:
     if len(json.dumps(icon_data).encode("utf-8")) > 4 * 1024 * 1024:
         raise ValueError("El archivo de iconos supera 4 MB")
 
-    # Ambas estructuras se comprueban antes de tocar los archivos originales.
     json.loads(json.dumps(catalogo, ensure_ascii=False))
     json.loads(json.dumps(icon_data, ensure_ascii=False))
     changed_icons = escribir_si_cambia(ICONS, icon_data)
