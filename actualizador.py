@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """HiddenKernelLab | Actualizador del catalogo PLDMGR.
 
-Base: hiddenkernellab/PLM-Repository/main, consultado 2026-10-17
-(blob ff5e6310446343b6a47cc354844239845e769d1d).
-Mantiene los IDs, las categorias y los iconos del repositorio.
-No modifica GitHub por si mismo. Requiere Python 3.10+.
+Reemplaza el actualizador.py existente en PLM-Repository. GitHub Actions
+lo ejecuta cada 3 horas: actualiza las releases verificables, depura el
+catalogo, conserva IDs/favoritos/autoload e iconos, y genera los JSON.
+
+No modifica el repositorio remoto por si mismo. Requiere Python 3.10+.
 Uso local: python actualizador.py [--offline]
 """
 
@@ -28,6 +29,7 @@ ICONS = ROOT / "icons.json"
 GITHUB_API = "https://api.github.com/repos/{}/releases/latest"
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
 
+# Limpiar solo las cuatro entradas acordadas; las alternativas utiles siguen.
 RETIRADOS = frozenset({
     "airpsx", "jailbreak-store", "ps5-file-explorer", "zftpd-zhttp",
 })
@@ -50,13 +52,15 @@ RENOMBRAR_CATEGORIAS = {
     "MANDOS": "MANDOS / AUDIO",
 }
 
-# Builds experimentales que requieren revision manual.
+# Fijar builds experimentales que funcionan con combinaciones concretas.
+# No sustituirlas por una beta incompatible sin revision manual.
 NO_AUTOMATICOS = frozenset({
     "kstuff-fpkg", "shadowmountplus", "ps5sx2-helper",
     "ps5sx2-installer", "etahen-13.60", "pldmgr-install-update",
-    "ps5-hardware-overlay",
+    "ps5-hardware-overlay",  # v0.0.18 tag follows v1.0.15; manual review needed
 })
 
+# Unica migracion forzosa: la version PS5 estable de Drakmor.
 FTP_VERSION = "1.16-ng-stable"
 FTP_REPO = "drakmor/ftpsrv"
 FTP_ARCHIVO = "ftpsrv-ps5.elf"
@@ -74,8 +78,9 @@ FTP_DESCRIPCION = (
     "un servidor FTP en el mismo puerto."
 )
 
-# Release upstream: el tag v0.0.18 contiene el ELF AIO 1.0.18.
-# No usar overlay_payload.elf, que es la carga interna.
+
+# Release upstream verificada: la etiqueta v0.0.18 contiene el ELF AIO 1.0.18.
+# NO usar overlay_payload.elf: es la carga interna, no el lanzador autonomo.
 OVERLAY_RELEASE = {
     "name": "PS5 Hardware Overlay (KUS)",
     "filename": "ps5-overlay-kus_v1.0.18.elf",
@@ -97,10 +102,9 @@ OVERLAY_RELEASE = {
     "checksum": "96562d1fc8deb641c67e19dc618cf2334f14512bc02e15732f53361f31005e29",
 }
 
-# ps5-signal v0.2.0: SHA-256 oficial del ELF normal, NO de ps5-signal-dev.elf.
+# Unico binario de uso normal. Excluir ps5-signal-dev.elf (servidor de pruebas).
 PS5_SIGNAL = {
-    "name": "PS5 Signal",
-    "filename": "ps5-signal.elf",
+    "name": "PS5 Signal", "filename": "ps5-signal.elf",
     "url": "https://github.com/Marice/ps5-signal/releases/download/v0.2.0/ps5-signal.elf",
     "source": "https://github.com/Marice/ps5-signal/releases",
     "source_direct": "https://github.com/Marice/ps5-signal/releases/download/v0.2.0/ps5-signal.elf",
@@ -115,30 +119,108 @@ PS5_SIGNAL = {
         "en Ajustes. No usar ps5-signal-dev.elf (escucha en red). "
         "EXPERIMENTAL en otros firmwares; autocarga opcional."
     ),
-    "last_update": "2026-10-17",
-    "version": "v0.2.0",
+    "last_update": "2026-10-17", "version": "v0.2.0",
     "category": "PERSONALIZACION",
     "checksum": "189b51ac204600f40d4aa9adc8394e897decf96042689c2066d9292b47fd173e",
-    "icon_key": "ps5-signal",
-    "id": "ps5-signal",
+    "icon_key": "ps5-signal", "id": "ps5-signal",
 }
 
 
-def migrar_overlay(item: dict) -> None:
-    # Mantener el ID y el icono del usuario.
-    if (str(item.get("version")) in {"v1.0.15", "1.0.15"}
-            or "/v1.0.15/" in str(item.get("url", ""))):
-        item.update(OVERLAY_RELEASE)
-        print("ACTUALIZADO: PS5 Hardware Overlay -> KUS 1.0.18 (tag v0.0.18)")
+
+# Releases ELF estables comprobadas contra los activos y sus SHA-256 oficiales.
+# El pin solo se aplica a versiones antiguas; no bloquea futuras releases.
+# Permite incorporar estas novedades tambien con --offline, sin tocar otros IDs.
+RELEASES_VERIFICADAS = {
+    "ps5upload": {
+        "repo": "phantomptr/ps5upload",
+        "version": "v7.0.34",
+        "filename": "ps5upload-7.0.34.elf",
+        "checksum": "f6a09ed9f92ea230490e2bc3ad912c4e882882839a25a184bb6daddabc0904a7",
+        "last_update": "2026-10-17",
+        "category": "ARCHIVOS / RED",
+    },
+    "patchdl": {
+        "repo": "knutwurst/ps5-patchdl",
+        "version": "v0.2.1",
+        "filename": "patchdl_0.2.1.elf",
+        "checksum": "5458739714d93ad807f3720ff3a2107687bf18be6e238c3f531a93f55d3467b7",
+        "last_update": "2026-10-17",
+        "category": "DESCARGAS / TIENDAS",
+    },
+}
+
+
+def aplicar_release_verificada(item: dict) -> None:
+    """Actualizar solo si es el mismo upstream y una version anterior."""
+    verificada = RELEASES_VERIFICADAS.get(item.get("id"))
+    if not verificada:
+        return
+    if github_repo(item) != verificada["repo"]:
+        raise ValueError("Origen inesperado en " + str(item.get("id")))
+    if version_numerica(item.get("version", "")) >= version_numerica(verificada["version"]):
+        return
+    tag = verificada["version"]
+    archivo = verificada["filename"]
+    url = f"https://github.com/{verificada['repo']}/releases/download/{tag}/{archivo}"
+    item.update(
+        version=tag, filename=archivo, url=url, source_direct=url,
+        checksum=verificada["checksum"], last_update=verificada["last_update"],
+        category=verificada["category"],
+    )
+    print(f"ACTUALIZADO (ELF verificado): {item['id']} -> {tag}")
+
+
+
+# Nuevos ELF oficiales. La rutina refrescar() mantiene futuras versiones al dia.
+NUEVOS_PERSONALIZACION = (
+    {
+        "id": "ps5-theme", "icon_key": "ps5-theme", "name": "PS5 Theme",
+        "filename": "ps5-theme.elf", "version": "v1.60",
+        "url": "https://github.com/Blaze414/ps5-theme/releases/download/v1.60/ps5-theme.elf",
+        "source": "https://github.com/Blaze414/ps5-theme/releases",
+        "source_direct": "https://github.com/Blaze414/ps5-theme/releases/download/v1.60/ps5-theme.elf",
+        "checksum": "732fbc113770bdac4dc0dfea1b8c6a9ecdc4bacdacb7ab0f6ed3e11987409a61",
+        "category": "PERSONALIZACION", "last_update": "2026-10-14",
+        "description": (
+            "Temas PS5: iconos, fondos, logos, musica y sonidos; gestor en consola "
+            "y red local puerto 8095. No necesita PC ni modifica archivos de sistema: "
+            "usa overlays de solo lectura. Firmware hasta 13.60 segun el autor; "
+            "probado en 13.42. Evitar conflictos con LiveShell al cambiar fondos."
+        ),
+    },
+    {
+        "id": "liveshell", "icon_key": "liveshell", "name": "LiveShell Engine",
+        "filename": "liveshell.elf", "version": "v1.2",
+        "url": "https://github.com/ZiZc3/LiveShell/releases/download/v1.2/liveshell.elf",
+        "source": "https://github.com/ZiZc3/LiveShell/releases",
+        "source_direct": "https://github.com/ZiZc3/LiveShell/releases/download/v1.2/liveshell.elf",
+        "checksum": "5d4f9f92440c2b0c100dfc982953e1fb24ec198ea259dcb0a3bb85c6176334a0",
+        "category": "PERSONALIZACION", "last_update": "2026-10-16",
+        "description": (
+            "Fondos animados de video en el menu PS5, con biblioteca de juegos "
+            "y modo PS Store. MP4 H.264/HEVC 1080p (no 4K); videos en "
+            "/data/LiveShell/video o carpeta liveshell del USB. Gestor en "
+            "la propia consola. No usar a la vez que otro overlay de fondo sin probar."
+        ),
+    },
+)
 
 
 def migrar_signal(item: dict) -> None:
-    # No retroceder si el catalogo ya contiene una version posterior.
     if version_numerica(item.get("version", "")) < version_numerica(PS5_SIGNAL["version"]):
         preserved = {k: item[k] for k in ("id", "icon_key") if k in item}
         item.update(PS5_SIGNAL)
         item.update(preserved)
-        print("ACTUALIZADO: PS5 Signal -> v0.2.0 (ELF normal oficial)")
+        print("ACTUALIZADO: PS5 Signal -> v0.2.0")
+
+
+def migrar_overlay(item: dict) -> None:
+    # Conservar el mismo ID/icono para favoritos y ajustes del usuario.
+    # Solo sustituir la version antigua conocida, nunca pisar una futura.
+    if (str(item.get("version")) in {"v1.0.15", "1.0.15"}
+            or "/v1.0.15/" in str(item.get("url", ""))):
+        item.update(OVERLAY_RELEASE)
+        print("ACTUALIZADO: PS5 Hardware Overlay -> KUS 1.0.18 (tag v0.0.18)")
 
 
 def leer_json(path: Path) -> dict:
@@ -153,6 +235,7 @@ def escribir_si_cambia(path: Path, value: dict) -> bool:
     data = (json.dumps(value, indent=2, ensure_ascii=False) + "\n").encode("utf-8")
     if path.exists() and path.read_bytes() == data:
         return False
+    # Mismo directorio para que os.replace mantenga atomicidad por archivo.
     temp = None
     try:
         with NamedTemporaryFile(dir=path.parent, prefix=path.name + ".", suffix=".tmp",
@@ -180,7 +263,7 @@ def version_numerica(value: object) -> tuple[int, ...]:
 def solicitar_release(repo: str) -> dict:
     headers = {
         "Accept": "application/vnd.github+json",
-        "User-Agent": "HiddenKernelLab-Catalog-Updater/2026-10-17",
+        "User-Agent": "HiddenKernelLab-Catalog-Updater/2026-10-16",
         "X-GitHub-Api-Version": "2022-11-28",
     }
     token = os.getenv("GITHUB_TOKEN", "").strip()
@@ -206,6 +289,7 @@ def candidates(item: dict, tag: str) -> list[str]:
     """Intentar nombres de activos verificables sin inventar enlaces."""
     name = str(item.get("url", "")).split("/")[-1]
     oldtag = str(item.get("version", ""))
+    # Si la version mostrada lleva anotaciones, obtener la etiqueta del enlace.
     parts = str(item.get("url", "")).split("/releases/download/")
     if len(parts) == 2:
         oldtag = parts[1].split("/", 1)[0]
@@ -220,6 +304,7 @@ def candidates(item: dict, tag: str) -> list[str]:
         found.insert(0, f"ps5upload-{shortnew}.elf")
     if item.get("id") == "patchdl":
         found.insert(0, f"patchdl_{shortnew}.elf")
+    # No seleccionar compilaciones debug, PS4 ni archivos de test.
     return list(dict.fromkeys(x for x in found if x.lower().endswith(".elf")))
 
 
@@ -230,8 +315,10 @@ def elegir_activo(item: dict, repo: str, release: dict) -> tuple | None:
     if not tag or not re.fullmatch(r"[a-zA-Z0-9][a-zA-Z0-9._-]*", tag):
         return None
     old_tag = str(item.get("version", ""))
+    # Conservar builds especiales; normalizar 'v' sin asumir firmware compatible.
     if version_numerica(tag) <= version_numerica(old_tag):
         return None
+    # No confundir series experimentales/forks de nomenclatura arbitraria.
     old_release_url = str(item.get("url", ""))
     if "/releases/download/" not in old_release_url:
         return None
@@ -306,7 +393,24 @@ def normalizar_descripcion(item: dict) -> None:
             "PS5Upload, servidor de transferencias y gestion remota. Permite "
             "reanudacion, extraccion de RAR y gestion de payloads. Usar una version "
             "compatible del cliente y del helper. Version instalada en el catalogo: "
-            + str(item["version"]) + ". Consultar cambios upstream."
+            + str(item["version"]) + ". "
+            + ("Desde 7.0.34 corrige nombres de archivos con diferencias "
+               "entre mayusculas y minusculas en juegos Unity al subir carpetas "
+               "o convertir juegos, evitando cierres al arrancar. "
+               if version_numerica(item.get("version")) >= (7, 0, 34, 0) else "")
+            + "Consultar cambios upstream."
+        )
+    elif ident == "patchdl" and version_numerica(item.get("version")) >= (0, 2, 1, 0):
+        item["description"] = (
+            "PatchDL " + str(item["version"]) + ": descarga e instala parches "
+            "oficiales de juegos PS4/PS5 ya instalados; cola, reanudacion "
+            "y verificacion tras instalar. Desde 0.2.1 distingue errores de "
+            "DNS, conexion y servidor, ofrece diagnostico e informe por QR, "
+            "y deja sin actualizar por defecto las apps firmadas por Sony "
+            "instaladas fuera de Store (Sideloaded), salvo activacion manual. "
+            "El autor declara FW 1.00-13.60 y prueba en 11.60. No es para "
+            "descargar juegos ni para parches FPKG; compatibilidad con "
+            "ShadowMountPlus no confirmada. Consultar notas upstream."
         )
     elif ident == "orbit-store":
         item["description"] = (
@@ -326,6 +430,7 @@ def normalizar_descripcion(item: dict) -> None:
             "Consultar notas upstream para cambios posteriores."
         )
     elif ident == "ps5-webkit-autoloader":
+        # No afirmar compatibilidad 1.00-5.50 en la rama 0.6.x.
         item["description"] = str(item.get("description", "")).replace(
             "ESTADO: ESTABLE. COMPATIBILIDAD: FW 1.00-5.50 y 7.00-13.60.",
             "ESTADO: ESTABLE. COMPATIBILIDAD: rama 0.6.x FW 7.00-13.60 "
@@ -373,6 +478,7 @@ def validar(catalogo: dict) -> None:
 
 def icono_nuevo(item: dict) -> str:
     """Solo para futuras entradas sin icono: no sobreescribe imagenes existentes."""
+    name = str(item.get("name", ""))
     category = str(item.get("category", ""))
     colors = {
         "ESENCIALES": ("#163968", "#4e88d8"),
@@ -422,6 +528,10 @@ def procesar(offline: bool = False) -> tuple[int, int, bool, bool]:
 
     initial = len(items)
     activos = [dict(x) for x in items if x.get("id") not in RETIRADOS]
+    for nuevo in NUEVOS_PERSONALIZACION:
+        if not any(x.get("id") == nuevo["id"] for x in activos):
+            activos.append(dict(nuevo))
+            print("AÑADIDO:", nuevo["name"], nuevo["version"])
     if not any(x.get("id") == "ps5-signal" for x in activos):
         activos.append(dict(PS5_SIGNAL))
         print("AÑADIDO: PS5 Signal v0.2.0 (ELF oficial)")
@@ -434,7 +544,10 @@ def procesar(offline: bool = False) -> tuple[int, int, bool, bool]:
             migrar_overlay(item)
         if item.get("id") == "ps5-signal":
             migrar_signal(item)
+        aplicar_release_verificada(item)
         if item.get("id") == "ftpsrv":
+            # Migrar la version antigua una sola vez; permitir futuras
+            # versiones estables verificadas de Drakmor, sin retroceder.
             if (github_repo(item) != FTP_REPO or
                     version_numerica(item.get("version", "")) < version_numerica(FTP_VERSION)):
                 migrar_ftp(item)
@@ -452,6 +565,7 @@ def procesar(offline: bool = False) -> tuple[int, int, bool, bool]:
     catalogo["icons_url"] = "icons.json"
     validar(catalogo)
 
+    # No regenerar iconos ya personalizados, incluso si cambia el orden.
     imagenes = {}
     for item in resultado:
         key = item["icon_key"]
@@ -462,6 +576,7 @@ def procesar(offline: bool = False) -> tuple[int, int, bool, bool]:
     if len(json.dumps(icon_data).encode("utf-8")) > 4 * 1024 * 1024:
         raise ValueError("El archivo de iconos supera 4 MB")
 
+    # Ambas estructuras se comprueban antes de tocar los archivos originales.
     json.loads(json.dumps(catalogo, ensure_ascii=False))
     json.loads(json.dumps(icon_data, ensure_ascii=False))
     changed_icons = escribir_si_cambia(ICONS, icon_data)
