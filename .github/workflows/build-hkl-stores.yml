@@ -1,0 +1,222 @@
+name: Build HiddenKernel Four Stores ELF
+
+on:
+  push:
+    paths:
+      - '.github/workflows/build-hkl-stores.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compile:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - name: Restore verified HiddenKernelLab PS5 installer sources
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$(dirname four-stores/src/main.c)"
+          base64 -d <<'PAYLOAD_CONTENT' | gzip -d > four-stores/src/main.c
+          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
+          PAYLOAD_CONTENT
+          echo "1968719fe784bdac00b34103939a1e45ccd3ce70b0733ade73c056544cd1b307  four-stores/src/main.c" | sha256sum -c -
+          mkdir -p "$(dirname four-stores/Makefile)"
+          base64 -d <<'PAYLOAD_CONTENT' | gzip -d > four-stores/Makefile
+          H4sIAAAAAAAC/3VUYU/bMBD9XP+Kk9ZJjcDJBOPDqiFRCgxGRSvSCTFNqlz70lh17Mx2Nsqvn5NQ
+          6EobyfHl7vzu+fycD3CPTMEkPYGSrZRhAi5HV1A5qRdQuhP64qVOLOEAijmK6ShNeGUV9LSBybDO
+          j2IiMy0wq4Fmk8HjaDy4mKUXt6TbQ2uNhRT9dgy8AZ8jSO08UwrFu3ol83lEUAuZEam5qgRCt7cF
+          EyXeGMVzJnVSWuNKtCYuloRMHqfX4zvon0K58rnRx2Q6uP92Oa09u1CYXaAnw6vR4Fta59DxEdCH
+          wCy88clbFmZtaKUrhyLwtKxAjxboTbfXIkfJmiW9icPwubRiFjL9KnlWcr4GPwjgWVZp7qXR1GEz
+          u+ATzLPXb/JzdHM+S++HNRkmFNrjo5gDt7yZQ7cV8xgsqbM548vWypjzrfUW9RbRBXM9P1deqpi3
+          Bcbn39uOMCFKi5l8gnkllWgYJ4fd3ppGP+ansYkiEr7Tdsl623VmGLUqYvbeX6vGKxdCvwiEZ2fC
+          08mnL/sWc7sqvXldT0f/ZQFVpc8tBu1SlXK8Qz/0qrV/OLQp2j+S43px7U5XzmOxDjSua+/Lo5eo
+          U69Ir/mFEZVCQoIg+nAthUB9i1ajop9Tb2xoLKoshJ1D72accbR+VmIR532oFeqSBepZE47LFen8
+          XdTgv4PMoE2OQzLkgYXrJ80Fix0mnCVvUdIJum1UHe2A3ITpnkG+3CBBOrbYiBOyccQfYxMYbkk1
+          eDnpnBVLIYPCyw1J1CSGwygcVKvmCCiH7legJlQlZF9n+uAsT4pwS4MAX0QVpBfBjobtKPGgDild
+          8I3LUpfbh9nt1RqNmn5t3/P5xn+COm9lWfPunGVSYbMDrpDpftMxarN253sPfBf9zUb/A4pgHRdg
+          BQAA
+          PAYLOAD_CONTENT
+          echo "0c4078283ecfb88d2404907fde69e4796dbfd495587bfb031acbda702801d3da  four-stores/Makefile" | sha256sum -c -
+          mkdir -p "$(dirname four-stores/tools/gen_asset.py)"
+          base64 -d <<'PAYLOAD_CONTENT' | gzip -d > four-stores/tools/gen_asset.py
+          H4sIAAAAAAAC/3WRz0/CMBTH7/0rnqeuQMYPDYeZHdQYNVEhAQ4GF1LgddSMdmk72CT873bMEDnY
+          y/vVft/nvQqjt5Bzt8nkEuQ218bB2Ifk17eVJUQKyFAF3g+5SXfsKr6JCPhjuLQIk8o63D6W0gW0
+          sDzFCFJUC24tujCv4OV9PJvCaDatzeTj7X70ShkxfB/Xnc6y837CQoN8vVhWDm3AiK228bl6nRBd
+          uHguaLcFT6jQcIdryItlJlfwcAfLQq0zBKEN7NBIIX31eTodT0JodWnnBAyCWsedf7DSyjoolJWp
+          8hdXG27g4Bse5wnEcDjQhNRKWgg/BUjlZ1UpBr1OvQnPzjr9IWu24LFCnueo1gGtY9qmNPzSUgWC
+          9spDGfUG5bFDT2RlI7WfN8JRY9r9YcIY+St0vKUXif/ApXIN98KDeXIrv1GL4JRitcbljgd+x3sj
+          HS4clv6/PtUvqm/F2nXIyA/0/MumFAIAAA==
+          PAYLOAD_CONTENT
+          echo "a57d822ee7c524fad535d206baab8bf3f780f2c91e56529b018a252ef775efc6  four-stores/tools/gen_asset.py" | sha256sum -c -
+      - name: Build PS5 SDK and HTTPS toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --depth 1 https://github.com/itsPLK/ps5-payload-manager.git /tmp/pldmgr
+          docker build --tag hkl-ps5-payload-sdk -f /tmp/pldmgr/Dockerfile.sdk /tmp/pldmgr
+      - name: Cross-compile native PS5 ELF
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --rm -v "${{ github.workspace }}:/src" -w /src hkl-ps5-payload-sdk bash -euxo pipefail -c '
+            wget -q -O /tmp/zlib.tar.xz https://zlib.net/fossils/zlib-1.3.2.tar.xz
+            echo "d7a0654783a4da529d1bb793b7ad9c3318020af77667bcae35f95d0e42a792f3  /tmp/zlib.tar.xz" | sha256sum -c -
+            tar -xJf /tmp/zlib.tar.xz -C /tmp
+            mkdir -p four-stores/third_party/zlib
+            cp /tmp/zlib-1.3.2/{zlib.h,zconf.h,adler32.c,crc32.c,deflate.c,infback.c,inffast.c,inflate.c,inftrees.c,trees.c,zutil.c,deflate.h,inffast.h,inffixed.h,inftrees.h,trees.h,zutil.h,crc32.h} four-stores/third_party/zlib/
+            make -C four-stores clean all
+            test -s four-stores/HiddenKernel-4Stores.elf
+            file four-stores/HiddenKernel-4Stores.elf
+            readelf -h four-stores/HiddenKernel-4Stores.elf
+          '
+      - name: Publish the installable ELF
+        uses: actions/upload-artifact@v4
+        with:
+          name: HiddenKernel-4Stores-ELF
+          path: four-stores/HiddenKernel-4Stores.elf
+          if-no-files-found: error
+          retention-days: 30
