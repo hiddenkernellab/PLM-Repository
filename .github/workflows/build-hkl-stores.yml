@@ -7,7 +7,11 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
+
+concurrency:
+  group: hiddenkernel-store-update
+  cancel-in-progress: false
 
 jobs:
   compile:
@@ -200,3 +204,125 @@ jobs:
             four-stores/HiddenKernel-4Stores.elf.sha256
           if-no-files-found: error
           retention-days: 30
+
+      - name: Publish permanent GitHub Release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          TAG="hiddenkernel-4stores-current"
+          if ! gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release create "$TAG" --repo "$GITHUB_REPOSITORY" \
+              --target "$GITHUB_SHA" \
+              --title "HiddenKernel 4 Stores (experimental)" \
+              --notes "Instala Orbit Store, Overdrive, BlackBox y Prospero Store. Busca instalaciones en homebrew y etaHEN/games. EXPERIMENTAL: no probado en consola. Copia de seguridad recomendada." \
+              --prerelease
+          fi
+          gh release upload "$TAG" \
+            four-stores/HiddenKernel-4Stores.elf \
+            four-stores/HiddenKernel-4Stores.elf.sha256 \
+            --clobber --repo "$GITHUB_REPOSITORY"
+          gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json assets \
+            --jq 'any(.assets[]; .name == "HiddenKernel-4Stores.elf")' | grep -x true
+      - name: Register new ELF in PLM Repository
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY_REGISTER'
+          from pathlib import Path
+          import base64
+          import datetime
+          import hashlib
+          import json
+          import os
+          import re
+
+          root = Path('.')
+          elf = root / 'four-stores' / 'HiddenKernel-4Stores.elf'
+          expected_sha = (root / 'four-stores' / 'HiddenKernel-4Stores.elf.sha256').read_text().split()[0]
+          actual_sha = hashlib.sha256(elf.read_bytes()).hexdigest()
+          if actual_sha != expected_sha or not re.fullmatch(r'[0-9a-f]{64}', actual_sha):
+              raise SystemExit('ELF SHA-256 verification failed')
+
+          repo = os.environ['GITHUB_REPOSITORY']
+          tag = 'hiddenkernel-4stores-current'
+          url = f'https://github.com/{repo}/releases/download/{tag}/HiddenKernel-4Stores.elf'
+          entry = {
+              'name': 'HiddenKernel 4 Stores',
+              'filename': 'HiddenKernel-4Stores.elf',
+              'url': url,
+              'source': f'https://github.com/{repo}',
+              'source_direct': url,
+              'description': ('Instalador de Orbit Store, Overdrive, BlackBox y Prospero Store. '
+                              'Comprueba /data/homebrew/ y /data/etaHEN/games/ antes de instalar; '
+                              'evita duplicados y bloquea instalaciones ambiguas. '
+                              'EXPERIMENTAL: ELF compilado y verificado, aun sin prueba fisica en PS5. '
+                              'Haz copia de seguridad antes de usarlo. No configurar autoload.'),
+              'last_update': datetime.datetime.now(datetime.timezone.utc).date().isoformat(),
+              'version': '0.1.0-beta+' + os.environ['GITHUB_SHA'][:7],
+              'category': 'DESCARGAS / TIENDAS',
+              'checksum': actual_sha,
+              'icon_key': 'hiddenkernel-4stores',
+              'id': 'hiddenkernel-4stores'
+          }
+
+          catalog_path = root / 'payloads.json'
+          catalog = json.loads(catalog_path.read_text(encoding='utf-8'))
+          items = catalog['payloads']
+          assert isinstance(items, list) and len(items) > 0
+          existing = [x for x in items if x.get('id') == entry['id']]
+          if len(existing) > 1:
+              raise SystemExit('Duplicate catalog ID, refusing update')
+          if existing:
+              old = existing[0]
+              old.update(entry)
+          else:
+              items.append(entry)
+          category_order = (
+              'ESENCIALES', 'HEN / AIO', 'SISTEMA', 'ARCHIVOS / RED',
+              'PKG / INSTALACION', 'JUEGOS / COMPATIBILIDAD',
+              'DESCARGAS / TIENDAS', 'EMULADORES', 'MULTIMEDIA',
+              'MANDOS / AUDIO', 'TRUCOS / PARTIDAS', 'PERSONALIZACION',
+              'UTILIDADES', 'DESARROLLO / AVANZADO'
+          )
+          order = {cat: i for i, cat in enumerate(category_order)}
+          items.sort(key=lambda x:(order.get(x.get('category'),999),str(x.get('name','')).casefold()))
+          assert len({x['id'] for x in items}) == len(items)
+          catalog['icons_url'] = 'icons.json'
+
+          icon_svg = """<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+          <defs><linearGradient id="a" x2="1" y2="1"><stop stop-color="#0b1d39"/><stop offset="1" stop-color="#182f63"/></linearGradient>
+          <linearGradient id="b" x2="1" y2="1"><stop stop-color="#7de8ff"/><stop offset="1" stop-color="#8066fa"/></linearGradient></defs>
+          <rect x="3" y="3" width="122" height="122" rx="24" fill="url(#a)"/>
+          <rect x="5" y="5" width="118" height="118" rx="22" fill="none" stroke="#7de8ff" stroke-opacity=".3" stroke-width="2"/>
+          <path d="M26 43h15v14H26z" rx="3" fill="#6de6ff"/><rect x="46" y="43" width="15" height="14" rx="3" fill="#9e80ff"/>
+          <rect x="26" y="62" width="15" height="14" rx="3" fill="#ffb967"/><rect x="46" y="62" width="15" height="14" rx="3" fill="#63e1ab"/>
+          <path d="M71 42v37M71 60h26M97 42v37" stroke="url(#b)" stroke-width="8" stroke-linecap="round"/>
+          <path d="M82 47l17 28" stroke="#a0e4ff" stroke-width="5" stroke-linecap="round"/>
+          <text x="64" y="103" fill="#cce8ff" font-size="12" font-weight="bold" text-anchor="middle" font-family="sans-serif">4 STORES</text>
+          </svg>"""
+          icons_path = root / 'icons.json'
+          icons_data = json.loads(icons_path.read_text(encoding='utf-8'))
+          icons = icons_data['icons']
+          assert isinstance(icons, dict)
+          icons[entry['icon_key']] = 'data:image/svg+xml;base64,' + base64.b64encode(icon_svg.encode('utf-8')).decode('ascii')
+          assert len(icons) == len(items), 'Missing icon or unexpected catalog key'
+          assert len(json.dumps(icons_data).encode('utf-8')) <= 4*1024*1024
+
+          catalog_path.write_text(json.dumps(catalog,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          icons_path.write_text(json.dumps(icons_data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          print('Registered in Payload Manager:',entry['id'], entry['version'],actual_sha)
+          PY_REGISTER
+          python3 actualizador.py --offline
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add payloads.json icons.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Registrar HiddenKernel 4 Stores ELF e icono"
+            git fetch origin main
+            if [ "$(git rev-parse origin/main)" != "$(git rev-parse HEAD^)" ]; then
+              git rebase origin/main
+            fi
+            git push origin HEAD:main
+          fi
