@@ -408,6 +408,20 @@
       "id": "ps5-game-compressor"
     },
     {
+      "name": "HiddenKernel 4 Stores",
+      "filename": "HiddenKernel-4Stores.elf",
+      "url": "https://github.com/hiddenkernellab/PLM-Repository/releases/download/hiddenkernel-4stores-current/HiddenKernel-4Stores.elf",
+      "source": "https://github.com/hiddenkernellab/PLM-Repository",
+      "source_direct": "https://github.com/hiddenkernellab/PLM-Repository/releases/download/hiddenkernel-4stores-current/HiddenKernel-4Stores.elf",
+      "description": "Instalador de Orbit Store, Overdrive, BlackBox y Prospero Store. Comprueba /data/homebrew/ y /data/etaHEN/games/ antes de instalar; evita duplicados y bloquea instalaciones ambiguas. EXPERIMENTAL: ELF compilado y verificado, aun sin prueba fisica en PS5. Haz copia de seguridad antes de usarlo. No configurar autoload.",
+      "last_update": "2026-10-18",
+      "version": "0.1.0-beta+4391d8d",
+      "category": "DESCARGAS / TIENDAS",
+      "checksum": "948c2443906d250956de34a426608ec7e25f36c103f5f865c70353b85f59e85f",
+      "icon_key": "hiddenkernel-4stores",
+      "id": "hiddenkernel-4stores"
+    },
+    {
       "name": "Orbit Store",
       "filename": "orbit_store.elf",
       "url": "https://github.com/saawant12/orbit-store-ps5/releases/download/v1.3.5/orbit_store.elf",
