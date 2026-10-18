@@ -1,4 +1,4 @@
-name: Build HiddenKernel Four Stores ELF
+name: Build HiddenKernel Four Stores ELF (zlib fix)
 
 on:
   push:
@@ -203,11 +203,10 @@ jobs:
         run: |
           set -euo pipefail
           docker run --rm -v "${{ github.workspace }}:/src" -w /src hkl-ps5-payload-sdk bash -euxo pipefail -c '
-            wget -q -O /tmp/zlib.tar.xz https://zlib.net/fossils/zlib-1.3.2.tar.xz
-            echo "d7a0654783a4da529d1bb793b7ad9c3318020af77667bcae35f95d0e42a792f3  /tmp/zlib.tar.xz" | sha256sum -c -
-            tar -xJf /tmp/zlib.tar.xz -C /tmp
+            git clone --depth 1 --branch v1.3.1 https://github.com/madler/zlib.git /tmp/hkl-zlib
+            test "$(git -C /tmp/hkl-zlib rev-parse HEAD)" = "51b7f2abdade71cd9bb0e7a373ef2610ec6f9daf"
             mkdir -p four-stores/third_party/zlib
-            cp /tmp/zlib-1.3.2/{zlib.h,zconf.h,adler32.c,crc32.c,deflate.c,infback.c,inffast.c,inflate.c,inftrees.c,trees.c,zutil.c,deflate.h,inffast.h,inffixed.h,inftrees.h,trees.h,zutil.h,crc32.h} four-stores/third_party/zlib/
+            cp /tmp/hkl-zlib/*.[ch] four-stores/third_party/zlib/
             make -C four-stores clean all
             test -s four-stores/HiddenKernel-4Stores.elf
             file four-stores/HiddenKernel-4Stores.elf
