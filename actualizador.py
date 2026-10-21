@@ -102,6 +102,178 @@ OVERLAY_RELEASE = {
     "checksum": "96562d1fc8deb641c67e19dc618cf2334f14512bc02e15732f53361f31005e29",
 }
 
+# Release estable publicada el 18/10/2026 y contrastada con el espejo
+# itsPLK/ps5-payloads-mirror (SHA-256 de su copia ELF).
+# Este upstream es Forgejo, por lo que refrescar() no puede seguirlo por
+# la API GitHub; migrar solo desde versiones anteriores y no retroceder.
+GARLIC_RELEASE = {
+    "version": "v1.14.0",
+    "filename": "garlic-savemgr_v1.14.0.elf",
+    "url": "https://git.etawen.dev/earthonion/garlic-savemgr/releases/download/v1.14.0/garlic-savemgr.elf",
+    "checksum": "0b96822e3f554666b7fa4ead673c60ef602e5534a9f01a45e94d0580bd6e9edd",
+    "last_update": "2026-10-18",
+}
+
+# ELFs completos con assets y digest SHA-256 publicados. No se incluyen
+# ZIP/FFPFSC, utilidades dependientes de PC ni prereleases.
+# Se preservan todos los IDs y sus iconos existentes.
+NUEVOS_ELF_VERIFICADOS = (
+    {
+        "id": "hearbridge", "icon_key": "hearbridge", "name": "HearBridge PS5",
+        "filename": "HearBridge-1.3.6.elf", "version": "v1.3.6",
+        "url": "https://github.com/X-F1REBALL-X/HearBridge-PS5/releases/download/v1.3.6/HearBridge-1.3.6.elf",
+        "source": "https://github.com/X-F1REBALL-X/HearBridge-PS5/releases",
+        "source_direct": "https://github.com/X-F1REBALL-X/HearBridge-PS5/releases/download/v1.3.6/HearBridge-1.3.6.elf",
+        "checksum": "7b1a1b4a9a44db0723692a83718ebca63ecef38875a53a41328950f2cfa6877c",
+        "last_update": "2026-10-18", "category": "MANDOS / AUDIO",
+        "description": (
+            "Puente de audio PS5 a auriculares Bluetooth A2DP sin dongle, "
+            "con panel web en puerto 8090, ecualizador, perfiles por juego "
+            "y cambio de auriculares. ELF estable 1.3.6 para chips Marvell/NXP "
+            "y MediaTek. Posibles conflictos de reconexion con mandos y "
+            "cortes de audio en algunos auriculares; probar manualmente, "
+            "no autocargar hasta confirmar estabilidad. Alternativa a FGG PlayPods."
+        ),
+    },
+    {
+        "id": "ps5-tabshifter", "icon_key": "ps5-tabshifter", "name": "PS5 TabShifter",
+        "filename": "TabShifter.elf", "version": "v.1.2.1",
+        "url": "https://github.com/xvvulcanvx/PS5-TabShifter/releases/download/v.1.2.1/TabShifter.elf",
+        "source": "https://github.com/xvvulcanvx/PS5-TabShifter/releases",
+        "source_direct": "https://github.com/xvvulcanvx/PS5-TabShifter/releases/download/v.1.2.1/TabShifter.elf",
+        "checksum": "147945cffb28405557a49cd4929c7d0534c55f6a757aba0063f9ce475c1c7255",
+        "last_update": "2026-10-17", "category": "PERSONALIZACION",
+        "description": (
+            "Organiza iconos entre Juegos y Multimedia, fija apps al inicio "
+            "y oculta elementos del sistema; panel web en puerto 9095. "
+            "Crea copia .bak de las bases de datos antes de modificar. "
+            "Probado por el autor en FW 12.02 a 13.60; NO se ha confirmado "
+            "su uso en FW 7.20 ni 11.40. No autocargar."
+        ),
+    },
+    {
+        "id": "ps5-60fps", "icon_key": "ps5-60fps", "name": "fps60 (PS5 60 FPS)",
+        "filename": "fps60.elf", "version": "v1.0.0",
+        "url": "https://github.com/eladharels/ps5-60FPS/releases/download/v1.0.0/fps60.elf",
+        "source": "https://github.com/eladharels/ps5-60FPS/releases",
+        "source_direct": "https://github.com/eladharels/ps5-60FPS/releases/download/v1.0.0/fps60.elf",
+        "checksum": "5331ebf1b69cd272a0491f899b14ca5d59240adee2e69078631473070ddeca9b",
+        "last_update": "2026-10-16", "category": "JUEGOS / COMPATIBILIDAD",
+        "description": (
+            "Aplica en memoria parches de 60 FPS para versiones concretas de "
+            "juegos PS4/PS5; panel web puerto 8060, sin alterar archivos. "
+            "El autor confirma pruebas reales en Gravity Rush 2 (01.11) "
+            "y The Order: 1886 (01.02, posibles softlocks). "
+            "Otros parches comunitarios no probados; usar manualmente."
+        ),
+    },
+)
+
+
+def migrar_garlic(item: dict) -> None:
+    if version_numerica(item.get("version", "")) >= version_numerica(GARLIC_RELEASE["version"]):
+        return
+    if item.get("id") != "garlic-savemgr" or str(item.get("source", "")).rstrip("/") != (
+            "https://git.etawen.dev/earthonion/garlic-savemgr/releases"):
+        raise ValueError("Origen inesperado para Garlic SaveMgr")
+    item.update(GARLIC_RELEASE)
+    item["source_direct"] = GARLIC_RELEASE["url"]
+    item["category"] = "TRUCOS / PARTIDAS"
+    print("ACTUALIZADO: Garlic SaveMgr -> v1.14.0 (ELF verificado)")
+
+
+
+# 21/10/2026: releases upstream comprobadas. Los ELF y sus SHA-256
+# proceden del espejo publico evoX-CoreOS; la fuente de cada proyecto
+# sigue siendo el repositorio oficial. ShadowMountPlus se distribuye
+# tambien como ZIP upstream, por lo que se utiliza el ELF extraido
+# publicado por evoX. No convertir una beta en actualizacion automatica.
+SHADOWMOUNT_171B6F2 = {
+    "name": "ShadowMountPlus",
+    "filename": "shadowmountplus.elf",
+    "url": (
+        "https://nexgen999.github.io/evoX-CoreOS/payloads/"
+        "ps5_game_dump/ShadowMountPlus/1.7beta6-fix2/shadowmountplus.elf"
+    ),
+    "source": "https://github.com/drakmor/ShadowMountPlus/releases",
+    "source_direct": (
+        "https://nexgen999.github.io/evoX-CoreOS/payloads/"
+        "ps5_game_dump/ShadowMountPlus/1.7beta6-fix2/shadowmountplus.elf"
+    ),
+    "version": "1.7beta6-fix2",
+    "last_update": "2026-10-21",
+    "category": "ESENCIALES",
+    "checksum": "ec87ad20f78be2d7cb82e9d77e72352b079e049baac3c1a211960ccd6f252e62",
+    "description": (
+        "ShadowMountPlus 1.7beta6-fix2 (PRE-RELEASE): monta juegos y "
+        "backports. Mejora los hooks de ShellCore, la espera de kstuff, "
+        "el relevo entre procesos y la recuperacion HTTP tras reposo; "
+        "evita bucles de remontaje y conserva las capas de juego al suspender. "
+        "Anade excepcion fakelib por juego. Firmware y combinacion con "
+        "kstuff deben verificarse antes de autocargar. "
+        "ELF extraido por evoX-CoreOS de la release oficial, SHA-256 "
+        "contrastado con su catalogo. NO autocargar sin prueba manual."
+    ),
+}
+
+POORDS4_020 = {
+    "name": "PoorDS4",
+    "filename": "PoorDS4_v0.2.0.elf",
+    "url": (
+        "https://nexgen999.github.io/evoX-CoreOS/payloads/"
+        "ps5_pad_utility/PoorDS4/v0.2.0/PoorDS4_v0.2.0.elf"
+    ),
+    "source": "https://github.com/ItsBlurf/PoorDS4/releases",
+    "source_direct": (
+        "https://nexgen999.github.io/evoX-CoreOS/payloads/"
+        "ps5_pad_utility/PoorDS4/v0.2.0/PoorDS4_v0.2.0.elf"
+    ),
+    "version": "v0.2.0",
+    "last_update": "2026-10-21",
+    "category": "MANDOS / AUDIO",
+    "checksum": "c5f257ca2bf2f95949d09f95dd6feb3353b2ad37e24c972d09fccc3beb11301c",
+    "description": (
+        "PoorDS4 v0.2.0: puente para usar mandos DualShock 4 en juegos "
+        "y homebrew PS5. Corrige desconexiones falsas, asignacion de "
+        "mandos entre jugadores, reconexion y compatibilidad con "
+        "emuladores. Atajo L1+R1+L2+R2 para reiniciar deteccion. "
+        "Antes de actualizar una instancia activa, detenerla con "
+        "PoorDS4-stop.elf de la MISMA version. Probado en FW 11.60; "
+        "en otros firmwares comprobar manualmente. No autocargar "
+        "hasta verificar. SHA-256 del espejo evoX-CoreOS."
+    ),
+}
+
+
+def migrar_shadowmountplus(item: dict) -> None:
+    """Solo cambiar betas conocidas anteriores; nunca pisar futuras."""
+    if item.get("id") != "shadowmountplus":
+        return
+    if item.get("version") == SHADOWMOUNT_171B6F2["version"]:
+        return
+    versiones_previas = {
+        "1.7-beta5fix1", "1.7beta5-fix1", "1.7beta5",
+        "1.7beta6", "1.7beta6-fix1",
+    }
+    if str(item.get("version")) not in versiones_previas:
+        return
+    if str(item.get("source", "")).rstrip("/") != SHADOWMOUNT_171B6F2["source"]:
+        raise ValueError("Origen inesperado para ShadowMountPlus")
+    item.update(SHADOWMOUNT_171B6F2)
+    print("ACTUALIZADO: ShadowMountPlus -> 1.7beta6-fix2 (ELF verificado)")
+
+
+def migrar_poords4(item: dict) -> None:
+    if item.get("id") != "poords4":
+        return
+    if version_numerica(item.get("version", "")) >= version_numerica(POORDS4_020["version"]):
+        return
+    if str(item.get("source", "")).rstrip("/") != POORDS4_020["source"]:
+        raise ValueError("Origen inesperado para PoorDS4")
+    item.update(POORDS4_020)
+    print("ACTUALIZADO: PoorDS4 -> v0.2.0 (ELF verificado)")
+
+
 # Unico binario de uso normal. Excluir ps5-signal-dev.elf (servidor de pruebas).
 PS5_SIGNAL = {
     "name": "PS5 Signal", "filename": "ps5-signal.elf",
@@ -516,6 +688,60 @@ def icono_nuevo(item: dict) -> str:
     return "data:image/svg+xml;base64," + base64.b64encode(svg.encode()).decode("ascii")
 
 
+# Incorporaciones nuevas: resolver version, URL y SHA-256 desde GitHub.
+# Nunca inventar un checksum ni anadir un ELF sin asset oficial verificable.
+NUEVAS_FUENTES = (
+    ("pscloud", "PSCloud", "bc160201983/ps5-cloud-save",
+     "pscloud-dashboard.elf", "TRUCOS / PARTIDAS",
+     "Copias de partidas PS5 por USB/WebDAV y sincronizacion LAN. "
+     "Panel web 8082. Edicion y sincronizacion avanzada experimentales; "
+     "probar restauraciones antes de confiar en copias automaticas."),
+    ("recompstore", "RecompStore", "elripalda/RecompStore",
+     "RecompStore-Installer.elf", "DESCARGAS / TIENDAS",
+     "Instalador de tienda de ports recompilados, emuladores y homebrew. "
+     "Requiere K-Stuff, elfldr 9021 y ShadowMountPlus 1.7 beta5 o superior. "
+     "Los juegos requieren sus propios archivos legales."),
+)
+
+
+def incorporar_nuevos_oficiales(activos: list[dict], offline: bool) -> None:
+    """No duplica entradas; requiere asset ELF oficial con SHA-256 de GitHub."""
+    if offline:
+        return
+    for ident, nombre, repo, asset_name, categoria, descripcion in NUEVAS_FUENTES:
+        if any(x.get("id") == ident for x in activos):
+            continue
+        try:
+            release = solicitar_release(repo)
+            if release.get("draft") or release.get("prerelease"):
+                continue
+            tag = str(release.get("tag_name") or "")
+            if not re.fullmatch(r"[a-zA-Z0-9][a-zA-Z0-9._-]*", tag):
+                continue
+            esperado = (f"https://github.com/{repo}/releases/download/"
+                        f"{tag}/{asset_name}")
+            assets = [a for a in release.get("assets", [])
+                      if a.get("name") == asset_name
+                      and a.get("browser_download_url") == esperado
+                      and SHA256.fullmatch(str(a.get("digest", "")).removeprefix("sha256:"))
+                      and str(a.get("digest", "")).startswith("sha256:")]
+            if len(assets) != 1:
+                print(f"OMITIDO {nombre}: ELF o SHA-256 oficial no verificable")
+                continue
+            activos.append({
+                "id": ident, "icon_key": ident, "name": nombre,
+                "filename": asset_name, "version": tag, "url": esperado,
+                "source": f"https://github.com/{repo}/releases",
+                "source_direct": esperado,
+                "checksum": assets[0]["digest"][7:],
+                "last_update": str(release.get("published_at") or "")[:10],
+                "category": categoria, "description": descripcion,
+            })
+            print(f"ANADIDO: {nombre} {tag} (SHA-256 oficial)")
+        except (OSError, ValueError, KeyError, TimeoutError) as exc:
+            print(f"OMITIDO {nombre}: no se pudo verificar release: {exc}")
+
+
 def procesar(offline: bool = False) -> tuple[int, int, bool, bool]:
     catalogo = leer_json(CATALOG)
     items = catalogo.get("payloads")
@@ -532,6 +758,11 @@ def procesar(offline: bool = False) -> tuple[int, int, bool, bool]:
         if not any(x.get("id") == nuevo["id"] for x in activos):
             activos.append(dict(nuevo))
             print("AÑADIDO:", nuevo["name"], nuevo["version"])
+    for nuevo in NUEVOS_ELF_VERIFICADOS:
+        if not any(x.get("id") == nuevo["id"] for x in activos):
+            activos.append(dict(nuevo))
+            print("AÑADIDO:", nuevo["name"], nuevo["version"])
+    incorporar_nuevos_oficiales(activos, offline)
     if not any(x.get("id") == "ps5-signal" for x in activos):
         activos.append(dict(PS5_SIGNAL))
         print("AÑADIDO: PS5 Signal v0.2.0 (ELF oficial)")
@@ -544,6 +775,12 @@ def procesar(offline: bool = False) -> tuple[int, int, bool, bool]:
             migrar_overlay(item)
         if item.get("id") == "ps5-signal":
             migrar_signal(item)
+        if item.get("id") == "garlic-savemgr":
+            migrar_garlic(item)
+        if item.get("id") == "shadowmountplus":
+            migrar_shadowmountplus(item)
+        if item.get("id") == "poords4":
+            migrar_poords4(item)
         aplicar_release_verificada(item)
         if item.get("id") == "ftpsrv":
             # Migrar la version antigua una sola vez; permitir futuras
