@@ -45,15 +45,15 @@
     },
     {
       "name": "ShadowMountPlus",
-      "filename": "shadowmountplus_1.7-beta5fix1.elf",
-      "url": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.7-beta5fix1/shadowmountplus.elf",
+      "filename": "shadowmountplus.elf",
+      "url": "https://nexgen999.github.io/evoX-CoreOS/payloads/ps5_game_dump/ShadowMountPlus/1.7beta6-fix2/shadowmountplus.elf",
       "source": "https://github.com/drakmor/ShadowMountPlus/releases",
-      "source_direct": "https://github.com/drakmor/ShadowMountPlus/releases/download/1.7-beta5fix1/shadowmountplus.elf",
-      "description": "Montaje automatico de juegos PS5, backports y fakelib. 1.7beta5 incorpora modos fakelib por juego, mejoras de sandbox USB, fuentes y recuperacion de ShellCore. fix1 corrige iconos de juegos PS4 en unidades externas. Ya no usa auto-pausa ni autotune de KStuff: usar KStuff reciente y evitar etaHEN simultaneo. ESTADO: BETA RECIENTE; PROBAR ANTES DE AUTOCARGAR.",
-      "last_update": "2026-10-10",
-      "version": "1.7-beta5fix1",
+      "source_direct": "https://nexgen999.github.io/evoX-CoreOS/payloads/ps5_game_dump/ShadowMountPlus/1.7beta6-fix2/shadowmountplus.elf",
+      "description": "ShadowMountPlus 1.7beta6-fix2 (PRE-RELEASE): monta juegos y backports. Mejora los hooks de ShellCore, la espera de kstuff, el relevo entre procesos y la recuperacion HTTP tras reposo; evita bucles de remontaje y conserva las capas de juego al suspender. Anade excepcion fakelib por juego. Firmware y combinacion con kstuff deben verificarse antes de autocargar. ELF extraido por evoX-CoreOS de la release oficial, SHA-256 contrastado con su catalogo. NO autocargar sin prueba manual.",
+      "last_update": "2026-10-21",
+      "version": "1.7beta6-fix2",
       "category": "ESENCIALES",
-      "checksum": "e85fd63b705498488f39c09c9aea6f9fa22e0df2e932865de49a8cedf25172d5",
+      "checksum": "ec87ad20f78be2d7cb82e9d77e72352b079e049baac3c1a211960ccd6f252e62",
       "icon_key": "shadowmountplus",
       "id": "shadowmountplus"
     },
@@ -352,6 +352,20 @@
       "id": "apr-emu-updater"
     },
     {
+      "id": "ps5-60fps",
+      "icon_key": "ps5-60fps",
+      "name": "fps60 (PS5 60 FPS)",
+      "filename": "fps60.elf",
+      "version": "v1.0.0",
+      "url": "https://github.com/eladharels/ps5-60FPS/releases/download/v1.0.0/fps60.elf",
+      "source": "https://github.com/eladharels/ps5-60FPS/releases",
+      "source_direct": "https://github.com/eladharels/ps5-60FPS/releases/download/v1.0.0/fps60.elf",
+      "checksum": "5331ebf1b69cd272a0491f899b14ca5d59240adee2e69078631473070ddeca9b",
+      "last_update": "2026-10-16",
+      "category": "JUEGOS / COMPATIBILIDAD",
+      "description": "Aplica en memoria parches de 60 FPS para versiones concretas de juegos PS4/PS5; panel web puerto 8060, sin alterar archivos. El autor confirma pruebas reales en Gravity Rush 2 (01.11) y The Order: 1886 (01.02, posibles softlocks). Otros parches comunitarios no probados; usar manualmente."
+    },
+    {
       "name": "LZ4 Compression",
       "filename": "lz4-compression.elf",
       "url": "https://github.com/theghostonline/PS5-LZ4-Compression/releases/download/v1.5.0/lz4-compression.elf",
@@ -490,6 +504,20 @@
       "checksum": "4fb8256ad4e88a6f03d04ff3042bc7e3a5cf0e807b9a0f96632ffc9d38d490f3",
       "icon_key": "ps5-library",
       "id": "ps5-library"
+    },
+    {
+      "id": "recompstore",
+      "icon_key": "recompstore",
+      "name": "RecompStore",
+      "filename": "RecompStore-Installer.elf",
+      "version": "v2.5.1",
+      "url": "https://github.com/elripalda/RecompStore/releases/download/v2.5.1/RecompStore-Installer.elf",
+      "source": "https://github.com/elripalda/RecompStore/releases",
+      "source_direct": "https://github.com/elripalda/RecompStore/releases/download/v2.5.1/RecompStore-Installer.elf",
+      "checksum": "f5a224ec77e56194e6db141bd077a029dfced975c3645f1afe34e4994419309b",
+      "last_update": "2026-10-21",
+      "category": "DESCARGAS / TIENDAS",
+      "description": "Instalador de tienda de ports recompilados, emuladores y homebrew. Requiere K-Stuff, elfldr 9021 y ShadowMountPlus 1.7 beta5 o superior. Los juegos requieren sus propios archivos legales."
     },
     {
       "name": "Spectrum Library",
@@ -660,6 +688,20 @@
       "id": "fgg-xsense"
     },
     {
+      "id": "hearbridge",
+      "icon_key": "hearbridge",
+      "name": "HearBridge PS5",
+      "filename": "HearBridge-1.3.6.elf",
+      "version": "v1.3.6",
+      "url": "https://github.com/X-F1REBALL-X/HearBridge-PS5/releases/download/v1.3.6/HearBridge-1.3.6.elf",
+      "source": "https://github.com/X-F1REBALL-X/HearBridge-PS5/releases",
+      "source_direct": "https://github.com/X-F1REBALL-X/HearBridge-PS5/releases/download/v1.3.6/HearBridge-1.3.6.elf",
+      "checksum": "7b1a1b4a9a44db0723692a83718ebca63ecef38875a53a41328950f2cfa6877c",
+      "last_update": "2026-10-18",
+      "category": "MANDOS / AUDIO",
+      "description": "Puente de audio PS5 a auriculares Bluetooth A2DP sin dongle, con panel web en puerto 8090, ecualizador, perfiles por juego y cambio de auriculares. ELF estable 1.3.6 para chips Marvell/NXP y MediaTek. Posibles conflictos de reconexion con mandos y cortes de audio en algunos auriculares; probar manualmente, no autocargar hasta confirmar estabilidad. Alternativa a FGG PlayPods."
+    },
+    {
       "name": "LibrePadPS5",
       "filename": "LibrePadPS5.elf",
       "url": "https://github.com/arwebSE/LibrePadPS5/releases/download/v1.1.6/LibrePadPS5.elf",
@@ -675,15 +717,15 @@
     },
     {
       "name": "PoorDS4",
-      "filename": "PoorDS4rc51.elf",
-      "url": "https://github.com/ItsBlurf/PoorDS4/releases/download/v0.1.0-rc51/PoorDS4rc51.elf",
+      "filename": "PoorDS4_v0.2.0.elf",
+      "url": "https://nexgen999.github.io/evoX-CoreOS/payloads/ps5_pad_utility/PoorDS4/v0.2.0/PoorDS4_v0.2.0.elf",
       "source": "https://github.com/ItsBlurf/PoorDS4/releases",
-      "source_direct": "https://github.com/ItsBlurf/PoorDS4/releases/download/v0.1.0-rc51/PoorDS4rc51.elf",
-      "description": "Permite usar un DualShock 4 inalambrico en juegos nativos de PS5. Proyecto experimental; la compatibilidad depende del firmware y del juego. ESTADO: EN PRUEBAS.",
-      "last_update": "2026-09-30",
-      "version": "v0.1.0-rc51",
+      "source_direct": "https://nexgen999.github.io/evoX-CoreOS/payloads/ps5_pad_utility/PoorDS4/v0.2.0/PoorDS4_v0.2.0.elf",
+      "description": "PoorDS4 v0.2.0: puente para usar mandos DualShock 4 en juegos y homebrew PS5. Corrige desconexiones falsas, asignacion de mandos entre jugadores, reconexion y compatibilidad con emuladores. Atajo L1+R1+L2+R2 para reiniciar deteccion. Antes de actualizar una instancia activa, detenerla con PoorDS4-stop.elf de la MISMA version. Probado en FW 11.60; en otros firmwares comprobar manualmente. No autocargar hasta verificar. SHA-256 del espejo evoX-CoreOS.",
+      "last_update": "2026-10-21",
+      "version": "v0.2.0",
       "category": "MANDOS / AUDIO",
-      "checksum": "e1b9f257f51678a977edaeafd4ca1f8a03e9df0afda7d5dd84435841fa20795d",
+      "checksum": "c5f257ca2bf2f95949d09f95dd6feb3353b2ad37e24c972d09fccc3beb11301c",
       "icon_key": "poords4",
       "id": "poords4"
     },
@@ -717,15 +759,15 @@
     },
     {
       "name": "garlic-savemgr",
-      "filename": "garlic-savemgr_v1.13.1.elf",
-      "url": "https://git.etawen.dev/earthonion/garlic-savemgr/releases/download/v1.13.1/garlic-savemgr.elf",
+      "filename": "garlic-savemgr_v1.14.0.elf",
+      "url": "https://git.etawen.dev/earthonion/garlic-savemgr/releases/download/v1.14.0/garlic-savemgr.elf",
       "source": "https://git.etawen.dev/earthonion/garlic-savemgr/releases",
-      "source_direct": "https://git.etawen.dev/earthonion/garlic-savemgr/releases/download/v1.13.1/garlic-savemgr.elf",
+      "source_direct": "https://git.etawen.dev/earthonion/garlic-savemgr/releases/download/v1.14.0/garlic-savemgr.elf",
       "description": "Gestor de saves para copiar, importar, descifrar, cifrar y volver a firmar partidas. ESTADO: ESTABILIDAD NO DOCUMENTADA.",
-      "last_update": "2026-09-19",
-      "version": "v1.13.1",
+      "last_update": "2026-10-18",
+      "version": "v1.14.0",
       "category": "TRUCOS / PARTIDAS",
-      "checksum": "b0fc2fcdda977d2a1207d77148746859b7ea7f3cfcad02828a7a9b49651807f5",
+      "checksum": "0b96822e3f554666b7fa4ead673c60ef602e5534a9f01a45e94d0580bd6e9edd",
       "icon_key": "garlic-savemgr",
       "id": "garlic-savemgr"
     },
@@ -742,6 +784,20 @@
       "checksum": "7f5245f2db67b131c6f9e991b731117c2c730923a9dd65a2d82b36f2e2b91545",
       "icon_key": "kylin-core",
       "id": "kylin-core"
+    },
+    {
+      "id": "pscloud",
+      "icon_key": "pscloud",
+      "name": "PSCloud",
+      "filename": "pscloud-dashboard.elf",
+      "version": "v0.34.28",
+      "url": "https://github.com/bc160201983/ps5-cloud-save/releases/download/v0.34.28/pscloud-dashboard.elf",
+      "source": "https://github.com/bc160201983/ps5-cloud-save/releases",
+      "source_direct": "https://github.com/bc160201983/ps5-cloud-save/releases/download/v0.34.28/pscloud-dashboard.elf",
+      "checksum": "4298b70ed5262bc2acdf03a88e835ea01f0c7e081fbde2a0566841f4508dd271",
+      "last_update": "2026-10-15",
+      "category": "TRUCOS / PARTIDAS",
+      "description": "Copias de partidas PS5 por USB/WebDAV y sincronizacion LAN. Panel web 8082. Edicion y sincronizacion avanzada experimentales; probar restauraciones antes de confiar en copias automaticas."
     },
     {
       "id": "liveshell",
@@ -784,6 +840,20 @@
       "checksum": "4c73035028de95edc173e3b038030615d8c86bf03a52bc9958efc5f26687ad99",
       "icon_key": "ps5-syslang",
       "id": "ps5-syslang"
+    },
+    {
+      "id": "ps5-tabshifter",
+      "icon_key": "ps5-tabshifter",
+      "name": "PS5 TabShifter",
+      "filename": "TabShifter.elf",
+      "version": "v.1.2.1",
+      "url": "https://github.com/xvvulcanvx/PS5-TabShifter/releases/download/v.1.2.1/TabShifter.elf",
+      "source": "https://github.com/xvvulcanvx/PS5-TabShifter/releases",
+      "source_direct": "https://github.com/xvvulcanvx/PS5-TabShifter/releases/download/v.1.2.1/TabShifter.elf",
+      "checksum": "147945cffb28405557a49cd4929c7d0534c55f6a757aba0063f9ce475c1c7255",
+      "last_update": "2026-10-17",
+      "category": "PERSONALIZACION",
+      "description": "Organiza iconos entre Juegos y Multimedia, fija apps al inicio y oculta elementos del sistema; panel web en puerto 9095. Crea copia .bak de las bases de datos antes de modificar. Probado por el autor en FW 12.02 a 13.60; NO se ha confirmado su uso en FW 7.20 ni 11.40. No autocargar."
     },
     {
       "id": "ps5-theme",
