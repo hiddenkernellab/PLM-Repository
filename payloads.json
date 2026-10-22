@@ -804,14 +804,14 @@
       "icon_key": "liveshell",
       "name": "LiveShell Engine",
       "filename": "liveshell.elf",
-      "version": "v1.5.0",
-      "url": "https://github.com/ZiZc3/LiveShell/releases/download/v1.5.0/liveshell.elf",
+      "version": "v1.5.1",
+      "url": "https://github.com/ZiZc3/LiveShell/releases/download/v1.5.1/liveshell.elf",
       "source": "https://github.com/ZiZc3/LiveShell/releases",
-      "source_direct": "https://github.com/ZiZc3/LiveShell/releases/download/v1.5.0/liveshell.elf",
-      "checksum": "944de46641f16969e216381ab385bd9b4827355094219b2fef713ad6a330fb7d",
+      "source_direct": "https://github.com/ZiZc3/LiveShell/releases/download/v1.5.1/liveshell.elf",
+      "checksum": "a7096b765f7ececa9883778b4e7782b74aaf3942e391cb7cc5bbef59ae7b9c3f",
       "category": "PERSONALIZACION",
-      "last_update": "2026-10-21",
-      "description": "Fondos animados de video en el menu PS5, con biblioteca de juegos y modo PS Store. MP4 H.264/HEVC 1080p (no 4K); videos en /data/LiveShell/video o carpeta liveshell del USB. Gestor en la propia consola. No usar a la vez que otro overlay de fondo sin probar. AVISO: version v1.3 nueva detectada y SHA-256 verificado; consultar los cambios del desarrollador antes de autocargar. AVISO: version v1.4 nueva detectada y SHA-256 verificado; consultar los cambios del desarrollador antes de autocargar. AVISO: version v1.4.1 nueva detectada y SHA-256 verificado; consultar los cambios del desarrollador antes de autocargar. AVISO: version v1.5.0 nueva detectada y SHA-256 verificado; consultar los cambios del desarrollador antes de autocargar."
+      "last_update": "2026-10-22",
+      "description": "Fondos animados de video en el menu PS5, con biblioteca de juegos y modo PS Store. MP4 H.264/HEVC 1080p (no 4K); videos en /data/LiveShell/video o carpeta liveshell del USB. Gestor en la propia consola. No usar a la vez que otro overlay de fondo sin probar. AVISO: version v1.3 nueva detectada y SHA-256 verificado; consultar los cambios del desarrollador antes de autocargar. AVISO: version v1.4 nueva detectada y SHA-256 verificado; consultar los cambios del desarrollador antes de autocargar. AVISO: version v1.4.1 nueva detectada y SHA-256 verificado; consultar los cambios del desarrollador antes de autocargar. AVISO: version v1.5.0 nueva detectada y SHA-256 verificado; consultar los cambios del desarrollador antes de autocargar. AVISO: version v1.5.1 nueva detectada y SHA-256 verificado; consultar los cambios del desarrollador antes de autocargar."
     },
     {
       "name": "PS5 Signal",
