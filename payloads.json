@@ -510,14 +510,14 @@
       "icon_key": "recompstore",
       "name": "RecompStore",
       "filename": "RecompStore-Installer.elf",
-      "version": "v2.7.0",
-      "url": "https://github.com/elripalda/RecompStore/releases/download/v2.7.0/RecompStore-Installer.elf",
+      "version": "v2.7.1",
+      "url": "https://github.com/elripalda/RecompStore/releases/download/v2.7.1/RecompStore-Installer.elf",
       "source": "https://github.com/elripalda/RecompStore/releases",
-      "source_direct": "https://github.com/elripalda/RecompStore/releases/download/v2.7.0/RecompStore-Installer.elf",
-      "checksum": "9353926171d88dd873b5d01cd2e7928c8530e0fd245ba72349e4cfe3aee0dc76",
-      "last_update": "2026-10-23",
+      "source_direct": "https://github.com/elripalda/RecompStore/releases/download/v2.7.1/RecompStore-Installer.elf",
+      "checksum": "0a370c191ebaa97541e171757ef53d36e30f36816c0eabf004fba8dc1aad2f6f",
+      "last_update": "2026-10-25",
       "category": "DESCARGAS / TIENDAS",
-      "description": "Instalador de tienda de ports recompilados, emuladores y homebrew. Requiere K-Stuff, elfldr 9021 y ShadowMountPlus 1.7 beta5 o superior. Los juegos requieren sus propios archivos legales. AVISO: version v2.6.0 nueva detectada y SHA-256 verificado; consultar los cambios del desarrollador antes de autocargar. AVISO: version v2.6.1 nueva detectada y SHA-256 verificado; consultar los cambios del desarrollador antes de autocargar. AVISO: version v2.7.0 nueva detectada y SHA-256 verificado; consultar los cambios del desarrollador antes de autocargar."
+      "description": "Instalador de tienda de ports recompilados, emuladores y homebrew. Requiere K-Stuff, elfldr 9021 y ShadowMountPlus 1.7 beta5 o superior. Los juegos requieren sus propios archivos legales. AVISO: version v2.6.0 nueva detectada y SHA-256 verificado; consultar los cambios del desarrollador antes de autocargar. AVISO: version v2.6.1 nueva detectada y SHA-256 verificado; consultar los cambios del desarrollador antes de autocargar. AVISO: version v2.7.0 nueva detectada y SHA-256 verificado; consultar los cambios del desarrollador antes de autocargar. AVISO: version v2.7.1 nueva detectada y SHA-256 verificado; consultar los cambios del desarrollador antes de autocargar."
     },
     {
       "name": "Spectrum Library",
