@@ -46,14 +46,14 @@
     {
       "name": "ShadowMountPlus",
       "filename": "shadowmountplus.elf",
-      "url": "https://nexgen999.github.io/evoX-CoreOS/payloads/ps5_game_dump/ShadowMountPlus/1.7beta6-fix2/shadowmountplus.elf",
+      "url": "https://nexgen999.github.io/evoX-CoreOS/payloads/ps5_game_dump/ShadowMountPlus/1.7beta8/shadowmountplus.elf",
       "source": "https://github.com/drakmor/ShadowMountPlus/releases",
-      "source_direct": "https://nexgen999.github.io/evoX-CoreOS/payloads/ps5_game_dump/ShadowMountPlus/1.7beta6-fix2/shadowmountplus.elf",
-      "description": "ShadowMountPlus 1.7beta6-fix2 (PRE-RELEASE): monta juegos y backports. Mejora los hooks de ShellCore, la espera de kstuff, el relevo entre procesos y la recuperacion HTTP tras reposo; evita bucles de remontaje y conserva las capas de juego al suspender. Anade excepcion fakelib por juego. Firmware y combinacion con kstuff deben verificarse antes de autocargar. ELF extraido por evoX-CoreOS de la release oficial, SHA-256 contrastado con su catalogo. NO autocargar sin prueba manual.",
-      "last_update": "2026-10-21",
-      "version": "1.7beta6-fix2",
+      "source_direct": "https://nexgen999.github.io/evoX-CoreOS/payloads/ps5_game_dump/ShadowMountPlus/1.7beta8/shadowmountplus.elf",
+      "description": "ShadowMountPlus 1.7beta8 (PRE-RELEASE): monta juegos PS4/PS5 y backports. Redisenada la interfaz web para TV y mando. Instala PKG desde almacenamiento interno/externo o mediante streaming desde navegador; permite consultar y retirar DLC/parches, instalar/reemplazar/eliminar backports, y admite param.sfo, eboot2.bin e IDs homebrew adicionales. Permite instalar juegos PS4 desde imagenes y carpetas. ATENCION: API LAN habilitada por defecto; usar solo en red de confianza y revisar acceso. ELF del espejo evoX-CoreOS, SHA-256 publicado en su catalogo. Es beta: probar manualmente con kstuff compatible y copia de seguridad antes de activar autoload. No autocargar sin prueba.",
+      "last_update": "2026-10-26",
+      "version": "1.7beta8",
       "category": "ESENCIALES",
-      "checksum": "ec87ad20f78be2d7cb82e9d77e72352b079e049baac3c1a211960ccd6f252e62",
+      "checksum": "7163472217a2390f5bcbe3b61a96963976f7b7bd84d960b8d926f35b9cbecf28",
       "icon_key": "shadowmountplus",
       "id": "shadowmountplus"
     },
@@ -259,7 +259,7 @@
       "url": "https://github.com/phantomptr/ps5upload/releases/download/v8.5.1/ps5upload-8.5.1.elf",
       "source": "https://github.com/phantomptr/ps5upload/releases",
       "source_direct": "https://github.com/phantomptr/ps5upload/releases/download/v8.5.1/ps5upload-8.5.1.elf",
-      "description": "PS5Upload, servidor de transferencias y gestion remota. Permite reanudacion, extraccion de RAR y gestion de payloads. Usar una version compatible del cliente y del helper. Version instalada en el catalogo: v8.5.1. Desde 7.0.34 corrige nombres de archivos con diferencias entre mayusculas y minusculas en juegos Unity al subir carpetas o convertir juegos, evitando cierres al arrancar. Consultar cambios upstream.",
+      "description": "PS5Upload, servidor de transferencias y gestion remota. Permite reanudacion, extraccion de RAR y gestion de payloads. Usar una version compatible del cliente y del helper. Version instalada en el catalogo: v8.5.1. Desde 7.0.34 corrige nombres de archivos con diferencias entre mayusculas y minusculas en juegos Unity al subir carpetas o convertir juegos, evitando cierres al arrancar. Desde 7.1.13 permite subir archivos y enviar ELF al cargador desde el navegador, con confirmacion explicita; mejora movimientos SMB. Consultar cambios upstream.",
       "last_update": "2026-10-27",
       "version": "v8.5.1",
       "category": "ARCHIVOS / RED",
@@ -406,6 +406,20 @@
       "checksum": "c850f1df6f2787824d6ddeeed69ce4144e00569b32135973401c2985cfb0345b",
       "icon_key": "ps5-app-dumper",
       "id": "ps5-app-dumper"
+    },
+    {
+      "id": "ps5-dump-forge",
+      "icon_key": "ps5-dump-forge",
+      "name": "PS5 Dump Forge",
+      "filename": "ps5-dump-forge-0.4.2-ps5.elf",
+      "version": "v0.4.2",
+      "url": "https://github.com/quer3q/ps5-dump-forge/releases/download/v0.4.2/ps5-dump-forge-0.4.2-ps5.elf",
+      "source": "https://github.com/quer3q/ps5-dump-forge/releases",
+      "source_direct": "https://github.com/quer3q/ps5-dump-forge/releases/download/v0.4.2/ps5-dump-forge-0.4.2-ps5.elf",
+      "checksum": "00ddbaa578f0c044cf445283adc00023c57812e17e9cda324b25557c8ba40453",
+      "last_update": "2026-10-27",
+      "category": "JUEGOS / COMPATIBILIDAD",
+      "description": "Gestor y conversor de dumps PS5 directamente en la consola: carpetas, FFPKG, exFAT, FFPFS, FFPFSC y PKG debug. Permite explorar, extraer y editar contenido; copiar o convertir por SMB, FTP y NFS sin copia temporal; interfaz local en puerto 8095. v0.4.1 evita el conflicto del puerto 9120 con ps5upload y repara la actualizacion desde la PS5. Precaucion: editar o reconstruir imagenes requiere espacio libre y puede ser irreversible; verificar respaldos y probar manualmente antes de usar con ShadowMountPlus. NO autocargar. AVISO: version v0.4.2 nueva detectada y SHA-256 verificado; consultar los cambios del desarrollador antes de autocargar."
     },
     {
       "name": "PS5 Game Compressor",
@@ -980,6 +994,20 @@
       "checksum": "6a38ee251b2252ae6752bf23f4f22d970d449731cfe69c1f513f18670efd5314",
       "icon_key": "np-fake-signin",
       "id": "np-fake-signin"
+    },
+    {
+      "id": "ps5-linux-loader",
+      "icon_key": "ps5-linux-loader",
+      "name": "PS5 Linux Loader (11.xx / 13.xx)",
+      "filename": "ps5-linux-loader.elf",
+      "version": "v2026.10.22-all11-13",
+      "url": "https://github.com/soniciso1/ps5-linux-loader/releases/download/v2026.10.22-all11-13/ps5-linux-loader.elf",
+      "source": "https://github.com/soniciso1/ps5-linux-loader/releases",
+      "source_direct": "https://github.com/soniciso1/ps5-linux-loader/releases/download/v2026.10.22-all11-13/ps5-linux-loader.elf",
+      "checksum": "2ecaaac60f9575235e064c4800051e839115d10b60fee8446b4d2416a22afc6a",
+      "last_update": "2026-10-22",
+      "category": "DESARROLLO / AVANZADO",
+      "description": "Arranque de Linux en PS5 desde un ELF que detecta el firmware y selecciona el perfil de memoria. Soporta 11.00, 11.20, 11.40, 11.60, 13.00, 13.20, 13.40, 13.42 y 13.60; NO 7.20. Necesita kernel Linux e initrd preparados en USB, ademas de jailbreak y elfldr (9021). 11.40 arranco Linux 7.2.3 en devkit; el ELF combinado no tiene todavia validacion completa en PS5 retail. EXPERIMENTAL: probar manualmente; NO autocargar. ELF y SHA-256 verificados contra la release oficial."
     },
     {
       "name": "ps5debug-NG",
