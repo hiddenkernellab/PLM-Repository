@@ -804,14 +804,14 @@
       "icon_key": "liveshell",
       "name": "LiveShell Engine",
       "filename": "liveshell.elf",
-      "version": "v1.5.2",
-      "url": "https://github.com/ZiZc3/LiveShell/releases/download/v1.5.2/liveshell.elf",
+      "version": "v1.6.0",
+      "url": "https://github.com/ZiZc3/LiveShell/releases/download/v1.6.0/liveshell.elf",
       "source": "https://github.com/ZiZc3/LiveShell/releases",
-      "source_direct": "https://github.com/ZiZc3/LiveShell/releases/download/v1.5.2/liveshell.elf",
-      "checksum": "6c71e163d2b31d7db1dee64afeb0af122b9cc04c52f30579b83bffc8a2ffb6e6",
+      "source_direct": "https://github.com/ZiZc3/LiveShell/releases/download/v1.6.0/liveshell.elf",
+      "checksum": "99335e75312d6ffcce91f6a5b659f0191ec057c744b2b3d5b899db5a88b80ac3",
       "category": "PERSONALIZACION",
-      "last_update": "2026-10-24",
-      "description": "Fondos animados de video en el menu PS5, con biblioteca de juegos y modo PS Store. MP4 H.264/HEVC 1080p (no 4K); videos en /data/LiveShell/video o carpeta liveshell del USB. Gestor en la propia consola. No usar a la vez que otro overlay de fondo sin probar. AVISO: version v1.3 nueva detectada y SHA-256 verificado; consultar los cambios del desarrollador antes de autocargar. AVISO: version v1.4 nueva detectada y SHA-256 verificado; consultar los cambios del desarrollador antes de autocargar. AVISO: version v1.4.1 nueva detectada y SHA-256 verificado; consultar los cambios del desarrollador antes de autocargar. AVISO: version v1.5.0 nueva detectada y SHA-256 verificado; consultar los cambios del desarrollador antes de autocargar. AVISO: version v1.5.1 nueva detectada y SHA-256 verificado; consultar los cambios del desarrollador antes de autocargar. AVISO: version v1.5.2 nueva detectada y SHA-256 verificado; consultar los cambios del desarrollador antes de autocargar."
+      "last_update": "2026-10-26",
+      "description": "Fondos animados de video en el menu PS5, con biblioteca de juegos y modo PS Store. MP4 H.264/HEVC 1080p (no 4K); videos en /data/LiveShell/video o carpeta liveshell del USB. Gestor en la propia consola. No usar a la vez que otro overlay de fondo sin probar. AVISO: version v1.3 nueva detectada y SHA-256 verificado; consultar los cambios del desarrollador antes de autocargar. AVISO: version v1.4 nueva detectada y SHA-256 verificado; consultar los cambios del desarrollador antes de autocargar. AVISO: version v1.4.1 nueva detectada y SHA-256 verificado; consultar los cambios del desarrollador antes de autocargar. AVISO: version v1.5.0 nueva detectada y SHA-256 verificado; consultar los cambios del desarrollador antes de autocargar. AVISO: version v1.5.1 nueva detectada y SHA-256 verificado; consultar los cambios del desarrollador antes de autocargar. AVISO: version v1.5.2 nueva detectada y SHA-256 verificado; consultar los cambios del desarrollador antes de autocargar. AVISO: version v1.6.0 nueva detectada y SHA-256 verificado; consultar los cambios del desarrollador antes de autocargar."
     },
     {
       "name": "PS5 Signal",
