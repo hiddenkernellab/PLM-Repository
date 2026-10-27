@@ -58,6 +58,7 @@ NO_AUTOMATICOS = frozenset({
     "kstuff-fpkg", "shadowmountplus", "ps5sx2-helper",
     "ps5sx2-installer", "etahen-13.60", "pldmgr-install-update",
     "ps5-hardware-overlay",  # v0.0.18 tag follows v1.0.15; manual review needed
+    "ps5-linux-loader",  # compatibilidad retail 11.40 aun no probada
 })
 
 # Unica migracion forzosa: la version PS5 estable de Drakmor.
@@ -115,7 +116,8 @@ GARLIC_RELEASE = {
 }
 
 # ELFs completos con assets y digest SHA-256 publicados. No se incluyen
-# ZIP/FFPFSC, utilidades dependientes de PC ni prereleases.
+# ZIP/FFPFSC, utilidades dependientes de PC ni prereleases. El loader Linux
+# tiene release estable, pero su compatibilidad retail sigue experimental.
 # Se preservan todos los IDs y sus iconos existentes.
 NUEVOS_ELF_VERIFICADOS = (
     {
@@ -167,6 +169,50 @@ NUEVOS_ELF_VERIFICADOS = (
             "Otros parches comunitarios no probados; usar manualmente."
         ),
     },
+    {
+        "id": "ps5-linux-loader", "icon_key": "ps5-linux-loader",
+        "name": "PS5 Linux Loader (11.xx / 13.xx)",
+        "filename": "ps5-linux-loader.elf",
+        "version": "v2026.10.22-all11-13",
+        "url": "https://github.com/soniciso1/ps5-linux-loader/releases/download/v2026.10.22-all11-13/ps5-linux-loader.elf",
+        "source": "https://github.com/soniciso1/ps5-linux-loader/releases",
+        "source_direct": "https://github.com/soniciso1/ps5-linux-loader/releases/download/v2026.10.22-all11-13/ps5-linux-loader.elf",
+        "checksum": "2ecaaac60f9575235e064c4800051e839115d10b60fee8446b4d2416a22afc6a",
+        "last_update": "2026-10-22", "category": "DESARROLLO / AVANZADO",
+        "description": (
+            "Arranque de Linux en PS5 desde un ELF que detecta el firmware y "
+            "selecciona el perfil de memoria. Soporta 11.00, 11.20, 11.40, "
+            "11.60, 13.00, 13.20, 13.40, 13.42 y 13.60; NO 7.20. "
+            "Necesita kernel Linux e initrd preparados en USB, ademas de "
+            "jailbreak y elfldr (9021). 11.40 arranco Linux 7.2.3 en "
+            "devkit; el ELF combinado no tiene todavia validacion completa "
+            "en PS5 retail. EXPERIMENTAL: probar manualmente; NO autocargar. "
+            "ELF y SHA-256 verificados contra la release oficial."
+        ),
+    },
+    {
+        "id": "ps5-dump-forge", "icon_key": "ps5-dump-forge",
+        "name": "PS5 Dump Forge",
+        "filename": "ps5-dump-forge-0.4.1-ps5.elf",
+        "version": "v0.4.1",
+        "url": "https://github.com/quer3q/ps5-dump-forge/releases/download/v0.4.1/ps5-dump-forge-0.4.1-ps5.elf",
+        "source": "https://github.com/quer3q/ps5-dump-forge/releases",
+        "source_direct": "https://github.com/quer3q/ps5-dump-forge/releases/download/v0.4.1/ps5-dump-forge-0.4.1-ps5.elf",
+        "checksum": "ea5c47d1500efc8573523d19cebaa8addac9ec51fc62a9c90048daca755f5c96",
+        "last_update": "2026-10-24", "category": "JUEGOS / COMPATIBILIDAD",
+        "description": (
+            "Gestor y conversor de dumps PS5 directamente en la consola: "
+            "carpetas, FFPKG, exFAT, FFPFS, FFPFSC y PKG debug. "
+            "Permite explorar, extraer y editar contenido; copiar o convertir "
+            "por SMB, FTP y NFS sin copia temporal; interfaz local en puerto "
+            "8095. v0.4.1 evita el conflicto del puerto 9120 con ps5upload "
+            "y repara la actualizacion desde la PS5. "
+            "Precaucion: editar o reconstruir imagenes requiere espacio "
+            "libre y puede ser irreversible; verificar respaldos y probar "
+            "manualmente antes de usar con ShadowMountPlus. NO autocargar."
+        ),
+    },
+
 )
 
 
@@ -183,36 +229,39 @@ def migrar_garlic(item: dict) -> None:
 
 
 
-# 21/10/2026: releases upstream comprobadas. Los ELF y sus SHA-256
+# 27/10/2026: releases upstream comprobadas. Los ELF y sus SHA-256
 # proceden del espejo publico evoX-CoreOS; la fuente de cada proyecto
 # sigue siendo el repositorio oficial. ShadowMountPlus se distribuye
 # tambien como ZIP upstream, por lo que se utiliza el ELF extraido
 # publicado por evoX. No convertir una beta en actualizacion automatica.
-SHADOWMOUNT_171B6F2 = {
+SHADOWMOUNT_171B8 = {
     "name": "ShadowMountPlus",
     "filename": "shadowmountplus.elf",
     "url": (
         "https://nexgen999.github.io/evoX-CoreOS/payloads/"
-        "ps5_game_dump/ShadowMountPlus/1.7beta6-fix2/shadowmountplus.elf"
+        "ps5_game_dump/ShadowMountPlus/1.7beta8/shadowmountplus.elf"
     ),
     "source": "https://github.com/drakmor/ShadowMountPlus/releases",
     "source_direct": (
         "https://nexgen999.github.io/evoX-CoreOS/payloads/"
-        "ps5_game_dump/ShadowMountPlus/1.7beta6-fix2/shadowmountplus.elf"
+        "ps5_game_dump/ShadowMountPlus/1.7beta8/shadowmountplus.elf"
     ),
-    "version": "1.7beta6-fix2",
-    "last_update": "2026-10-21",
+    "version": "1.7beta8",
+    "last_update": "2026-10-26",
     "category": "ESENCIALES",
-    "checksum": "ec87ad20f78be2d7cb82e9d77e72352b079e049baac3c1a211960ccd6f252e62",
+    "checksum": "7163472217a2390f5bcbe3b61a96963976f7b7bd84d960b8d926f35b9cbecf28",
     "description": (
-        "ShadowMountPlus 1.7beta6-fix2 (PRE-RELEASE): monta juegos y "
-        "backports. Mejora los hooks de ShellCore, la espera de kstuff, "
-        "el relevo entre procesos y la recuperacion HTTP tras reposo; "
-        "evita bucles de remontaje y conserva las capas de juego al suspender. "
-        "Anade excepcion fakelib por juego. Firmware y combinacion con "
-        "kstuff deben verificarse antes de autocargar. "
-        "ELF extraido por evoX-CoreOS de la release oficial, SHA-256 "
-        "contrastado con su catalogo. NO autocargar sin prueba manual."
+        "ShadowMountPlus 1.7beta8 (PRE-RELEASE): monta juegos PS4/PS5 "
+        "y backports. Redisenada la interfaz web para TV y mando. "
+        "Instala PKG desde almacenamiento interno/externo o mediante "
+        "streaming desde navegador; permite consultar y retirar DLC/parches, "
+        "instalar/reemplazar/eliminar backports, y admite param.sfo, "
+        "eboot2.bin e IDs homebrew adicionales. Permite instalar juegos PS4 "
+        "desde imagenes y carpetas. ATENCION: API LAN habilitada por defecto; "
+        "usar solo en red de confianza y revisar acceso. "
+        "ELF del espejo evoX-CoreOS, SHA-256 publicado en su catalogo. "
+        "Es beta: probar manualmente con kstuff compatible y copia de "
+        "seguridad antes de activar autoload. No autocargar sin prueba."
     ),
 }
 
@@ -246,21 +295,22 @@ POORDS4_020 = {
 
 
 def migrar_shadowmountplus(item: dict) -> None:
-    """Solo cambiar betas conocidas anteriores; nunca pisar futuras."""
+    """Actualizar betas conocidas a beta8, sin retroceder ni pisar otras ramas."""
     if item.get("id") != "shadowmountplus":
         return
-    if item.get("version") == SHADOWMOUNT_171B6F2["version"]:
+    if item.get("version") == SHADOWMOUNT_171B8["version"]:
         return
     versiones_previas = {
         "1.7-beta5fix1", "1.7beta5-fix1", "1.7beta5",
-        "1.7beta6", "1.7beta6-fix1",
+        "1.7beta6", "1.7beta6-fix1", "1.7beta6-fix2",
+        "1.7beta7",
     }
     if str(item.get("version")) not in versiones_previas:
         return
-    if str(item.get("source", "")).rstrip("/") != SHADOWMOUNT_171B6F2["source"]:
+    if str(item.get("source", "")).rstrip("/") != SHADOWMOUNT_171B8["source"]:
         raise ValueError("Origen inesperado para ShadowMountPlus")
-    item.update(SHADOWMOUNT_171B6F2)
-    print("ACTUALIZADO: ShadowMountPlus -> 1.7beta6-fix2 (ELF verificado)")
+    item.update(SHADOWMOUNT_171B8)
+    print("ACTUALIZADO: ShadowMountPlus -> 1.7beta8 (ELF catalogado)")
 
 
 def migrar_poords4(item: dict) -> None:
@@ -305,10 +355,10 @@ PS5_SIGNAL = {
 RELEASES_VERIFICADAS = {
     "ps5upload": {
         "repo": "phantomptr/ps5upload",
-        "version": "v7.0.34",
-        "filename": "ps5upload-7.0.34.elf",
-        "checksum": "f6a09ed9f92ea230490e2bc3ad912c4e882882839a25a184bb6daddabc0904a7",
-        "last_update": "2026-10-17",
+        "version": "v7.1.13",
+        "filename": "ps5upload-7.1.13.elf",
+        "checksum": "46bb7dc0e7f28ded2859ac4392c151e39010354c79de2f323d73aaa861287a30",
+        "last_update": "2026-10-21",
         "category": "ARCHIVOS / RED",
     },
     "patchdl": {
@@ -570,6 +620,10 @@ def normalizar_descripcion(item: dict) -> None:
                "entre mayusculas y minusculas en juegos Unity al subir carpetas "
                "o convertir juegos, evitando cierres al arrancar. "
                if version_numerica(item.get("version")) >= (7, 0, 34, 0) else "")
+            + ("Desde 7.1.13 permite subir archivos y enviar ELF al cargador "
+               "desde el navegador, con confirmacion explicita; mejora "
+               "movimientos SMB. "
+               if version_numerica(item.get("version")) >= (7, 1, 13, 0) else "")
             + "Consultar cambios upstream."
         )
     elif ident == "patchdl" and version_numerica(item.get("version")) >= (0, 2, 1, 0):
