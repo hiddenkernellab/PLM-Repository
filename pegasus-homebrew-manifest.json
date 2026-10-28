@@ -76,12 +76,12 @@
     {
       "titleId": "RMTC00001",
       "version": "2.00",
-      "bundleVersion": "2.15",
-      "url": "https://github.com/cy33hc/ps5-ezremote-client/releases/download/2.15/Ps5_ezRemote_Client_2.00.pkg",
+      "bundleVersion": "2.16",
+      "url": "https://github.com/cy33hc/ps5-ezremote-client/releases/download/2.16/Ps5_ezRemote_Client_2.00.pkg",
       "sha256": "27059e236ac8e87110f2316870512669e67ab6e8d6b6ac8926673f368dda2b81",
       "sizeBytes": 10106672,
-      "posterUrl": "https://raw.githubusercontent.com/cy33hc/ps5-ezremote-client/2.15/data/sce_sys/icon0.png",
-      "imageSource": "https://raw.githubusercontent.com/cy33hc/ps5-ezremote-client/2.15/data/sce_sys/icon0.png",
+      "posterUrl": "https://raw.githubusercontent.com/cy33hc/ps5-ezremote-client/2.16/data/sce_sys/icon0.png",
+      "imageSource": "https://raw.githubusercontent.com/cy33hc/ps5-ezremote-client/2.16/data/sce_sys/icon0.png",
       "provenance": "PKG oficial de la release de ps5-ezremote-client."
     },
     {
