@@ -19,17 +19,17 @@
     {
       "titleId": "RMTC00001",
       "title": "ezRemote Client (launcher)",
-      "version": "2.00",
-      "description": "Acceso directo de ezRemote Client. La release actual del bundle es 2.16; para funcionar hay que extraer ezremote-client.zip en /data/homebrew y cargar websrv.",
+      "version": "3.00",
+      "description": "Acceso directo de ezRemote Client. La release actual del bundle es 2.17; para funcionar hay que extraer ezremote-client.zip en /data/homebrew y cargar websrv.",
       "downloadSource": "https://github.com/cy33hc/ps5-ezremote-client",
       "downloadLinks": [
         {
           "name": "Descarga",
-          "url": "https://github.com/cy33hc/ps5-ezremote-client/releases/download/2.16/Ps5_ezRemote_Client_2.00.pkg"
+          "url": "https://github.com/cy33hc/ps5-ezremote-client/releases/download/2.17/PS5_ezRemote_Client_3.00.pkg"
         }
       ],
-      "posterUrl": "https://raw.githubusercontent.com/cy33hc/ps5-ezremote-client/2.16/data/sce_sys/icon0.png",
-      "sizeBytes": 10106672
+      "posterUrl": "https://raw.githubusercontent.com/cy33hc/ps5-ezremote-client/2.17/data/sce_sys/icon0.png",
+      "sizeBytes": 8001638
     },
     {
       "titleId": "PKGI13337",
