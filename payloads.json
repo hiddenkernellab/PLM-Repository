@@ -860,14 +860,14 @@
       "icon_key": "ps5-tabshifter",
       "name": "PS5 TabShifter",
       "filename": "TabShifter.elf",
-      "version": "v1.3.0",
-      "url": "https://github.com/xvvulcanvx/PS5-TabShifter/releases/download/v1.3.0/TabShifter.elf",
+      "version": "v1.4.0",
+      "url": "https://github.com/xvvulcanvx/PS5-TabShifter/releases/download/v1.4.0/TabShifter.elf",
       "source": "https://github.com/xvvulcanvx/PS5-TabShifter/releases",
-      "source_direct": "https://github.com/xvvulcanvx/PS5-TabShifter/releases/download/v1.3.0/TabShifter.elf",
-      "checksum": "5d2d9c46c2390df05c5a85781b033aa9471584629e8bd69b91608cb3e60f45b4",
-      "last_update": "2026-10-24",
+      "source_direct": "https://github.com/xvvulcanvx/PS5-TabShifter/releases/download/v1.4.0/TabShifter.elf",
+      "checksum": "f687372160a2ae564b2c401c5378fa5ae0902e9815f2f13fc6a07b9c34c1630f",
+      "last_update": "2026-11-13",
       "category": "PERSONALIZACION",
-      "description": "Organiza iconos entre Juegos y Multimedia, fija apps al inicio y oculta elementos del sistema; panel web en puerto 9095. Crea copia .bak de las bases de datos antes de modificar. Probado por el autor en FW 12.02 a 13.60; NO se ha confirmado su uso en FW 7.20 ni 11.40. No autocargar. AVISO: version v1.3.0 nueva detectada y SHA-256 verificado; consultar los cambios del desarrollador antes de autocargar."
+      "description": "Organiza iconos entre Juegos y Multimedia, fija apps al inicio y oculta elementos del sistema; panel web en puerto 9095. Crea copia .bak de las bases de datos antes de modificar. Probado por el autor en FW 12.02 a 13.60; NO se ha confirmado su uso en FW 7.20 ni 11.40. No autocargar. AVISO: version v1.3.0 nueva detectada y SHA-256 verificado; consultar los cambios del desarrollador antes de autocargar. AVISO: version v1.4.0 nueva detectada y SHA-256 verificado; consultar los cambios del desarrollador antes de autocargar."
     },
     {
       "id": "ps5-theme",
