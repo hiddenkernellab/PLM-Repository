@@ -254,6 +254,20 @@
       "description": "Aplica en memoria parches de 60 FPS para versiones concretas de juegos PS4/PS5; panel web puerto 8060, sin alterar archivos. El autor confirma pruebas reales en Gravity Rush 2 (01.11) y The Order: 1886 (01.02, posibles softlocks). Otros parches comunitarios no probados; usar manualmente."
     },
     {
+      "id": "gtavi-fps-unlocker",
+      "icon_key": "gtavi-fps-unlocker",
+      "name": "GTA VI FPS Unlocker (HSgod)",
+      "version": "v1.13",
+      "filename": "GTAVI.UnlockFPS_v1.13.elf",
+      "url": "https://github.com/HSgod/ps5-fpsunlocker-gta6/releases/download/v1.13/GTAVI.UnlockFPS_v1.13.elf",
+      "source_direct": "https://github.com/HSgod/ps5-fpsunlocker-gta6/releases/download/v1.13/GTAVI.UnlockFPS_v1.13.elf",
+      "source": "https://github.com/HSgod/ps5-fpsunlocker-gta6/releases",
+      "checksum": "fd62a56fb170b071a97f93f1c39023b53647d791e5b14769ef674b98d217afe4",
+      "last_update": "2026-11-26",
+      "category": "JUEGOS / COMPATIBILIDAD",
+      "description": "EXPERIMENTAL: parche en memoria de GTA VI de HSgod. v1.13 documenta PPSA01547, PPSA29660 y PPSA38500, juego v01.002.001. Configura objetivo de 30-120 FPS y resolución interna (25-100%; 0 original), corrige delta-time y ofrece modo daemon opcional. No garantiza 60 FPS constantes. Usar antes de iniciar el juego, con daemon=0 y reflexiones RT activadas inicialmente. Desactivar RT es experimental y puede producir errores visuales. No autocargar ni combinar con otros parches FPS del mismo juego. Verificar versión del juego, compatibilidad y notas de cada release; sin prueba propia en PS5."
+    },
+    {
       "id": "kraken-mount",
       "name": "Kraken Mount",
       "filename": "kraken-mount.elf",
