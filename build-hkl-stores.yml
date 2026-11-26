@@ -1,222 +1,326 @@
-name: Build HiddenKernel Four Stores ELF
+name: Build HiddenKernel 5 Stores ELF
 
 on:
   push:
     paths:
-      - '.github/workflows/build-hkl-stores.yml'
+      - ".github/workflows/build-hkl-stores.yml"
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
+
+concurrency:
+  group: hiddenkernel-store-update
+  cancel-in-progress: false
 
 jobs:
   compile:
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     steps:
-      - name: Restore verified HiddenKernelLab PS5 installer sources
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Restore PS5 installer sources
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p "$(dirname four-stores/src/main.c)"
-          base64 -d <<'PAYLOAD_CONTENT' | gzip -d > four-stores/src/main.c
-          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
-          PAYLOAD_CONTENT
-          echo "1968719fe784bdac00b34103939a1e45ccd3ce70b0733ade73c056544cd1b307  four-stores/src/main.c" | sha256sum -c -
+          base64 -d <<'HKL_SOURCE' | gzip -d > four-stores/src/main.c
+          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
+          HKL_SOURCE
+          echo "4741fcc586f5bd8f60cef3443e99fdde376c53bc7aa4a07a2cb094ffdf917cb2  four-stores/src/main.c" | sha256sum -c -
           mkdir -p "$(dirname four-stores/Makefile)"
-          base64 -d <<'PAYLOAD_CONTENT' | gzip -d > four-stores/Makefile
-          H4sIAAAAAAAC/3VUYU/bMBD9XP+Kk9ZJjcDJBOPDqiFRCgxGRSvSCTFNqlz70lh17Mx2Nsqvn5NQ
-          6EobyfHl7vzu+fycD3CPTMEkPYGSrZRhAi5HV1A5qRdQuhP64qVOLOEAijmK6ShNeGUV9LSBybDO
-          j2IiMy0wq4Fmk8HjaDy4mKUXt6TbQ2uNhRT9dgy8AZ8jSO08UwrFu3ol83lEUAuZEam5qgRCt7cF
-          EyXeGMVzJnVSWuNKtCYuloRMHqfX4zvon0K58rnRx2Q6uP92Oa09u1CYXaAnw6vR4Fta59DxEdCH
-          wCy88clbFmZtaKUrhyLwtKxAjxboTbfXIkfJmiW9icPwubRiFjL9KnlWcr4GPwjgWVZp7qXR1GEz
-          u+ATzLPXb/JzdHM+S++HNRkmFNrjo5gDt7yZQ7cV8xgsqbM548vWypjzrfUW9RbRBXM9P1deqpi3
-          Bcbn39uOMCFKi5l8gnkllWgYJ4fd3ppGP+ansYkiEr7Tdsl623VmGLUqYvbeX6vGKxdCvwiEZ2fC
-          08mnL/sWc7sqvXldT0f/ZQFVpc8tBu1SlXK8Qz/0qrV/OLQp2j+S43px7U5XzmOxDjSua+/Lo5eo
-          U69Ir/mFEZVCQoIg+nAthUB9i1ajop9Tb2xoLKoshJ1D72accbR+VmIR532oFeqSBepZE47LFen8
-          XdTgv4PMoE2OQzLkgYXrJ80Fix0mnCVvUdIJum1UHe2A3ITpnkG+3CBBOrbYiBOyccQfYxMYbkk1
-          eDnpnBVLIYPCyw1J1CSGwygcVKvmCCiH7legJlQlZF9n+uAsT4pwS4MAX0QVpBfBjobtKPGgDild
-          8I3LUpfbh9nt1RqNmn5t3/P5xn+COm9lWfPunGVSYbMDrpDpftMxarN253sPfBf9zUb/A4pgHRdg
-          BQAA
-          PAYLOAD_CONTENT
-          echo "0c4078283ecfb88d2404907fde69e4796dbfd495587bfb031acbda702801d3da  four-stores/Makefile" | sha256sum -c -
+          base64 -d <<'HKL_SOURCE' | gzip -d > four-stores/Makefile
+          H4sIAAAAAAAC/3VUYU/bMBD9jH/FSeukRuBkgvFh1ZAoBQajohXphJgmVa59aaw6dmY7G+XXz0lo6UobyfH57vzu5fycD/CA
+          TME4PYWSLZVhAq6G11A5qedQulP66qVOLOAQihmKyTBNeGUVdLWB8aDOj2IiMy0wq4Gm4/7TcNS/nKaXd6TTRWuNhRT9dgy8
+          AZ8jSO08UwrFu3ol83lEUAuZEam5qgRCp7sFEyXeGMVzJnVSWuNKtCYuFoSMnyY3o3vonUG59LnRJ2TSf/h2Nak9u1CYnaMn
+          g+th/1ta59DRMdDHwCy88dlbFmZtaKUrhyLwtKxAjxbobafbIkfJiiW9jcPwubRiGjL9MnlRcrYCPwzgWVZp7qXR1GEzu+AT
+          zLP1mvwc3l5M04dBTYYJhfbkOObALW/m0G3FPAZL6mzG+KK1MuZ8a71FvUV0wVzNL5WXKuZtgdHF97YjTIjSYiafYVZJJRrG
+          yVGnu6LRi/lZbKKIhHXabll9dp0ZRq2KmL3316rxyoXQLwLh2ZnwfPrpy77N3C5Lb9b76fC/LKCq9LnFoF2qUo736AdetfYP
+          hzZF+0dyXG2u3enSeSxWgcZ14315/Bp1ao20zi+MqBQSEgTRgxspBOo7tBoV/Zx6Y0NjUWUh7Bx6N+WMo/XTEos470GtUJfM
+          UU+bcFwuycHfeQ3+O8gM2uQ4JEMeWLhe0lyw2GHCWfIWJQdBt42qox2QmzCdc8gXGyTIgS024oRsHPHH2ASGW1INXk4OzouF
+          kEHh5YYkahKDQRQOqlVzBJRD5ytQE6oSsq8zPXCWJ0W4pUGAr6IK0otgR8N2lHhUR5TO+cZlqcvtw+x0a41GTb+27/ls4z9B
+          nbeybHhzhUz3mj5Rm7Xfu/eYd5HebO8/9XkFWlYFAAA=
+          HKL_SOURCE
+          echo "c3c819ab460a0fd06eb30516f410db98d8d00e48d1a2c8e96aa481b5c6ac3721  four-stores/Makefile" | sha256sum -c -
           mkdir -p "$(dirname four-stores/tools/gen_asset.py)"
-          base64 -d <<'PAYLOAD_CONTENT' | gzip -d > four-stores/tools/gen_asset.py
-          H4sIAAAAAAAC/3WRz0/CMBTH7/0rnqeuQMYPDYeZHdQYNVEhAQ4GF1LgddSMdmk72CT873bMEDnY
-          y/vVft/nvQqjt5Bzt8nkEuQ218bB2Ifk17eVJUQKyFAF3g+5SXfsKr6JCPhjuLQIk8o63D6W0gW0
-          sDzFCFJUC24tujCv4OV9PJvCaDatzeTj7X70ShkxfB/Xnc6y837CQoN8vVhWDm3AiK228bl6nRBd
-          uHguaLcFT6jQcIdryItlJlfwcAfLQq0zBKEN7NBIIX31eTodT0JodWnnBAyCWsedf7DSyjoolJWp
-          8hdXG27g4Bse5wnEcDjQhNRKWgg/BUjlZ1UpBr1OvQnPzjr9IWu24LFCnueo1gGtY9qmNPzSUgWC
-          9spDGfUG5bFDT2RlI7WfN8JRY9r9YcIY+St0vKUXif/ApXIN98KDeXIrv1GL4JRitcbljgd+x3sj
-          HS4clv6/PtUvqm/F2nXIyA/0/MumFAIAAA==
-          PAYLOAD_CONTENT
+          base64 -d <<'HKL_SOURCE' | gzip -d > four-stores/tools/gen_asset.py
+          H4sIAAAAAAAC/3WRz0/CMBTH7/0rnqeuQMYPDYeZHdQYNVEhAQ4GF1LgddSMdmk72CT873bMEDnYy/vVft/nvQqjt5Bzt8nk
+          EuQ218bB2Ifk17eVJUQKyFAF3g+5SXfsKr6JCPhjuLQIk8o63D6W0gW0sDzFCFJUC24tujCv4OV9PJvCaDatzeTj7X70Shkx
+          fB/Xnc6y837CQoN8vVhWDm3AiK228bl6nRBduHguaLcFT6jQcIdryItlJlfwcAfLQq0zBKEN7NBIIX31eTodT0JodWnnBAyC
+          Wsedf7DSyjoolJWp8hdXG27g4Bse5wnEcDjQhNRKWgg/BUjlZ1UpBr1OvQnPzjr9IWu24LFCnueo1gGtY9qmNPzSUgWC9spD
+          GfUG5bFDT2RlI7WfN8JRY9r9YcIY+St0vKUXif/ApXIN98KDeXIrv1GL4JRitcbljgd+x3sjHS4clv6/PtUvqm/F2nXIyA/0
+          /MumFAIAAA==
+          HKL_SOURCE
           echo "a57d822ee7c524fad535d206baab8bf3f780f2c91e56529b018a252ef775efc6  four-stores/tools/gen_asset.py" | sha256sum -c -
-      - name: Build PS5 SDK and HTTPS toolchain
+      - name: Confirm dual install-location support
+        run: |
+          grep -F '/data/homebrew' four-stores/src/main.c
+          grep -F '/data/etaHEN/games' four-stores/src/main.c
+          grep -F 'DUPLICATE/AMBIGUOUS' four-stores/src/main.c
+          grep -F 'PadrinoStore.exfat' four-stores/src/main.c
+      - name: Build PS5 SDK with HTTPS support
         shell: bash
         run: |
           set -euo pipefail
           git clone --depth 1 https://github.com/itsPLK/ps5-payload-manager.git /tmp/pldmgr
-          docker build --tag hkl-ps5-payload-sdk -f /tmp/pldmgr/Dockerfile.sdk /tmp/pldmgr
-      - name: Cross-compile native PS5 ELF
+          docker build --tag hkl-ps5-sdk -f /tmp/pldmgr/Dockerfile.sdk /tmp/pldmgr
+      - name: Compile native PS5 ELF
         shell: bash
         run: |
           set -euo pipefail
-          docker run --rm -v "${{ github.workspace }}:/src" -w /src hkl-ps5-payload-sdk bash -euxo pipefail -c '
-            wget -q -O /tmp/zlib.tar.xz https://zlib.net/fossils/zlib-1.3.2.tar.xz
-            echo "d7a0654783a4da529d1bb793b7ad9c3318020af77667bcae35f95d0e42a792f3  /tmp/zlib.tar.xz" | sha256sum -c -
-            tar -xJf /tmp/zlib.tar.xz -C /tmp
+          docker run --rm -v "${{ github.workspace }}:/src" -w /src hkl-ps5-sdk bash -euxo pipefail -c '
+            git clone --depth 1 --branch v1.3.1 https://github.com/madler/zlib.git /tmp/hkl-zlib
+            test "$(git -C /tmp/hkl-zlib rev-parse HEAD)" = "51b7f2abdade71cd9bb0e7a373ef2610ec6f9daf"
             mkdir -p four-stores/third_party/zlib
-            cp /tmp/zlib-1.3.2/{zlib.h,zconf.h,adler32.c,crc32.c,deflate.c,infback.c,inffast.c,inflate.c,inftrees.c,trees.c,zutil.c,deflate.h,inffast.h,inffixed.h,inftrees.h,trees.h,zutil.h,crc32.h} four-stores/third_party/zlib/
+            cp /tmp/hkl-zlib/*.[ch] four-stores/third_party/zlib/
             make -C four-stores clean all
             test -s four-stores/HiddenKernel-4Stores.elf
-            file four-stores/HiddenKernel-4Stores.elf
-            readelf -h four-stores/HiddenKernel-4Stores.elf
           '
-      - name: Publish the installable ELF
+      - name: Verify PS5 ELF and checksum
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s four-stores/HiddenKernel-4Stores.elf
+          file four-stores/HiddenKernel-4Stores.elf
+          readelf -h four-stores/HiddenKernel-4Stores.elf
+          file four-stores/HiddenKernel-4Stores.elf | grep -q "ELF 64-bit.*x86-64"
+          sha256sum four-stores/HiddenKernel-4Stores.elf > four-stores/HiddenKernel-4Stores.elf.sha256
+      - name: Publish ELF artifact
         uses: actions/upload-artifact@v4
         with:
           name: HiddenKernel-4Stores-ELF
-          path: four-stores/HiddenKernel-4Stores.elf
+          path: |
+            four-stores/HiddenKernel-4Stores.elf
+            four-stores/HiddenKernel-4Stores.elf.sha256
           if-no-files-found: error
           retention-days: 30
+
+      - name: Publish permanent GitHub Release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          TAG="hiddenkernel-4stores-current"
+          if ! gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release create "$TAG" --repo "$GITHUB_REPOSITORY" \
+              --target "$GITHUB_SHA" \
+              --title "HiddenKernel 5 Stores (experimental)" \
+              --notes "Instala Orbit Store, Overdrive, BlackBox, Prospero Store y Padrino Store. Busca instalaciones en homebrew y etaHEN/games. EXPERIMENTAL: no probado en consola. Copia de seguridad recomendada." \
+              --prerelease
+          fi
+          gh release edit "$TAG" --repo "$GITHUB_REPOSITORY" --title "HiddenKernel 5 Stores (experimental)" --notes "Instala Orbit Store, Overdrive, BlackBox, Prospero Store y Padrino Store. EXPERIMENTAL: no probado en consola."
+          gh release upload "$TAG" \
+            four-stores/HiddenKernel-4Stores.elf \
+            four-stores/HiddenKernel-4Stores.elf.sha256 \
+            --clobber --repo "$GITHUB_REPOSITORY"
+          gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json assets \
+            --jq 'any(.assets[]; .name == "HiddenKernel-4Stores.elf")' | grep -x true
+      - name: Register new ELF in PLM Repository
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY_REGISTER'
+          from pathlib import Path
+          import base64
+          import datetime
+          import hashlib
+          import json
+          import os
+          import re
+
+          root = Path('.')
+          elf = root / 'four-stores' / 'HiddenKernel-4Stores.elf'
+          expected_sha = (root / 'four-stores' / 'HiddenKernel-4Stores.elf.sha256').read_text().split()[0]
+          actual_sha = hashlib.sha256(elf.read_bytes()).hexdigest()
+          if actual_sha != expected_sha or not re.fullmatch(r'[0-9a-f]{64}', actual_sha):
+              raise SystemExit('ELF SHA-256 verification failed')
+
+          repo = os.environ['GITHUB_REPOSITORY']
+          tag = 'hiddenkernel-4stores-current'
+          url = f'https://github.com/{repo}/releases/download/{tag}/HiddenKernel-4Stores.elf'
+          entry = {
+              'name': 'HiddenKernel 5 Stores',
+              'filename': 'HiddenKernel-4Stores.elf',
+              'url': url,
+              'source': f'https://github.com/{repo}',
+              'source_direct': url,
+              'description': ('Instalador de Orbit Store, Overdrive, BlackBox, Prospero Store y Padrino Store. '
+                              'Comprueba /data/homebrew/ y /data/etaHEN/games/ antes de instalar; '
+                              'evita duplicados y bloquea instalaciones ambiguas. '
+                              'EXPERIMENTAL: ELF compilado y verificado, aun sin prueba fisica en PS5. '
+                              'Haz copia de seguridad antes de usarlo. No configurar autoload.'),
+              'last_update': datetime.datetime.now(datetime.timezone.utc).date().isoformat(),
+              'version': '0.2.0-beta+' + os.environ['GITHUB_SHA'][:7],
+              'category': 'DESCARGAS / TIENDAS',
+              'checksum': actual_sha,
+              'icon_key': 'hiddenkernel-4stores',
+              'id': 'hiddenkernel-4stores'
+          }
+
+          catalog_path = root / 'payloads.json'
+          catalog = json.loads(catalog_path.read_text(encoding='utf-8'))
+          items = catalog['payloads']
+          assert isinstance(items, list) and len(items) > 0
+          existing = [x for x in items if x.get('id') == entry['id']]
+          if len(existing) > 1:
+              raise SystemExit('Duplicate catalog ID, refusing update')
+          if existing:
+              old = existing[0]
+              old.update(entry)
+          else:
+              items.append(entry)
+          category_order = (
+              'ESENCIALES', 'HEN / AIO', 'SISTEMA', 'ARCHIVOS / RED',
+              'PKG / INSTALACION', 'JUEGOS / COMPATIBILIDAD',
+              'DESCARGAS / TIENDAS', 'EMULADORES', 'MULTIMEDIA',
+              'MANDOS / AUDIO', 'TRUCOS / PARTIDAS', 'PERSONALIZACION',
+              'UTILIDADES', 'DESARROLLO / AVANZADO'
+          )
+          order = {cat: i for i, cat in enumerate(category_order)}
+          items.sort(key=lambda x:(order.get(x.get('category'),999),str(x.get('name','')).casefold()))
+          assert len({x['id'] for x in items}) == len(items)
+          catalog['icons_url'] = 'icons.json'
+
+          icon_svg = """<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+          <defs><linearGradient id="a" x2="1" y2="1"><stop stop-color="#0b1d39"/><stop offset="1" stop-color="#182f63"/></linearGradient>
+          <linearGradient id="b" x2="1" y2="1"><stop stop-color="#7de8ff"/><stop offset="1" stop-color="#8066fa"/></linearGradient></defs>
+          <rect x="3" y="3" width="122" height="122" rx="24" fill="url(#a)"/>
+          <rect x="5" y="5" width="118" height="118" rx="22" fill="none" stroke="#7de8ff" stroke-opacity=".3" stroke-width="2"/>
+          <path d="M26 43h15v14H26z" rx="3" fill="#6de6ff"/><rect x="46" y="43" width="15" height="14" rx="3" fill="#9e80ff"/>
+          <rect x="26" y="62" width="15" height="14" rx="3" fill="#ffb967"/><rect x="46" y="62" width="15" height="14" rx="3" fill="#63e1ab"/>
+          <path d="M71 42v37M71 60h26M97 42v37" stroke="url(#b)" stroke-width="8" stroke-linecap="round"/>
+          <path d="M82 47l17 28" stroke="#a0e4ff" stroke-width="5" stroke-linecap="round"/>
+          <text x="64" y="103" fill="#cce8ff" font-size="12" font-weight="bold" text-anchor="middle" font-family="sans-serif">5 STORES</text>
+          </svg>"""
+          icons_path = root / 'icons.json'
+          icons_data = json.loads(icons_path.read_text(encoding='utf-8'))
+          icons = icons_data['icons']
+          assert isinstance(icons, dict)
+          icons[entry['icon_key']] = 'data:image/svg+xml;base64,' + base64.b64encode(icon_svg.encode('utf-8')).decode('ascii')
+          assert len(icons) == len(items), 'Missing icon or unexpected catalog key'
+          assert len(json.dumps(icons_data).encode('utf-8')) <= 4*1024*1024
+
+          catalog_path.write_text(json.dumps(catalog,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          icons_path.write_text(json.dumps(icons_data,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          print('Registered in Payload Manager:',entry['id'], entry['version'],actual_sha)
+          PY_REGISTER
+          python3 actualizador.py --offline
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add payloads.json icons.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Registrar HiddenKernel 5 Stores ELF e icono"
+            git fetch origin main
+            if [ "$(git rev-parse origin/main)" != "$(git rev-parse HEAD^)" ]; then
+              git rebase origin/main
+            fi
+            git push origin HEAD:main
+          fi
