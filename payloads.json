@@ -72,6 +72,20 @@
       "id": "shadowmountplus"
     },
     {
+      "id": "davinci-core",
+      "icon_key": "davinci-core",
+      "name": "DaVinci Core (EXPERIMENTAL)",
+      "version": "v1.0.0",
+      "filename": "Davinci-Core-v1.0.elf",
+      "url": "https://github.com/B4ckd0orl/davinci-core/releases/download/v1.0.0/Davinci-Core-v1.0.elf",
+      "source_direct": "https://github.com/B4ckd0orl/davinci-core/releases/download/v1.0.0/Davinci-Core-v1.0.elf",
+      "source": "https://github.com/B4ckd0orl/davinci-core/releases",
+      "checksum": "af874418fefbde9ba7269566e05f71309c7d6273511a07f57eac11a1a174fa99",
+      "last_update": "2026-11-21",
+      "category": "HEN / AIO",
+      "description": "EXPERIMENTAL, NO AUTOCARGAR. AIO con motor nativo de FPKG de depuración compatibles, biblioteca, montajes, instalador desde USB/disco externo y panel web 8097. v1.0.0 integra y arranca KStuff Lite 1.11 y ShadowMountPlus 1.7beta10. Requiere jailbreak y elfldr; no cargar junto a KStuff, ShadowMountPlus, Kraken u otro HEN/montador equivalente. Comenzar en sesión limpia. No garantiza compatibilidad universal de firmware, firmas ni juegos. No admite de forma general PKG comerciales cifrados ni fusión de actualizaciones/DLC. No se ha probado en nuestra PS5. Revisar notas de cada nueva versión antes de usar."
+    },
+    {
       "name": "etaHEN",
       "filename": "etaHEN_2.5B.bin",
       "url": "https://github.com/etaHEN/etaHEN/releases/download/2.5B/etaHEN-2.5B.bin",
@@ -257,12 +271,12 @@
       "id": "gtavi-fps-unlocker",
       "icon_key": "gtavi-fps-unlocker",
       "name": "GTA VI FPS Unlocker (HSgod)",
-      "version": "v1.13",
-      "filename": "GTAVI.UnlockFPS_v1.13.elf",
-      "url": "https://github.com/HSgod/ps5-fpsunlocker-gta6/releases/download/v1.13/GTAVI.UnlockFPS_v1.13.elf",
-      "source_direct": "https://github.com/HSgod/ps5-fpsunlocker-gta6/releases/download/v1.13/GTAVI.UnlockFPS_v1.13.elf",
+      "version": "v1.14",
+      "filename": "GTAVI.UnlockFPS_v1.14.elf",
+      "url": "https://github.com/HSgod/ps5-fpsunlocker-gta6/releases/download/v1.14/GTAVI.UnlockFPS_v1.14.elf",
+      "source_direct": "https://github.com/HSgod/ps5-fpsunlocker-gta6/releases/download/v1.14/GTAVI.UnlockFPS_v1.14.elf",
       "source": "https://github.com/HSgod/ps5-fpsunlocker-gta6/releases",
-      "checksum": "fd62a56fb170b071a97f93f1c39023b53647d791e5b14769ef674b98d217afe4",
+      "checksum": "9d7b726369407cd1ca1030dfc4bd705d01f27ebf0bf564a7d100c1599db14904",
       "last_update": "2026-11-26",
       "category": "JUEGOS / COMPATIBILIDAD",
       "description": "EXPERIMENTAL: parche en memoria de GTA VI de HSgod. v1.13 documenta PPSA01547, PPSA29660 y PPSA38500, juego v01.002.001. Configura objetivo de 30-120 FPS y resolución interna (25-100%; 0 original), corrige delta-time y ofrece modo daemon opcional. No garantiza 60 FPS constantes. Usar antes de iniciar el juego, con daemon=0 y reflexiones RT activadas inicialmente. Desactivar RT es experimental y puede producir errores visuales. No autocargar ni combinar con otros parches FPS del mismo juego. Verificar versión del juego, compatibilidad y notas de cada release; sin prueba propia en PS5."
