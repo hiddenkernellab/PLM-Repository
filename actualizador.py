@@ -3,6 +3,7 @@
 Python 3.10+. Sustituye actualizador.py en la raíz; no hace push ni toca la PS5.
 Uso: python actualizador.py [--offline] [--dry-run]
 Actualiza únicamente los metadatos del catálogo, nunca el autoload de una consola.
+Limpieza aprobada: 31 entradas; auditoría informativa de antigüedad sin bajas automáticas.
 """
 from __future__ import annotations
 
@@ -14,6 +15,7 @@ import os
 import re
 import sys
 import tempfile
+from datetime import date
 import urllib.request
 from pathlib import Path
 from urllib.parse import urlsplit
@@ -28,17 +30,42 @@ CATEGORIES = ('ESENCIALES', 'HEN / AIO', 'SISTEMA', 'ARCHIVOS / RED',
               'PKG / INSTALACION', 'JUEGOS / COMPATIBILIDAD', 'DESCARGAS / TIENDAS',
               'EMULADORES', 'MULTIMEDIA', 'MANDOS / AUDIO', 'TRUCOS / PARTIDAS',
               'PERSONALIZACION', 'UTILIDADES', 'DESARROLLO / AVANZADO')
-RETIRED = {'airpsx', 'jailbreak-store', 'ps5-file-explorer', 'zftpd-zhttp'}
+# Exclusiones aprobadas por el mantenedor el 26-11-2026.
+# Se aplican en cada ejecución; no se eliminan archivos de las consolas.
+# np-fake-signin se conserva: migró a Forgejo, no está abandonado.
+RETIRED = {
+    'airpsx', 'jailbreak-store', 'ps5-file-explorer', 'zftpd-zhttp',
+    # Personalización (6)
+    'liveshell', 'ps5-signal', 'ps5-syslang', 'ps5-tabshifter',
+    'ps5-theme', 'ps5-wallpaper-modder',
+    # Solapamientos y herramientas prescindibles (13)
+    'fgg-unpack', 'unrar-ps5', 'bfpilot', 'ps5-web-file-manager',
+    'zftpd', 'pkg-receiver', 'singledpi', 'ps5lm',
+    'ps5library-agent-rdiol12', 'fgg-xsense', 'puckbridgeps5',
+    'nuvio-ps5', 'ps-play',
+    # Alternativas y herramientas específicas (9)
+    'pizza-hen', 'etahen-13.60', 'pegasus-dl', 'ps5-aria2',
+    'spectrum-library', 'legacyjb', 'romm-sync', 'kura-loader',
+    'ps5-fan-control',
+    # Segunda limpieza aprobada tras comparar el catálogo de Juan.
+    'ps5-linux-loader', 'kylin-core', 'ps5-hardware-overlay',
+}
+# La auditoría sólo informa: nunca incorpora IDs a RETIRED por antigüedad.
+REVIEW_DAYS = 90
+CANDIDATE_DAYS = 180
 # Conservar las decisiones anteriores para ramas especiales. No confundir
 # instaladores y helpers, builds PS4/PS5, forks o releases de nomenclatura distinta.
-MANUAL = {'ps5sx2-helper', 'ps5sx2-installer', 'etahen-13.60',
+MANUAL = {'ps5sx2-helper', 'ps5sx2-installer',
           'pldmgr-install-update', 'ps5-hardware-overlay', 'ps5-linux-loader',
           'hiddenkernel-4stores', 'kstuff-fpkg', 'kstuff-lite-110',
-          'kstuff-dr-experimental', 'etahen', 'pizza-hen', 'onionhen'}
+          'kstuff-dr-experimental', 'kstuff-dr-test8-rest', 'etahen', 'onionhen', 'np-fake-signin'}
 # SHA-256 publicados por los respectivos autores en los assets oficiales.
 # El catálogo previo de itsPLK coincide con los hashes de Lite y ShadowMountPlus.
 # No hay garantía de estabilidad por el mero hecho de tener un SHA-256.
 PINS = {
+    'elfldr': ('elfldr (cargador de payloads)', 'ps5-payload-dev/elfldr',
+        'v0.28', 'elfldr-ps5.elf', '66968bae6159d8fb06125fcd43fb99cf64d6bfdf730c70f37a6f5d056ff63458',
+        '2026-11-19', 'SISTEMA'),
     'kstuff-lite': ('KStuff Lite (EchoStretch)', 'EchoStretch/kstuff-lite',
         'v1.11', 'kstuff.elf', 'ab9a6cb4d3b1daf139d4d646e402b1cf569071acd64599c936d7a3a6164dc779',
         '2026-09-20', 'ESENCIALES'),
@@ -55,7 +82,7 @@ PINS = {
 # 1.15 Test3: el ELF aportado por el usuario coincide byte a byte (SHA-256)
 # con el hash documentado por Wamphyre. No es una release oficial de Drakmor.
 # Se conserva como entrada experimental separada, nunca como sustituto de Lite.
-# El nombre stable del binario no acredita estabilidad. No importar Test8 sin hash.
+# El nombre stable del binario no acredita estabilidad. Test8 se verifica por separado.
 EXPERIMENTAL = {
     'id': 'kstuff-dr-experimental', 'icon_key': 'kstuff-dr-experimental',
     'name': 'KStuff 1.15 DR Test3 (EXPERIMENTAL)',
@@ -67,6 +94,136 @@ EXPERIMENTAL = {
     'checksum': '6c3758c2cc84e3aa7e3c41952371fd04e641647d46d03f8d4bea2ab77c16ecf5',
     'last_update': '2026-11-26',
 }
+
+# Fuente comunitaria fijada al commit comprobado en GitHub; no es una release
+# oficial de Drakmor. La entrada se incorpora únicamente tras comprobar bytes.
+TEST8 = {
+    'id': 'kstuff-dr-test8-rest', 'icon_key': 'kstuff-dr-test8-rest',
+    'name': 'KStuff 1.13 DR Test8 REST (EXPERIMENTAL)',
+    'filename': 'kstuff1.13-fpkg-dr-test8-rest.elf',
+    'version': '1.13-fpkg-dr-test8-rest', 'category': 'DESARROLLO / AVANZADO',
+    'url': 'https://raw.githubusercontent.com/cacharrearconjuan/mis-payloads-ps5/089b89bf767bc27eed81f4a01fdb995ebc246e9d/hosted/kstuff_fpkg/kstuff1.13-fpkg-dr-test8-rest.elf',
+    'source': 'https://github.com/cacharrearconjuan/mis-payloads-ps5/tree/089b89bf767bc27eed81f4a01fdb995ebc246e9d/hosted/kstuff_fpkg',
+    'checksum': '127332652374157b8ee0f5eb1128976f9055b88df5da89c0c54183e9c326fc7f',
+    'last_update': '2026-11-04',
+}
+TEST8['source_direct'] = TEST8['url']
+# Forgejo: sólo repositorios y nombres de activos explícitamente autorizados.
+FORGEJO = {'garlic-savemgr': ('earthonion/garlic-savemgr', 'garlic-savemgr.elf'),
+           'np-fake-signin': ('earthonion/np-fake-signin', 'np-fake-signin-ps5.elf')}
+# Hash de Garlic publicado por Juan (no es digest del autor). Verificar bytes
+# del origen oficial antes de migrar. No inventar hash para NP Fake Signin.
+FORGEJO_CROSSCHECK = {('garlic-savemgr', 'v2.0'): '805902a1ef3d54854850518b11602e0ab973192e0338fc30b28a3a9e4aae5be6'}
+
+def read_public(url, limit):
+    req = urllib.request.Request(url, headers={'User-Agent':'HiddenKernelLab-PLM/2026-11-26'})
+    with urllib.request.urlopen(req, timeout=15) as response:
+        if urlsplit(response.geturl()).scheme != 'https':
+            raise ValueError('Redirección no HTTPS')
+        data = response.read(limit+1)
+    if len(data) > limit:
+        raise ValueError('Descarga supera el límite')
+    return data
+
+def verified_elf(url, expected):
+    import hashlib
+    if not SHA.fullmatch(expected):
+        raise ValueError('SHA-256 ausente o inválido')
+    data = read_public(url, 32*1024*1024)
+    if len(data) < 64 or data[:6] != b'\x7fELF\x02\x01':
+        raise ValueError('El archivo no es un ELF 64-bit little endian')
+    if hashlib.sha256(data).hexdigest() != expected:
+        raise ValueError('SHA-256 no coincide')
+
+def forgejo_refresh(item, cache):
+    ident = item['id']; repo, asset_name = FORGEJO[ident]
+    origin = f'https://git.etawen.dev/{repo}'
+    try:
+        if repo not in cache:
+            try:
+                result = json.loads(read_public(f'https://git.etawen.dev/api/v1/repos/{repo}/releases?limit=15', 2*1024*1024))
+                if not isinstance(result, list):
+                    raise ValueError('Respuesta Forgejo no es una lista')
+                cache[repo] = result
+            except (OSError, ValueError) as exc:
+                print(f'AVISO {repo}: API no accesible: {exc}; sólo comprobar pins conocidos')
+                cache[repo] = []
+        options = []
+        for rel in cache[repo]:
+            tag = str(rel.get('tag_name','')); key = version_key(tag)
+            if (not TAG.fullmatch(tag) or not key or key[4] != 3 or rel.get('draft') or rel.get('prerelease')
+                    or not newer(tag, item.get('version'))):
+                continue
+            assets = rel.get('assets', [])
+            url = f'{origin}/releases/download/{tag}/{asset_name}'
+            matches = [a for a in assets if a.get('name') == asset_name and a.get('browser_download_url') == url]
+            if len(matches) != 1:
+                continue
+            digest = str(matches[0].get('digest','')).removeprefix('sha256:').lower()
+            if not SHA.fullmatch(digest):
+                # Un checksum del propio release es preferible al catálogo de terceros.
+                for manifest in assets:
+                    n = str(manifest.get('name',''))
+                    if n.lower() not in {'sha256sums','sha256sums.txt',asset_name.lower()+'.sha256'}:
+                        continue
+                    mu = f'{origin}/releases/download/{tag}/{n}'
+                    if manifest.get('browser_download_url') != mu:
+                        continue
+                    raw = read_public(mu, 128*1024).decode('utf-8')
+                    found = [m[1].lower() for line in raw.splitlines()
+                             if (m := re.fullmatch(r'([0-9a-fA-F]{64})\s+\*?'+re.escape(asset_name),line.strip()))]
+                    if len(found) == 1:
+                        digest = found[0]; break
+                    if n.lower()==asset_name.lower()+'.sha256' and SHA.fullmatch(raw.strip().lower()):
+                        digest=raw.strip().lower(); break
+            if not SHA.fullmatch(digest):
+                digest = FORGEJO_CROSSCHECK.get((ident, tag), '')
+            if not SHA.fullmatch(digest):
+                print(f'REVISAR {ident} {tag}: sin SHA-256 de referencia; no publicar')
+                continue
+            day = str(rel.get('published_at') or rel.get('created_at') or '')[:10]
+            if not re.fullmatch(r'\d{4}-\d{2}-\d{2}',day):
+                continue
+            options.append((key,tag,day,url,digest))
+        if not options:
+            # Garlic v2.0 dispone de URL y hash concretos publicados por Juan,
+            # incluso si Forgejo no enumera esa release en su primera página.
+            if ident == 'garlic-savemgr' and newer('v2.0', item.get('version')):
+                tag='v2.0'; digest=FORGEJO_CROSSCHECK[(ident,tag)]
+                options.append((version_key(tag),tag,'2026-11-20',f'{origin}/releases/download/{tag}/{asset_name}',digest))
+            else:
+                return item
+        _, tag, day, url, digest = max(options,key=lambda x:x[0])
+        verified_elf(url,digest)
+        print(f'ACTUALIZADO {ident}: {item["version"]} -> {tag} (ELF y SHA-256 comprobados)')
+        return dict(item,version=tag,filename=asset_name,url=url,source_direct=url,
+                    source=origin+'/releases',checksum=digest,last_update=day)
+    except (OSError, ValueError, TypeError, KeyError) as exc:
+        print(f'AVISO {ident}: Forgejo no verificable: {exc}; se conserva la versión actual')
+        return item
+
+def refresh_own_installer(item, cache):
+    # No publicar automáticamente builds nuevas sin haber autorizado el tag.
+    repo='hiddenkernellab/PLDMGR-install-update'; tag='v0.2.0-beta'
+    if item.get('version') not in {'v0.1.1-beta', 'v0.2.0-beta'} or item.get('version') == tag:
+        return item
+    try:
+        if repo not in cache: cache[repo]=release_json(repo)
+        rels=[r for r in cache[repo] if r.get('tag_name')==tag and not r.get('draft')]
+        if len(rels)!=1: return item
+        rel=rels[0]; name='HK-PLDMGR-Install-Update.elf'
+        url=f'https://github.com/{repo}/releases/download/{tag}/{name}'
+        assets=[a for a in rel.get('assets',[]) if a.get('name')==name and a.get('browser_download_url')==url and a.get('state')=='uploaded' and a.get('size',0)>0]
+        if len(assets)!=1: return item
+        digest=str(assets[0].get('digest',''))
+        day=str(rel.get('published_at') or '')[:10]
+        if not digest.startswith('sha256:') or not SHA.fullmatch(digest[7:]) or not re.fullmatch(r'\d{4}-\d{2}-\d{2}',day): return item
+        verified_elf(url,digest[7:])
+        return dict(item,version=tag,filename=name,url=url,source_direct=url,checksum=digest[7:],last_update=day)
+    except (OSError,ValueError,KeyError,TypeError) as exc:
+        print(f'AVISO instalador propio: {exc}; se conserva la versión anterior')
+        return item
+
 # Fuentes de revisión manual:
 # https://github.com/drakmor/kstuff-lite/releases
 # https://github.com/Wamphyre/wamphyre-autoloader/blob/b1f1f286ad468efa3d30d7c83b158e30aa02fe61/payloads/default/kstuff-VENDOR.md
@@ -134,6 +291,10 @@ def candidate_names(item, tag):
 
 def refresh(item, cache):
     ident = item['id']
+    if ident in FORGEJO:
+        return forgejo_refresh(item, cache)
+    if ident == 'pldmgr-install-update':
+        return refresh_own_installer(item, cache)
     # KStuff se revisa manualmente por compatibilidad: no promocionar una
     # beta nueva automáticamente aunque GitHub la etiquete como estable.
     if ident in MANUAL or ident == 'kstuff-lite':
@@ -195,7 +356,17 @@ def refresh(item, cache):
 def clean_description(item):
     ident, version = item['id'], str(item.get('version', ''))
     d = OLD_NOTICE.sub('', str(item.get('description', ''))).strip()
-    if ident == 'kstuff-lite':
+    if ident == 'elfldr':
+        d = ('Cargador ELF oficial de ps5-payload-dev (puerto 9021). No es necesario si ya está activo. No relanzar ni autocargar sin comprobar la configuración.')
+    elif ident == 'kstuff-dr-test8-rest':
+        d = ('EXPERIMENTAL, NO AUTOCARGAR. Copia comunitaria de Juan fijada por commit y contrastada con su SHA-256. Compatibilidad hasta 11.60 según el catálogo de Juan; no verificada en consola. No duplicar KStuff ni mezclar con un HEN que lo incluya; detener pruebas si hay KP. No es una release oficial de Drakmor.')
+    elif ident == 'garlic-savemgr':
+        d = ('Gestor de partidas guardadas con interfaz web. Fuente Forgejo del autor; hacer copia de seguridad antes de modificar o restaurar partidas. Consultar notas de la versión actual.')
+    elif ident == 'np-fake-signin':
+        d = ('Simula localmente el estado de inicio de sesión para una cuenta activada offline; no conecta realmente a PSN. Proyecto trasladado a Forgejo: https://git.etawen.dev/earthonion/np-fake-signin/. Reinicio necesario según documentación del autor; usar sólo si se necesita. No autocargar.')
+    elif ident == 'pldmgr-install-update':
+        d = ('Instalador experimental propio de Payload Manager. La v0.1.1-beta puede sustituir autoload.txt: guardar copia antes de usar.' if version == 'v0.1.1-beta' else 'Instalador propio de Payload Manager: SHA-256 oficial, conserva autoload y diagnostica errores de conexión. Beta pendiente de validación física; no autocargar.')
+    elif ident == 'kstuff-lite':
         d = ('KStuff Lite de EchoStretch. v1.11: firmware 1.00-13.60 declarado por el autor; '
              'no equivale a compatibilidad universal de aplicaciones. BETA. '
              'No ejecutar dos versiones de KStuff ni combinar con un HEN que ya lo cargue. '
@@ -235,10 +406,14 @@ def clean_description(item):
              '1.11 y declara compatibilidad ampliada hasta 13.60. No cargar otro KStuff '
              'si el integrado está activo. No combinar con otros HEN o inyectores de atajos. '
              'No relanzar en la misma sesión. Verificar compatibilidad de la versión actual.')
-    elif ident == 'pizza-hen':
-        d = ('HEN AIO con KStuff, ShadowMount, Toolbox, FTP, ps5debug-NG e instalador de PKG. '
-             'Algunas funciones experimentales. No duplicar los componentes integrados '
-             'con payloads independientes; no autocargar sin prueba.')
+    elif ident == 'np-fake-signin':
+        d = ('Simula localmente el estado de sesión de PSN para el usuario activo; '
+             'requiere una cuenta previamente activada offline y modifica datos locales. '
+             'No inicia sesión real en PSN ni sustituye la activación. No autocargar. '
+             'El repositorio GitHub fue archivado por traslado del proyecto a Forgejo '
+             '(https://git.etawen.dev/earthonion/np-fake-signin/). '
+             'Se conserva el ELF anterior hasta verificar la integridad de una versión posterior. '
+             'No es necesario para todas las aplicaciones; usar sólo si se necesita.')
     elif ident == 'ps5-webkit-autoloader':
         d = ('Autoloader WebKit oficial de itsPLK; consultar los firmwares y exploits admitidos '
              'por la release actual. No trasladar automáticamente compatibilidad de ramas '
@@ -275,13 +450,6 @@ def clean_description(item):
         d = ('Gestor de archivos e imágenes para copias de seguridad propias en PS5. '
              'Ediciones o conversiones pueden ser irreversibles; verificar respaldos '
              'y espacio libre. No autocargar.')
-    elif ident == 'romm-sync':
-        d = ('Cliente RomM para sincronizar biblioteca, partidas y savestates con un servidor '
-             'propio. ELF independiente; app nativa opcional. Verificar restauraciones.')
-    elif ident == 'ps5-signal':
-        d = ('Personaliza LED y pitidos; API local 127.0.0.1:9150. No usar ps5-signal-dev.elf. '
-             'La rama 0.2 corrigió problemas de reposo y pitidos; compatibilidad por firmware '
-             'pendiente de verificar en cada consola. No autocargar sin prueba.')
     else:
         # No eliminar advertencias de seguridad ni inventar changelogs.
         # Eliminar sólo el aviso automático repetitivo, conservando el resto.
@@ -316,7 +484,7 @@ def validate(catalog, icons):
             raise ValueError(f'Metadatos incompletos: {ident}')
         if key not in icons['icons']:
             raise ValueError(f'Icono ausente: {ident}')
-    required = {'nanodns', 'payload-manager', 'apr-emu-updater', 'ftpsrv', *PINS, EXPERIMENTAL['id']}
+    required = {'nanodns', 'payload-manager', 'apr-emu-updater', 'ftpsrv', 'hiddenkernel-4stores', 'np-fake-signin', *PINS, EXPERIMENTAL['id']}
     if not required.issubset(ids) or RETIRED & ids:
         raise ValueError(f'Entradas esenciales ausentes o retiradas presentes: {required-ids}')
     if len(json.dumps(icons, ensure_ascii=False).encode()) > 4*1024*1024:
@@ -333,8 +501,12 @@ def transform(catalog, icon_data, offline=False):
         if not isinstance(ident, str) or not ident or ident in entries:
             raise ValueError(f'ID vacío o duplicado: {ident}')
         entries[ident] = x
-    for ident in RETIRED:
-        entries.pop(ident, None)
+    retired_keys = set(RETIRED)
+    for ident in sorted(RETIRED):
+        removed = entries.pop(ident, None)
+        if removed is not None:
+            retired_keys.add(removed.get('icon_key') or ident)
+            print(f'RETIRADO (aprobado): {ident}')
     old = entries.get('kstuff-fpkg')
     old_icon = images.get(old.get('icon_key', 'kstuff-fpkg')) if old else None
     if old and str(old.get('version', '')).lower() in {'1.13-dr-test5', '1.13-fpkg-dr-test5'}:
@@ -361,6 +533,13 @@ def transform(catalog, icon_data, offline=False):
         entries[exp_id] = dict(EXPERIMENTAL)
     elif entries[exp_id].get('version') == EXPERIMENTAL['version']:
         entries[exp_id].update(EXPERIMENTAL)
+    if not offline and TEST8['id'] not in entries:
+        try:
+            verified_elf(TEST8['url'], TEST8['checksum'])
+            entries[TEST8['id']] = dict(TEST8)
+            print('AÑADIDO Test8 REST: bytes coinciden con el SHA-256 publicado por Juan')
+        except (OSError, ValueError) as exc:
+            print(f'AVISO Test8 REST: no se incorpora hasta verificar los bytes: {exc}')
     cache = {}
     for ident, x in list(entries.items()):
         if not offline:
@@ -381,8 +560,37 @@ def transform(catalog, icon_data, offline=False):
         old_key = old.get('icon_key', 'kstuff-fpkg')
         if not any(x['icon_key'] == old_key for x in out['payloads']):
             images.pop(old_key, None)
+    # Sólo retirar iconos de IDs aprobados y que ninguna entrada activa utiliza.
+    active_keys = {x['icon_key'] for x in out['payloads']}
+    for key in retired_keys - active_keys:
+        images.pop(key, None)
     validate(out, icon_out)
     return out, icon_out
+
+def audit_catalog(catalog, today=None):
+    """Revisión informativa de antigüedad de la versión catalogada.
+
+    No mide actividad del repositorio ni uso real. Antes de retirar hay que
+    comprobar commits, nuevas releases, traslados, dependencias y aprobación.
+    Se ejecuta también offline; no altera el catálogo ni los iconos.
+    """
+    today = today or date.today()
+    candidates = []
+    for item in catalog['payloads']:
+        try:
+            age = (today - date.fromisoformat(str(item.get('last_update', ''))[:10])).days
+        except ValueError:
+            print(f'REVISAR: {item["id"]}: fecha de versión ausente o inválida')
+            continue
+        if age >= REVIEW_DAYS:
+            level = 'CANDIDATO A REVISIÓN' if age >= CANDIDATE_DAYS else 'REVISAR'
+            candidates.append((age, item['id'], level, item.get('source', '')))
+    print('AUDITORÍA (sólo informativa; ninguna retirada automática):')
+    for age, ident, level, source in sorted(candidates, reverse=True):
+        print(f'  {level}: {ident}, {age} días desde versión catalogada; {source}')
+    if not candidates:
+        print('  Ninguna versión catalogada supera el umbral de revisión.')
+    print('  Comprobar actividad real y dependencias; solicitar aprobación antes de retirar.')
 
 def rendered(data):
     return (json.dumps(data, ensure_ascii=False, indent=2) + '\n').encode('utf-8')
@@ -408,6 +616,7 @@ def main():
         oldcat = CATALOG.read_bytes(); oldicons = ICONS.read_bytes()
         cat, icons = json.loads(oldcat), json.loads(oldicons)
         newcat, newicons = transform(cat, icons, args.offline)
+        audit_catalog(newcat)
         changes = [(p, old, rendered(new)) for p, old, new in ((CATALOG, oldcat, newcat), (ICONS, oldicons, newicons))
                    if json.loads(old) != new]
         print(f'HiddenKernel: {len(cat["payloads"])} -> {len(newcat["payloads"])} entradas; archivos a modificar: '+
