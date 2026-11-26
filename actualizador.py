@@ -63,6 +63,9 @@ MANUAL = {'ps5sx2-helper', 'ps5sx2-installer',
 # El catálogo previo de itsPLK coincide con los hashes de Lite y ShadowMountPlus.
 # No hay garantía de estabilidad por el mero hecho de tener un SHA-256.
 PINS = {
+    'davinci-core': ('DaVinci Core (EXPERIMENTAL)', 'B4ckd0orl/davinci-core',
+        'v1.0.0', 'Davinci-Core-v1.0.elf', 'af874418fefbde9ba7269566e05f71309c7d6273511a07f57eac11a1a174fa99',
+        '2026-11-21', 'HEN / AIO'),
     'gtavi-fps-unlocker': ('GTA VI FPS Unlocker (HSgod)', 'HSgod/ps5-fpsunlocker-gta6',
         'v1.13', 'GTAVI.UnlockFPS_v1.13.elf', 'fd62a56fb170b071a97f93f1c39023b53647d791e5b14769ef674b98d217afe4',
         '2026-11-26', 'JUEGOS / COMPATIBILIDAD'),
@@ -288,6 +291,11 @@ def candidate_names(item, tag):
     special = {'payload-manager': f'pldmgr_{tag}.elf', 'ps5upload': f'ps5upload-{tag.lstrip("v")}.elf',
                'patchdl': f'patchdl_{tag.lstrip("v")}.elf', 'shadowmountplus': 'shadowmountplus.elf',
                'kstuff-lite': 'kstuff.elf', 'kraken-mount': 'kraken-mount.elf'}
+    if item['id'] == 'davinci-core':
+        parts = tag.lstrip('v').split('.')
+        if len(parts) == 3 and parts[-1] == '0':
+            names.add('Davinci-Core-v' + '.'.join(parts[:2]) + '.elf')
+        names.add('Davinci-Core-' + tag + '.elf')
     if item['id'] in special:
         names.add(special[item['id']])
     return {n for n in names if n.lower().endswith('.elf')}
@@ -359,7 +367,15 @@ def refresh(item, cache):
 def clean_description(item):
     ident, version = item['id'], str(item.get('version', ''))
     d = OLD_NOTICE.sub('', str(item.get('description', ''))).strip()
-    if ident == 'gtavi-fps-unlocker':
+    if ident == 'davinci-core':
+        d = ('EXPERIMENTAL, NO AUTOCARGAR. AIO con motor nativo de FPKG de depuración compatibles, '
+             'biblioteca, montajes, instalador desde USB/disco externo y panel web 8097. '
+             'v1.0.0 integra y arranca KStuff Lite 1.11 y ShadowMountPlus 1.7beta10. '
+             'Requiere jailbreak y elfldr; no cargar junto a KStuff, ShadowMountPlus, Kraken u otro HEN/montador equivalente. '
+             'Comenzar en sesión limpia. No garantiza compatibilidad universal de firmware, firmas ni juegos. '
+             'No admite de forma general PKG comerciales cifrados ni fusión de actualizaciones/DLC. '
+             'No se ha probado en nuestra PS5. Revisar notas de cada nueva versión antes de usar.')
+    elif ident == 'gtavi-fps-unlocker':
         d = ('EXPERIMENTAL: parche en memoria de GTA VI de HSgod. '
              'v1.13 documenta PPSA01547, PPSA29660 y PPSA38500, juego v01.002.001. '
              'Configura objetivo de 30-120 FPS y resolución interna (25-100%; 0 original), '
