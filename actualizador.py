@@ -63,6 +63,9 @@ MANUAL = {'ps5sx2-helper', 'ps5sx2-installer',
 # El catálogo previo de itsPLK coincide con los hashes de Lite y ShadowMountPlus.
 # No hay garantía de estabilidad por el mero hecho de tener un SHA-256.
 PINS = {
+    'gtavi-fps-unlocker': ('GTA VI FPS Unlocker (HSgod)', 'HSgod/ps5-fpsunlocker-gta6',
+        'v1.13', 'GTAVI.UnlockFPS_v1.13.elf', 'fd62a56fb170b071a97f93f1c39023b53647d791e5b14769ef674b98d217afe4',
+        '2026-11-26', 'JUEGOS / COMPATIBILIDAD'),
     'elfldr': ('elfldr (cargador de payloads)', 'ps5-payload-dev/elfldr',
         'v0.28', 'elfldr-ps5.elf', '66968bae6159d8fb06125fcd43fb99cf64d6bfdf730c70f37a6f5d056ff63458',
         '2026-11-19', 'SISTEMA'),
@@ -356,7 +359,16 @@ def refresh(item, cache):
 def clean_description(item):
     ident, version = item['id'], str(item.get('version', ''))
     d = OLD_NOTICE.sub('', str(item.get('description', ''))).strip()
-    if ident == 'elfldr':
+    if ident == 'gtavi-fps-unlocker':
+        d = ('EXPERIMENTAL: parche en memoria de GTA VI de HSgod. '
+             'v1.13 documenta PPSA01547, PPSA29660 y PPSA38500, juego v01.002.001. '
+             'Configura objetivo de 30-120 FPS y resolución interna (25-100%; 0 original), '
+             'corrige delta-time y ofrece modo daemon opcional. No garantiza 60 FPS constantes. '
+             'Usar antes de iniciar el juego, con daemon=0 y reflexiones RT activadas inicialmente. '
+             'Desactivar RT es experimental y puede producir errores visuales. '
+             'No autocargar ni combinar con otros parches FPS del mismo juego. '
+             'Verificar versión del juego, compatibilidad y notas de cada release; sin prueba propia en PS5.')
+    elif ident == 'elfldr':
         d = ('Cargador ELF oficial de ps5-payload-dev (puerto 9021). No es necesario si ya está activo. No relanzar ni autocargar sin comprobar la configuración.')
     elif ident == 'kstuff-dr-test8-rest':
         d = ('EXPERIMENTAL, NO AUTOCARGAR. Copia comunitaria de Juan fijada por commit y contrastada con su SHA-256. Compatibilidad hasta 11.60 según el catálogo de Juan; no verificada en consola. No duplicar KStuff ni mezclar con un HEN que lo incluya; detener pruebas si hay KP. No es una release oficial de Drakmor.')
