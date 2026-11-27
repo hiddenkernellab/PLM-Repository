@@ -63,6 +63,9 @@ MANUAL = {'ps5sx2-helper', 'ps5sx2-installer',
 # El catálogo previo de itsPLK coincide con los hashes de Lite y ShadowMountPlus.
 # No hay garantía de estabilidad por el mero hecho de tener un SHA-256.
 PINS = {
+    'hyperhen': ('HyperHEN (EXPERIMENTAL)', 'Michele-M-Media/HYPERHEN',
+        'HYPERHEN_V0_9_5', 'HyperHEN-v0.9.5.elf', 'dbdecc6187bd43a1f3e84c47874c50c8546673accc969918340c7522a3bb299e',
+        '2026-11-03', 'HEN / AIO'),
     'davinci-core': ('DaVinci Core (EXPERIMENTAL)', 'B4ckd0orl/davinci-core',
         'v1.0.0', 'Davinci-Core-v1.0.elf', 'af874418fefbde9ba7269566e05f71309c7d6273511a07f57eac11a1a174fa99',
         '2026-11-21', 'HEN / AIO'),
@@ -243,6 +246,9 @@ NOTICE = 'Consultar las notas de la version actual antes de autocargar.'
 def version_key(value):
     """Sólo para series convencionales; beta8 < beta12 < estable 1.7."""
     s = str(value).strip().lower()
+    hyper = re.fullmatch(r'hyperhen_v(\d+(?:_\d+){1,3})', s)
+    if hyper:
+        s = 'v' + hyper[1].replace('_', '.')
     m = re.fullmatch(r'v?\.?(\d+(?:\.\d+){0,3})(?:[-.]?(alpha|beta|rc)(\d+))?', s)
     if not m:
         return None
@@ -291,6 +297,9 @@ def candidate_names(item, tag):
     special = {'payload-manager': f'pldmgr_{tag}.elf', 'ps5upload': f'ps5upload-{tag.lstrip("v")}.elf',
                'patchdl': f'patchdl_{tag.lstrip("v")}.elf', 'shadowmountplus': 'shadowmountplus.elf',
                'kstuff-lite': 'kstuff.elf', 'kraken-mount': 'kraken-mount.elf'}
+    if item['id'] == 'hyperhen':
+        match = re.fullmatch(r'HYPERHEN_V(\d+(?:_\d+){1,3})', tag)
+        return {'HyperHEN-v' + match[1].replace('_', '.') + '.elf'} if match else set()
     if item['id'] == 'davinci-core':
         parts = tag.lstrip('v').split('.')
         if len(parts) == 3 and parts[-1] == '0':
@@ -367,7 +376,15 @@ def refresh(item, cache):
 def clean_description(item):
     ident, version = item['id'], str(item.get('version', ''))
     d = OLD_NOTICE.sub('', str(item.get('description', ''))).strip()
-    if ident == 'davinci-core':
+    if ident == 'hyperhen':
+        d = ('EXPERIMENTAL, NO AUTOCARGAR. HEN/AIO con HyperCore, Toolbox, automontaje, HyperDPI y HyperDeck. '
+             'v0.9.5 integra ShadowMountPlus 1.7 beta11 y declara 67 perfiles exactos, no todos probados. '
+             'Requiere jailbreak y elfldr; 9.40, 12.70, 13.00, 13.20 y 13.60 requieren Bypervisor específico '
+             'y su secuencia de reposo/reanudación según documentación oficial. 11.60-12.60: perfiles exactos sin PPR; '
+             '13.40/13.42: modo Lite restringido. No combinar con otros HEN, KStuff ni montadores independientes. '
+             'Desactivar Hyper (asistente IA) antes de juegos exigentes; consumo de RAM y latencia experimental. '
+             'Revisar notas de cada release y firmware; sin prueba propia en PS5.')
+    elif ident == 'davinci-core':
         d = ('EXPERIMENTAL, NO AUTOCARGAR. AIO con motor nativo de FPKG de depuración compatibles, '
              'biblioteca, montajes, instalador desde USB/disco externo y panel web 8097. '
              'v1.0.0 integra y arranca KStuff Lite 1.11 y ShadowMountPlus 1.7beta10. '
