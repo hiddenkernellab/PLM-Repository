@@ -632,6 +632,20 @@
       "description": "Copias de partidas PS5 por USB/WebDAV y sincronizacion LAN. Panel web 8082. Edicion y sincronizacion avanzada experimentales; probar restauraciones antes de confiar en copias automaticas."
     },
     {
+      "id": "vi-patch",
+      "icon_key": "vi-patch",
+      "name": "VI-Patch (GTA VI)",
+      "filename": "vi-patch.elf",
+      "version": "v1.5",
+      "source": "https://github.com/ZiZc3/VI-Patch/releases",
+      "url": "https://github.com/ZiZc3/VI-Patch/releases/download/v1.5/vi-patch.elf",
+      "source_direct": "https://github.com/ZiZc3/VI-Patch/releases/download/v1.5/vi-patch.elf",
+      "checksum": "137b5a337ad99c631f842c3122b4545651ec1f221d2c049e114334015587c249",
+      "last_update": "2026-11-28",
+      "category": "TRUCOS / PARTIDAS",
+      "description": "EXPERIMENTAL, NO AUTOCARGAR. Parches de GTA VI de ZiZc3. v1.5 documenta 40/60 FPS, 1080p, primera persona, clima y correcciones gráficas; PPSA38500, juego 01.002.001. Para 40 FPS requiere salida a 120 Hz. No garantiza FPS constantes. No combinar con XML de VI-Patch, HSgod ni otros parches equivalentes. Revisar compatibilidad del juego y notas de la release instalada. Sin prueba física en PS5."
+    },
+    {
       "name": "Common FPS for PS5",
       "filename": "Common_FPS_PS5_v1.2.6.elf",
       "url": "https://github.com/porhe911/Common-FPS-for-PS5/releases/download/v1.2.6/Common_FPS_PS5_v1.2.6.elf",
