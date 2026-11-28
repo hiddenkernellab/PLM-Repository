@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""HiddenKernelLab PLM — actualizador del catálogo (26-11-2026).
+"""HiddenKernelLab PLM — actualizador del catálogo (28-11-2026).
 Python 3.10+. Sustituye actualizador.py en la raíz; no hace push ni toca la PS5.
 Uso: python actualizador.py [--offline] [--dry-run]
 Actualiza únicamente los metadatos del catálogo, nunca el autoload de una consola.
@@ -535,6 +535,71 @@ def validate(catalog, icons):
     if len(json.dumps(icons, ensure_ascii=False).encode()) > 4*1024*1024:
         raise ValueError('icons.json supera 4 MiB')
 
+# HKL VI-PATCH — integración 2026-11-28
+# Sólo releases oficiales; comprobar los bytes antes de registrar el ELF.
+def refresh_vi_patch(item, cache):
+    import hashlib
+    ident = 'vi-patch'
+    repo = 'ZiZc3/VI-Patch'
+    asset_name = 'vi-patch.elf'
+    origin = f'https://github.com/{repo}/releases'
+    try:
+        if repo not in cache:
+            cache[repo] = release_json(repo)
+        options = []
+        for rel in cache[repo]:
+            tag = str(rel.get('tag_name', ''))
+            key = version_key(tag)
+            if (not TAG.fullmatch(tag) or not key or key[4] != 3
+                    or rel.get('draft') or rel.get('prerelease')
+                    or not (tag == 'v1.5' or newer(tag, 'v1.5'))
+                    or (item is not None and not newer(tag, item.get('version')))):
+                continue
+            url = f'{origin}/download/{tag}/{asset_name}'
+            matches = [a for a in rel.get('assets', [])
+                       if a.get('name') == asset_name
+                       and a.get('state') == 'uploaded'
+                       and 64 <= a.get('size', 0) <= 32*1024*1024
+                       and a.get('browser_download_url') == url]
+            if len(matches) != 1:
+                continue
+            a = matches[0]
+            digest = str(a.get('digest', ''))
+            if not digest.startswith('sha256:') or not SHA.fullmatch(digest[7:]):
+                print(f'AVISO VI-Patch {tag}: digest oficial no disponible; no se registra')
+                continue
+            published = str(rel.get('published_at') or '')[:10]
+            date.fromisoformat(published)
+            options.append((key, tag, published, digest[7:], url, a['size']))
+        for _, tag, published, expected, url, size in sorted(options, reverse=True):
+            try:
+                data = read_public(url, 32*1024*1024)
+                if (len(data) != size or len(data) < 64
+                        or data[:6] != b'\x7fELF\x02\x01'
+                        or int.from_bytes(data[18:20], 'little') != 62
+                        or hashlib.sha256(data).hexdigest() != expected):
+                    raise ValueError('ELF x86-64, tamaño o SHA-256 no coinciden')
+            except (OSError, ValueError) as exc:
+                print(f'AVISO VI-Patch {tag}: {exc}; no se registra esta release')
+                continue
+            desc = ('EXPERIMENTAL, NO AUTOCARGAR. Parches de GTA VI de ZiZc3. '
+                    'v1.5 documenta 40/60 FPS, 1080p, primera persona, clima y correcciones gráficas; '
+                    'PPSA38500, juego 01.002.001. Para 40 FPS requiere salida a 120 Hz. '
+                    'No garantiza FPS constantes. No combinar con XML de VI-Patch, HSgod ni '
+                    'otros parches equivalentes. Revisar compatibilidad del juego y notas de '
+                    'la release instalada. Sin prueba física en PS5.')
+            out = dict(item or {})
+            out.update(id=ident, icon_key=out.get('icon_key') or ident,
+                       name='VI-Patch (GTA VI)', filename=asset_name, version=tag,
+                       source=origin, url=url, source_direct=url, checksum=expected,
+                       last_update=published, category='TRUCOS / PARTIDAS', description=desc)
+            print(f'VI-Patch: {tag} — ELF y SHA-256 comprobados')
+            return out
+    except (OSError, ValueError, TypeError, KeyError) as exc:
+        print(f'AVISO VI-Patch: {exc}; se conserva la versión anterior si existe')
+    return item
+
+
 def transform(catalog, icon_data, offline=False):
     out = copy.deepcopy(catalog); icon_out = copy.deepcopy(icon_data)
     items = out.get('payloads'); images = icon_out.get('icons')
@@ -586,8 +651,12 @@ def transform(catalog, icon_data, offline=False):
         except (OSError, ValueError) as exc:
             print(f'AVISO Test8 REST: no se incorpora hasta verificar los bytes: {exc}')
     cache = {}
+    if not offline:
+        vi = refresh_vi_patch(entries.get('vi-patch'), cache)
+        if vi is not None:
+            entries['vi-patch'] = vi
     for ident, x in list(entries.items()):
-        if not offline:
+        if not offline and ident != 'vi-patch':
             x = refresh(x, cache)
         x.setdefault('icon_key', ident)
         clean_description(x)
